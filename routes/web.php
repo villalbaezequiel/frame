@@ -14,3 +14,15 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Auth Routes
+Auth::routes();
+
+// Home Example
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware' => ['auth']], function () {
+
+  Route::resource('clients', 'Backend\ClientsController');
+
+});
