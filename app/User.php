@@ -27,4 +27,39 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    static function getName($id)
+    {
+      $user = User::find($id);
+      return $user->name;
+    }
+
+    static function getLastName($id)
+    {
+      $user = User::find($id);
+      return $user->last_name;
+    }
+
+    static function getFullName($id)
+    {
+      $user = User::find($id);
+      return $user->name.' '.$user->last_name;
+    }
+
+    static function getDNI($id)
+    {
+      $user = User::find($id);
+      return $user->dni;
+    }
+
+    static function getActive($id)
+    {
+      $user = User::find($id);
+      if($user->active == 0){
+        return "No";
+      } else {
+        return "Si";
+      }
+    }
+
 }
