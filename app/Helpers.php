@@ -30,4 +30,13 @@ class Helpers extends Model
     {
       return "El $key insertado se encuentra en uso en el Sistema. Por favor, ingrese otro!";
     }
+
+    static function getActive($active)
+    {
+      if($active == 0){
+        return "No";
+      } else {
+        return "Si";
+      }
+    }
 }
