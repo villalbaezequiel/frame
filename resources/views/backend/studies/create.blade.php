@@ -1,0 +1,69 @@
+@extends('layouts.admin')
+
+@section('title', "Niveles Educativos / Nuevo")
+
+@section('content')
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      {!! Form::open(['route' => 'studies.store', 'method' => 'POST', 'class' => 'form-horizontal']) !!}
+        <div class="card ">
+          <div class="card-header card-header-primary card-header-text">
+            <div class="card-text">
+              <h4 class="card-title">Nuevo Nivel Educativo</h4>
+            </div>
+          </div>
+          <div class="card-body ">
+
+            @if (session('message'))
+              <div class="toolbar">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  {{ session('message') }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              </div>
+            @endif
+
+            <div class="row">
+              <label class="col-sm-2 col-form-label">Nombre *</label>
+              <div class="col-sm-7">
+                <div class="form-group bmd-form-group">
+                  <input class="form-control" type="text" name="name" value="{{ old('name') }}" maxlength="125" required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-2 col-form-label label-checkbox">Activo</label>
+              <div class="col-sm-10 checkbox-radios">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" value="1" name="active" checked> Si
+                    <span class="form-check-sign">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" value="0" name="active"> No
+                    <span class="form-check-sign">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="card-footer ml-auto mr-auto">
+            <input type="submit" class="btn btn-primary" value="Crear" />
+          </div>
+        </div>
+        {!! Form::close() !!}
+
+    </div>
+  </div>
+</div>
+@endsection
