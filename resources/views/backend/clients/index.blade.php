@@ -5,7 +5,7 @@
 @section('content')
 <div class="container-fluid">
 
-  <a href="{{ url('/clients/create') }}" class="btn btn-success">Nuevo Cliente</a>
+  <a href="{{ url('/clients/create') }}" class="btn btn-primary">Nuevo Cliente</a>
 
   <div class="row">
     <div class="col-md-12">
