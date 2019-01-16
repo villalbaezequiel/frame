@@ -1,0 +1,142 @@
+<?php
+
+namespace App\Http\Controllers\Backend;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use App\Helpers;
+use App\ProyectCategory;
+
+class UtilitiesProyectCategoriesController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+     public function index()
+     {
+       return view('backend.proyect_categories.index', [
+         'proyect_categories' => ProyectCategory::all()
+       ]);
+     }
+
+     /**
+      * Show the form for creating a new resource.
+      *
+      * @return \Illuminate\Http\Response
+      */
+     public function create()
+     {
+       return view('backend.proyect_categories.create');
+     }
+
+     /**
+      * Store a newly created resource in storage.
+      *
+      * @param  \Illuminate\Http\Request  $request
+      * @return \Illuminate\Http\Response
+      */
+     public function store(Request $request)
+     {
+       $message;
+       try {
+           // New ProyectCategory
+           $proyectCategory = new ProyectCategory;
+           $proyectCategory->name = $request->get('name');
+           $proyectCategory->active = $request->get('active');
+           $proyectCategory->save();
+
+           return redirect('/utilities/proyect_categories')->with('message', 'Tipo de Proyecto creado con exito!');
+
+       } catch(\Exception $e) {
+         if(\Config::get('app.debug')):
+           $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
+         else:
+           $message = 'Se ha producido un error. Por favor intente nuevamente.';
+         endif;
+
+         $respuesta = array(
+           'estado' => false,
+           'mensaje' => $message
+         );
+         return \Response::json($respuesta);
+
+       }
+     }
+
+     /**
+      * Display the specified resource.
+      *
+      * @param  int  $id
+      * @return \Illuminate\Http\Response
+      */
+     public function show($id)
+     {
+         //
+     }
+
+     /**
+      * Show the form for editing the specified resource.
+      *
+      * @param  int  $id
+      * @return \Illuminate\Http\Response
+      */
+     public function edit($id)
+     {
+       $proyectCategory = ProyectCategory::find($id);
+       return view('backend.proyect_categories.edit', [
+         'proyect_category' => $proyectCategory
+       ]);
+     }
+
+     /**
+      * Update the specified resource in storage.
+      *
+      * @param  \Illuminate\Http\Request  $request
+      * @param  int  $id
+      * @return \Illuminate\Http\Response
+      */
+     public function update(Request $request, $id)
+     {
+       $message;
+       try {
+           // Update ProyectCategory
+           $proyectCategory = ProyectCategory::find($id);
+           $proyectCategory->name = $request->get('name');
+           $proyectCategory->active = $request->get('active');
+           $proyectCategory->save();
+
+           return redirect('/utilities/proyect_categories')->with('message', 'Tipo de Proyecto editado con exito!');
+
+       } catch(\Exception $e) {
+         if(\Config::get('app.debug')):
+           $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
+         else:
+           $message = 'Se ha producido un error. Por favor intente nuevamente.';
+         endif;
+
+         $respuesta = array(
+           'estado' => false,
+           'mensaje' => $message
+         );
+         return \Response::json($respuesta);
+
+       }
+     }
+
+     /**
+      * Remove the specified resource from storage.
+      *
+      * @param  int  $id
+      * @return \Illuminate\Http\Response
+      */
+     public function destroy($id)
+     {
+       $proyectCategory = ProyectCategory::find($id);
+       $proyectCategory->delete();
+
+       return redirect('/utilities/proyect_categories')->with('message', 'Tipo de Proyecto eliminado con exito!');
+     }
+}

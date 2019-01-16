@@ -15,7 +15,7 @@
           <div class="card-icon">
             <i class="material-icons">assignment</i>
           </div>
-          <h4 class="card-title">Lista de Clientes</h4>
+          <h4 class="card-title">Lista</h4>
         </div>
         <div class="card-body">
           @if (session('message'))
