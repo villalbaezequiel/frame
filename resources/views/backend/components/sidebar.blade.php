@@ -83,8 +83,8 @@
             </li>
             <li class="nav-item ">
               <a class="nav-link" href="{{ url('/utilities/countries') }}">
-                <span class="sidebar-mini"> LP </span>
-                <span class="sidebar-normal"> Lista de Paises </span>
+                <span class="sidebar-mini"> P </span>
+                <span class="sidebar-normal"> Paises </span>
               </a>
             </li>
           </ul>
