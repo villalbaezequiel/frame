@@ -11,18 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 // Auth Routes
 Auth::routes();
 
 // Home Example
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', function(){
+  return redirect('/clients');
+})->name('home');
 
 Route::group(['middleware' => ['auth']], function () {
 
-  Route::resource('clients', 'Backend\ClientsController');
+  Route::resource('/clients', 'Backend\ClientsController');
+  Route::resource('/utilities/contracts', 'Backend\UtilitiesContractsController');
+  Route::resource('/utilities/countries', 'Backend\UtilitiesCountriesController');
+  Route::resource('/utilities/proyect_categories', 'Backend\UtilitiesProyectCategoriesController');
+  Route::resource('/utilities/studies', 'Backend\UtilitiesStudiesController');
+  Route::resource('/utilities/workdays', 'Backend\UtilitiesWorkdaysController');
 
 });
