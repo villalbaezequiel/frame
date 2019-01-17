@@ -118,9 +118,8 @@
                 <div class="form-group bmd-form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="country" required>
                     <option value="">Seleccionar</option>
-                    <option value="1">Argentina</option>
                     @foreach(\App\Country::all() as $country)
-                    <option value="{{ $country->id }}" <?php if($user->id_country == $key){ echo "selected='selected'"; } ?>>{{ $country->name }}</option>
+                    <option value="{{ $country->id }}" <?php if($user->id_country == $country->id){ echo "selected='selected'"; } ?>>{{ $country->name }}</option>
                     @endforeach
                   </select>
                 </div>
