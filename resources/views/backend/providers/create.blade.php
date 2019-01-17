@@ -185,7 +185,7 @@
               <label class="col-sm-2 col-form-label">Categoría *</label>
               <div class="col-sm-7">
                 <div class="form-group bmd-form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_category" required>
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_workers_category" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\WorkersCategory::getAllWorkersCategory('active') as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>

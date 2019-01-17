@@ -25,9 +25,9 @@ class CreateProvidersTable extends Migration
             $table->string('social_work')->nullable();//
             $table->string('telephone');//
             $table->string('other_telephone');//
-            $table->integer('id_function_frame');
+            $table->integer('id_workers_category');
             $table->integer('id_function_sat');
-            $table->integer('id_category');
+            $table->integer('id_function_frame');
             $table->timestamps();
             // name, last_name, email, type_dni, dni, cuit, gender, id_country JOIN -> User
         });
