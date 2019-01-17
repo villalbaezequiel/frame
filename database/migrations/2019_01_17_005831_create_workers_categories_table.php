@@ -15,6 +15,15 @@ class CreateWorkersCategoriesTable extends Migration
     {
         Schema::create('workers_categories', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->string('puesto_trabajo');
+            $table->string('sueldo_bruto');
+            $table->string('sueldo_bruto_texto')->nullable();
+            $table->string('sueldo_neto');
+            $table->string('sueldo_neto_texto')->nullable();
+            $table->string('presentismo')->nullable();
+            $table->string('contrato')->nullable();
+            $table->enum('active', ['0', '1']);
             $table->timestamps();
         });
     }
