@@ -1,0 +1,229 @@
+<?php
+
+namespace App\Http\Controllers\Backend;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Helpers;
+use App\Provider;
+use App\User;
+
+class ProvidersController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+     public function index()
+     {
+       return view('backend.providers.index', [
+         'providers' => Provider::all()
+       ]);
+     }
+
+     /**
+      * Show the form for creating a new resource.
+      *
+      * @return \Illuminate\Http\Response
+      */
+     public function create()
+     {
+       return view('backend.providers.create');
+     }
+
+     /**
+      * Store a newly created resource in storage.
+      *
+      * @param  \Illuminate\Http\Request  $request
+      * @return \Illuminate\Http\Response
+      */
+     public function store(Request $request)
+     {
+       $message;
+       try {
+         // Validations, check: email, dni, cuit
+         $email = User::where('email', $request->get('email'))->count();
+         $dni = User::where('dni', $request->get('dni'))->count();
+         $cuit = User::where('cuit', $request->get('cuit'))->count();
+
+         if($email == 0 && $dni == 0 && $cuit == 0):
+           // New User
+           $user = new User;
+           $user->name = $request->get('name');
+           $user->last_name = $request->get('last_name');
+           $user->email = $request->get('email');
+           $user->type_dni = $request->get('type_dni');
+           $user->dni = $request->get('dni');
+           $user->cuit = $request->get('cuit');
+           $user->gender = $request->get('gender');
+           $user->id_country = $request->get('country');
+           $user->password = Hash::make($request->get('dni'));
+           $user->active = 1;
+           $user->save();
+           // New Provider
+           $provider = new Provider;
+           $provider->id_user = $user->id;
+           $provider->nick = $request->get('nick');
+           $provider->razon_social = $request->get('razon_social');
+           $provider->address = $request->get('address');
+           $provider->address_number = $request->get('address_number');
+           $provider->cp = $request->get('cp');
+           $provider->location = $request->get('location');
+           $provider->telephone = $request->get('telephone');
+           $provider->other_telephone = $request->get('other_telephone');
+           $provider->retencion_ganancia = $request->get('retencion_ganancia');
+           $provider->iibb = $request->get('iibb');
+           $provider->iva = $request->get('iva');
+           $provider->save();
+
+           return redirect('/providers')->with('message', 'Proveedor creado con exito!');
+
+         else:
+
+           if($email == 1){
+             $message = Helpers::setMessageValidationForm('Email');
+           } elseif($dni == 1){
+             $message = Helpers::setMessageValidationForm('DNI');
+           } else {
+             $message = Helpers::setMessageValidationForm('CUIT');
+           }
+           return back()->withInput()->with('message', $message);
+
+         endif;
+
+       } catch(\Exception $e) {
+         if(\Config::get('app.debug')):
+           $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
+         else:
+           $message = 'Se ha producido un error. Por favor intente nuevamente.';
+         endif;
+
+         $respuesta = array(
+           'estado' => false,
+           'mensaje' => $message
+         );
+         return \Response::json($respuesta);
+
+       }
+     }
+
+     /**
+      * Display the specified resource.
+      *
+      * @param  int  $id
+      * @return \Illuminate\Http\Response
+      */
+     public function show($id)
+     {
+         //
+     }
+
+     /**
+      * Show the form for editing the specified resource.
+      *
+      * @param  int  $id
+      * @return \Illuminate\Http\Response
+      */
+     public function edit($id)
+     {
+       $provider = Provider::find($id);
+       return view('backend.providers.edit', [
+         'provider' => $provider,
+         'user' => User::where('id', $provider->id_user)->first()
+       ]);
+     }
+
+     /**
+      * Update the specified resource in storage.
+      *
+      * @param  \Illuminate\Http\Request  $request
+      * @param  int  $id
+      * @return \Illuminate\Http\Response
+      */
+     public function update(Request $request, $id)
+     {
+       $message;
+       try {
+         // Validations, check: email, dni, cuit
+         $email = User::where('email', $request->get('email'))->where('id', '!=', $request->get('id_user'))->count();
+         $dni = User::where('dni', $request->get('dni'))->where('id', '!=', $request->get('id_user'))->count();
+         $cuit = User::where('cuit', $request->get('cuit'))->where('id', '!=', $request->get('id_user'))->count();
+
+         if($email == 0 && $dni == 0 && $cuit == 0):
+           // Update User
+           $user = User::find($request->get('id_user'));
+           $user->name = $request->get('name');
+           $user->last_name = $request->get('last_name');
+           $user->email = $request->get('email');
+           $user->type_dni = $request->get('type_dni');
+           $user->dni = $request->get('dni');
+           $user->cuit = $request->get('cuit');
+           $user->gender = $request->get('gender');
+           $user->id_country = $request->get('country');
+           $user->active = $request->get('active');
+           $user->save();
+           // Update Provider
+           $provider = Provider::find($id);
+           $provider->nick = $request->get('nick');
+           $provider->razon_social = $request->get('razon_social');
+           $provider->address = $request->get('address');
+           $provider->address_number = $request->get('address_number');
+           $provider->cp = $request->get('cp');
+           $provider->location = $request->get('location');
+           $provider->telephone = $request->get('telephone');
+           $provider->other_telephone = $request->get('other_telephone');
+           $provider->retencion_ganancia = $request->get('retencion_ganancia');
+           $provider->iibb = $request->get('iibb');
+           $provider->iva = $request->get('iva');
+           $provider->save();
+
+           return redirect('/providers')->with('message', 'Proveedor editado con exito!');
+
+         else:
+
+           if($email == 1){
+             $message = Helpers::setMessageValidationForm('Email');
+           } elseif($dni == 1){
+             $message = Helpers::setMessageValidationForm('DNI');
+           } else {
+             $message = Helpers::setMessageValidationForm('CUIT');
+           }
+           return back()->withInput()->with('message', $message);
+
+         endif;
+
+       } catch(\Exception $e) {
+         if(\Config::get('app.debug')):
+           $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
+         else:
+           $message = 'Se ha producido un error. Por favor intente nuevamente.';
+         endif;
+
+         $respuesta = array(
+           'estado' => false,
+           'mensaje' => $message
+         );
+         return \Response::json($respuesta);
+
+       }
+     }
+
+     /**
+      * Remove the specified resource from storage.
+      *
+      * @param  int  $id
+      * @return \Illuminate\Http\Response
+      */
+     public function destroy($id)
+     {
+       $provider = Provider::find($id);
+         // User Delete
+         $user = User::find($provider->id_user);
+         $user->delete();
+       // Provider Delete
+       $provider->delete();
+
+       return redirect('/providers')->with('message', 'Proveedor eliminado con exito!');
+     }
+ }

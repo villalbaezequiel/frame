@@ -49,6 +49,12 @@
         </a>
       </li>
       <li class="nav-item nav-check-url ">
+        <a class="nav-link" href="{{ url('/providers') }}">
+          <i class="material-icons">people_outline</i>
+          <p> Proveedores </p>
+        </a>
+      </li>
+      <li class="nav-item nav-check-url ">
         <a class="nav-link" data-toggle="collapse" href="#utilities-nav-menu">
           <i class="material-icons">list</i>
           <p> Utilidades

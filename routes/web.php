@@ -13,15 +13,22 @@
 
 // Auth Routes
 Auth::routes();
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 // Home Example
 Route::get('/home', function(){
   return redirect('/clients');
 })->name('home');
 
+// redirect temporally
+Route::get('/', function(){
+  return redirect('/clients');
+});
+
 Route::group(['middleware' => ['auth']], function () {
 
   Route::resource('/clients', 'Backend\ClientsController');
+  Route::resource('/providers', 'Backend\ProvidersController');
   Route::resource('/utilities/contracts', 'Backend\UtilitiesContractsController');
   Route::resource('/utilities/countries', 'Backend\UtilitiesCountriesController');
   Route::resource('/utilities/proyect_categories', 'Backend\UtilitiesProyectCategoriesController');
