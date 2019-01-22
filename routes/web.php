@@ -29,6 +29,7 @@ Route::group(['middleware' => ['auth']], function () {
 
   Route::resource('/clients', 'Backend\ClientsController');
   Route::resource('/providers', 'Backend\ProvidersController');
+  Route::resource('/workers_categories', 'Backend\WorkersCategoriesController');
   Route::resource('/utilities/contracts', 'Backend\UtilitiesContractsController');
   Route::resource('/utilities/countries', 'Backend\UtilitiesCountriesController');
   Route::resource('/utilities/proyect_categories', 'Backend\UtilitiesProyectCategoriesController');
