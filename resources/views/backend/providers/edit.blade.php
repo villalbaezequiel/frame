@@ -151,7 +151,7 @@
                 <div class="form-group bmd-form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_study" required>
                     <option value="">Seleccionar</option>
-                    @foreach(\App\Study::getAllStudy('active') as $study)
+                    @foreach(\App\Study::getAllStudy('1') as $study)
                     <option value="{{ $study->id }}" <?php if($provider->id_study == $study->id){ echo "selected='selected'"; } ?>>{{ $study->name }}</option>
                     @endforeach
                   </select>
@@ -183,12 +183,12 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Categoría *</label>
+              <label class="col-sm-2 col-form-label">Categoría de Trabajor *</label>
               <div class="col-sm-7">
                 <div class="form-group bmd-form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_workers_category" required>
                     <option value="">Seleccionar</option>
-                    @foreach(\App\WorkersCategory::getAllWorkersCategory('active') as $category)
+                    @foreach(\App\WorkersCategory::getAllWorkersCategory('1') as $category)
                     <option value="{{ $category->id }}" <?php if($provider->id_workers_category == $category->id){ echo "selected='selected'"; } ?>>{{ $category->name }}</option>
                     @endforeach
                   </select>
@@ -201,7 +201,7 @@
                 <div class="form-group bmd-form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_function_frame" required>
                     <option value="">Seleccionar</option>
-                    @foreach(\App\FrameFunction::getAllFrameFunction('active') as $frame)
+                    @foreach(\App\FrameFunction::getAllFrameFunction('1') as $frame)
                     <option value="{{ $frame->id }}" <?php if($provider->id_function_frame == $frame->id){ echo "selected='selected'"; } ?>>{{ $frame->name }}</option>
                     @endforeach
                   </select>
@@ -214,7 +214,7 @@
                 <div class="form-group bmd-form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_function_sat" required>
                     <option value="">Seleccionar</option>
-                    @foreach(\App\SatFunction::getAllSatFunction('active') as $sat)
+                    @foreach(\App\SatFunction::getAllSatFunction('1') as $sat)
                     <option value="{{ $sat->id }}" <?php if($provider->id_function_sat == $sat->id){ echo "selected='selected'"; } ?>>{{ $sat->name }}</option>
                     @endforeach
                   </select>

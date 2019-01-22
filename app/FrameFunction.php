@@ -8,8 +8,8 @@ class FrameFunction extends Model
 {
     //
 
-    static public function getAllFrameFunction($status = 'active')
+    static public function getAllFrameFunction($status = 1)
     {
-
+      return FrameFunction::where('active', $status)->get();
     }
 }

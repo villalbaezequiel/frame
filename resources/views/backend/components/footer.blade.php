@@ -3,23 +3,18 @@
     <nav class="float-left">
       <ul>
         <li>
-          <a href="https://www.creative-tim.com">
-            Creative Tim
+          <a href="http://www.estudiomixto.com/" target="_blank">
+            Estudio Mixto
           </a>
         </li>
         <li>
-          <a href="https://creative-tim.com/presentation">
-            About Us
-          </a>
-        </li>
-        <li>
-          <a href="http://blog.creative-tim.com">
+          <a href="{{ url('/') }}" target="_blank">
             Blog
           </a>
         </li>
         <li>
-          <a href="https://www.creative-tim.com/license">
-            Licenses
+          <a href="{{ url('/') }}" target="_blank">
+            Licencia
           </a>
         </li>
       </ul>

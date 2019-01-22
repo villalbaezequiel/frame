@@ -55,6 +55,24 @@
         </a>
       </li>
       <li class="nav-item nav-check-url ">
+        <a class="nav-link" href="{{ url('/workers_categories') }}">
+          <i class="material-icons">apps</i>
+          <p> Categorías de Trabajadores </p>
+        </a>
+      </li>
+      <li class="nav-item nav-check-url ">
+        <a class="nav-link" href="{{ url('/sat_functions') }}">
+          <i class="material-icons">functions</i>
+          <p> Funciones SAT </p>
+        </a>
+      </li>
+      <li class="nav-item nav-check-url ">
+        <a class="nav-link" href="{{ url('/frame_functions') }}">
+          <i class="material-icons">functions</i>
+          <p> Funciones Frame </p>
+        </a>
+      </li>
+      <li class="nav-item nav-check-url ">
         <a class="nav-link" data-toggle="collapse" href="#utilities-nav-menu">
           <i class="material-icons">list</i>
           <p> Utilidades

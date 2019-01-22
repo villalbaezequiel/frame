@@ -118,7 +118,6 @@
                 <div class="form-group bmd-form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="country" required>
                     <option value="">Seleccionar</option>
-                    <option value="1">Argentina</option>
                     @foreach(\App\Country::all() as $country)
                     <option value="{{ $country->id }}">{{ $country->name }}</option>
                     @endforeach
@@ -150,7 +149,7 @@
                 <div class="form-group bmd-form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="study" required>
                     <option value="">Seleccionar</option>
-                    @foreach(\App\Study::getAllStudy('active') as $study)
+                    @foreach(\App\Study::getAllStudy('1') as $study)
                     <option value="{{ $study->id }}">{{ $study->name }}</option>
                     @endforeach
                   </select>
@@ -182,12 +181,12 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Categoría *</label>
+              <label class="col-sm-2 col-form-label">Categoría de Trabajor *</label>
               <div class="col-sm-7">
                 <div class="form-group bmd-form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_workers_category" required>
                     <option value="">Seleccionar</option>
-                    @foreach(\App\WorkersCategory::getAllWorkersCategory('active') as $category)
+                    @foreach(\App\WorkersCategory::getAllWorkersCategory('1') as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                   </select>
@@ -200,7 +199,7 @@
                 <div class="form-group bmd-form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_function_frame" required>
                     <option value="">Seleccionar</option>
-                    @foreach(\App\FrameFunction::getAllFrameFunction('active') as $frame)
+                    @foreach(\App\FrameFunction::getAllFrameFunction('1') as $frame)
                     <option value="{{ $frame->id }}">{{ $frame->name }}</option>
                     @endforeach
                   </select>
@@ -213,7 +212,7 @@
                 <div class="form-group bmd-form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_function_sat" required>
                     <option value="">Seleccionar</option>
-                    @foreach(\App\SatFunction::getAllSatFunction('active') as $sat)
+                    @foreach(\App\SatFunction::getAllSatFunction('1') as $sat)
                     <option value="{{ $sat->id }}">{{ $sat->name }}</option>
                     @endforeach
                   </select>

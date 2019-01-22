@@ -8,8 +8,8 @@ class Study extends Model
 {
     //
 
-    static public function getAllStudy($status = 'active')
+    static public function getAllStudy($status = '1')
     {
-
+      return Study::where('active', $status)->get();
     }
 }
