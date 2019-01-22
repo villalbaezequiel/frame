@@ -18,9 +18,9 @@ class CreateWorkersCategoriesTable extends Migration
             $table->string('name');
             $table->string('puesto_trabajo');
             $table->string('sueldo_bruto');
-            $table->string('sueldo_bruto_texto')->nullable();
+            $table->string('sueldo_bruto_texto', 300)->nullable();
             $table->string('sueldo_neto');
-            $table->string('sueldo_neto_texto')->nullable();
+            $table->string('sueldo_neto_texto', 300)->nullable();
             $table->string('presentismo')->nullable();
             $table->string('contrato')->nullable();
             $table->enum('active', ['0', '1']);
