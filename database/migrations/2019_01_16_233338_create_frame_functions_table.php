@@ -16,7 +16,7 @@ class CreateFrameFunctionsTable extends Migration
         Schema::create('frame_functions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->enum('active', ['0', '1']);
             $table->timestamps();
         });
