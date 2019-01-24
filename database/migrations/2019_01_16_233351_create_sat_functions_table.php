@@ -16,8 +16,9 @@ class CreateSatFunctionsTable extends Migration
         Schema::create('sat_functions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->integer('id_workers_category');
+            $table->integer('id_frame_function');
             $table->enum('active', ['0', '1']);
             $table->timestamps();
         });

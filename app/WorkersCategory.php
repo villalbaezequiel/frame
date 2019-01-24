@@ -12,4 +12,10 @@ class WorkersCategory extends Model
     {
       return WorkersCategory::where('active', $status)->get();
     }
+
+    static public function getName($id)
+    {
+      $workersCategory = WorkersCategory::find($id);
+      return $workersCategory->name;
+    }
 }

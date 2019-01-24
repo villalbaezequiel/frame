@@ -12,4 +12,10 @@ class FrameFunction extends Model
     {
       return FrameFunction::where('active', $status)->get();
     }
+
+    static public function getName($id)
+    {
+      $frameFunction = FrameFunction::find($id);
+      return $frameFunction->name;
+    }
 }

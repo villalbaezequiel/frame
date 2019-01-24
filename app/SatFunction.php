@@ -10,6 +10,6 @@ class SatFunction extends Model
 
     static public function getAllSatFunction($status = 1)
     {
-      return Study::where('active', $status)->get();
+      return SatFunction::where('active', $status)->get();
     }
 }
