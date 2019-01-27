@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Helpers;
 use App\Provider;
@@ -57,24 +58,27 @@ class ProvidersController extends Controller
            $user->dni = $request->get('dni');
            $user->cuit = $request->get('cuit');
            $user->gender = $request->get('gender');
-           $user->id_country = $request->get('country');
+           $user->civil_status = $request->get('civil_status');
+           $user->birthdate = $request->get('birthdate');
+           $user->id_country = $request->get('id_country');
            $user->password = Hash::make($request->get('dni'));
            $user->active = 1;
            $user->save();
            // New Provider
            $provider = new Provider;
            $provider->id_user = $user->id;
-           $provider->nick = $request->get('nick');
-           $provider->razon_social = $request->get('razon_social');
            $provider->address = $request->get('address');
            $provider->address_number = $request->get('address_number');
            $provider->cp = $request->get('cp');
            $provider->location = $request->get('location');
+           $provider->nationality = $request->get('nationality');
+           $provider->id_study = $request->get('id_study');
+           $provider->social_work = $request->get('social_work');
            $provider->telephone = $request->get('telephone');
            $provider->other_telephone = $request->get('other_telephone');
-           $provider->retencion_ganancia = $request->get('retencion_ganancia');
-           $provider->iibb = $request->get('iibb');
-           $provider->iva = $request->get('iva');
+           $provider->id_workers_category = $request->get('id_workers_category');
+           $provider->id_function_sat = $request->get('id_function_sat');
+           $provider->id_function_frame = $request->get('id_function_frame');
            $provider->save();
 
            return redirect('/providers')->with('message', 'Proveedor creado con exito!');
@@ -160,22 +164,25 @@ class ProvidersController extends Controller
            $user->dni = $request->get('dni');
            $user->cuit = $request->get('cuit');
            $user->gender = $request->get('gender');
-           $user->id_country = $request->get('country');
+           $user->civil_status = $request->get('civil_status');
+           $user->birthdate = $request->get('birthdate');
+           $user->id_country = $request->get('id_country');
            $user->active = $request->get('active');
            $user->save();
            // Update Provider
            $provider = Provider::find($id);
-           $provider->nick = $request->get('nick');
-           $provider->razon_social = $request->get('razon_social');
            $provider->address = $request->get('address');
            $provider->address_number = $request->get('address_number');
            $provider->cp = $request->get('cp');
            $provider->location = $request->get('location');
+           $provider->nationality = $request->get('nationality');
+           $provider->id_study = $request->get('id_study');
+           $provider->social_work = $request->get('social_work');
            $provider->telephone = $request->get('telephone');
            $provider->other_telephone = $request->get('other_telephone');
-           $provider->retencion_ganancia = $request->get('retencion_ganancia');
-           $provider->iibb = $request->get('iibb');
-           $provider->iva = $request->get('iva');
+           $provider->id_workers_category = $request->get('id_workers_category');
+           $provider->id_function_sat = $request->get('id_function_sat');
+           $provider->id_function_frame = $request->get('id_function_frame');
            $provider->save();
 
            return redirect('/providers')->with('message', 'Proveedor editado con exito!');

@@ -19,7 +19,9 @@ class AddRowUsers extends Migration
           $table->string('dni')->nullable()->after('type_dni');
           $table->string('cuit')->nullable()->after('dni');
           $table->string('gender')->nullable()->after('cuit');
-          $table->string('id_country')->nullable()->after('gender');
+          $table->string('civil_status')->nullable()->after('gender');
+          $table->timestamp('birthdate')->nullable()->after('civil_status');
+          $table->string('id_country')->nullable()->after('birthdate');
           $table->enum('active', ['1', '0'])->after('password');
       });
     }

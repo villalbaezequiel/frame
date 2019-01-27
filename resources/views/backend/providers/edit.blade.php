@@ -57,17 +57,9 @@
                   <select class="form-control selectpicker" data-style="btn btn-link" name="gender" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Helpers::getGendersPerson() as $key => $val)
-                    <option value="{{ $key }}" <?php if($user->gender == $key){ echo "selected='selected'"; } ?> >{{ $val }}</option>
+                    <option value="{{ $key }}" <?php if($user->gender == $key){ echo "selected='selected'"; } ?>>{{ $val }}</option>
                     @endforeach
                   </select>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-sm-2 col-form-label">Fecha de Nacimiento</label>
-              <div class="col-sm-7">
-                <div class="form-group bmd-form-group">
-                  <input class="form-control" type="date" name="birthdate" value="{{ $provider->birthdate }}">
                 </div>
               </div>
             </div>
@@ -100,6 +92,27 @@
               </label>
             </div>
             <div class="row">
+              <label class="col-sm-2 col-form-label">Fecha de Nacimiento</label>
+              <div class="col-sm-7">
+                <div class="form-group bmd-form-group">
+                  <input class="form-control" type="date" name="birthdate" value="{{ \App\Helpers::getDate($user->birthdate) }}">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-2 col-form-label">Estado Civil</label>
+              <div class="col-sm-7">
+                <div class="form-group bmd-form-group">
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="civil_status" required>
+                    <option value="">Seleccionar</option>
+                    @foreach(\App\Helpers::getCivilStatus() as $key => $val)
+                    <option value="{{ $key }}" <?php if($user->civil_status == $key){ echo "selected='selected'"; } ?>>{{ $val }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <label class="col-sm-2 col-form-label">Dirección *</label>
               <div class="col-sm-5">
                 <div class="form-group bmd-form-group">
@@ -108,7 +121,7 @@
               </div>
               <div class="col-sm-2">
                 <div class="form-group bmd-form-group">
-                  <input class="form-control" type="text" name="address_number" value="{{ $provider->address_number }}" placeholder="Número Dirección *" required>
+                  <input class="form-control" type="number" name="address_number" value="{{ $provider->address_number }}" placeholder="Número Dirección *" required>
                 </div>
               </div>
             </div>
@@ -116,7 +129,7 @@
               <label class="col-sm-2 col-form-label">Pais *</label>
               <div class="col-sm-3">
                 <div class="form-group bmd-form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="country" required>
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_country" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Country::all() as $country)
                     <option value="{{ $country->id }}" <?php if($user->id_country == $country->id){ echo "selected='selected'"; } ?>>{{ $country->name }}</option>
@@ -135,8 +148,6 @@
                 </div>
               </div>
             </div>
-
-
             <div class="row">
               <label class="col-sm-2 col-form-label">Nacionalidad *</label>
               <div class="col-sm-7">
@@ -183,19 +194,6 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Categoría de Trabajor *</label>
-              <div class="col-sm-7">
-                <div class="form-group bmd-form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_workers_category" required>
-                    <option value="">Seleccionar</option>
-                    @foreach(\App\WorkersCategory::getAllWorkersCategory('1') as $category)
-                    <option value="{{ $category->id }}" <?php if($provider->id_workers_category == $category->id){ echo "selected='selected'"; } ?>>{{ $category->name }}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="row">
               <label class="col-sm-2 col-form-label">Función Frame *</label>
               <div class="col-sm-7">
                 <div class="form-group bmd-form-group">
@@ -203,6 +201,19 @@
                     <option value="">Seleccionar</option>
                     @foreach(\App\FrameFunction::getAllFrameFunction('1') as $frame)
                     <option value="{{ $frame->id }}" <?php if($provider->id_function_frame == $frame->id){ echo "selected='selected'"; } ?>>{{ $frame->name }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-2 col-form-label">Categoría del Trabajador *</label>
+              <div class="col-sm-7">
+                <div class="form-group bmd-form-group">
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_workers_category" required>
+                    <option value="">Seleccionar</option>
+                    @foreach(\App\WorkersCategory::getAllWorkersCategory('1') as $category)
+                    <option value="{{ $category->id }}" <?php if($provider->id_workers_category == $category->id){ echo "selected='selected'"; } ?>>{{ $category->name }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -222,7 +233,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label label-checkbox">Proveedor Activo</label>
+              <label class="col-sm-2 col-form-label label-checkbox">Activo</label>
               <div class="col-sm-10 checkbox-radios">
                 <div class="form-check form-check-inline">
                   <label class="form-check-label">

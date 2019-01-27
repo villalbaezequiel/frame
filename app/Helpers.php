@@ -47,4 +47,9 @@ class Helpers extends Model
       return $list;
     }
 
+    static public function getDate($date)
+    {
+        return substr($date, 0, 10);
+    }
+
 }

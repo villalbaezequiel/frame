@@ -23,7 +23,7 @@ class CreateClientsTable extends Migration
             $table->integer('cp');
             $table->string('location');
             $table->string('telephone');
-            $table->string('other_telephone');
+            $table->string('other_telephone')->nullable();
             $table->enum('retencion_ganancia', ['0', '1']);
             $table->enum('iibb', ['0', '1']);
             $table->enum('iva', ['0', '1']);

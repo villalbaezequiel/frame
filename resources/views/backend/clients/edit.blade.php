@@ -108,7 +108,7 @@
               </div>
               <div class="col-sm-2">
                 <div class="form-group bmd-form-group">
-                  <input class="form-control" type="text" name="address_number" value="{{ $client->address_number }}" placeholder="Número Dirección *" required>
+                  <input class="form-control" type="number" name="address_number" value="{{ $client->address_number }}" placeholder="Número Dirección *" required>
                 </div>
               </div>
             </div>

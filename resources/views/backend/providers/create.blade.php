@@ -64,14 +64,6 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Fecha de Nacimiento</label>
-              <div class="col-sm-7">
-                <div class="form-group bmd-form-group">
-                  <input class="form-control" type="date" name="birthdate" value="{{ old('birthdate') }}">
-                </div>
-              </div>
-            </div>
-            <div class="row">
               <label class="col-sm-2 col-form-label">Tipo de Documentación *</label>
               <div class="col-sm-2">
                 <div class="form-group bmd-form-group">
@@ -100,6 +92,27 @@
               </label>
             </div>
             <div class="row">
+              <label class="col-sm-2 col-form-label">Fecha de Nacimiento</label>
+              <div class="col-sm-7">
+                <div class="form-group bmd-form-group">
+                  <input class="form-control" type="date" name="birthdate" value="{{ old('birthdate') }}">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-2 col-form-label">Estado Civil</label>
+              <div class="col-sm-7">
+                <div class="form-group bmd-form-group">
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="civil_status" required>
+                    <option value="">Seleccionar</option>
+                    @foreach(\App\Helpers::getCivilStatus() as $key => $val)
+                    <option value="{{ $key }}">{{ $val }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <label class="col-sm-2 col-form-label">Dirección *</label>
               <div class="col-sm-5">
                 <div class="form-group bmd-form-group">
@@ -108,7 +121,7 @@
               </div>
               <div class="col-sm-2">
                 <div class="form-group bmd-form-group">
-                  <input class="form-control" type="text" name="address_number" value="{{ old('address_number') }}" placeholder="Número Dirección *" required>
+                  <input class="form-control" type="number" name="address_number" value="{{ old('address_number') }}" placeholder="Número Dirección *" required>
                 </div>
               </div>
             </div>
@@ -116,7 +129,7 @@
               <label class="col-sm-2 col-form-label">Pais *</label>
               <div class="col-sm-3">
                 <div class="form-group bmd-form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="country" required>
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_country" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Country::all() as $country)
                     <option value="{{ $country->id }}">{{ $country->name }}</option>
@@ -147,7 +160,7 @@
               <label class="col-sm-2 col-form-label">Nivel de Estudio *</label>
               <div class="col-sm-7">
                 <div class="form-group bmd-form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="study" required>
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_study" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Study::getAllStudy('1') as $study)
                     <option value="{{ $study->id }}">{{ $study->name }}</option>
@@ -181,19 +194,6 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Categoría de Trabajor *</label>
-              <div class="col-sm-7">
-                <div class="form-group bmd-form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_workers_category" required>
-                    <option value="">Seleccionar</option>
-                    @foreach(\App\WorkersCategory::getAllWorkersCategory('1') as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="row">
               <label class="col-sm-2 col-form-label">Función Frame *</label>
               <div class="col-sm-7">
                 <div class="form-group bmd-form-group">
@@ -201,6 +201,19 @@
                     <option value="">Seleccionar</option>
                     @foreach(\App\FrameFunction::getAllFrameFunction('1') as $frame)
                     <option value="{{ $frame->id }}">{{ $frame->name }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-2 col-form-label">Categoría del Trabajador *</label>
+              <div class="col-sm-7">
+                <div class="form-group bmd-form-group">
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_workers_category" required>
+                    <option value="">Seleccionar</option>
+                    @foreach(\App\WorkersCategory::getAllWorkersCategory('1') as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                   </select>
                 </div>
