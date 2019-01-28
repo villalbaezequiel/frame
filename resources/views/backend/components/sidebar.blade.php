@@ -31,17 +31,17 @@
                 <span class="sidebar-normal"> Mi Perfil </span>
               </a>
             </li>
-            <li class="nav-item nav-check-url">
-              <a class="nav-link" href="#">
-                <span class="sidebar-mini"> EP </span>
-                <span class="sidebar-normal"> Editar Perfil </span>
-              </a>
-            </li>
           </ul>
         </div>
       </div>
     </div>
     <ul class="nav">
+      <li class="nav-item nav-check-url ">
+        <a class="nav-link" href="{{ url('/projects') }}">
+          <i class="material-icons">list_alt</i>
+          <p> Proyectos </p>
+        </a>
+      </li>
       <li class="nav-item nav-check-url ">
         <a class="nav-link" href="{{ url('/clients') }}">
           <i class="material-icons">people</i>
@@ -56,7 +56,7 @@
       </li>
       <li class="nav-item nav-check-url ">
         <a class="nav-link" href="{{ url('/workers_categories') }}">
-          <i class="material-icons">apps</i>
+          <i class="material-icons">group_work</i>
           <p> Categorías de Trabajadores </p>
         </a>
       </li>

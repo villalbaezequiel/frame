@@ -95,7 +95,7 @@
               <label class="col-sm-2 col-form-label">Fecha de Nacimiento</label>
               <div class="col-sm-7">
                 <div class="form-group bmd-form-group">
-                  <input class="form-control" type="date" name="birthdate" value="{{ old('birthdate') }}">
+                  <input class="form-control datepicker" type="text" name="birthdate" value="{{ old('birthdate') }}">
                 </div>
               </div>
             </div>
