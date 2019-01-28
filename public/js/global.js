@@ -29,5 +29,7 @@ $(document).ready(function(){
     }
   });
 
+  // jquery ui -> datepicker
+  $(".datepicker").datepicker();
 
 });
