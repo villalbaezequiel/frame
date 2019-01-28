@@ -29,7 +29,7 @@
             <div class="row">
               <label class="col-sm-2 col-form-label">Nombre *</label>
               <div class="col-sm-7">
-                <div class="form-group bmd-form-group">
+                <div class="form-group">
                   <input class="form-control" type="text" name="name" value="{{ $workersCategory->name }}" maxlength="125" required>
                 </div>
               </div>
@@ -37,7 +37,7 @@
             <div class="row">
               <label class="col-sm-2 col-form-label">Puesto Trabajo *</label>
               <div class="col-sm-7">
-                <div class="form-group bmd-form-group">
+                <div class="form-group">
                   <input class="form-control" type="text" name="puesto_trabajo" value="{{ $workersCategory->puesto_trabajo }}" maxlength="125" required>
                 </div>
               </div>
@@ -45,7 +45,7 @@
             <div class="row">
               <label class="col-sm-2 col-form-label">Sueldo Bruto *</label>
               <div class="col-sm-7">
-                <div class="form-group bmd-form-group">
+                <div class="form-group">
                   <input class="form-control" type="text" name="sueldo_bruto" value="{{ $workersCategory->sueldo_bruto }}" maxlength="125" required>
                 </div>
               </div>
@@ -53,7 +53,7 @@
             <div class="row">
               <label class="col-sm-2 col-form-label">Sueldo Bruto Texto</label>
               <div class="col-sm-7">
-                <div class="form-group bmd-form-group">
+                <div class="form-group">
                   <input class="form-control" type="text" name="sueldo_bruto_texto" value="{{ $workersCategory->sueldo_bruto_texto }}" maxlength="300">
                 </div>
               </div>
@@ -61,7 +61,7 @@
             <div class="row">
               <label class="col-sm-2 col-form-label">Sueldo Neto *</label>
               <div class="col-sm-7">
-                <div class="form-group bmd-form-group">
+                <div class="form-group">
                   <input class="form-control" type="text" name="sueldo_neto" value="{{ $workersCategory->sueldo_neto }}" maxlength="125" required>
                 </div>
               </div>
@@ -69,7 +69,7 @@
             <div class="row">
               <label class="col-sm-2 col-form-label">Sueldo Neto Texto</label>
               <div class="col-sm-7">
-                <div class="form-group bmd-form-group">
+                <div class="form-group">
                   <input class="form-control" type="text" name="sueldo_neto_texto" value="{{ $workersCategory->sueldo_neto_texto }}" maxlength="300">
                 </div>
               </div>
@@ -77,7 +77,7 @@
             <div class="row">
               <label class="col-sm-2 col-form-label">Presentismo</label>
               <div class="col-sm-7">
-                <div class="form-group bmd-form-group">
+                <div class="form-group">
                   <input class="form-control" type="text" name="presentismo" value="{{ $workersCategory->presentismo }}" maxlength="125">
                 </div>
               </div>
@@ -85,7 +85,7 @@
             <div class="row">
               <label class="col-sm-2 col-form-label">Contrato</label>
               <div class="col-sm-7">
-                <div class="form-group bmd-form-group">
+                <div class="form-group">
                   <input class="form-control" type="text" name="contrato" value="{{ $workersCategory->contrato }}" maxlength="125">
                 </div>
               </div>

@@ -29,7 +29,7 @@
             <div class="row">
               <label class="col-sm-2 col-form-label">Nombre *</label>
               <div class="col-sm-7">
-                <div class="form-group bmd-form-group">
+                <div class="form-group">
                   <input class="form-control" type="text" name="name" value="{{ old('name') }}" maxlength="125" required>
                 </div>
               </div>
@@ -37,7 +37,7 @@
             <div class="row">
               <label class="col-sm-2 col-form-label">Masculino *</label>
               <div class="col-sm-7">
-                <div class="form-group bmd-form-group">
+                <div class="form-group">
                   <input class="form-control" type="text" name="male" value="{{ old('male') }}" maxlength="125" required>
                 </div>
               </div>
@@ -45,7 +45,7 @@
             <div class="row">
               <label class="col-sm-2 col-form-label">Femenino *</label>
               <div class="col-sm-7">
-                <div class="form-group bmd-form-group">
+                <div class="form-group">
                   <input class="form-control" type="text" name="female" value="{{ old('female') }}" maxlength="125" required>
                 </div>
               </div>
