@@ -20,7 +20,6 @@ class CreateProjectProvidersTable extends Migration
             $table->integer('id_provider');
             $table->integer('id_contract');
             $table->string('salary_workdays');
-            $table->string('salary_workdays');
             $table->string('total_workdays');
             $table->string('salary_contract_category_function');
             $table->string('salary_daily');

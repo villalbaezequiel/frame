@@ -19,8 +19,8 @@ class CreateProjectsTable extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->integer('id_proyect_category');
-            $table->timestamps('start_date');
-            $table->timestamps('finish_date');
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('finish_date')->nullable();
             $table->integer('count_workdays');
             $table->integer('duration_workdays');
             $table->integer('id_work_modality'); // create ABM
