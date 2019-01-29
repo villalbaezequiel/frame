@@ -34,7 +34,7 @@
                 <th>#ID</th>
                 <th>Nombre</th>
                 <th>DNI</th>
-                <th>Razon Social</th>
+                <th>Funcion SAT</th>
                 <th>Activo</th>
                 <th>Acciones</th>
               </tr>
@@ -45,7 +45,7 @@
                 <td>{{ $provider->id }}</td>
                 <td>{{ \App\User::getFullName($provider->id_user) }}</td>
                 <td>{{ \App\User::getDNI($provider->id_user) }}</td>
-                <td>{{ $provider->razon_social }}</td>
+                <td>{{ \App\SatFunction::getName($provider->id_function_sat) }}</td>
                 <td>{{ \App\User::getActive($provider->id_user) }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['providers.destroy', $provider->id], 'method' => 'DELETE']) !!}

@@ -95,7 +95,7 @@
               <label class="col-md-2 col-form-label">Fecha de Nacimiento</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="date" name="birthdate" value="{{ \App\Helpers::getDate($user->birthdate) }}">
+                  <input class="form-control datepicker" type="text" name="birthdate" value="{{ \App\Helpers::getDate($user->birthdate) }}">
                 </div>
               </div>
             </div>

@@ -12,4 +12,10 @@ class SatFunction extends Model
     {
       return SatFunction::where('active', $status)->get();
     }
+
+    static public function getName($id)
+    {
+      $satFunction = SatFunction::find($id);
+      return $satFunction->name;
+    }
 }

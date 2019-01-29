@@ -49,6 +49,10 @@ class ProvidersController extends Controller
          $cuit = User::where('cuit', $request->get('cuit'))->count();
 
          if($email == 0 && $dni == 0 && $cuit == 0):
+
+           // add format birthdate
+           $birthdate = explode('/', $request->get('birthdate'));
+
            // New User
            $user = new User;
            $user->name = $request->get('name');
@@ -59,7 +63,7 @@ class ProvidersController extends Controller
            $user->cuit = $request->get('cuit');
            $user->gender = $request->get('gender');
            $user->civil_status = $request->get('civil_status');
-           $user->birthdate = $request->get('birthdate');
+           $user->birthdate = $birthdate[2].'-'.$birthdate[1].'-'.$birthdate[0];
            $user->id_country = $request->get('id_country');
            $user->password = Hash::make($request->get('dni'));
            $user->active = 1;
@@ -155,6 +159,7 @@ class ProvidersController extends Controller
          $cuit = User::where('cuit', $request->get('cuit'))->where('id', '!=', $request->get('id_user'))->count();
 
          if($email == 0 && $dni == 0 && $cuit == 0):
+
            // Update User
            $user = User::find($request->get('id_user'));
            $user->name = $request->get('name');
