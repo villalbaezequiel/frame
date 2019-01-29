@@ -27,24 +27,24 @@
             @endif
 
             <div class="row">
-              <label class="col-sm-2 col-form-label">Nombre *</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">Nombre *</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="name" value="{{ old('name') }}" maxlength="125" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Descripción</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">Descripción</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <textarea class="form-control" name="description" maxlength="125">{{ old('description') }}</textarea>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label label-checkbox">Activo</label>
-              <div class="col-sm-10 checkbox-radios">
+              <label class="col-md-2 col-form-label label-checkbox">Activo</label>
+              <div class="col-md-10 checkbox-radios">
                 <div class="form-check form-check-inline">
                   <label class="form-check-label">
                     <input class="form-check-input" type="radio" value="1" name="active" checked> Si

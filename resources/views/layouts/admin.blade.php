@@ -60,12 +60,12 @@
 
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('/js/core/material-dashboard.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('/js/global.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('/js/app.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('/js/core/frame_general_functions.js') }}" type="text/javascript"></script>
 
     <script>
       $(document).ready(function() {
 
-        // Javascript method's body can be found in assets/js/demos.js
         // md.initDashboardPageCharts();
 
         $sidebar = $('.sidebar');

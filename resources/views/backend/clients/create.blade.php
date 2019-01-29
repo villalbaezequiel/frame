@@ -27,40 +27,40 @@
             @endif
 
             <div class="row">
-              <label class="col-sm-2 col-form-label">Nombre *</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">Nombre *</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="name" value="{{ old('name') }}" maxlength="125" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Apellido *</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">Apellido *</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="last_name" value="{{ old('last_name') }}" maxlength="125" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Email *</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">Email *</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="email" email="true" name="email" value="{{ old('email') }}" maxlength="125" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Nick</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">Nick</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="nick" value="{{ old('nick') }}" maxlength="125">
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Género</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">Género</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="gender" required>
                     <option value="">Seleccionar</option>
@@ -72,8 +72,8 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Tipo de Documentación *</label>
-              <div class="col-sm-2">
+              <label class="col-md-2 col-form-label">Tipo de Documentación *</label>
+              <div class="col-md-2">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="type_dni" required>
                     @foreach(\App\Helpers::getTypesDocumentationPerson() as $key => $val)
@@ -82,39 +82,39 @@
                   </select>
                 </div>
               </div>
-              <div class="col-sm-5">
+              <div class="col-md-5">
                 <div class="form-group">
                   <input class="form-control" type="text" name="dni" value="{{ old('dni') }}" placeholder="Número *" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">CUIT *</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">CUIT *</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="cuit" pattern="\b(20|23|24|27|30|33|34)(\D)?[0-9]{8}(\D)?[0-9]" value="{{ old('cuit') }}" maxlength="125" required>
                 </div>
               </div>
-              <label class="col-sm-3 label-on-right">
+              <label class="col-md-3 label-on-right">
                 <code>CUIT: ##-12345678-X</code>
               </label>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Dirección *</label>
-              <div class="col-sm-5">
+              <label class="col-md-2 col-form-label">Dirección *</label>
+              <div class="col-md-5">
                 <div class="form-group">
                   <input class="form-control" type="text" name="address" value="{{ old('address') }}" required>
                 </div>
               </div>
-              <div class="col-sm-2">
+              <div class="col-md-2">
                 <div class="form-group">
                   <input class="form-control" type="number" name="address_number" value="{{ old('address_number') }}" placeholder="Número Dirección *" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Pais *</label>
-              <div class="col-sm-3">
+              <label class="col-md-2 col-form-label">Pais *</label>
+              <div class="col-md-3">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="country" required>
                     <option value="">Seleccionar</option>
@@ -124,44 +124,44 @@
                   </select>
                 </div>
               </div>
-              <div class="col-sm-2">
+              <div class="col-md-2">
                 <div class="form-group">
                   <input class="form-control" type="text" name="location" value="{{ old('location') }}" placeholder="Localidad *" required>
                 </div>
               </div>
-              <div class="col-sm-2">
+              <div class="col-md-2">
                 <div class="form-group">
                   <input class="form-control" type="number" name="cp" value="{{ old('cp') }}" placeholder="Codigo Postal *" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Razón Social *</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">Razón Social *</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="razon_social" value="{{ old('razon_social') }}" maxlength="125" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Teléfono *</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">Teléfono *</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="number" name="telephone" value="{{ old('telephone') }}" maxlength="125" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Otro Teléfono</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">Otro Teléfono</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="number" name="other_telephone" value="{{ old('other_telephone') }}" maxlength="125">
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label label-checkbox">Retienen Ganancias?</label>
-              <div class="col-sm-10 checkbox-radios">
+              <label class="col-md-2 col-form-label label-checkbox">Retienen Ganancias?</label>
+              <div class="col-md-10 checkbox-radios">
                 <div class="form-check form-check-inline">
                   <label class="form-check-label">
                     <input class="form-check-input" type="radio" value="1" name="retencion_ganancia"> Si
@@ -181,8 +181,8 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label label-checkbox">Retienen IIBB?</label>
-              <div class="col-sm-10 checkbox-radios">
+              <label class="col-md-2 col-form-label label-checkbox">Retienen IIBB?</label>
+              <div class="col-md-10 checkbox-radios">
                 <div class="form-check form-check-inline">
                   <label class="form-check-label">
                     <input class="form-check-input" type="radio" value="1" name="iibb"> Si
@@ -202,8 +202,8 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label label-checkbox">Retienen IVA?</label>
-              <div class="col-sm-10 checkbox-radios">
+              <label class="col-md-2 col-form-label label-checkbox">Retienen IVA?</label>
+              <div class="col-md-10 checkbox-radios">
                 <div class="form-check form-check-inline">
                   <label class="form-check-label">
                     <input class="form-check-input" type="radio" value="1" name="iva"> Si

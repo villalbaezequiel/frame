@@ -27,72 +27,72 @@
             @endif
 
             <div class="row">
-              <label class="col-sm-2 col-form-label">Nombre *</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">Nombre *</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="name" value="{{ $workersCategory->name }}" maxlength="125" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Puesto Trabajo *</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">Puesto Trabajo *</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="puesto_trabajo" value="{{ $workersCategory->puesto_trabajo }}" maxlength="125" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Sueldo Bruto *</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">Sueldo Bruto *</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="sueldo_bruto" value="{{ $workersCategory->sueldo_bruto }}" maxlength="125" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Sueldo Bruto Texto</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">Sueldo Bruto Texto</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="sueldo_bruto_texto" value="{{ $workersCategory->sueldo_bruto_texto }}" maxlength="300">
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Sueldo Neto *</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">Sueldo Neto *</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="sueldo_neto" value="{{ $workersCategory->sueldo_neto }}" maxlength="125" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Sueldo Neto Texto</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">Sueldo Neto Texto</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="sueldo_neto_texto" value="{{ $workersCategory->sueldo_neto_texto }}" maxlength="300">
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Presentismo</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">Presentismo</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="presentismo" value="{{ $workersCategory->presentismo }}" maxlength="125">
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label">Contrato</label>
-              <div class="col-sm-7">
+              <label class="col-md-2 col-form-label">Contrato</label>
+              <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="contrato" value="{{ $workersCategory->contrato }}" maxlength="125">
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 col-form-label label-checkbox">Activo</label>
-              <div class="col-sm-10 checkbox-radios">
+              <label class="col-md-2 col-form-label label-checkbox">Activo</label>
+              <div class="col-md-10 checkbox-radios">
                 <div class="form-check form-check-inline">
                   <label class="form-check-label">
                     <input class="form-check-input" type="radio" value="1" name="active" <?php if($workersCategory->active == 1){ echo "checked"; } ?>> Si

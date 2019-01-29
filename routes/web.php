@@ -17,12 +17,12 @@ Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 // Home Example
 Route::get('/home', function(){
-  return redirect('/clients');
+  return redirect('/');
 })->name('home');
 
 // redirect temporally
 Route::get('/', function(){
-  return redirect('/clients');
+  return redirect('/projects');
 });
 
 Route::group(['middleware' => ['auth']], function () {
