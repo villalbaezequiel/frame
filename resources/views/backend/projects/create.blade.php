@@ -1,12 +1,11 @@
 @extends('layouts.admin')
 
-@section('title', "Proveedores / Nuevo")
+@section('title', "Proyectos / Nuevo")
 
 @section('content')
 <div class="container-fluid">
   <div class="col-md-12 col-12 mr-auto ml-auto">
 
-    <!--      Wizard container        -->
     <div class="wizard-container">
       <div class="card card-wizard active" data-color="purple" id="wizardProfile">
 
@@ -45,11 +44,55 @@
               <div class="tab-pane active" id="module_one">
                 <h5 class="info-text"> Información General </h5>
                 <div class="row justify-content-center">
-
+                    
                   <div class="col-md-10">
                     <div class="form-group">
-                      <label for="exampleInput1" class="bmd-label-floating">First Name (required)</label>
-                      <input class="form-control" type="text" name="name" value="{{ old('name') }}" maxlength="125">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Cliente: (*)
+                        </span>
+                        <select class="selectpicker" data-style="select-with-transition" name="id_client" required>
+                          <option value="">Seleccionar</option>
+                          @foreach(\App\Client::getAllClients() as $client)
+                          <option value="{{ $client->id }}">{{ $client->name }}</option>
+                          @endforeach
+                        </select> 
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Nombre: (*)
+                        </span>
+                        <input type="text" class="form-control" name="name" value="{{ old('name') }}" maxlength="125" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Descripción:
+                        </span>
+                        <input type="text" class="form-control" name="description" value="{{ old('description') }}" maxlength="125">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Tipo de Proyecto: (*)
+                        </span>
+                          <select class="selectpicker" data-style="select-with-transition" name="id_proyect_category" required>
+                          <option value="">Seleccionar</option>
+                          @foreach(\App\ProyectCategory::getAllProyectCategories() as $type_project)
+                          <option value="{{ $type_project->id }}">{{ $type_project->name }}</option>
+                          @endforeach
+                        </select> 
+                      </div>
                     </div>
                   </div>
 
@@ -59,85 +102,93 @@
               <div class="tab-pane" id="module_two">
                 <h5 class="info-text"> Fechas </h5>
                 <div class="row justify-content-center">
-                  <div class="col-lg-10">
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="choice" data-toggle="wizard-checkbox">
-                          <input type="checkbox" name="jobb" value="Design">
-                          <div class="icon">
-                            <i class="fa fa-pencil"></i>
-                          </div>
-                          <h6>Design</h6>
+                    
+                  <div class="col-md-5">
+                    <div class="card ">
+                      <div class="card-header card-header-rose card-header-text">
+                        <div class="card-icon">
+                          <i class="material-icons">library_books</i>
                         </div>
+                        <h4 class="card-title">Fecha de Inicio</h4>
                       </div>
-                      <div class="col-md-4">
-                        <div class="choice" data-toggle="wizard-checkbox">
-                          <input type="checkbox" name="jobb" value="Code">
-                          <div class="icon">
-                            <i class="fa fa-terminal"></i>
-                          </div>
-                          <h6>Code</h6>
+                      <div class="card-body ">
+                        <div class="form-group is-filled">
+                          <input type="text" class="form-control datepicker" value="{{ date('d/m/Y') }}" name="start_date" required>
                         </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="choice" data-toggle="wizard-checkbox">
-                          <input type="checkbox" name="jobb" value="Develop">
-                          <div class="icon">
-                            <i class="fa fa-laptop"></i>
-                          </div>
-                          <h6>Develop</h6>
-                        </div>
-                        <div class="dropdown bootstrap-select"><select class="selectpicker" data-style="btn btn-primary btn-round" title="Single Select" data-size="7" tabindex="-98"><option class="bs-title-option" value=""></option>
-                          <option disabled="" selected="">Choose city</option>
-                          <option value="2">Foobar</option>
-                          <option value="3">Is great</option>
-                        </select><button type="button" class="dropdown-toggle btn btn-primary btn-round" data-toggle="dropdown" role="button" title="Choose city"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">Choose city</div></div> </div></button><div class="dropdown-menu " role="combobox"><div class="inner show" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner show"></ul></div></div></div>
                       </div>
                     </div>
                   </div>
+                  <div class="col-md-5">
+                    <div class="card ">
+                      <div class="card-header card-header-rose card-header-text">
+                        <div class="card-icon">
+                          <i class="material-icons">library_books</i>
+                        </div>
+                        <h4 class="card-title">Fecha de Finalización</h4>
+                      </div>
+                      <div class="card-body ">
+                        <div class="form-group is-filled">
+                          <input type="text" class="form-control datepicker" name="finish_date" required>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Cantidad de Jornadas: (*)
+                        </span>
+                          <input type="number" class="form-control" name="count_workdays" value="{{ old('count_workdays') }}" placeholder="Ingresar Números, Puntos (.) y/o Comas (,)" maxlength="125" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Duración de Jornada: (*)
+                        </span>
+                        <input type="number" class="form-control" name="duration_workdays" value="{{ old('duration_workdays') }}" placeholder="Ingresar Números, Puntos (.) y/o Comas (,)" maxlength="125" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Modalidad: (*)
+                        </span>
+                          <select class="selectpicker" data-style="select-with-transition" name="id_workday" required>
+                          <option value="">Seleccionar</option>
+                          @foreach(\App\Workday::getAllWorkdays() as $workday)
+                          <option value="{{ $workday->id }}">{{ $workday->name }}</option>
+                          @endforeach
+                        </select> 
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Dias: (*)
+                        </span>
+                        <input type="number" class="form-control" name="days" value="{{ old('days') }}" placeholder="Ingresar Números, Puntos (.) y/o Comas (,)" maxlength="125" required>
+                      </div>
+                    </div>
+                  </div>
+                    
                 </div>
               </div>
 
               <div class="tab-pane" id="module_three">
+                <h5 class="info-text"> Proveedores </h5>
                 <div class="row justify-content-center">
-                  <div class="col-md-12">
-                    <h5 class="info-text"> Proveedores </h5>
-                  </div>
-                  <div class="col-md-7">
-                    <div class="form-group">
-                      <label class="bmd-label-static">Street Name</label>
-                      <input type="text" class="form-control">
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label class="bmd-label-static">Street No.</label>
-                      <input type="text" class="form-control">
-                    </div>
-                  </div>
-                  <div class="col-md-5">
-                    <div class="form-group">
-                      <label class="bmd-label-static">City</label>
-                      <input type="text" class="form-control">
-                    </div>
-                  </div>
-                  <div class="col-md-5">
-                    <div class="form-group select-wizard">
-                      <label>Country</label>
-                      <div class="dropdown bootstrap-select"><select class="selectpicker" data-size="7" data-style="select-with-transition" title="Single Select" tabindex="-98"><option class="bs-title-option" value=""></option>
-                        <option value="Afghanistan"> Afghanistan </option>
-                        <option value="Albania"> Albania </option>
-                        <option value="Algeria"> Algeria </option>
-                        <option value="American Samoa"> American Samoa </option>
-                        <option value="Andorra"> Andorra </option>
-                        <option value="Angola"> Angola </option>
-                        <option value="Anguilla"> Anguilla </option>
-                        <option value="Antarctica"> Antarctica </option>
-                      </select><button type="button" class="btn dropdown-toggle bs-placeholder select-with-transition" data-toggle="dropdown" role="button" title="Single Select"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">Single Select</div></div> </div></button><div class="dropdown-menu " role="combobox"><div class="inner show" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner show"></ul></div></div></div>
-                    </div>
-                  </div>
+                  
                 </div>
               </div>
+                
             </div>
           </div>
           <div class="card-footer">
@@ -154,8 +205,7 @@
 
       </div>
     </div>
-    <!-- wizard container -->
-
+    
   </div>
 </div>
 @endsection
@@ -165,26 +215,45 @@ $(document).ready(function(){
 
   // input validate
   var rules = {
-      // name: {
-      //     required: true,
-      //     minlength: 3
-      // },
-      // lastname: {
-      //     required: true,
-      //     minlength: 3
-      // },
-      // email: {
-      //     required: true,
-      //     minlength: 3,
-      // }
+        id_client: {
+          required: true
+        },
+        name: {
+          required: true,
+          maxlength: 125
+        },
+        description: {
+          maxlength: 125
+        },
+        id_proyect_category: {
+          required: true
+        },
+        start_date: {
+          required: true
+        },
+        finish_date: {
+          required: true
+        },
+        count_workdays: {
+          required: true
+        },
+        duration_workdays: {
+          required: true
+        },
+        id_workday: {
+          required: true
+        },
+        days: {
+          required: true
+        }
   };
-
   // Initialise the wizard
   frameJs.initMaterialWizard(rules);
 
   setTimeout(function() {
     $('.card.card-wizard').addClass('active');
   }, 600);
+
 });
 </script>
 @endsection

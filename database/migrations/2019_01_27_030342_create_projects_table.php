@@ -23,9 +23,9 @@ class CreateProjectsTable extends Migration
             $table->timestamp('finish_date')->nullable();
             $table->integer('count_workdays');
             $table->integer('duration_workdays');
-            $table->integer('id_workday'); // create ABM
+            $table->integer('id_workday');
             $table->integer('days');
-            $table->enum('active', ['0', '1']);
+            $table->enum('active', [0, 1]);
             $table->timestamps();
 
             // JOIN project_providers

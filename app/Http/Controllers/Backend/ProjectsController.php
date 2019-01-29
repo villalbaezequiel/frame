@@ -7,12 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Helpers;
 use App\Project;
 use App\ProjectProvider;
-use App\ProyectCategory;
-use App\FrameFunction;
-use App\SatFunction;
-use App\Client;
-use App\Contract;
-use App\Workday;
 
 class ProjectsController extends Controller
 {
@@ -46,11 +40,25 @@ class ProjectsController extends Controller
       */
      public function store(Request $request)
      {
-       $message;
-       try {
+        $message;
+        try {
+         
+          $project = new Project;
+          $project->id_client = $request->get('id_client');
+          $project->name = $request->get('name');
+          $project->description = $request->get('description');
+          $project->id_proyect_category = $request->get('id_proyect_category');
+          $project->start_date = $request->get('start_date');
+          $project->finish_date = $request->get('finish_date');
+          $project->count_workdays = $request->get('count_workdays');
+          $project->duration_workdays = $request->get('duration_workdays');
+          $project->id_workday = $request->get('id_workday');
+          $project->days = $request->get('days');
+          $project->active = 0; // cuando todos los proveedores que se agregaron aceptan la solicitud del proyecto, automaticamente cambia su estado a activo 1. Y cuando el proyecto finaliza tambien se da de baja el mismo.
+          $project->save();
 
-
-
+          // add provides relation Project
+          
 
        } catch(\Exception $e) {
          if(\Config::get('app.debug')):

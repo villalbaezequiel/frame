@@ -7,4 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class ProyectCategory extends Model
 {
     //
+    static public function getAllProyectCategories($status = '1')
+    {
+      return ProyectCategory::where('active', $status)->get();
+    }
 }
