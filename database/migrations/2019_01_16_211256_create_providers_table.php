@@ -25,6 +25,8 @@ class CreateProvidersTable extends Migration
             $table->string('social_work')->nullable();
             $table->string('telephone');
             $table->string('other_telephone')->nullable();
+            $table->timestamp('start_afip')->nullable();
+            $table->timestamp('finish_afip')->nullable();
             $table->integer('id_workers_category');
             $table->integer('id_function_sat');
             $table->integer('id_function_frame');
