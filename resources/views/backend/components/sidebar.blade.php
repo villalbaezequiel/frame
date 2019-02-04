@@ -25,10 +25,16 @@
         </a>
         <div class="collapse" id="collapseExample">
           <ul class="nav">
+            <!-- <li class="nav-item nav-check-url">
+              <a class="nav-link" href="{{ url('/users').'/'.Auth::user()->id }}">
+                <span class="sidebar-mini"> VP </span>
+                <span class="sidebar-normal"> Ver Perfil </span>
+              </a>
+            </li> -->
             <li class="nav-item nav-check-url">
-              <a class="nav-link" href="#">
-                <span class="sidebar-mini"> MP </span>
-                <span class="sidebar-normal"> Mi Perfil </span>
+              <a class="nav-link" href="{{ url('/users').'/'.Auth::user()->id.'/edit' }}">
+                <span class="sidebar-mini"> EP </span>
+                <span class="sidebar-normal"> Editar Perfil </span>
               </a>
             </li>
           </ul>

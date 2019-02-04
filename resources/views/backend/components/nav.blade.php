@@ -26,7 +26,8 @@
             </p>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-            <a class="dropdown-item" href="{{ url('/') }}">Mi Perfil</a>
+            <!-- <a class="dropdown-item" href="{{ url('/users').'/'.Auth::user()->id }}">Ver Perfil</a> -->
+            <a class="dropdown-item" href="{{ url('/users').'/'.Auth::user()->id.'/edit' }}">Editar Perfil</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ url('/logout') }}">Cerrar Sesión</a>
           </div>
