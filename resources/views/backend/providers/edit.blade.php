@@ -228,7 +228,7 @@
               <label class="col-md-2 col-form-label">Función Frame *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_function_frame" required>
+                  <select class="form-control selectpicker ajax_workers_categories_by_functions_frame" data-style="btn btn-link" name="id_function_frame" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\FrameFunction::getAllFrameFunction('1') as $frame)
                     <option value="{{ $frame->id }}" <?php if($provider->id_function_frame == $frame->id){ echo "selected='selected'"; } ?>>{{ $frame->name }}</option>
@@ -241,7 +241,7 @@
               <label class="col-md-2 col-form-label">Categoría del Trabajador *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_workers_category" required>
+                  <select class="form-control selectpicker get_value_workers_categories_ajax ajax_functions_sat_by_workers_categories" data-style="btn btn-link" name="id_workers_category" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\WorkersCategory::getAllWorkersCategory('1') as $category)
                     <option value="{{ $category->id }}" <?php if($provider->id_workers_category == $category->id){ echo "selected='selected'"; } ?>>{{ $category->name }}</option>
@@ -254,7 +254,7 @@
               <label class="col-md-2 col-form-label">Función SAT *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_function_sat" required>
+                  <select class="form-control selectpicker get_value_functions_sat_ajax" data-style="btn btn-link" name="id_function_sat" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\SatFunction::getAllSatFunction('1') as $sat)
                     <option value="{{ $sat->id }}" <?php if($provider->id_function_sat == $sat->id){ echo "selected='selected'"; } ?>>{{ $sat->name }}</option>

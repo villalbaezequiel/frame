@@ -41,3 +41,7 @@ Route::group(['middleware' => ['auth']], function () {
   Route::resource('/utilities/workdays', 'Backend\UtilitiesWorkdaysController');
 
 });
+
+// ajax return Json
+Route::get('/json/workers_categories/{id_frame_function}', 'Backend\JsonController@getWorkersCategories');
+Route::get('/json/sat_functions/{id_frame_function}/{id_workers_category}', 'Backend\JsonController@getSatFunctions');
