@@ -42,23 +42,33 @@ class ProjectsController extends Controller
      {
         $message;
         try {
-         
+
+          /*
+           Cuando se crea un Proyecto, los usuarios asociados quedan pendientes.
+           Ellos tienen que confirmar la solicitud que pueden SI trabajar en ese Proyecto.
+          */
+
+          $start_date = explode('/', $request->get('start_date'));
+          $finish_date = explode('/', $request->get('finish_date'));
+
           $project = new Project;
           $project->id_client = $request->get('id_client');
           $project->name = $request->get('name');
           $project->description = $request->get('description');
           $project->id_proyect_category = $request->get('id_proyect_category');
-          $project->start_date = $request->get('start_date');
-          $project->finish_date = $request->get('finish_date');
+          $project->start_date = (isset($start_date[2]) ? $start_date[2].'-'.$start_date[1].'-'.$start_date[0] : $request->get('start_date'));
+          $project->finish_date = (isset($finish_date[2]) ? $finish_date[2].'-'.$finish_date[1].'-'.$finish_date[0] : $request->get('finish_date'));
           $project->count_workdays = $request->get('count_workdays');
           $project->duration_workdays = $request->get('duration_workdays');
           $project->id_workday = $request->get('id_workday');
           $project->days = $request->get('days');
-          $project->active = 0; // cuando todos los proveedores que se agregaron aceptan la solicitud del proyecto, automaticamente cambia su estado a activo 1. Y cuando el proyecto finaliza tambien se da de baja el mismo.
+          $project->active = '0'; // cuando todos los proveedores que se agregaron aceptan la solicitud del proyecto, automaticamente cambia su estado a activo 1. Y cuando el proyecto finaliza tambien se da de baja el mismo.
           $project->save();
 
           // add provides relation Project
-          
+          // debe ser un array
+
+
 
        } catch(\Exception $e) {
          if(\Config::get('app.debug')):

@@ -44,7 +44,7 @@
               <div class="tab-pane active" id="module_one">
                 <h5 class="info-text"> Información General </h5>
                 <div class="row justify-content-center">
-                    
+
                   <div class="col-md-10">
                     <div class="form-group">
                       <div class="input-group-prepend">
@@ -56,7 +56,7 @@
                           @foreach(\App\Client::getAllClients() as $client)
                           <option value="{{ $client->id }}">{{ $client->name }}</option>
                           @endforeach
-                        </select> 
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -91,7 +91,7 @@
                           @foreach(\App\ProyectCategory::getAllProyectCategories() as $type_project)
                           <option value="{{ $type_project->id }}">{{ $type_project->name }}</option>
                           @endforeach
-                        </select> 
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -102,7 +102,7 @@
               <div class="tab-pane" id="module_two">
                 <h5 class="info-text"> Fechas </h5>
                 <div class="row justify-content-center">
-                    
+
                   <div class="col-md-5">
                     <div class="card ">
                       <div class="card-header card-header-rose card-header-text">
@@ -147,7 +147,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Duración de Jornada: (*)
+                          Horas / Duración de Jornada: (*)
                         </span>
                         <input type="number" class="form-control" name="duration_workdays" value="{{ old('duration_workdays') }}" placeholder="Ingresar Números, Puntos (.) y/o Comas (,)" maxlength="125" required>
                       </div>
@@ -164,7 +164,7 @@
                           @foreach(\App\Workday::getAllWorkdays() as $workday)
                           <option value="{{ $workday->id }}">{{ $workday->name }}</option>
                           @endforeach
-                        </select> 
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -178,17 +178,17 @@
                       </div>
                     </div>
                   </div>
-                    
+
                 </div>
               </div>
 
               <div class="tab-pane" id="module_three">
                 <h5 class="info-text"> Proveedores </h5>
                 <div class="row justify-content-center">
-                  
+
                 </div>
               </div>
-                
+
             </div>
           </div>
           <div class="card-footer">
@@ -205,7 +205,7 @@
 
       </div>
     </div>
-    
+
   </div>
 </div>
 @endsection

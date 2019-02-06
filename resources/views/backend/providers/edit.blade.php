@@ -95,7 +95,12 @@
               <label class="col-md-2 col-form-label">Fecha de Nacimiento</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control datepicker" type="text" name="birthdate" value="{{ \App\Helpers::getDate($user->birthdate) }}">
+                  @if($user->birthdate)
+                    <?php $birthdate = explode('-', \App\Helpers::getDate($user->birthdate)); ?>
+                    <input class="form-control datepicker" type="text" name="birthdate" value="{{ $birthdate[2].'/'.$birthdate[1].'/'.$birthdate[0] }}">
+                  @else
+                    <input class="form-control datepicker" type="text" name="birthdate" value="{{ \App\Helpers::getDate($user->birthdate) }}">
+                  @endif
                 </div>
               </div>
             </div>
@@ -197,7 +202,12 @@
               <label class="col-md-2 col-form-label">Fecha de Alta AFIP</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control datepicker" type="text" name="start_afip" value="{{ $provider->start_afip }}">
+                  @if($provider->start_afip)
+                    <?php $start_afip = explode('-', \App\Helpers::getDate($provider->start_afip)); ?>
+                    <input class="form-control datepicker" type="text" name="start_afip" value="{{ $start_afip[2].'/'.$start_afip[1].'/'.$start_afip[0] }}">
+                  @else
+                    <input class="form-control datepicker" type="text" name="start_afip" value="{{ \App\Helpers::getDate($provider->start_afip) }}">
+                  @endif
                 </div>
               </div>
             </div>
@@ -205,7 +215,12 @@
               <label class="col-md-2 col-form-label">Fecha de Baja AFIP</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control datepicker" type="text" name="finish_afip" value="{{ $provider->finish_afip }}">
+                  @if($provider->finish_afip)
+                    <?php $finish_afip = explode('-', \App\Helpers::getDate($provider->finish_afip)); ?>
+                    <input class="form-control datepicker" type="text" name="finish_afip" value="{{ $finish_afip[2].'/'.$finish_afip[1].'/'.$finish_afip[0] }}">
+                  @else
+                    <input class="form-control datepicker" type="text" name="finish_afip" value="{{ \App\Helpers::getDate($provider->finish_afip) }}">
+                  @endif
                 </div>
               </div>
             </div>
