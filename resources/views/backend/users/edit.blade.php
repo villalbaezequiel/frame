@@ -108,7 +108,12 @@
               <label class="col-md-2 col-form-label">Fecha de Nacimiento *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control datepicker" type="text" name="birthdate" value="{{ \App\Helpers::getDate($user->birthdate) }}">
+                  @if($user->birthdate)
+                    <?php $birthdate = explode('-', \App\Helpers::getDate($user->birthdate)); ?>
+                    <input class="form-control datepicker" type="text" name="birthdate" value="{{ $birthdate[2].'/'.$birthdate[1].'/'.$birthdate[0] }}">
+                  @else
+                    <input class="form-control datepicker" type="text" name="birthdate" value="{{ \App\Helpers::getDate($user->birthdate) }}">
+                  @endif
                 </div>
               </div>
             </div>
