@@ -22,7 +22,7 @@ class AddRowUsers extends Migration
           $table->string('civil_status')->nullable()->after('gender');
           $table->timestamp('birthdate')->nullable()->after('civil_status');
           $table->string('id_country')->nullable()->after('birthdate');
-          $table->enum('active', ['1', '0'])->after('password');
+          $table->enum('active', [1, 0])->after('password');
       });
     }
 

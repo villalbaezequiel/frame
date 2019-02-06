@@ -16,7 +16,7 @@ class CreateProyectCategoriesTable extends Migration
         Schema::create('proyect_categories', function (Blueprint $table) {
           $table->increments('id');
           $table->string('name');
-          $table->enum('active', ['0', '1']);
+          $table->enum('active', [0, 1]);
           $table->timestamps();
         });
     }

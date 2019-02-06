@@ -17,7 +17,7 @@ class CreateFrameFunctionsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description')->nullable();
-            $table->enum('active', ['0', '1']);
+            $table->enum('active', [0, 1]);
             $table->timestamps();
         });
     }

@@ -16,7 +16,7 @@ class CreateStudiesTable extends Migration
         Schema::create('studies', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->enum('active', ['0', '1']);
+            $table->enum('active', [0, 1]);
             $table->timestamps();
         });
     }

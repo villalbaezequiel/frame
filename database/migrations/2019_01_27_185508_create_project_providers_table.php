@@ -24,8 +24,11 @@ class CreateProjectProvidersTable extends Migration
             $table->string('salary_contract_category_function');
             $table->string('salary_daily');
             $table->string('salary_liquidate');
-            $table->string('salary_difference');
+            $table->string('start_date')->nullable();
+            $table->string('finish_date')->nullable();
+            $table->string('value_extra_hours');
             $table->string('extra_hours', 2500)->nullable(); //json ("fecha", "horarios", "comentarios: porque hubo hs extras?")
+            $table->enum('active', [0, 1]); // por default 0, cuando se le envia el mail con la solicitud del Proyecto y la aceptan, cambia el status a 1.
             $table->timestamps();
 
             // JOIN Projects

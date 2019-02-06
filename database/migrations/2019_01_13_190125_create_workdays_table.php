@@ -17,7 +17,7 @@ class CreateWorkdaysTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description', 250);
-            $table->enum('active', ['0', '1']);
+            $table->enum('active', [0, 1]);
             $table->timestamps();
         });
     }

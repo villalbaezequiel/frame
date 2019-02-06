@@ -16,7 +16,7 @@ class CreateContractsTable extends Migration
         Schema::create('contracts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->enum('active', ['0', '1']);
+            $table->enum('active', [0, 1]);
             $table->timestamps();
         });
     }

@@ -23,7 +23,7 @@ class CreateWorkersCategoriesTable extends Migration
             $table->string('sueldo_neto_texto', 300)->nullable();
             $table->string('presentismo')->nullable();
             $table->string('contrato')->nullable();
-            $table->enum('active', ['0', '1']);
+            $table->enum('active', [0, 1]);
             $table->timestamps();
         });
     }

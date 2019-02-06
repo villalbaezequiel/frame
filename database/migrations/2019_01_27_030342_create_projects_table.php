@@ -25,7 +25,7 @@ class CreateProjectsTable extends Migration
             $table->integer('duration_workdays');
             $table->integer('id_workday');
             $table->integer('days');
-            $table->enum('active', [0, 1]);
+            $table->enum('active', [0, 1]); // cuando todos los proveedores aceptan la solicitud se de ALTA automaticamente. Y cuando today == finish_date, se da de BAJA automaticamente.
             $table->timestamps();
 
             // JOIN project_providers
