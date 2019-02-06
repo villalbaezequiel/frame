@@ -65,7 +65,7 @@ class ProvidersController extends Controller
            $user->cuit = $request->get('cuit');
            $user->gender = $request->get('gender');
            $user->civil_status = $request->get('civil_status');
-           $user->birthdate = $birthdate[2].'-'.$birthdate[1].'-'.$birthdate[0];
+           $user->birthdate = (isset($birthdate[2]) ? $birthdate[2].'-'.$birthdate[1].'-'.$birthdate[0] : $request->get('birthdate'));
            $user->id_country = $request->get('id_country');
            $user->password = Hash::make($request->get('dni'));
            $user->active = 1;
@@ -82,8 +82,8 @@ class ProvidersController extends Controller
            $provider->social_work = $request->get('social_work');
            $provider->telephone = $request->get('telephone');
            $provider->other_telephone = $request->get('other_telephone');
-           $provider->start_afip = $start_afip[2].'-'.$start_afip[1].'-'.$start_afip[0];
-           $provider->finish_afip = $finish_afip[2].'-'.$finish_afip[1].'-'.$finish_afip[0];
+           $provider->start_afip = (isset($start_afip[2]) ? $start_afip[2].'-'.$start_afip[1].'-'.$start_afip[0] : $request->get('start_afip'));
+           $provider->finish_afip = (isset($finish_afip[2]) ? $finish_afip[2].'-'.$finish_afip[1].'-'.$finish_afip[0] : $request->get('finish_afip'));
            $provider->id_workers_category = $request->get('id_workers_category');
            $provider->id_function_sat = $request->get('id_function_sat');
            $provider->id_function_frame = $request->get('id_function_frame');
@@ -164,6 +164,11 @@ class ProvidersController extends Controller
 
          if($email == 0 && $dni == 0 && $cuit == 0):
 
+           // add format birthdate
+           $birthdate = explode('/', $request->get('birthdate'));
+           $start_afip = explode('/', $request->get('start_afip'));
+           $finish_afip = explode('/', $request->get('finish_afip'));
+
            // Update User
            $user = User::find($request->get('id_user'));
            $user->name = $request->get('name');
@@ -174,7 +179,7 @@ class ProvidersController extends Controller
            $user->cuit = $request->get('cuit');
            $user->gender = $request->get('gender');
            $user->civil_status = $request->get('civil_status');
-           $user->birthdate = $request->get('birthdate');
+           $user->birthdate = (isset($birthdate[2]) ? $birthdate[2].'-'.$birthdate[1].'-'.$birthdate[0] : $request->get('birthdate'));
            $user->id_country = $request->get('id_country');
            $user->active = $request->get('active');
            $user->save();
@@ -189,8 +194,8 @@ class ProvidersController extends Controller
            $provider->social_work = $request->get('social_work');
            $provider->telephone = $request->get('telephone');
            $provider->other_telephone = $request->get('other_telephone');
-           $provider->start_afip = $request->get('start_afip');
-           $provider->finish_afip = $request->get('finish_afip');
+           $provider->start_afip = (isset($start_afip[2]) ? $start_afip[2].'-'.$start_afip[1].'-'.$start_afip[0] : $request->get('start_afip'));
+           $provider->finish_afip = (isset($finish_afip[2]) ? $finish_afip[2].'-'.$finish_afip[1].'-'.$finish_afip[0] : $request->get('finish_afip'));
            $provider->id_workers_category = $request->get('id_workers_category');
            $provider->id_function_sat = $request->get('id_function_sat');
            $provider->id_function_frame = $request->get('id_function_frame');
