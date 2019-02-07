@@ -16,7 +16,7 @@ class UtilitiesWorkdaysController extends Controller
      */
     public function __construct()
     {
-      $this->middleware('permission:workdays', ['only' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
+      $this->middleware('permission:workdays', ['except' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
     }
 
     /**

@@ -19,7 +19,7 @@ class ClientsController extends Controller
      */
     public function __construct()
     {
-      $this->middleware('permission:clients', ['only' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
+      $this->middleware('permission:clients', ['except' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
     }
 
     /**

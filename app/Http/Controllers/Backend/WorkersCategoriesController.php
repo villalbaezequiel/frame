@@ -16,7 +16,7 @@ class WorkersCategoriesController extends Controller
      */
     public function __construct()
     {
-      $this->middleware('permission:workers_categories', ['only' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
+      $this->middleware('permission:workers_categories', ['except' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
     }
 
     /**

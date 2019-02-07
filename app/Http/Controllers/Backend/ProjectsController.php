@@ -17,7 +17,7 @@ class ProjectsController extends Controller
      */
     public function __construct()
     {
-      $this->middleware('permission:projects', ['only' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
+      $this->middleware('permission:projects', ['except' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
     }
 
     /**

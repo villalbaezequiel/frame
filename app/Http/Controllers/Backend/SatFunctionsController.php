@@ -16,7 +16,7 @@ class SatFunctionsController extends Controller
    */
   public function __construct()
   {
-    $this->middleware('permission:sat_functions', ['only' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
+    $this->middleware('permission:sat_functions', ['except' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
   }
 
   /**

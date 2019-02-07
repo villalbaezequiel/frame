@@ -16,7 +16,7 @@ class UtilitiesCountriesController extends Controller
      */
     public function __construct()
     {
-      $this->middleware('permission:countries', ['only' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
+      $this->middleware('permission:countries', ['except' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
     }
 
     /**

@@ -16,7 +16,7 @@ class UtilitiesContractsController extends Controller
      */
     public function __construct()
     {
-      $this->middleware('permission:contracts', ['only' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
+      $this->middleware('permission:contracts', ['except' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
     }
 
     /**

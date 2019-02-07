@@ -16,7 +16,7 @@ class UtilitiesStudiesController extends Controller
      */
     public function __construct()
     {
-      $this->middleware('permission:studies', ['only' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
+      $this->middleware('permission:studies', ['except' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
     }
 
     /**

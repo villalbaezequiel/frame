@@ -18,7 +18,7 @@ class ProvidersController extends Controller
      */
     public function __construct()
     {
-      $this->middleware('permission:providers', ['only' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
+      $this->middleware('permission:providers', ['except' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
     }
 
     /**
