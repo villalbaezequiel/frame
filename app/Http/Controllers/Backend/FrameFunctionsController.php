@@ -10,6 +10,16 @@ use App\FrameFunction;
 class FrameFunctionsController extends Controller
 {
   /**
+   * Instantiate a new controller instance.
+   *
+   * @return void
+   */
+  public function __construct()
+  {
+    $this->middleware('permission:frame_functions', ['only' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
+  }
+
+  /**
    * Display a listing of the resource.
    *
    * @return \Illuminate\Http\Response

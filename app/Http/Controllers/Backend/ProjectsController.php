@@ -11,6 +11,16 @@ use App\ProjectProvider;
 class ProjectsController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+      $this->middleware('permission:projects', ['only' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

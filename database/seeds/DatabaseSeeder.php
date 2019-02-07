@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
         WorkdaysTableSeeder::class,
         ProyectCategoriesTableSeeder::class,
         ContractsTableSeeder::class,
+        PermissionsTableSeeder::class,
+        RolesTableSeeder::class,
 
       ]);
     }

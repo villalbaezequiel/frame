@@ -27,13 +27,14 @@ Route::get('/', function(){
 
 Route::group(['middleware' => ['auth']], function () {
 
+  Route::resource('/roles', 'Backend\RolesController');
+  Route::resource('/users', 'Backend\UserController');
   Route::resource('/projects', 'Backend\ProjectsController');
   Route::resource('/clients', 'Backend\ClientsController');
   Route::resource('/providers', 'Backend\ProvidersController');
   Route::resource('/workers_categories', 'Backend\WorkersCategoriesController');
   Route::resource('/frame_functions', 'Backend\FrameFunctionsController');
   Route::resource('/sat_functions', 'Backend\SatFunctionsController');
-  Route::resource('/users', 'Backend\UserController');
   Route::resource('/utilities/contracts', 'Backend\UtilitiesContractsController');
   Route::resource('/utilities/countries', 'Backend\UtilitiesCountriesController');
   Route::resource('/utilities/proyect_categories', 'Backend\UtilitiesProyectCategoriesController');

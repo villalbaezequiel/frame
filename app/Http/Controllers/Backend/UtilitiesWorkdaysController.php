@@ -10,6 +10,16 @@ use App\Workday;
 class UtilitiesWorkdaysController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+      $this->middleware('permission:workdays', ['only' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
