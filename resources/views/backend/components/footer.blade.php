@@ -3,18 +3,18 @@
     <nav class="float-left">
       <ul>
         <li>
+          <a href="http://www.framezero.com.ar/nosotros.php" target="_blank">
+            Frame Zero - Nosotros
+          </a>
+        </li>
+        <li>
+          <a href="http://frame.com.ar/" target="_blank">
+            Frame - Proyectos
+          </a>
+        </li>
+        <li>
           <a href="http://www.estudiomixto.com/" target="_blank">
             Estudio Mixto
-          </a>
-        </li>
-        <li>
-          <a href="{{ url('/') }}" target="_blank">
-            Blog
-          </a>
-        </li>
-        <li>
-          <a href="{{ url('/') }}" target="_blank">
-            Licencia
           </a>
         </li>
       </ul>
