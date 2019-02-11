@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', "Mi Perfil / Editar")
+@section('title', "Usuarios / Editar")
 
 @section('content')
 <div class="container-fluid">
@@ -10,7 +10,7 @@
         <div class="card ">
           <div class="card-header card-header-primary card-header-text">
             <div class="card-text">
-              <h4 class="card-title">Editar Perfil</h4>
+              <h4 class="card-title">Editar Usuario</h4>
             </div>
           </div>
           <div class="card-body ">
@@ -131,6 +131,19 @@
               </div>
             </div>
             <div class="row">
+              <label class="col-md-2 col-form-label">Rol Usuario *</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="role_user" required>
+                    <option value="">Seleccionar</option>
+                    @foreach($roles as $rol)
+                    <option value="{{ $rol->id }}" <?php if($rol->id == $role_user->role_id){ echo "selected='selected'"; } ?>>{{ $rol->name }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <label class="col-md-2 col-form-label label-checkbox">Activo</label>
               <div class="col-md-10 checkbox-radios">
                 <div class="form-check form-check-inline">
@@ -154,6 +167,7 @@
 
           </div>
           <div class="card-footer ml-auto mr-auto">
+            <input type="hidden" name="role_user_id" value="{{ $role_user->id }}" />
             <input type="submit" class="btn btn-primary" value="Editar" />
           </div>
         </div>

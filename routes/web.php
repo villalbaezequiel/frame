@@ -28,7 +28,7 @@ Route::get('/', function(){
 Route::group(['middleware' => ['auth']], function () {
 
   Route::resource('/roles', 'Backend\RolesController');
-  Route::resource('/users', 'Backend\UserController');
+  Route::resource('/users', 'Backend\UsersController');
   Route::resource('/projects', 'Backend\ProjectsController');
   Route::resource('/clients', 'Backend\ClientsController');
   Route::resource('/providers', 'Backend\ProvidersController');

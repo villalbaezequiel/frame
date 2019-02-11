@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Caffeinated\Shinobi\Models\Role;
 use App\Helpers;
+use App\RoleUser;
 use App\User;
 
-class UserController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +19,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+      return view('backend.users.index', [
+        'users' => User::all()
+      ]);
     }
 
     /**
@@ -27,7 +31,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+      return view('backend.users.create');
     }
 
     /**
@@ -61,7 +65,9 @@ class UserController extends Controller
     public function edit($id)
     {
       return view('backend.users.edit',[
-        'user' => User::find($id)
+        'user' => User::find($id),
+        'roles' => Role::all(),
+        'role_user' => RoleUser::getRoleUser($id)
       ]);
     }
 
@@ -98,6 +104,15 @@ class UserController extends Controller
           $user->birthdate = (isset($birthdate[2]) ? $birthdate[2].'-'.$birthdate[1].'-'.$birthdate[0] : $request->get('birthdate'));
           $user->id_country = $request->get('id_country');
           $user->save();
+
+          Helpers::print_x(RoleUser::find($request->get('role_user_id')));
+          die();
+
+          // update role users
+          $rol_user = RoleUser::find($request->get('role_user_id'));
+          $role_user->role_id = $request->get('role_user');
+          $role_user->user_id = $id;
+          $role_user->save();
 
           return redirect("/users/$id/edit")->with('message', 'Usuario Editado con Exito!');
 

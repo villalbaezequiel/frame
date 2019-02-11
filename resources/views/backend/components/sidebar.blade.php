@@ -78,12 +78,32 @@
           <p> Funciones SAT </p>
         </a>
       </li>
+
       <li class="nav-item nav-check-url ">
-        <a class="nav-link" href="{{ url('/roles') }}">
+        <a class="nav-link" data-toggle="collapse" href="#users-nav-menu">
           <i class="material-icons">people</i>
-          <p> Roles Usuarios </p>
+          <p> Usuarios
+            <b class="caret"></b>
+          </p>
         </a>
+        <div class="collapse" id="users-nav-menu">
+          <ul class="nav">
+            <li class="nav-item nav-check-url ">
+              <a class="nav-link" href="{{ url('/users') }}">
+                <span class="sidebar-mini"> U </span>
+                <span class="sidebar-normal"> Usuarios </span>
+              </a>
+            </li>
+            <li class="nav-item nav-check-url ">
+              <a class="nav-link" href="{{ url('/roles') }}">
+                <span class="sidebar-mini"> R </span>
+                <span class="sidebar-normal"> Roles </span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </li>
+
       <li class="nav-item nav-check-url ">
         <a class="nav-link" data-toggle="collapse" href="#utilities-nav-menu">
           <i class="material-icons">list</i>
