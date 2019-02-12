@@ -137,7 +137,7 @@
                   <select class="form-control selectpicker" data-style="btn btn-link" name="role_user" required>
                     <option value="">Seleccionar</option>
                     @foreach($roles as $rol)
-                    <option value="{{ $rol->id }}" <?php if($rol->id == $role_user->role_id){ echo "selected='selected'"; } ?>>{{ $rol->name }}</option>
+                    <option value="{{ $rol->id }}" <?php if(!empty($role_user) && $rol->id == $role_user->role_id){ echo "selected='selected'"; } ?>>{{ $rol->name }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -148,7 +148,7 @@
               <div class="col-md-10 checkbox-radios">
                 <div class="form-check form-check-inline">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" value="1" name="active" <?php if($user->active == 1){ echo "checked"; } ?> disabled> Si
+                    <input class="form-check-input" type="radio" value="1" name="active" <?php if($user->active == 1){ echo "checked"; } ?>> Si
                     <span class="form-check-sign">
                       <span class="check"></span>
                     </span>
@@ -156,7 +156,7 @@
                 </div>
                 <div class="form-check form-check-inline">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" value="0" name="active" <?php if($user->active == 0){ echo "checked"; } ?> disabled> No
+                    <input class="form-check-input" type="radio" value="0" name="active" <?php if($user->active == 0){ echo "checked"; } ?>> No
                     <span class="form-check-sign">
                       <span class="check"></span>
                     </span>
@@ -167,7 +167,7 @@
 
           </div>
           <div class="card-footer ml-auto mr-auto">
-            <input type="hidden" name="role_user_id" value="{{ $role_user->id }}" />
+            <input type="hidden" name="role_user_id" value="<?php if(!empty($role_user)){ echo $role_user->id; }else{ echo false; } ?>" />
             <input type="submit" class="btn btn-primary" value="Editar" />
           </div>
         </div>

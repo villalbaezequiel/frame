@@ -31,7 +31,9 @@ class UsersController extends Controller
      */
     public function create()
     {
-      return view('backend.users.create');
+      return view('backend.users.create', [
+        'roles' => Role::all()
+      ]);
     }
 
     /**
@@ -42,7 +44,68 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $message;
+      try {
+        // Validations, check: email, dni, cuit
+        $email = User::where('email', $request->get('email'))->count();
+        $dni = User::where('dni', $request->get('dni'))->count();
+        $cuit = User::where('cuit', $request->get('cuit'))->count();
+
+        if($email == 0 && $dni == 0 && $cuit == 0):
+
+          // add format birthdate
+          $birthdate = explode('/', $request->get('birthdate'));
+
+          $user = new User;
+          $user->name = $request->get('name');
+          $user->last_name = $request->get('last_name');
+          $user->email = $request->get('email');
+          $user->type_dni = $request->get('type_dni');
+          $user->dni = $request->get('dni');
+          $user->cuit = $request->get('cuit');
+          $user->gender = $request->get('gender');
+          $user->civil_status = $request->get('civil_status');
+          $user->birthdate = (isset($birthdate[2]) ? $birthdate[2].'-'.$birthdate[1].'-'.$birthdate[0] : $request->get('birthdate'));
+          $user->id_country = $request->get('id_country');
+          $user->password = Hash::make('frame_'.$request->get('cuit'));
+          $user->active = $request->get('active');
+          $user->save();
+
+          // create role user
+          $role_user = new RoleUser;
+          $role_user->role_id = $request->get('role_user');
+          $role_user->user_id = $user->id;
+          $role_user->save();
+
+          return redirect("/users")->with('message', 'Usuario Creado con Exito!');
+
+        else:
+
+          if($email == 1){
+            $message = Helpers::setMessageValidationForm('Email');
+          } elseif($dni == 1){
+            $message = Helpers::setMessageValidationForm('DNI');
+          } else {
+            $message = Helpers::setMessageValidationForm('CUIT');
+          }
+          return back()->withInput()->with('message', $message);
+
+        endif;
+
+      } catch(\Exception $e) {
+        if(\Config::get('app.debug')):
+          $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
+        else:
+          $message = 'Se ha producido un error. Por favor intente nuevamente.';
+        endif;
+
+        $respuesta = array(
+          'estado' => false,
+          'mensaje' => $message
+        );
+        return \Response::json($respuesta);
+
+      }
     }
 
     /**
@@ -103,16 +166,21 @@ class UsersController extends Controller
           $user->civil_status = $request->get('civil_status');
           $user->birthdate = (isset($birthdate[2]) ? $birthdate[2].'-'.$birthdate[1].'-'.$birthdate[0] : $request->get('birthdate'));
           $user->id_country = $request->get('id_country');
+          $user->active = $request->get('active');
           $user->save();
 
-          Helpers::print_x(RoleUser::find($request->get('role_user_id')));
-          die();
-
           // update role users
-          $rol_user = RoleUser::find($request->get('role_user_id'));
-          $role_user->role_id = $request->get('role_user');
-          $role_user->user_id = $id;
-          $role_user->save();
+          if($request->get('role_user_id') == false){
+            $role_user = new RoleUser;
+            $role_user->role_id = $request->get('role_user');
+            $role_user->user_id = $id;
+            $role_user->save();
+          } else {
+            $role_user = RoleUser::find($request->get('role_user_id'));
+            $role_user->role_id = $request->get('role_user');
+            $role_user->user_id = $id;
+            $role_user->save();
+          }
 
           return redirect("/users/$id/edit")->with('message', 'Usuario Editado con Exito!');
 
@@ -153,6 +221,10 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $user = User::find($id);
+        $role_user = RoleUser::where('user_id', $id)->delete();
+      $user->delete();
+
+      return redirect('/users')->with('message', 'Usuario eliminado con exito!');
     }
 }
