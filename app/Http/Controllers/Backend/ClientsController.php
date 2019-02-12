@@ -70,7 +70,7 @@ class ClientsController extends Controller
           $user->cuit = $request->get('cuit');
           $user->gender = $request->get('gender');
           $user->id_country = $request->get('country');
-          $user->password = Hash::make($request->get('dni'));
+          $user->password = Hash::make('frame_'.$request->get('cuit'));
           $user->active = 1;
           $user->save();
           // New Client
