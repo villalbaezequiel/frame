@@ -54,7 +54,7 @@
                         <select class="selectpicker" data-style="select-with-transition" name="id_client" required>
                           <option value="">Seleccionar</option>
                           @foreach(\App\Client::getAllClients() as $client)
-                          <option value="{{ $client->id }}">{{ $client->name }}</option>
+                          <option value="{{ $client->id }}"><?php if($client->nick){ echo $client->nick; } else { echo $client->razon_social; } ?></option>
                           @endforeach
                         </select>
                       </div>

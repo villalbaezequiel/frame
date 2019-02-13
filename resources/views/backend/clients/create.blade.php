@@ -27,64 +27,18 @@
             @endif
 
             <div class="row">
-              <label class="col-md-2 col-form-label">Nombre *</label>
+              <label class="col-md-2 col-form-label">Razón Social *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="name" value="{{ old('name') }}" maxlength="125" required>
+                  <input class="form-control" type="text" name="razon_social" value="{{ old('razon_social') }}" maxlength="125" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Apellido *</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <input class="form-control" type="text" name="last_name" value="{{ old('last_name') }}" maxlength="125" required>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Email *</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <input class="form-control" type="email" email="true" name="email" value="{{ old('email') }}" maxlength="125" required>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Nick</label>
+              <label class="col-md-2 col-form-label">Nombre Fantasía</label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="nick" value="{{ old('nick') }}" maxlength="125">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Género</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="gender" required>
-                    <option value="">Seleccionar</option>
-                    @foreach(\App\Helpers::getGendersPerson() as $key => $val)
-                    <option value="{{ $key }}">{{ $val }}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Tipo de Documentación *</label>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="type_dni" required>
-                    @foreach(\App\Helpers::getTypesDocumentationPerson() as $key => $val)
-                    <option value="{{ $key }}">{{ $val }}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-5">
-                <div class="form-group">
-                  <input class="form-control" type="text" name="dni" value="{{ old('dni') }}" placeholder="Número *" required>
                 </div>
               </div>
             </div>
@@ -137,14 +91,6 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Razón Social *</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <input class="form-control" type="text" name="razon_social" value="{{ old('razon_social') }}" maxlength="125" required>
-                </div>
-              </div>
-            </div>
-            <div class="row">
               <label class="col-md-2 col-form-label">Teléfono *</label>
               <div class="col-md-7">
                 <div class="form-group">
@@ -160,6 +106,65 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+              <label class="col-md-2 col-form-label label-checkbox">Cliente Activo</label>
+              <div class="col-md-10 checkbox-radios">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" value="1" name="active" checked> Si
+                    <span class="form-check-sign">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" value="0" name="active"> No
+                    <span class="form-check-sign">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" style="padding: 15px;">
+              <label class="col-md-12 col-form-label">
+                <center><strong>Contactos dentro de la empresa</strong></center>
+              </label>
+            </div>
+
+            <div class="row">
+              <label class="col-md-2 col-form-label">Nombre</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <input class="form-control" type="text" name="contact_name" value="{{ old('contact_name') }}" maxlength="125">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-md-2 col-form-label">Email</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <input class="form-control" type="email" email="true" name="contact_email" value="{{ old('contact_email') }}" maxlength="125">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-md-2 col-form-label">Teléfono</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <input class="form-control" type="number" name="contact_telephone" value="{{ old('contact_telephone') }}" maxlength="125">
+                </div>
+              </div>
+            </div>
+
+            <div class="row" style="padding: 15px;">
+              <label class="col-md-12 col-form-label">
+                <center><strong>Retenciones impositvas</strong></center>
+              </label>
+            </div>
+
             <div class="row">
               <label class="col-md-2 col-form-label label-checkbox">Retienen Ganancias?</label>
               <div class="col-md-10 checkbox-radios">

@@ -32,9 +32,8 @@
             <thead>
               <tr>
                 <th>#ID</th>
-                <th>Nombre</th>
-                <th>DNI</th>
                 <th>Razon Social</th>
+                <th>CUIT</th>
                 <th>Activo</th>
                 <th>Acciones</th>
               </tr>
@@ -43,10 +42,9 @@
               @foreach($clients as $client)
               <tr>
                 <td>{{ $client->id }}</td>
-                <td>{{ \App\User::getFullName($client->id_user) }}</td>
-                <td>{{ \App\User::getDNI($client->id_user) }}</td>
                 <td>{{ $client->razon_social }}</td>
-                <td>{{ \App\User::getActive($client->id_user) }}</td>
+                <td>{{ $client->cuit }}</td>
+                <td>{{ \App\Helpers::getActive($client->active) }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['clients.destroy', $client->id], 'method' => 'DELETE']) !!}
                     <a href="{{ url('/clients/'.$client->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>

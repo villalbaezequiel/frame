@@ -27,73 +27,27 @@
             @endif
 
             <div class="row">
-              <label class="col-md-2 col-form-label">Nombre *</label>
+              <label class="col-md-2 col-form-label">Razón Social *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="name" value="{{ $user->name }}" maxlength="125" required>
+                  <input class="form-control" type="text" name="razon_social" value="{{ $client->razon_social }}" maxlength="125" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Apellido *</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <input class="form-control" type="text" name="last_name" value="{{ $user->last_name }}" maxlength="125" required>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Email *</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <input class="form-control" type="email" email="true" name="email" value="{{ $user->email }}" maxlength="125" required>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Nick</label>
+              <label class="col-md-2 col-form-label">Nombre Fantasía</label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="nick" value="{{ $client->nick }}" maxlength="125">
                 </div>
               </div>
             </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Género</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="gender" required>
-                    <option value="">Seleccionar</option>
-                    @foreach(\App\Helpers::getGendersPerson() as $key => $val)
-                    <option value="{{ $key }}" <?php if($user->gender == $key){ echo "selected='selected'"; } ?> >{{ $val }}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Tipo de Documentación *</label>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="type_dni" required>
-                    @foreach(\App\Helpers::getTypesDocumentationPerson() as $key => $val)
-                    <option value="{{ $key }}" <?php if($user->type_dni == $key){ echo "selected='selected'"; } ?>>{{ $val }}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-5">
-                <div class="form-group">
-                  <input class="form-control" type="text" name="dni" value="{{ $user->dni }}" placeholder="Número *" required>
-                </div>
-              </div>
-            </div>
+
             <div class="row">
               <label class="col-md-2 col-form-label">CUIT *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <!-- <input class="form-control" type="text" name="cuit" pattern="\b(20|23|24|27|30|33|34)(\D)?[0-9]{8}(\D)?[0-9]" value="{{ $user->cuit }}" maxlength="125" required> -->
-                  <input class="form-control" type="number" name="cuit" value="{{ $user->cuit }}" maxlength="125" required>
+                  <input class="form-control" type="number" name="cuit" value="{{ $client->cuit }}" maxlength="125" required>
                 </div>
               </div>
               <label class="col-md-3 label-on-right">
@@ -120,7 +74,7 @@
                   <select class="form-control selectpicker" data-style="btn btn-link" name="country" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Country::all() as $country)
-                    <option value="{{ $country->id }}" <?php if($user->id_country == $country->id){ echo "selected='selected'"; } ?>>{{ $country->name }}</option>
+                    <option value="{{ $country->id }}" <?php if($client->id_country == $country->id){ echo "selected='selected'"; } ?>>{{ $country->name }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -133,14 +87,6 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <input class="form-control" type="number" name="cp" value="{{ $client->cp }}" placeholder="Codigo Postal *" required>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Razón Social *</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <input class="form-control" type="text" name="razon_social" value="{{ $client->razon_social }}" maxlength="125" required>
                 </div>
               </div>
             </div>
@@ -160,6 +106,65 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+              <label class="col-md-2 col-form-label label-checkbox">Cliente Activo</label>
+              <div class="col-md-10 checkbox-radios">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" value="1" name="active" <?php if($client->active == 1){ echo "checked"; } ?>> Si
+                    <span class="form-check-sign">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" value="0" name="active" <?php if($client->active == 0){ echo "checked"; } ?>> No
+                    <span class="form-check-sign">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" style="padding: 15px;">
+              <label class="col-md-12 col-form-label">
+                <center><strong>Contactos dentro de la empresa</strong></center>
+              </label>
+            </div>
+
+            <div class="row">
+              <label class="col-md-2 col-form-label">Nombre</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <input class="form-control" type="text" name="contact_name" value="{{ $client->contact_name }}" maxlength="125">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-md-2 col-form-label">Email</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <input class="form-control" type="email" email="true" name="contact_email" value="{{ $client->contact_email }}" maxlength="125">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-md-2 col-form-label">Teléfono</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <input class="form-control" type="number" name="contact_telephone" value="{{ $client->contact_telephone }}" maxlength="125">
+                </div>
+              </div>
+            </div>
+
+            <div class="row" style="padding: 15px;">
+              <label class="col-md-12 col-form-label">
+                <center><strong>Retenciones impositvas</strong></center>
+              </label>
+            </div>
+
             <div class="row">
               <label class="col-md-2 col-form-label label-checkbox">Retienen Ganancias?</label>
               <div class="col-md-10 checkbox-radios">
@@ -223,32 +228,9 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label label-checkbox">Cliente Activo</label>
-              <div class="col-md-10 checkbox-radios">
-                <div class="form-check form-check-inline">
-                  <label class="form-check-label">
-                    <input class="form-check-input" type="radio" value="1" name="active" <?php if($user->active == 1){ echo "checked"; } ?>> Si
-                    <span class="form-check-sign">
-                      <span class="check"></span>
-                    </span>
-                  </label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <label class="form-check-label">
-                    <input class="form-check-input" type="radio" value="0" name="active" <?php if($user->active == 0){ echo "checked"; } ?>> No
-                    <span class="form-check-sign">
-                      <span class="check"></span>
-                    </span>
-                  </label>
-                </div>
-              </div>
-            </div>
 
           </div>
           <div class="card-footer ml-auto mr-auto">
-            <!-- Hide Val-->
-            <input type="hidden" name="id_user" value="{{ $user->id }}" />
             <input type="submit" class="btn btn-primary" value="Guardar" />
           </div>
         </div>

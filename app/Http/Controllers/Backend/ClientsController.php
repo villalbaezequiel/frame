@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers;
 use App\Client;
-use App\User;
 
 class ClientsController extends Controller
 {
@@ -55,51 +54,36 @@ class ClientsController extends Controller
       $message;
       try {
         // Validations, check: email, dni, cuit
-        $email = User::where('email', $request->get('email'))->count();
-        $dni = User::where('dni', $request->get('dni'))->count();
-        $cuit = User::where('cuit', $request->get('cuit'))->count();
+        $cuit = Client::where('cuit', $request->get('cuit'))->count();
 
-        if($email == 0 && $dni == 0 && $cuit == 0):
-          // New User
-          $user = new User;
-          $user->name = $request->get('name');
-          $user->last_name = $request->get('last_name');
-          $user->email = $request->get('email');
-          $user->type_dni = $request->get('type_dni');
-          $user->dni = $request->get('dni');
-          $user->cuit = $request->get('cuit');
-          $user->gender = $request->get('gender');
-          $user->id_country = $request->get('country');
-          $user->password = Hash::make('frame_'.$request->get('cuit'));
-          $user->active = 1;
-          $user->save();
+        if($cuit == 0):
           // New Client
           $client = new Client;
-          $client->id_user = $user->id;
-          $client->nick = $request->get('nick');
           $client->razon_social = $request->get('razon_social');
+          $client->nick = $request->get('nick');
+          $client->cuit = $request->get('cuit');
           $client->address = $request->get('address');
           $client->address_number = $request->get('address_number');
-          $client->cp = $request->get('cp');
+          $client->id_country = $request->get('country');
           $client->location = $request->get('location');
+          $client->cp = $request->get('cp');
           $client->telephone = $request->get('telephone');
           $client->other_telephone = $request->get('other_telephone');
+          $client->contact_name = $request->get('contact_name');
+          $client->contact_email = $request->get('contact_email');
+          $client->contact_telephone = $request->get('contact_telephone');
           $client->retencion_ganancia = $request->get('retencion_ganancia');
           $client->iibb = $request->get('iibb');
           $client->iva = $request->get('iva');
+          $client->active = $request->get('active');
           $client->save();
 
           return redirect('/clients')->with('message', 'Cliente creado con exito!');
 
         else:
 
-          if($email == 1){
-            $message = Helpers::setMessageValidationForm('Email');
-          } elseif($dni == 1){
-            $message = Helpers::setMessageValidationForm('DNI');
-          } else {
-            $message = Helpers::setMessageValidationForm('CUIT');
-          }
+          $message = Helpers::setMessageValidationForm('CUIT');
+
           return back()->withInput()->with('message', $message);
 
         endif;
@@ -141,8 +125,7 @@ class ClientsController extends Controller
     {
       $client = Client::find($id);
       return view('backend.clients.edit', [
-        'client' => $client,
-        'user' => User::where('id', $client->id_user)->first()
+        'client' => $client
       ]);
     }
 
@@ -158,49 +141,36 @@ class ClientsController extends Controller
       $message;
       try {
         // Validations, check: email, dni, cuit
-        $email = User::where('email', $request->get('email'))->where('id', '!=', $request->get('id_user'))->count();
-        $dni = User::where('dni', $request->get('dni'))->where('id', '!=', $request->get('id_user'))->count();
-        $cuit = User::where('cuit', $request->get('cuit'))->where('id', '!=', $request->get('id_user'))->count();
+        $cuit = Client::where('cuit', $request->get('cuit'))->where('id', '!=', $id)->count();
 
-        if($email == 0 && $dni == 0 && $cuit == 0):
-          // Update User
-          $user = User::find($request->get('id_user'));
-          $user->name = $request->get('name');
-          $user->last_name = $request->get('last_name');
-          $user->email = $request->get('email');
-          $user->type_dni = $request->get('type_dni');
-          $user->dni = $request->get('dni');
-          $user->cuit = $request->get('cuit');
-          $user->gender = $request->get('gender');
-          $user->id_country = $request->get('country');
-          $user->active = $request->get('active');
-          $user->save();
-          // Update Client
+        if($cuit == 0):
+          // New Client
           $client = Client::find($id);
-          $client->nick = $request->get('nick');
           $client->razon_social = $request->get('razon_social');
+          $client->nick = $request->get('nick');
+          $client->cuit = $request->get('cuit');
           $client->address = $request->get('address');
           $client->address_number = $request->get('address_number');
-          $client->cp = $request->get('cp');
+          $client->id_country = $request->get('country');
           $client->location = $request->get('location');
+          $client->cp = $request->get('cp');
           $client->telephone = $request->get('telephone');
           $client->other_telephone = $request->get('other_telephone');
+          $client->contact_name = $request->get('contact_name');
+          $client->contact_email = $request->get('contact_email');
+          $client->contact_telephone = $request->get('contact_telephone');
           $client->retencion_ganancia = $request->get('retencion_ganancia');
           $client->iibb = $request->get('iibb');
           $client->iva = $request->get('iva');
+          $client->active = $request->get('active');
           $client->save();
 
           return redirect('/clients')->with('message', 'Cliente editado con exito!');
 
         else:
 
-          if($email == 1){
-            $message = Helpers::setMessageValidationForm('Email');
-          } elseif($dni == 1){
-            $message = Helpers::setMessageValidationForm('DNI');
-          } else {
-            $message = Helpers::setMessageValidationForm('CUIT');
-          }
+          $message = Helpers::setMessageValidationForm('CUIT');
+
           return back()->withInput()->with('message', $message);
 
         endif;
@@ -230,10 +200,6 @@ class ClientsController extends Controller
     public function destroy($id)
     {
       $client = Client::find($id);
-        // User Delete
-        $user = User::find($client->id_user);
-        $user->delete();
-      // Client Delete
       $client->delete();
 
       return redirect('/clients')->with('message', 'Cliente eliminado con exito!');
