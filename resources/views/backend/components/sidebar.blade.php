@@ -4,10 +4,10 @@
     Tip 2: you can also add an image using data-image tag
   -->
   <div class="logo">
-    <a href="http://www.creative-tim.com" class="simple-text logo-mini">
+    <a href="{{ url('/') }}" class="simple-text logo-mini">
       EM
     </a>
-    <a href="http://www.creative-tim.com" class="simple-text logo-normal">
+    <a href="{{ url('/') }}" class="simple-text logo-normal">
       Frame
     </a>
   </div>
