@@ -84,11 +84,12 @@
               <label class="col-md-2 col-form-label">CUIT *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="cuit" pattern="\b(20|23|24|27|30|33|34)(\D)?[0-9]{8}(\D)?[0-9]" value="{{ old('cuit') }}" maxlength="125" required>
+                  <!-- <input class="form-control" type="text" name="cuit" pattern="\b(20|23|24|27|30|33|34)(\D)?[0-9]{8}(\D)?[0-9]" value="{{ old('cuit') }}" maxlength="125" required> -->
+                  <input class="form-control" type="number" name="cuit" value="{{ old('cuit') }}" maxlength="125" required>
                 </div>
               </div>
               <label class="col-md-3 label-on-right">
-                <code>CUIT: ##-12345678-X</code>
+                <code>inserte únicamente números.</code>
               </label>
             </div>
             <div class="row">
@@ -245,7 +246,7 @@
 
           </div>
           <div class="card-footer ml-auto mr-auto">
-            <input type="submit" class="btn btn-primary" value="Crear" />
+            <input type="submit" class="btn btn-primary" value="Guardar" />
           </div>
         </div>
         {!! Form::close() !!}

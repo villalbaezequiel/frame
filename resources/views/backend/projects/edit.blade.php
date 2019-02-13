@@ -258,7 +258,7 @@
           <div class="card-footer ml-auto mr-auto">
             <!-- Hide Val-->
             <input type="hidden" name="id_user" value="{{ $user->id }}" />
-            <input type="submit" class="btn btn-primary" value="Editar" />
+            <input type="submit" class="btn btn-primary" value="Guardar" />
           </div>
         </div>
         {!! Form::close() !!}

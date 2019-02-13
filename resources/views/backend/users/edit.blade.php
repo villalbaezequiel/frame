@@ -74,8 +74,12 @@
               <label class="col-md-2 col-form-label">CUIT *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="cuit" pattern="\b(20|23|24|27|30|33|34)(\D)?[0-9]{8}(\D)?[0-9]" value="{{ $user->cuit }}" maxlength="125" required>
+                  <!-- <input class="form-control" type="text" name="cuit" pattern="\b(20|23|24|27|30|33|34)(\D)?[0-9]{8}(\D)?[0-9]" value="{{ $user->cuit }}" maxlength="125" required> -->
+                  <input class="form-control" type="number" name="cuit" value="{{ $user->cuit }}" maxlength="125" required>
                 </div>
+                <label class="col-md-3 label-on-right">
+                  <code>inserte únicamente números.</code>
+                </label>
               </div>
             </div>
             <div class="row">
@@ -168,7 +172,7 @@
           </div>
           <div class="card-footer ml-auto mr-auto">
             <input type="hidden" name="role_user_id" value="<?php if(!empty($role_user)){ echo $role_user->id; }else{ echo false; } ?>" />
-            <input type="submit" class="btn btn-primary" value="Editar" />
+            <input type="submit" class="btn btn-primary" value="Guardar" />
           </div>
         </div>
         {!! Form::close() !!}

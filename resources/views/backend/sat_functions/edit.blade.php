@@ -92,7 +92,7 @@
 
           </div>
           <div class="card-footer ml-auto mr-auto">
-            <input type="submit" class="btn btn-primary" value="Editar" />
+            <input type="submit" class="btn btn-primary" value="Guardar" />
           </div>
         </div>
         {!! Form::close() !!}

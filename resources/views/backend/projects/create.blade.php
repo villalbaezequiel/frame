@@ -197,7 +197,7 @@
             </div>
             <div class="ml-auto">
               <input type="button" class="btn btn-next btn-fill btn-primary btn-wd" name="next" value="Siguiente">
-              <input type="submit" class="btn btn-finish btn-fill btn-primary btn-wd" name="finish" value="Crear" style="display: none;" />
+              <input type="submit" class="btn btn-finish btn-fill btn-primary btn-wd" name="finish" value="Guardar" style="display: none;" />
             </div>
             <div class="clearfix"></div>
           </div>

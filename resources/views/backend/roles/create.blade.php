@@ -91,7 +91,7 @@
 
           </div>
           <div class="card-footer ml-auto mr-auto">
-            <input type="submit" class="btn btn-primary" value="Crear" />
+            <input type="submit" class="btn btn-primary" value="Guardar" />
           </div>
         </div>
         {!! Form::close() !!}
