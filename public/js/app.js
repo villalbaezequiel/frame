@@ -49,7 +49,19 @@ $(document).ready(function(){
   };
   $.datepicker.setDefaults($.datepicker.regional['es']);
 
-  $(".datepicker").datepicker();
+  $(".datepicker").datepicker({
+    onSelect: function(){
+      var days = 0;
+      var startDay = $("input[name=start_date]").datepicker('getDate');
+      var endDay = $("input[name=finish_date]").datepicker('getDate');
+
+      if (startDay && endDay) {
+        days = Math.floor((endDay.getTime() - startDay.getTime()) / 86400000); // ms per day
+      }
+
+      $("input[name=days]").val(days);
+    }
+  });
 
   // request global ajax frame_functions, for workers_categories
   $("select.ajax_workers_categories_by_functions_frame").change(function(){
