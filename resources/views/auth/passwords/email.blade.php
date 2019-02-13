@@ -33,7 +33,7 @@
         </div>
         <div class="card-footer justify-content-center">
           <button type="submit" class="btn btn-primary btn-link btn-lg">
-            Enviar enlace para Restablecer contraseña
+            Enviar enlace
           </button>
         </div>
       </div>
