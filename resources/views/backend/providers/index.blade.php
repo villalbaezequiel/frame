@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
-@section('title', "Proveedores")
+@section('title', "Crew")
 
 @section('content')
 <div class="container-fluid">
 
-  <a href="{{ url('/providers/create') }}" class="btn btn-primary">Nuevo Proveedor</a>
+  <a href="{{ url('/providers/create') }}" class="btn btn-primary">Nuevo Crew</a>
 
   <div class="row">
     <div class="col-md-12">

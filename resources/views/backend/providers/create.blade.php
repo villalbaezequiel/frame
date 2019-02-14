@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', "Proveedores / Nuevo")
+@section('title', "Crew / Nuevo")
 
 @section('content')
 <div class="container-fluid">
@@ -10,7 +10,7 @@
         <div class="card ">
           <div class="card-header card-header-primary card-header-text">
             <div class="card-text">
-              <h4 class="card-title">Nuevo Proveedor</h4>
+              <h4 class="card-title">Nuevo Crew</h4>
             </div>
           </div>
           <div class="card-body ">

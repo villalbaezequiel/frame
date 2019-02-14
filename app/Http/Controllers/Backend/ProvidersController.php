@@ -99,7 +99,7 @@ class ProvidersController extends Controller
            $provider->id_function_frame = $request->get('id_function_frame');
            $provider->save();
 
-           return redirect('/providers')->with('message', 'Proveedor creado con exito!');
+           return redirect('/providers')->with('message', 'Crew creado con exito!');
 
          else:
 
@@ -211,7 +211,7 @@ class ProvidersController extends Controller
            $provider->id_function_frame = $request->get('id_function_frame');
            $provider->save();
 
-           return redirect('/providers')->with('message', 'Proveedor editado con exito!');
+           return redirect('/providers')->with('message', 'Crew editado con exito!');
 
          else:
 
@@ -257,6 +257,6 @@ class ProvidersController extends Controller
        // Provider Delete
        $provider->delete();
 
-       return redirect('/providers')->with('message', 'Proveedor eliminado con exito!');
+       return redirect('/providers')->with('message', 'Crew eliminado con exito!');
      }
  }
