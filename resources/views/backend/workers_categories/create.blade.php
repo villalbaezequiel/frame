@@ -35,10 +35,26 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Puesto Trabajo *</label>
+              <label class="col-md-2 col-form-label">Básico *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="puesto_trabajo" value="{{ old('puesto_trabajo') }}" maxlength="125" required>
+                  <input class="form-control" type="text" name="sueldo_basico" value="{{ old('sueldo_basico') }}" maxlength="125" required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-md-2 col-form-label">Adicional *</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <input class="form-control" type="text" name="sueldo_adicional" value="{{ old('sueldo_adicional') }}" maxlength="125" required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-md-2 col-form-label">Presentismo</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <input class="form-control" type="text" name="presentismo" value="{{ old('presentismo') }}" maxlength="125">
                 </div>
               </div>
             </div>
@@ -55,38 +71,6 @@
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="sueldo_bruto_texto" value="{{ old('sueldo_bruto_texto') }}" maxlength="300">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Sueldo Neto *</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <input class="form-control" type="text" name="sueldo_neto" value="{{ old('sueldo_neto') }}" maxlength="125" required>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Sueldo Neto Texto</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <input class="form-control" type="text" name="sueldo_neto_texto" value="{{ old('sueldo_neto_texto') }}" maxlength="300">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Presentismo</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <input class="form-control" type="text" name="presentismo" value="{{ old('presentismo') }}" maxlength="125">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Contrato</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <input class="form-control" type="text" name="contrato" value="{{ old('contrato') }}" maxlength="125">
                 </div>
               </div>
             </div>

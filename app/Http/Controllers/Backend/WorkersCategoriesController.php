@@ -54,13 +54,11 @@ class WorkersCategoriesController extends Controller
            // New WorkersCategory
            $workersCategory = new WorkersCategory;
            $workersCategory->name = $request->get('name');
-           $workersCategory->puesto_trabajo = $request->get('puesto_trabajo');
+           $workersCategory->sueldo_basico = $request->get('sueldo_basico');
+           $workersCategory->sueldo_adicional = $request->get('sueldo_adicional');
            $workersCategory->sueldo_bruto = $request->get('sueldo_bruto');
            $workersCategory->sueldo_bruto_texto = $request->get('sueldo_bruto_texto');
-           $workersCategory->sueldo_neto = $request->get('sueldo_neto');
-           $workersCategory->sueldo_neto_texto = $request->get('sueldo_neto_texto');
            $workersCategory->presentismo = $request->get('presentismo');
-           $workersCategory->contrato = $request->get('contrato');
            $workersCategory->active = $request->get('active');
            $workersCategory->save();
 
@@ -121,13 +119,11 @@ class WorkersCategoriesController extends Controller
            // Update WorkersCategory
            $workersCategory = WorkersCategory::find($id);
            $workersCategory->name = $request->get('name');
-           $workersCategory->puesto_trabajo = $request->get('puesto_trabajo');
+           $workersCategory->sueldo_basico = $request->get('sueldo_basico');
+           $workersCategory->sueldo_adicional = $request->get('sueldo_adicional');
            $workersCategory->sueldo_bruto = $request->get('sueldo_bruto');
            $workersCategory->sueldo_bruto_texto = $request->get('sueldo_bruto_texto');
-           $workersCategory->sueldo_neto = $request->get('sueldo_neto');
-           $workersCategory->sueldo_neto_texto = $request->get('sueldo_neto_texto');
            $workersCategory->presentismo = $request->get('presentismo');
-           $workersCategory->contrato = $request->get('contrato');
            $workersCategory->active = $request->get('active');
            $workersCategory->save();
 

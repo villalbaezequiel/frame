@@ -33,8 +33,8 @@
               <tr>
                 <th>#ID</th>
                 <th>Nombre</th>
+                <th>Básico</th>
                 <th>Sueldo Bruto</th>
-                <th>Sueldo Neto</th>
                 <th>Activo</th>
                 <th>Acciones</th>
               </tr>
@@ -44,8 +44,8 @@
               <tr>
                 <td>{{ $workersCategory->id }}</td>
                 <td>{{ $workersCategory->name }}</td>
+                <td>{{ $workersCategory->sueldo_basico }}</td>
                 <td>{{ $workersCategory->sueldo_bruto }}</td>
-                <td>{{ $workersCategory->sueldo_neto }}</td>
                 <td>{{ \App\Helpers::getActive($workersCategory->active) }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['workers_categories.destroy', $workersCategory->id], 'method' => 'DELETE']) !!}
