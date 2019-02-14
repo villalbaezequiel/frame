@@ -78,6 +78,11 @@ class ProjectsController extends Controller
           // add provides relation Project
           // debe ser un array
 
+          // $start_afip = explode('/', $request->get('start_afip'));
+          // $finish_afip = explode('/', $request->get('finish_afip'));
+          //
+          // $provider->start_afip = (isset($start_afip[2]) ? $start_afip[2].'-'.$start_afip[1].'-'.$start_afip[0] : $request->get('start_afip'));
+          // $provider->finish_afip = (isset($finish_afip[2]) ? $finish_afip[2].'-'.$finish_afip[1].'-'.$finish_afip[0] : $request->get('finish_afip'));
 
 
        } catch(\Exception $e) {

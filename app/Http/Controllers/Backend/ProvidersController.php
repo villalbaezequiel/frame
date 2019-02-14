@@ -62,8 +62,6 @@ class ProvidersController extends Controller
 
            // add format birthdate
            $birthdate = explode('/', $request->get('birthdate'));
-           $start_afip = explode('/', $request->get('start_afip'));
-           $finish_afip = explode('/', $request->get('finish_afip'));
 
            // New User
            $user = new User;
@@ -92,8 +90,6 @@ class ProvidersController extends Controller
            $provider->social_work = $request->get('social_work');
            $provider->telephone = $request->get('telephone');
            $provider->other_telephone = $request->get('other_telephone');
-           $provider->start_afip = (isset($start_afip[2]) ? $start_afip[2].'-'.$start_afip[1].'-'.$start_afip[0] : $request->get('start_afip'));
-           $provider->finish_afip = (isset($finish_afip[2]) ? $finish_afip[2].'-'.$finish_afip[1].'-'.$finish_afip[0] : $request->get('finish_afip'));
            $provider->id_workers_category = $request->get('id_workers_category');
            $provider->id_function_sat = $request->get('id_function_sat');
            $provider->id_function_frame = $request->get('id_function_frame');
@@ -176,8 +172,6 @@ class ProvidersController extends Controller
 
            // add format birthdate
            $birthdate = explode('/', $request->get('birthdate'));
-           $start_afip = explode('/', $request->get('start_afip'));
-           $finish_afip = explode('/', $request->get('finish_afip'));
 
            // Update User
            $user = User::find($request->get('id_user'));
@@ -204,8 +198,6 @@ class ProvidersController extends Controller
            $provider->social_work = $request->get('social_work');
            $provider->telephone = $request->get('telephone');
            $provider->other_telephone = $request->get('other_telephone');
-           $provider->start_afip = (isset($start_afip[2]) ? $start_afip[2].'-'.$start_afip[1].'-'.$start_afip[0] : $request->get('start_afip'));
-           $provider->finish_afip = (isset($finish_afip[2]) ? $finish_afip[2].'-'.$finish_afip[1].'-'.$finish_afip[0] : $request->get('finish_afip'));
            $provider->id_workers_category = $request->get('id_workers_category');
            $provider->id_function_sat = $request->get('id_function_sat');
            $provider->id_function_frame = $request->get('id_function_frame');

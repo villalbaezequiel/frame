@@ -57,7 +57,7 @@
       <li class="nav-item nav-check-url ">
         <a class="nav-link" href="{{ url('/providers') }}">
           <i class="material-icons">people_outline</i>
-          <p> Proveedores </p>
+          <p> Crew </p>
         </a>
       </li>
       <li class="nav-item nav-check-url ">

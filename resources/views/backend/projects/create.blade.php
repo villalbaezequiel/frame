@@ -186,6 +186,24 @@
                 <h5 class="info-text"> Proveedores </h5>
                 <div class="row justify-content-center">
 
+
+                  <!-- <div class="row">
+                    <label class="col-md-2 col-form-label">Fecha de Alta AFIP</label>
+                    <div class="col-md-7">
+                      <div class="form-group">
+                        <input class="form-control datepicker" type="text" name="start_afip" value="{{ old('start_afip') }}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-md-2 col-form-label">Fecha de Baja AFIP</label>
+                    <div class="col-md-7">
+                      <div class="form-group">
+                        <input class="form-control datepicker" type="text" name="finish_afip" value="{{ old('finish_afip') }}">
+                      </div>
+                    </div>
+                  </div> -->
+
                 </div>
               </div>
 
