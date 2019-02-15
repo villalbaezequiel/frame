@@ -75,6 +75,7 @@ class ClientsController extends Controller
           $client->retencion_ganancia = $request->get('retencion_ganancia');
           $client->iibb = $request->get('iibb');
           $client->iva = $request->get('iva');
+          $client->id_tango = $request->get('id_tango');
           $client->active = $request->get('active');
           $client->save();
 
@@ -162,6 +163,7 @@ class ClientsController extends Controller
           $client->retencion_ganancia = $request->get('retencion_ganancia');
           $client->iibb = $request->get('iibb');
           $client->iva = $request->get('iva');
+          $client->id_tango = $request->get('id_tango');
           $client->active = $request->get('active');
           $client->save();
 

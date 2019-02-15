@@ -107,6 +107,14 @@
               </div>
             </div>
             <div class="row">
+              <label class="col-md-2 col-form-label">ID Tango</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <input class="form-control" type="number" name="id_tango" value="{{ old('id_tango') }}" maxlength="125">
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <label class="col-md-2 col-form-label label-checkbox">Cliente Activo</label>
               <div class="col-md-10 checkbox-radios">
                 <div class="form-check form-check-inline">
