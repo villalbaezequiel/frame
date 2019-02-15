@@ -43,7 +43,7 @@
               @foreach($clients as $client)
               <tr>
                 <td>{{ $client->id }}</td>
-                <td><?php if($client->id_tango != null || !empty($client->id_tango)){ echo $client->id_tango; } else { "No asociado a Tango."} ?></td>
+                <td><?php if($client->id_tango != null || !empty($client->id_tango)){ echo $client->id_tango; } else { echo "No asociado a Tango."; } ?></td>
                 <td>{{ $client->razon_social }}</td>
                 <td>{{ $client->cuit }}</td>
                 <td>{{ \App\Helpers::getActive($client->active) }}</td>
