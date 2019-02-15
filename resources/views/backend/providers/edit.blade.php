@@ -158,7 +158,12 @@
               <label class="col-md-2 col-form-label">Nacionalidad *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="nationality" value="{{ $provider->nationality }}" maxlength="125" required>
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="nationality" required>
+                    <option value="">Seleccionar</option>
+                    @foreach(\App\Country::all() as $country)
+                    <option value="{{ $country->id }}" <?php if($provider->nationality == $country->id){ echo "selected='selected'"; } ?>>{{ $country->male.' / '.$country->female }}</option>
+                    @endforeach
+                  </select>
                 </div>
               </div>
             </div>

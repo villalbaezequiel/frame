@@ -153,7 +153,12 @@
               <label class="col-md-2 col-form-label">Nacionalidad *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="nationality" value="{{ old('nationality') }}" maxlength="125" required>
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="nationality" required>
+                    <option value="">Seleccionar</option>
+                    @foreach(\App\Country::all() as $country)
+                    <option value="{{ $country->id }}">{{ $country->male.' / '.$country->female }}</option>
+                    @endforeach
+                  </select>
                 </div>
               </div>
             </div>
@@ -191,29 +196,6 @@
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="number" name="other_telephone" value="{{ old('other_telephone') }}" maxlength="125">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Función Frame *</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <select class="form-control selectpicker ajax_workers_categories_by_functions_frame" data-style="btn btn-link" name="id_function_frame" required>
-                    <option value="">Seleccionar</option>
-                    @foreach(\App\FrameFunction::getAllFrameFunction('1') as $frame)
-                    <option value="{{ $frame->id }}">{{ $frame->name }}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Categoría del Trabajador *</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <select class="form-control selectpicker get_value_workers_categories_ajax ajax_functions_sat_by_workers_categories" data-style="btn btn-link" name="id_workers_category" required>
-                    <option value="">Seleccionar</option>
-                  </select>
                 </div>
               </div>
             </div>
