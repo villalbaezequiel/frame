@@ -43,8 +43,8 @@
               <tr>
                 <td>{{ $country->id }}</td>
                 <td>{{ $country->name }}</td>
-                <td>{{ $country->male }}</td>
                 <td>{{ $country->female }}</td>
+                <td>{{ $country->male }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['countries.destroy', $country->id], 'method' => 'DELETE']) !!}
                     <a href="{{ url('/utilities/countries/'.$country->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
