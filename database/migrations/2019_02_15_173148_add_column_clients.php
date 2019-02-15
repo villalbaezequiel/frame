@@ -13,7 +13,7 @@ class AddColumnClients extends Migration
     public function up()
     {
       Schema::table('clients', function ($table) {
-          $table->integer('id_tango')->after('id_user')->nullable();
+          $table->integer('id_tango')->after('id')->nullable();
       });
     }
 
