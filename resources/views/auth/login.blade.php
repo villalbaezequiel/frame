@@ -6,6 +6,11 @@
   <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
     <form class="form" method="POST" action="{{ route('login') }}">
       @csrf
+
+      <div class="col-md-12" style="padding: 15px;">
+        <img src="{{ asset('img/logo.svg') }}" />
+      </div>
+
       <div class="card card-login">
         <div class="card-header card-header-primary text-center">
           <h4 class="card-title">Iniciar Sesión</h4>
@@ -54,11 +59,24 @@
             </div>
           </span>
         </div>
-        <div class="card-footer justify-content-center">
-          <button type="submit" class="btn btn-primary btn-link btn-lg">
-              Ingresar
-          </button>
+        <div class="card-footer">
+          <div class="col-md-12">
+            <div class="col-md-12">
+              <center>
+                <button type="submit" class="btn btn-primary btn-link btn-lg">
+                  Ingresar
+                </button>
+              </center>
+            </div>
+            <div class="col-md-12">
+              <span class="row">
+                <i class="material-icons">lock_open</i>
+                <a href="{{ url('/password/reset') }}" class="" style="margin-top: -2px;font-weight: 400;">¿Olvidate tu Contraseña?</a>
+              </span>
+            </div>
+          </div>
         </div>
+
       </div>
     </form>
   </div>

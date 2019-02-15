@@ -4,11 +4,16 @@
 @section('container')
 <div class="row">
   <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
-    <form class="form" method="POST" action="{{ route('register') }}">
+    {!! Form::open(['route' => 'providers.store', 'method' => 'POST', 'class' => 'form']) !!}
       @csrf
+
+      <div class="col-md-12" style="padding: 15px;">
+        <img src="{{ asset('img/logo.svg') }}" />
+      </div>
+
       <div class="card card-login">
         <div class="card-header card-header-primary text-center">
-          <h4 class="card-title">Registráte</h4>
+          <h4 class="card-title">¡Forma parte <br/> de nuestro staff!</h4>
         </div>
         <div class="card-body ">
 
@@ -72,7 +77,7 @@
           </button>
         </div>
       </div>
-    </form>
+    {!! Form::close() !!}
   </div>
 </div>
 @endsection

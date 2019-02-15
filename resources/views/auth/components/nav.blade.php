@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top text-white">
   <div class="container">
     <div class="navbar-wrapper">
-      <a class="navbar-brand" href="">@yield('title')</a>
+      <a class="navbar-brand" href="">@yield('link_title')</a>
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
       <span class="sr-only">Toggle navigation</span>
@@ -18,12 +18,7 @@
         </li>
         <li class="nav-item nav-check-url">
           <a href="{{ url('/register') }}" class="nav-link">
-            <i class="material-icons">person_add</i> Registráte
-          </a>
-        </li>
-        <li class="nav-item nav-check-url">
-          <a href="{{ url('/password/reset') }}" class="nav-link">
-            <i class="material-icons">lock_open</i> ¿Olvidaste tu contraseña?
+            <i class="material-icons">person_add</i> Registráte ¡Forma parte de nuestro staff!
           </a>
         </li>
       </ul>

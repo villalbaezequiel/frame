@@ -1,6 +1,6 @@
 <footer class="footer">
   <div class="container-fluid">
-    <nav class="float-left">
+    <!-- <nav class="float-left">
       <ul>
         <li>
           <a href="http://www.framezero.com.ar/nosotros.php" target="_blank">
@@ -18,7 +18,7 @@
           </a>
         </li>
       </ul>
-    </nav>
+    </nav> -->
     <div class="copyright float-right">
       &copy;{{ date('Y') }}, hecho con <i class="material-icons">favorite</i> por
       <a href="http://www.estudiomixto.com/" target="_blank">Estudio Mixto</a> para una mejor web.

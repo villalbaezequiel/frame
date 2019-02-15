@@ -6,6 +6,11 @@
   <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
     <form class="form" method="POST" action="{{ route('password.update') }}">
       @csrf
+
+      <div class="col-md-12" style="padding: 15px;">
+        <img src="{{ asset('img/logo.svg') }}" />
+      </div>
+      
       <div class="card card-login">
         <div class="card-header card-header-primary text-center">
           <h4 class="card-title">Restablecer contraseña</h4>
