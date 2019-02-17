@@ -148,6 +148,6 @@ class UtilitiesWorkdaysController extends Controller
        $workday = Workday::find($id);
        $workday->delete();
 
-       return redirect('/utilities/workdays')->with('message', 'Jornada de Trabajo eliminada con exito!');
+       return response(array('message' => 'Jornada de Trabajo eliminada con exito!'));
      }
 }

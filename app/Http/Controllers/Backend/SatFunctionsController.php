@@ -152,6 +152,6 @@ class SatFunctionsController extends Controller
      $satFunction = SatFunction::find($id);
      $satFunction->delete();
 
-     return redirect('/sat_functions')->with('message', 'Función SAT eliminado con exito!');
+     return response(array('message' => 'Función SAT eliminado con exito!'));
    }
 }

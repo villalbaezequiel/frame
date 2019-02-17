@@ -41,14 +41,14 @@
             </thead>
             <tbody>
               @foreach($users as $user)
-              <tr>
+              <tr class="item-alert-confirm-delete">
                 <td>{{ $user->id }}</td>
                 <td>{{ \App\User::getFullName($user->id) }}</td>
                 <td>{{ $user->dni }}</td>
                 <td>{{ \App\RoleUser::getRoleNameByUser($user->id) }}</td>
                 <td>{{ \App\User::getActive($user->id) }}</td>
                 <td class="text-right">
-                  {!! Form::open(['route' => ['users.destroy', $user->id], 'method' => 'DELETE']) !!}
+                  {!! Form::open(['route' => ['users.destroy', $user->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
                     <a href="{{ url('/users/'.$user->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
                     <button type="submit" class="btn btn-link btn-danger btn-just-icon remove" title="Eliminar"><i class="material-icons">close</i></button>
                   {!! Form::close() !!}
@@ -63,4 +63,14 @@
     </div><!-- end col-md-12 -->
   </div><!-- end row -->
 </div>
+@endsection
+@section('javascript')
+<script>
+$(document).ready(function(){
+  $(".alert-confirm-delete").submit(function(e) {
+    e.preventDefault();
+    alertConfirmDeleteItem(this);
+  });
+});
+</script>
 @endsection

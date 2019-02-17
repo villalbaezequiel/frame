@@ -148,6 +148,6 @@ class UtilitiesCountriesController extends Controller
        $country = Country::find($id);
        $country->delete();
 
-       return redirect('/utilities/countries')->with('message', 'País eliminado con exito!');
+       return response(array('message' => 'País eliminado con exito!'));
      }
  }

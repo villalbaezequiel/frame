@@ -148,6 +148,6 @@ class RolesController extends Controller
       $role = Role::find($id);
       $role->delete();
 
-      return redirect('/roles')->with('message', 'Rol eliminado correctamente!');
+      return response(array('message' => 'Rol eliminado correctamente!'));
     }
 }

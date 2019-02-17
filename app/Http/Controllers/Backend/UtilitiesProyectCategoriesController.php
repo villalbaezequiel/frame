@@ -147,6 +147,6 @@ class UtilitiesProyectCategoriesController extends Controller
        $proyectCategory = ProyectCategory::find($id);
        $proyectCategory->delete();
 
-       return redirect('/utilities/proyect_categories')->with('message', 'Tipo de Proyecto eliminado con exito!');
+       return response(array('message' => 'Tipo de Proyecto eliminado con exito!'));
      }
 }

@@ -39,12 +39,12 @@
             </thead>
             <tbody>
               @foreach($frame_functions as $frameFunction)
-              <tr>
+              <tr class="item-alert-confirm-delete">
                 <td>{{ $frameFunction->id }}</td>
                 <td>{{ $frameFunction->name }}</td>
                 <td>{{ \App\Helpers::getActive($frameFunction->active) }}</td>
                 <td class="text-right">
-                  {!! Form::open(['route' => ['frame_functions.destroy', $frameFunction->id], 'method' => 'DELETE']) !!}
+                  {!! Form::open(['route' => ['frame_functions.destroy', $frameFunction->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
                     <a href="{{ url('/frame_functions/'.$frameFunction->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
                     <button type="submit" class="btn btn-link btn-danger btn-just-icon remove" title="Eliminar"><i class="material-icons">close</i></button>
                   {!! Form::close() !!}
@@ -59,4 +59,14 @@
     </div><!-- end col-md-12 -->
   </div><!-- end row -->
 </div>
+@endsection
+@section('javascript')
+<script>
+$(document).ready(function(){
+  $(".alert-confirm-delete").submit(function(e) {
+    e.preventDefault();
+    alertConfirmDeleteItem(this);
+  });
+});
+</script>
 @endsection

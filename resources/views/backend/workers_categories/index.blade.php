@@ -41,14 +41,14 @@
             </thead>
             <tbody>
               @foreach($workers_categories as $workersCategory)
-              <tr>
+              <tr class="item-alert-confirm-delete">
                 <td>{{ $workersCategory->id }}</td>
                 <td>{{ $workersCategory->name }}</td>
                 <td>{{ $workersCategory->sueldo_basico }}</td>
                 <td>{{ $workersCategory->sueldo_bruto }}</td>
                 <td>{{ \App\Helpers::getActive($workersCategory->active) }}</td>
                 <td class="text-right">
-                  {!! Form::open(['route' => ['workers_categories.destroy', $workersCategory->id], 'method' => 'DELETE']) !!}
+                  {!! Form::open(['route' => ['workers_categories.destroy', $workersCategory->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
                     <a href="{{ url('/workers_categories/'.$workersCategory->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
                     <button type="submit" class="btn btn-link btn-danger btn-just-icon remove" title="Eliminar"><i class="material-icons">close</i></button>
                   {!! Form::close() !!}
@@ -63,4 +63,14 @@
     </div><!-- end col-md-12 -->
   </div><!-- end row -->
 </div>
+@endsection
+@section('javascript')
+<script>
+$(document).ready(function(){
+  $(".alert-confirm-delete").submit(function(e) {
+    e.preventDefault();
+    alertConfirmDeleteItem(this);
+  });
+});
+</script>
 @endsection

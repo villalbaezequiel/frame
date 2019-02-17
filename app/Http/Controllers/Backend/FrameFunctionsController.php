@@ -148,6 +148,6 @@ class FrameFunctionsController extends Controller
      $frameFunction = FrameFunction::find($id);
      $frameFunction->delete();
 
-     return redirect('/frame_functions')->with('message', 'Función Frame eliminado con exito!');
+     return response(array('message' => 'Función Frame eliminado con exito!'));
    }
 }

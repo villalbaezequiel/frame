@@ -41,14 +41,14 @@
             </thead>
             <tbody>
               @foreach($providers as $provider)
-              <tr>
+              <tr class="item-alert-confirm-delete">
                 <td>{{ $provider->id }}</td>
                 <td>{{ \App\User::getFullName($provider->id_user) }}</td>
                 <td>{{ \App\User::getDNI($provider->id_user) }}</td>
                 <td>{{ \App\SatFunction::getName($provider->id_function_sat) }}</td>
                 <td>{{ \App\User::getActive($provider->id_user) }}</td>
                 <td class="text-right">
-                  {!! Form::open(['route' => ['providers.destroy', $provider->id], 'method' => 'DELETE']) !!}
+                  {!! Form::open(['route' => ['providers.destroy', $provider->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
                     <a href="{{ url('/providers/'.$provider->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
                     <button type="submit" class="btn btn-link btn-danger btn-just-icon remove" title="Eliminar"><i class="material-icons">close</i></button>
                   {!! Form::close() !!}
@@ -63,4 +63,14 @@
     </div><!-- end col-md-12 -->
   </div><!-- end row -->
 </div>
+@endsection
+@section('javascript')
+<script>
+$(document).ready(function(){
+  $(".alert-confirm-delete").submit(function(e) {
+    e.preventDefault();
+    alertConfirmDeleteItem(this);
+  });
+});
+</script>
 @endsection

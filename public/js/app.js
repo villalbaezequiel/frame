@@ -1,4 +1,4 @@
-function addActiveNavSidebar(idItemNav, idContentItemNav){
+function addActiveNavSidebar(idItemNav, idContentItemNav) {
 
   var urlPathname = window.location.pathname;
   if(urlPathname === idItemNav || urlPathname === idItemNav+"/create"){
@@ -9,6 +9,69 @@ function addActiveNavSidebar(idItemNav, idContentItemNav){
     $(".nav-link-collapse").attr('aria-expanded', 'true');
     $("#"+idContentItemNav).addClass('show');
   }
+}
+
+function alertLeaveForm(link){
+  // se genera un alert de confirmacion para abandonar el Formulario
+  Swal.fire({
+    title: '¿Estás seguro que quieres abandonar el Formulario?',
+    text: "Tener en cuenta que los campos completados no se guardarán!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, continuar!'
+  })
+  .then((result) => {
+    if(result.dismiss == "cancel"){
+      return false;
+    }
+    if(result.value == true){
+      if($(link).hasClass('back-history')){
+        window.history.go(-1); return false;
+      } else {
+        window.location.href = $(link).attr('href');
+      }
+    }
+  })
+}
+
+function alertConfirmDeleteItem(form){
+  // se genera un alert de confirmacion para abandonar el Formulario
+  Swal.fire({
+    title: '¿Estás seguro que quieres Eliminar el Elemento Seleccionado?',
+    text: "",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, continuar!'
+  })
+  .then((result) => {
+    if(result.dismiss == "cancel"){
+      return false;
+    }
+    if(result.value == true){
+
+      $.ajax({
+        url: $(form).attr('action'),
+        data: {_method: 'DELETE', _token: $('meta[name="csrf-token"]').attr('content')},
+			  type: 'POST'
+      })
+      .done(function(data) {
+  			$(form).parents('.item-alert-confirm-delete').remove();
+        Swal.fire(
+          data.message,
+          '',
+          'success'
+        );
+      })
+      .fail(function(xhr) {
+        console.log(xhr);
+			});
+
+    }
+  })
 }
 
 $(document).ready(function(){

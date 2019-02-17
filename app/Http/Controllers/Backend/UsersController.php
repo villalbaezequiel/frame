@@ -225,6 +225,6 @@ class UsersController extends Controller
         $role_user = RoleUser::where('user_id', $id)->delete();
       $user->delete();
 
-      return redirect('/users')->with('message', 'Usuario eliminado con exito!');
+      return response(array('message' => 'Usuario eliminado con exito!'));
     }
 }

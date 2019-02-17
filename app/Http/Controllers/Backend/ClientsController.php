@@ -204,6 +204,6 @@ class ClientsController extends Controller
       $client = Client::find($id);
       $client->delete();
 
-      return redirect('/clients')->with('message', 'Cliente eliminado con exito!');
+      return response(array('message' => 'Cliente eliminado con exito!'));
     }
 }

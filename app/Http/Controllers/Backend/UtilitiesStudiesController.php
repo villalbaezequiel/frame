@@ -146,6 +146,6 @@ class UtilitiesStudiesController extends Controller
        $study = Study::find($id);
        $study->delete();
 
-       return redirect('/utilities/studies')->with('message', 'Nivel Educativo eliminado con exito!');
+       return response(array('message' => 'Nivel Educativo eliminado con exito!'));
      }
  }

@@ -53,6 +53,7 @@
 
           </div>
           <div class="card-footer ml-auto mr-auto">
+            <a href="javascript:void(0)" class="back-history btn">Cancelar</a>
             <input type="submit" class="btn btn-primary" value="Guardar" />
           </div>
         </div>
@@ -61,4 +62,17 @@
     </div>
   </div>
 </div>
+@endsection
+@section('javascript')
+<script>
+$(document).ready(function(){
+  $('a').click(function(e){
+    var parentForm = $(this).parents('form');
+    if(parentForm.length != 1 || $(this).hasClass('back-history')){
+      e.preventDefault();
+      alertLeaveForm(this);
+    }
+  });
+});
+</script>
 @endsection

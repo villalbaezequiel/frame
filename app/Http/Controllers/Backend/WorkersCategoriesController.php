@@ -156,6 +156,6 @@ class WorkersCategoriesController extends Controller
        $workersCategory = WorkersCategory::find($id);
        $workersCategory->delete();
 
-       return redirect('/workers_categories')->with('message', 'Categoría de Trabajador eliminado con exito!');
+       return response(array('message' => 'Categoría de Trabajador eliminado con exito!'));
      }
  }

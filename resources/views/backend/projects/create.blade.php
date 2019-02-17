@@ -272,6 +272,14 @@ $(document).ready(function(){
     $('.card.card-wizard').addClass('active');
   }, 600);
 
+  $('a').click(function(e){
+    var parentForm = $(this).parents('form');
+    if(parentForm.length != 1 || $(this).hasClass('back-history')){
+      e.preventDefault();
+      alertLeaveForm(this);
+    }
+  });
+
 });
 </script>
 @endsection

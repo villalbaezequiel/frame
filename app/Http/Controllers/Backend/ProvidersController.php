@@ -90,9 +90,7 @@ class ProvidersController extends Controller
            $provider->social_work = $request->get('social_work');
            $provider->telephone = $request->get('telephone');
            $provider->other_telephone = $request->get('other_telephone');
-           $provider->id_workers_category = $request->get('id_workers_category');
            $provider->id_function_sat = $request->get('id_function_sat');
-           $provider->id_function_frame = $request->get('id_function_frame');
            $provider->save();
 
            return redirect('/providers')->with('message', 'Crew creado con exito!');
@@ -198,9 +196,7 @@ class ProvidersController extends Controller
            $provider->social_work = $request->get('social_work');
            $provider->telephone = $request->get('telephone');
            $provider->other_telephone = $request->get('other_telephone');
-           $provider->id_workers_category = $request->get('id_workers_category');
            $provider->id_function_sat = $request->get('id_function_sat');
-           $provider->id_function_frame = $request->get('id_function_frame');
            $provider->save();
 
            return redirect('/providers')->with('message', 'Crew editado con exito!');
@@ -249,6 +245,6 @@ class ProvidersController extends Controller
        // Provider Delete
        $provider->delete();
 
-       return redirect('/providers')->with('message', 'Crew eliminado con exito!');
+       return response(array('message' => 'Crew eliminado con exito!'));
      }
  }

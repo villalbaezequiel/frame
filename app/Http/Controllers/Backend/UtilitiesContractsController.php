@@ -146,6 +146,6 @@ class UtilitiesContractsController extends Controller
        $contract = Contract::find($id);
        $contract->delete();
 
-       return redirect('/utilities/contracts')->with('message', 'Tipo de Contrato eliminado con exito!');
+       return response(array('message' => 'Tipo de Contrato eliminado con exito!'));
      }
  }

@@ -38,11 +38,11 @@
             </thead>
             <tbody>
               @foreach($roles as $role)
-              <tr>
+              <tr class="item-alert-confirm-delete">
                 <td>{{ $role->id }}</td>
                 <td>{{ $role->name }}</td>
                 <td class="text-right">
-                  {!! Form::open(['route' => ['roles.destroy', $role->id], 'method' => 'DELETE']) !!}
+                  {!! Form::open(['route' => ['roles.destroy', $role->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
                     <a href="{{ url('/roles/'.$role->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
                     <button type="submit" class="btn btn-link btn-danger btn-just-icon remove" title="Eliminar"><i class="material-icons">close</i></button>
                   {!! Form::close() !!}
@@ -57,4 +57,14 @@
     </div><!-- end col-md-12 -->
   </div><!-- end row -->
 </div>
+@endsection
+@section('javascript')
+<script>
+$(document).ready(function(){
+  $(".alert-confirm-delete").submit(function(e) {
+    e.preventDefault();
+    alertConfirmDeleteItem(this);
+  });
+});
+</script>
 @endsection

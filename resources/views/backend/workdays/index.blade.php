@@ -39,12 +39,12 @@
             </thead>
             <tbody>
               @foreach($workdays as $workday)
-              <tr>
+              <tr class="item-alert-confirm-delete">
                 <td>{{ $workday->id }}</td>
                 <td>{{ $workday->name }}</td>
                 <td>{{ \App\Helpers::getActive($workday->active) }}</td>
                 <td class="text-right">
-                  {!! Form::open(['route' => ['workdays.destroy', $workday->id], 'method' => 'DELETE']) !!}
+                  {!! Form::open(['route' => ['workdays.destroy', $workday->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
                     <a href="{{ url('/utilities/workdays/'.$workday->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
                     <button type="submit" class="btn btn-link btn-danger btn-just-icon remove" title="Eliminar"><i class="material-icons">close</i></button>
                   {!! Form::close() !!}
@@ -59,4 +59,14 @@
     </div><!-- end col-md-12 -->
   </div><!-- end row -->
 </div>
+@endsection
+@section('javascript')
+<script>
+$(document).ready(function(){
+  $(".alert-confirm-delete").submit(function(e) {
+    e.preventDefault();
+    alertConfirmDeleteItem(this);
+  });
+});
+</script>
 @endsection

@@ -169,6 +169,6 @@ class ProjectsController extends Controller
 
        // hay que eliminar los datos relacionados en ProjectProvider
 
-       return redirect('/projects')->with('message', 'Proyecto eliminado con exito!');
+       return response(array('message' => 'Proyecto eliminado con exito!'));
      }
  }
