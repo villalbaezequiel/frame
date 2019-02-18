@@ -147,6 +147,18 @@
                 </div>
               </div>
             </div>
+
+            @if(Auth::user()->id == $user->id)
+            <div class="row">
+              <label class="col-md-2 col-form-label">Cambiar Contraseña:</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <input id="password" class="form-control" type="text" name="password" maxlength="125">
+                </div>
+              </div>
+            </div>
+            @endif
+
             <div class="row">
               <label class="col-md-2 col-form-label label-checkbox">Activo</label>
               <div class="col-md-10 checkbox-radios">

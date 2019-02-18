@@ -166,6 +166,9 @@ class UsersController extends Controller
           $user->civil_status = $request->get('civil_status');
           $user->birthdate = (isset($birthdate[2]) ? $birthdate[2].'-'.$birthdate[1].'-'.$birthdate[0] : $request->get('birthdate'));
           $user->id_country = $request->get('id_country');
+          if($request->get('password')){
+            $user->password = Hash::make($request->get('password'));
+          }
           $user->active = $request->get('active');
           $user->save();
 
