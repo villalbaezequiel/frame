@@ -21,7 +21,7 @@
     </nav> -->
     <div class="copyright float-right">
       &copy;{{ date('Y') }}, hecho con <i class="material-icons">favorite</i> por
-      <a href="http://www.estudiomixto.com/" target="_blank">Estudio Mixto</a> para una mejor web.
+      <a href="http://www.estudiomixto.com/" class="none-alert" target="_blank">Estudio Mixto</a> para una mejor web.
     </div>
   </div>
 </footer>

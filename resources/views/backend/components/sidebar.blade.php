@@ -17,7 +17,7 @@
         <img src="{{ asset('/img/avatar_male_default.png') }}" />
       </div>
       <div class="user-info">
-        <a data-toggle="collapse" href="#collapseExample" class="username">
+        <a data-toggle="collapse" href="#collapseExample" class="username none-alert">
           <span>
             {{ Auth::user()->name.' '.Auth::user()->last_name }}
             <b class="caret"></b>
@@ -80,7 +80,7 @@
       </li>
 
       <li class="nav-item nav-check-url ">
-        <a class="nav-link" data-toggle="collapse" href="#users-nav-menu">
+        <a class="nav-link none-alert" data-toggle="collapse" href="#users-nav-menu">
           <i class="material-icons">people</i>
           <p> Usuarios
             <b class="caret"></b>
@@ -105,7 +105,7 @@
       </li>
 
       <li class="nav-item nav-check-url ">
-        <a class="nav-link" data-toggle="collapse" href="#utilities-nav-menu">
+        <a class="nav-link none-alert" data-toggle="collapse" href="#utilities-nav-menu">
           <i class="material-icons">list</i>
           <p> Utilidades
             <b class="caret"></b>
