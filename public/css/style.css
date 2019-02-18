@@ -49,3 +49,17 @@
     position: absolute;
     width: 260px;
 }
+.valoration_content {
+    direction: rtl;/* right to left */
+    unicode-bidi: bidi-override;/* bidi de bidireccional */
+}
+.valoration_star {
+    font-size: 20px;
+}
+.valoration_star:hover,
+.valoration_star:hover ~ label {
+    color: orange;
+}
+.valoration_star_input:checked ~ label {
+    color: orange;
+}

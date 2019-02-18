@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Helpers;
 use App\Provider;
+use App\ProviderAssessment;
 use App\User;
 
 class ProvidersController extends Controller
@@ -146,7 +147,8 @@ class ProvidersController extends Controller
        $provider = Provider::find($id);
        return view('backend.providers.edit', [
          'provider' => $provider,
-         'user' => User::where('id', $provider->id_user)->first()
+         'user' => User::where('id', $provider->id_user)->first(),
+         'provider_assessments' => ProviderAssessment::where('id_provider', $id)->get()
        ]);
      }
 
@@ -198,6 +200,16 @@ class ProvidersController extends Controller
            $provider->other_telephone = $request->get('other_telephone');
            $provider->id_function_sat = $request->get('id_function_sat');
            $provider->save();
+
+           // add valoration crew
+           if($request->get('valoration_value')){
+             $providerAssessment = new ProviderAssessment;
+             $providerAssessment->id_provider = $id;
+             $providerAssessment->id_project = ($request->get('valoration_id_project') ? $request->get('valoration_id_project') : null);
+             $providerAssessment->description = ($request->get('valoration_description') ? $request->get('valoration_description') : null);
+             $providerAssessment->value = $request->get('valoration_value');
+             $providerAssessment->save();
+           }
 
            return redirect('/providers')->with('message', 'Crew editado con exito!');
 

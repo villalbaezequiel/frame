@@ -200,11 +200,14 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Función SAT *</label>
+              <label class="col-md-2 col-form-label">Función según SAT *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <select class="form-control selectpicker get_value_functions_sat_ajax" data-style="btn btn-link" name="id_function_sat" required>
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_function_sat" required>
                     <option value="">Seleccionar</option>
+                    @foreach(\App\SatFunction::getAllSatFunction('1') as $sat)
+                    <option value="{{ $sat->id }}">{{ $sat->name }}</option>
+                    @endforeach
                   </select>
                 </div>
               </div>

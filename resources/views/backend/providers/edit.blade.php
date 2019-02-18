@@ -205,36 +205,10 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Función Frame *</label>
+              <label class="col-md-2 col-form-label">Función según SAT *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <select class="form-control selectpicker ajax_workers_categories_by_functions_frame" data-style="btn btn-link" name="id_function_frame" required>
-                    <option value="">Seleccionar</option>
-                    @foreach(\App\FrameFunction::getAllFrameFunction('1') as $frame)
-                    <option value="{{ $frame->id }}" <?php if($provider->id_function_frame == $frame->id){ echo "selected='selected'"; } ?>>{{ $frame->name }}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Categoría del Trabajador *</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <select class="form-control selectpicker get_value_workers_categories_ajax ajax_functions_sat_by_workers_categories" data-style="btn btn-link" name="id_workers_category" required>
-                    <option value="">Seleccionar</option>
-                    @foreach(\App\WorkersCategory::getAllWorkersCategory('1') as $category)
-                    <option value="{{ $category->id }}" <?php if($provider->id_workers_category == $category->id){ echo "selected='selected'"; } ?>>{{ $category->name }}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Función SAT *</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <select class="form-control selectpicker get_value_functions_sat_ajax" data-style="btn btn-link" name="id_function_sat" required>
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_function_sat" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\SatFunction::getAllSatFunction('1') as $sat)
                     <option value="{{ $sat->id }}" <?php if($provider->id_function_sat == $sat->id){ echo "selected='selected'"; } ?>>{{ $sat->name }}</option>
@@ -265,11 +239,95 @@
               </div>
             </div>
 
+            <div class="row" style="padding: 15px;">
+              <label class="col-md-12 col-form-label">
+                <center><strong>Agregar Valoración</strong></center>
+              </label>
+            </div>
+
+            <div class="row">
+              <label class="col-md-2 col-form-label">Proyecto</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="valoration_id_project">
+                    <option value="">Seleccionar</option>
+                    @foreach(\App\Project::all() as $project)
+                    <option value="{{ $project->id }}">{{ $project->name }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-md-2 col-form-label">Descripción</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <textarea class="form-control" name="valoration_description" maxlength="125"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-md-2 col-form-label label-checkbox">Puntaje</label>
+              <div class="col-md-10 checkbox-radios">
+                <div class="form-check form-check-inline valoration_content">
+                  <input class="form-check-input valoration_star_input" id="radio5" type="radio" value="5" name="valoration_value">
+                  <label class="form-check-label valoration_star" for="radio5">★</label>
+
+                  <input class="form-check-input valoration_star_input" id="radio4" type="radio" value="4" name="valoration_value">
+                  <label class="form-check-label valoration_star" for="radio4">★</label>
+
+                  <input class="form-check-input valoration_star_input" id="radio3" type="radio" value="3" name="valoration_value">
+                  <label class="form-check-label valoration_star" for="radio3">★</label>
+
+                  <input class="form-check-input valoration_star_input" id="radio2" type="radio" value="2" name="valoration_value">
+                  <label class="form-check-label valoration_star" for="radio2">★</label>
+
+                  <input class="form-check-input valoration_star_input" id="radio1" type="radio" value="1" name="valoration_value">
+                  <label class="form-check-label valoration_star" for="radio1">★</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" style="padding: 15px;">
+              <label class="col-md-12 col-form-label">
+                <center><strong>Valoraciones</strong></center>
+              </label>
+            </div>
+            <div class="row">
+              <table class="table col-md-10" style="margin: 0 auto;">
+                <thead>
+                  <tr>
+                    <th class="text-center">#</th>
+                    <th>Proyecto</th>
+                    <th>Descripción</th>
+                    <th>Puntaje</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php $countValorations = 0; ?>
+                  @foreach($provider_assessments as $assessment)
+                    <tr>
+                      <td class="text-center">{{ $assessment->id }}</td>
+                      <td>{{ $assessment->id_project }}</td>
+                      <td>{{ $assessment->description }}</td>
+                      <td>{{ $assessment->value }}</td>
+                    </tr>
+                    <?php $countValorations += $assessment->value; ?>
+                  @endforeach
+                    <tr>
+                      <td class="text-center" style="color: #9c27b0;"><strong>Total</strong></td>
+                      <td></td>
+                      <td></td>
+                      <td style="color: #9c27b0;"><strong>{{ $countValorations }}</strong></td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+
           </div>
           <div class="card-footer ml-auto mr-auto">
             <!-- Hide Val-->
             <input type="hidden" name="id_user" value="{{ $user->id }}" />
-
             <a href="javascript:void(0)" class="back-history btn">Cancelar</a>
             <input type="submit" class="btn btn-primary" value="Guardar" />
           </div>

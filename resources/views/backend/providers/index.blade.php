@@ -33,9 +33,9 @@
               <tr>
                 <th>#ID</th>
                 <th>Nombre</th>
-                <th>DNI</th>
-                <th>Funcion SAT</th>
-                <th>Activo</th>
+                <th>Puesto FRAME</th>
+                <th>Celular</th>
+                <th>Valoración</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -44,9 +44,9 @@
               <tr class="item-alert-confirm-delete">
                 <td>{{ $provider->id }}</td>
                 <td>{{ \App\User::getFullName($provider->id_user) }}</td>
-                <td>{{ \App\User::getDNI($provider->id_user) }}</td>
                 <td>{{ \App\SatFunction::getName($provider->id_function_sat) }}</td>
-                <td>{{ \App\User::getActive($provider->id_user) }}</td>
+                <td>{{ $provider->telephone }}</td>
+                <td>{{ \App\ProviderAssessment::getCountByProvider($provider->id) }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['providers.destroy', $provider->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
                     <a href="{{ url('/providers/'.$provider->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
