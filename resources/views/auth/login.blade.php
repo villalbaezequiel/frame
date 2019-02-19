@@ -3,7 +3,7 @@
 
 @section('container')
 <div class="row">
-  <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
+  <div class="col-lg-5 col-md-6 col-sm-8 ml-auto mr-auto">
     <form class="form" method="POST" action="{{ route('login') }}">
       @csrf
 
