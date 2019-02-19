@@ -22,6 +22,10 @@
             @if ($errors->has('email'))
               <strong>{{ $errors->first('email') }}</strong>
             @endif
+
+            @if (session('status'))
+              <strong>{{ session('status') }}</strong>
+            @endif
           </p>
 
           <span class="bmd-form-group">
