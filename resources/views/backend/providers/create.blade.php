@@ -57,7 +57,7 @@
                   <select class="form-control selectpicker" data-style="btn btn-link" name="gender" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Helpers::getGendersPerson() as $key => $val)
-                    <option value="{{ $key }}">{{ $val }}</option>
+                    <option value="{{ $key }}" <?php if(old('gender') == $key){ echo "selected='selected'"; } ?>>{{ $val }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -69,7 +69,7 @@
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="type_dni" required>
                     @foreach(\App\Helpers::getTypesDocumentationPerson() as $key => $val)
-                    <option value="{{ $key }}">{{ $val }}</option>
+                    <option value="{{ $key }}" <?php if(old('type_dni') == $key){ echo "selected='selected'"; } ?>>{{ $val }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -107,7 +107,7 @@
                   <select class="form-control selectpicker" data-style="btn btn-link" name="civil_status" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Helpers::getCivilStatus() as $key => $val)
-                    <option value="{{ $key }}">{{ $val }}</option>
+                    <option value="{{ $key }}" <?php if(old('civil_status') == $key){ echo "selected='selected'"; } ?>>{{ $val }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -133,7 +133,7 @@
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_country" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Country::all() as $country)
-                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                    <option value="{{ $country->id }}" <?php if(old('id_country') == $country->id){ echo "selected='selected'"; } ?>>{{ $country->name }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -156,7 +156,7 @@
                   <select class="form-control selectpicker" data-style="btn btn-link" name="nationality" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Country::all() as $country)
-                    <option value="{{ $country->id }}">{{ $country->male.' / '.$country->female }}</option>
+                    <option value="{{ $country->id }}" <?php if(old('nationality') == $country->id){ echo "selected='selected'"; } ?>>{{ $country->male.' / '.$country->female }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -169,7 +169,7 @@
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_study" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Study::getAllStudy('1') as $study)
-                    <option value="{{ $study->id }}">{{ $study->name }}</option>
+                    <option value="{{ $study->id }}" <?php if(old('id_study') == $study->id){ echo "selected='selected'"; } ?>>{{ $study->name }}</option>
                     @endforeach
                   </select>
                 </div>

@@ -74,7 +74,7 @@
                   <select class="form-control selectpicker" data-style="btn btn-link" name="country" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Country::all() as $country)
-                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                    <option value="{{ $country->id }}" <?php if(old('country') == $country->id){ echo "selected='selected'"; } ?>>{{ $country->name }}</option>
                     @endforeach
                   </select>
                 </div>
