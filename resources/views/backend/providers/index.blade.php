@@ -28,7 +28,7 @@
               </div>
             </div>
           @endif
-          <table id="datatables" class="table table-hover table-striped">
+          <table id="datatables_crew" class="table table-hover table-striped">
             <thead>
               <tr>
                 <th>#ID</th>
@@ -67,6 +67,14 @@
 @section('javascript')
 <script>
 $(document).ready(function(){
+
+  $("#datatables_crew").DataTable({
+    "language": {
+      "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+    },
+    "order": [[ 4, 'desc' ]]
+  });
+
   $(".alert-confirm-delete").submit(function(e) {
     e.preventDefault();
     alertConfirmDeleteItem(this);
