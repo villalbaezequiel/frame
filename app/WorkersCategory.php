@@ -16,6 +16,8 @@ class WorkersCategory extends Model
     static public function getName($id)
     {
       $workersCategory = WorkersCategory::find($id);
-      return $workersCategory->name;
+      if($workersCategory){
+        return $workersCategory->name;
+      }
     }
 }

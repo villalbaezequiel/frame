@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Caffeinated\Shinobi\Models\Role;
 use App\Helpers;
 use App\RoleUser;
+use App\Provider;
 use App\User;
 
 class UsersController extends Controller
@@ -225,7 +226,10 @@ class UsersController extends Controller
     public function destroy($id)
     {
       $user = User::find($id);
+        // destroy roles by user
         $role_user = RoleUser::where('user_id', $id)->delete();
+        // if Users is Provider, destroy
+        $provider = Provider::where('id_user', $id)->delete();
       $user->delete();
 
       return response(array('message' => 'Usuario eliminado con exito!'));
