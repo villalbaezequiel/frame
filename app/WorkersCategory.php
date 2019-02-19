@@ -18,6 +18,8 @@ class WorkersCategory extends Model
       $workersCategory = WorkersCategory::find($id);
       if($workersCategory){
         return $workersCategory->name;
+      } else {
+        return "No asociado a Categoría";
       }
     }
 }
