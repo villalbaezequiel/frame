@@ -31,10 +31,9 @@
           <table id="datatables" class="table table-hover table-striped">
             <thead>
               <tr>
-                <th>#ID</th>
+                <th>Nº Categoría</th>
                 <th>Nombre</th>
                 <th>Básico</th>
-                <th>Sueldo Bruto</th>
                 <th>Activo</th>
                 <th>Acciones</th>
               </tr>
@@ -42,10 +41,9 @@
             <tbody>
               @foreach($workers_categories as $workersCategory)
               <tr class="item-alert-confirm-delete">
-                <td>{{ $workersCategory->id }}</td>
+                <td>{{ $workersCategory->number_category }}</td>
                 <td>{{ $workersCategory->name }}</td>
                 <td>{{ $workersCategory->sueldo_basico }}</td>
-                <td>{{ $workersCategory->sueldo_bruto }}</td>
                 <td>{{ \App\Helpers::getActive($workersCategory->active) }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['workers_categories.destroy', $workersCategory->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}

@@ -53,6 +53,7 @@ class WorkersCategoriesController extends Controller
        try {
            // New WorkersCategory
            $workersCategory = new WorkersCategory;
+           $workersCategory->number_category = $request->get('number_category');
            $workersCategory->name = $request->get('name');
            $workersCategory->sueldo_basico = $request->get('sueldo_basico');
            $workersCategory->sueldo_adicional = $request->get('sueldo_adicional');
@@ -118,6 +119,7 @@ class WorkersCategoriesController extends Controller
        try {
            // Update WorkersCategory
            $workersCategory = WorkersCategory::find($id);
+           $workersCategory->number_category = $request->get('number_category');
            $workersCategory->name = $request->get('name');
            $workersCategory->sueldo_basico = $request->get('sueldo_basico');
            $workersCategory->sueldo_adicional = $request->get('sueldo_adicional');

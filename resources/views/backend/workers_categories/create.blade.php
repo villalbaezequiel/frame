@@ -27,6 +27,14 @@
             @endif
 
             <div class="row">
+              <label class="col-md-2 col-form-label">Nº de Categoría *</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <input class="form-control" type="number" name="number_category" value="{{ old('number_category') }}" maxlength="125" required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <label class="col-md-2 col-form-label">Nombre *</label>
               <div class="col-md-7">
                 <div class="form-group">
