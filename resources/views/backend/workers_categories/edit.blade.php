@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', "Categorías de Trabajadores / Editar")
+@section('title', "Categorías SAT / Editar")
 
 @section('content')
 <div class="container-fluid">
@@ -10,7 +10,7 @@
         <div class="card ">
           <div class="card-header card-header-primary card-header-text">
             <div class="card-text">
-              <h4 class="card-title">Editar Categoría de Trabajador</h4>
+              <h4 class="card-title">Editar Categoría SAT</h4>
             </div>
           </div>
           <div class="card-body ">

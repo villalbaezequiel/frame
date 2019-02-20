@@ -200,13 +200,13 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Función según SAT *</label>
+              <label class="col-md-2 col-form-label">Función según Frame *</label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_function_sat" required>
                     <option value="">Seleccionar</option>
-                    @foreach(\App\SatFunction::getAllSatFunction('1') as $sat)
-                    <option value="{{ $sat->id }}">{{ $sat->name }}</option>
+                    @foreach(\App\FrameFunction::getAllFrameFunction('1') as $frame)
+                    <option value="{{ $frame->id }}">{{ $frame->name }}</option>
                     @endforeach
                   </select>
                 </div>

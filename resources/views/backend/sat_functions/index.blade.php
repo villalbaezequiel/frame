@@ -33,8 +33,7 @@
               <tr>
                 <th>#ID</th>
                 <th>Nombre</th>
-                <th>Categoría</th>
-                <th>Función Frame</th>
+                <th>Categoría SAT</th>
                 <th>Activo</th>
                 <th>Acciones</th>
               </tr>
@@ -45,7 +44,6 @@
                 <td>{{ $satFunction->id }}</td>
                 <td>{{ $satFunction->name }}</td>
                 <td>{{ \App\WorkersCategory::getName($satFunction->id_workers_category)  }}</td>
-                <td>{{ \App\FrameFunction::getName($satFunction->id_frame_function) }}</td>
                 <td>{{ \App\Helpers::getActive($satFunction->active) }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['sat_functions.destroy', $satFunction->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}

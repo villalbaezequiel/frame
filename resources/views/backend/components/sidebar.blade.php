@@ -63,7 +63,7 @@
       <li class="nav-item nav-check-url ">
         <a class="nav-link" href="{{ url('/workers_categories') }}">
           <i class="material-icons">group_work</i>
-          <p> Categorías de Trabajadores </p>
+          <p> Categorías SAT </p>
         </a>
       </li>
       <li class="nav-item nav-check-url ">

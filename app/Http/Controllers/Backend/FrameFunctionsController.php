@@ -55,6 +55,8 @@ class FrameFunctionsController extends Controller
          $frameFunction = new FrameFunction;
          $frameFunction->name = $request->get('name');
          $frameFunction->description = $request->get('description');
+         $frameFunction->id_proyect_category = $request->get('id_proyect_category'); // tipo de proyecto
+         $frameFunction->id_workers_category = json_encode($request->get('id_workers_category')); // catgoria pertenece multi
          $frameFunction->active = $request->get('active');
          $frameFunction->save();
 
@@ -116,6 +118,8 @@ class FrameFunctionsController extends Controller
          $frameFunction = FrameFunction::find($id);
          $frameFunction->name = $request->get('name');
          $frameFunction->description = $request->get('description');
+         $frameFunction->id_proyect_category = $request->get('id_proyect_category'); // tipo de proyecto
+         $frameFunction->id_workers_category = json_encode($request->get('id_workers_category')); // catgoria pertenece multi
          $frameFunction->active = $request->get('active');
          $frameFunction->save();
 

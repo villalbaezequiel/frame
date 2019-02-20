@@ -43,26 +43,13 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Categoría de Trabajo *</label>
+              <label class="col-md-2 col-form-label">Categoría SAT *</label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_workers_category" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\WorkersCategory::getAllWorkersCategory('1') as $category)
                     <option value="{{ $category->id }}" <?php if($satFunction->id_workers_category == $category->id){ echo "selected='selected'"; } ?>>{{ $category->name }}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Función Frame *</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_frame_function" required>
-                    <option value="">Seleccionar</option>
-                    @foreach(\App\FrameFunction::getAllFrameFunction('1') as $frame)
-                    <option value="{{ $frame->id }}" <?php if($satFunction->id_frame_function == $frame->id){ echo "selected='selected'"; } ?>>{{ $frame->name }}</option>
                     @endforeach
                   </select>
                 </div>

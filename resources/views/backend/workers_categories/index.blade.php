@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
-@section('title', "Categorías de Trabajadores")
+@section('title', "Categorías SAT")
 
 @section('content')
 <div class="container-fluid">
 
-  <a href="{{ url('/workers_categories/create') }}" class="btn btn-primary">Nueva Categoría de Trabajador</a>
+  <a href="{{ url('/workers_categories/create') }}" class="btn btn-primary">Nueva Categoría SAT</a>
 
   <div class="row">
     <div class="col-md-12">

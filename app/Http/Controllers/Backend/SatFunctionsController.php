@@ -56,7 +56,6 @@ class SatFunctionsController extends Controller
          $satFunction->name = $request->get('name');
          $satFunction->description = $request->get('description');
          $satFunction->id_workers_category = $request->get('id_workers_category');
-         $satFunction->id_frame_function = $request->get('id_frame_function');
          $satFunction->active = $request->get('active');
          $satFunction->save();
 
@@ -119,7 +118,6 @@ class SatFunctionsController extends Controller
          $satFunction->name = $request->get('name');
          $satFunction->description = $request->get('description');
          $satFunction->id_workers_category = $request->get('id_workers_category');
-         $satFunction->id_frame_function = $request->get('id_frame_function');
          $satFunction->active = $request->get('active');
          $satFunction->save();
 
