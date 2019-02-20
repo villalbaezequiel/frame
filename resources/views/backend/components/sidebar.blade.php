@@ -72,12 +72,6 @@
           <p> Funciones Frame </p>
         </a>
       </li>
-      <li class="nav-item nav-check-url ">
-        <a class="nav-link" href="{{ url('/sat_functions') }}">
-          <i class="material-icons">functions</i>
-          <p> Funciones SAT </p>
-        </a>
-      </li>
 
       <li class="nav-item nav-check-url ">
         <a class="nav-link none-alert" data-toggle="collapse" href="#users-nav-menu">
