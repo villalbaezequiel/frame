@@ -44,7 +44,11 @@
               <tr class="item-alert-confirm-delete">
                 <td>{{ $provider->id }}</td>
                 <td>{{ \App\User::getFullName($provider->id_user) }}</td>
-                <td>{{ \App\FrameFunction::getName($provider->id_function_sat) }}</td>
+                <td>
+                    @foreach(json_decode($provider->id_function_frame) as $key => $val)
+                       {{ \App\FrameFunction::getName($val).', ' }}
+                    @endforeach
+                </td>
                 <td>{{ $provider->telephone }}</td>
                 <td>{{ \App\ProviderAssessment::getCountByProvider($provider->id) }}</td>
                 <td class="text-right">

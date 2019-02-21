@@ -120,7 +120,7 @@
             </div>
             <div class="row">
               <label class="col-md-2 col-form-label">Dirección *</label>
-              <div class="col-md-5">
+              <div class="col-md-3">
                 <div class="form-group">
                   <input class="form-control" type="text" name="address" value="{{ $provider->address }}" required>
                 </div>
@@ -128,6 +128,11 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <input class="form-control" type="number" name="address_number" value="{{ $provider->address_number }}" placeholder="Número Dirección *" required>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <input class="form-control" type="text" name="piso_depto" value="{{ $provider->piso_depto }}" placeholder="Piso/Depto">
                 </div>
               </div>
             </div>
@@ -208,10 +213,15 @@
               <label class="col-md-2 col-form-label">Función según Frame *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_function_sat" required>
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_function_frame[]" multiple required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\FrameFunction::getAllFrameFunction('1') as $frame)
-                    <option value="{{ $frame->id }}" <?php if($provider->id_function_sat == $frame->id){ echo "selected='selected'"; } ?>>{{ $frame->name }}</option>
+                    <option value="{{ $frame->id }}"
+                       <?php foreach(json_decode($provider->id_function_frame) as $key => $val) {
+                          if($val == $frame->id){ echo "selected"; }
+                        }?>>
+                       {{ $frame->name }}
+                     </option>
                     @endforeach
                   </select>
                 </div>

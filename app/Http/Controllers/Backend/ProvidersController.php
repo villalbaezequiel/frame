@@ -85,6 +85,7 @@ class ProvidersController extends Controller
            $provider->id_user = $user->id;
            $provider->address = $request->get('address');
            $provider->address_number = $request->get('address_number');
+           $provider->piso_depto = $request->get('piso_depto');
            $provider->cp = $request->get('cp');
            $provider->location = $request->get('location');
            $provider->nationality = $request->get('nationality');
@@ -92,7 +93,7 @@ class ProvidersController extends Controller
            $provider->social_work = $request->get('social_work');
            $provider->telephone = $request->get('telephone');
            $provider->other_telephone = $request->get('other_telephone');
-           $provider->id_function_sat = $request->get('id_function_sat');
+           $provider->id_function_frame = json_encode($request->get('id_function_frame'));
            $provider->save();
 
            // add valoration crew
@@ -206,6 +207,7 @@ class ProvidersController extends Controller
            $provider = Provider::find($id);
            $provider->address = $request->get('address');
            $provider->address_number = $request->get('address_number');
+           $provider->piso_depto = $request->get('piso_depto');
            $provider->cp = $request->get('cp');
            $provider->location = $request->get('location');
            $provider->nationality = $request->get('nationality');
@@ -213,7 +215,7 @@ class ProvidersController extends Controller
            $provider->social_work = $request->get('social_work');
            $provider->telephone = $request->get('telephone');
            $provider->other_telephone = $request->get('other_telephone');
-           $provider->id_function_sat = $request->get('id_function_sat');
+           $provider->id_function_frame = json_encode($request->get('id_function_frame'));
            $provider->save();
 
            // add valoration crew
