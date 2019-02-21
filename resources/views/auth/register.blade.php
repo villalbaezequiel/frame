@@ -258,13 +258,13 @@
             <div class="input-group">
               <div class="input-group-prepend">
                 <span class="input-group-text">
-                  Función según SAT:
+                  Función según Frame:
                 </span>
               </div>
               <select class="form-control" data-style="btn btn-link" name="id_function_sat" required>
                 <option value="">Seleccionar</option>
-                @foreach(\App\SatFunction::getAllSatFunction('1') as $sat)
-                <option value="{{ $sat->id }}">{{ $sat->name }}</option>
+                @foreach(\App\FrameFunction::getAllFrameFunction('1') as $frame)
+                <option value="{{ $frame->id }}">{{ $frame->name }}</option>
                 @endforeach
               </select>
             </div>

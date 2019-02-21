@@ -95,6 +95,16 @@ class ProvidersController extends Controller
            $provider->id_function_sat = $request->get('id_function_sat');
            $provider->save();
 
+           // add valoration crew
+           if($request->get('valoration_value')){
+             $providerAssessment = new ProviderAssessment;
+             $providerAssessment->id_provider = $provider->id;
+             $providerAssessment->id_project = ($request->get('valoration_id_project') ? $request->get('valoration_id_project') : null);
+             $providerAssessment->description = ($request->get('valoration_description') ? $request->get('valoration_description') : null);
+             $providerAssessment->value = $request->get('valoration_value');
+             $providerAssessment->save();
+           }
+
            if($request->get('crew_register_person')){
              return redirect('/register')->with('message', 'Crew creado con exito!');
            } else {

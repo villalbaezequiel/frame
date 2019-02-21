@@ -213,6 +213,55 @@
               </div>
             </div>
 
+            <div class="row" style="padding: 15px;">
+              <label class="col-md-12 col-form-label">
+                <center><strong>Agregar Valoración</strong></center>
+              </label>
+            </div>
+
+            <div class="row">
+              <label class="col-md-2 col-form-label">Proyecto</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="valoration_id_project">
+                    <option value="">Seleccionar</option>
+                    @foreach(\App\Project::all() as $project)
+                    <option value="{{ $project->id }}">{{ $project->name }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-md-2 col-form-label">Descripción</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <textarea class="form-control" name="valoration_description" maxlength="125"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-md-2 col-form-label label-checkbox">Puntaje</label>
+              <div class="col-md-10 checkbox-radios">
+                <div class="form-check form-check-inline valoration_content">
+                  <input class="form-check-input valoration_star_input" id="radio5" type="radio" value="5" name="valoration_value">
+                  <label class="form-check-label valoration_star" for="radio5">★</label>
+
+                  <input class="form-check-input valoration_star_input" id="radio4" type="radio" value="4" name="valoration_value">
+                  <label class="form-check-label valoration_star" for="radio4">★</label>
+
+                  <input class="form-check-input valoration_star_input" id="radio3" type="radio" value="3" name="valoration_value">
+                  <label class="form-check-label valoration_star" for="radio3">★</label>
+
+                  <input class="form-check-input valoration_star_input" id="radio2" type="radio" value="2" name="valoration_value">
+                  <label class="form-check-label valoration_star" for="radio2">★</label>
+
+                  <input class="form-check-input valoration_star_input" id="radio1" type="radio" value="1" name="valoration_value">
+                  <label class="form-check-label valoration_star" for="radio1">★</label>
+                </div>
+              </div>
+            </div>
+
           </div>
           <div class="card-footer ml-auto mr-auto">
             <a href="javascript:void(0)" class="back-history btn">Cancelar</a>
