@@ -13,4 +13,12 @@ class Provider extends Model
               ->where('users.active', $status)
               ->get();
     }
+
+    static public function getName($id)
+    {
+      $crew = Provider::join('users', 'users.id', '=', 'providers.id_user')
+              ->where('providers.id', $id)
+              ->first();
+      return $crew->name.' '.$crew->last_name;
+    }
 }

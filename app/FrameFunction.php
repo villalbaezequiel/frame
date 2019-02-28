@@ -18,4 +18,9 @@ class FrameFunction extends Model
       $frameFunction = FrameFunction::find($id);
       return $frameFunction->name;
     }
+
+    static public function getAllFrameFunctionByTypeProject($id_proyect_category)
+    {
+      return FrameFunction::where('id_proyect_category', $id_proyect_category)->get();
+    }
 }

@@ -6,20 +6,16 @@
 <div class="container-fluid">
   <div class="col-md-12 col-12 mr-auto ml-auto">
 
-    <div class="card">
-      <div class="card-body ">
-        @if (session('message'))
-          <div class="toolbar">
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-              {{ session('message') }}
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-          </div>
-        @endif
+    @if (session('message'))
+      <div class="toolbar">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          {{ session('message') }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
       </div>
-    </div>
+    @endif
 
     <div class="wizard-container">
       <div class="card card-wizard active" data-color="purple" id="wizardProfile">
@@ -484,6 +480,7 @@ $(document).ready(function(){
     var salary_contract_category_function = $('input[name=salary_contract_category_function]').val();
     var salary_daily = $('input[name=salary_daily]').val();
     var salary_liquidate = $('input[name=salary_liquidate]').val();
+    var salaty_difference = $('input[name=crew_sueldo_diferencia]').val();
     var start_date_contract = $('input[name=start_date_contract]').val();
     var finish_date_contract = $('input[name=finish_date_contract]').val();
     var start_afip = $('input[name=start_afip]').val(); // no required
@@ -503,6 +500,7 @@ $(document).ready(function(){
         'salary_contract_category_function': salary_contract_category_function,
         'salary_daily': salary_daily,
         'salary_liquidate': salary_liquidate,
+        'salaty_difference': salaty_difference,
         'start_date_contract': start_date_contract,
         'finish_date_contract': finish_date_contract,
         'start_afip': start_afip,
@@ -540,6 +538,28 @@ $(document).ready(function(){
     }
 
   });
+
+  // automatic calculate input
+  $('input[name=total_workdays]').click(function(){
+    if($('input[name=salary_workdays]').val() && $('input[name=count_workdays]').val()){
+      $('input[name=total_workdays]').val($('input[name=salary_workdays]').val() * $('input[name=count_workdays]').val());
+    } else {
+      alert('Ingrese un Valor en Sueldo Jornada, para que se autocomplete el campo seleccionado');
+    }
+  });
+
+  $('input[name=salary_daily]').click(function(){
+    if($('input[name=salary_contract_category_function]').val()){
+
+      $('input[name=salary_daily]').val($('input[name=salary_workdays]').val() / 30);
+      $('input[name=salary_liquidate]').val($('input[name=days]').val() * $('input[name=salary_daily]').val());
+      $('input[name=crew_sueldo_diferencia]').val($('input[name=total_workdays]').val() - $('input[name=salary_liquidate]').val());
+
+    } else {
+      alert('Seleccione una Categoria SAT, para que se autocomplete el campo seleccionado');
+    }
+  });
+
 
 });
 </script>

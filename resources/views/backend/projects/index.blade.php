@@ -55,7 +55,7 @@
                 <td>{{ \App\Helpers::getActive($project->active) }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['projects.destroy', $project->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
-                    <!-- <a href="{{ url('/projects/'.$project->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a> -->
+                    <a href="{{ url('/projects/'.$project->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
                     <button type="submit" class="btn btn-link btn-danger btn-just-icon remove" title="Eliminar"><i class="material-icons">close</i></button>
                   {!! Form::close() !!}
                 </td>
