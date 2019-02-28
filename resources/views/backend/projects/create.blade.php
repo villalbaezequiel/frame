@@ -6,6 +6,21 @@
 <div class="container-fluid">
   <div class="col-md-12 col-12 mr-auto ml-auto">
 
+    <div class="card">
+      <div class="card-body ">
+        @if (session('message'))
+          <div class="toolbar">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              {{ session('message') }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+        @endif
+      </div>
+    </div>
+
     <div class="wizard-container">
       <div class="card card-wizard active" data-color="purple" id="wizardProfile">
 
@@ -86,7 +101,7 @@
                         <span class="input-group-text">
                           Tipo de Proyecto: (*)
                         </span>
-                          <select class="selectpicker" data-style="select-with-transition" name="id_proyect_category" required>
+                          <select class="selectpicker ajax_functions_frame_by_type_project" data-style="select-with-transition" name="id_proyect_category" required>
                           <option value="">Seleccionar</option>
                           @foreach(\App\ProyectCategory::getAllProyectCategories() as $type_project)
                           <option value="{{ $type_project->id }}">{{ $type_project->name }}</option>
@@ -183,26 +198,200 @@
               </div>
 
               <div class="tab-pane" id="module_three">
-                <h5 class="info-text"> Proveedores </h5>
-                <div class="row justify-content-center">
+                <h5 class="info-text"> Crew </h5>
+                <div class="row justify-content-center empty-values-finish-add-crew">
 
-
-                  <!-- <div class="row">
-                    <label class="col-md-2 col-form-label">Fecha de Alta AFIP</label>
-                    <div class="col-md-7">
-                      <div class="form-group">
-                        <input class="form-control datepicker" type="text" name="start_afip" value="{{ old('start_afip') }}">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Función Frame:
+                        </span>
+                        <select class="selectpicker get_value_frame_functions ajax_categories_sat_by_function_frame ajax_crew_by_function_frame" data-style="select-with-transition" name="id_function_frame">
+                          <option value="">Seleccionar</option>
+                        </select>
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <label class="col-md-2 col-form-label">Fecha de Baja AFIP</label>
-                    <div class="col-md-7">
-                      <div class="form-group">
-                        <input class="form-control datepicker" type="text" name="finish_afip" value="{{ old('finish_afip') }}">
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Categoría SAT:
+                        </span>
+                        <select class="selectpicker get_value_categories_sat" data-style="select-with-transition" name="id_category_sat">
+                          <option value="">Seleccionar</option>
+                        </select>
                       </div>
                     </div>
-                  </div> -->
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Crew:
+                        </span>
+                          <select class="selectpicker get_value_crew" data-style="select-with-transition" name="id_provider">
+                          <option value="">Seleccionar</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Tipo de Contrato:
+                        </span>
+                          <select class="selectpicker" data-style="select-with-transition" name="id_contract">
+                          <option value="">Seleccionar</option>
+                          @foreach(\App\Contract::getAllContracts('1') as $contract)
+                          <option value="{{ $contract->id }}">{{ $contract->name }}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Fecha de Alta Contrato:
+                        </span>
+                        <input class="form-control datepicker" type="text" name="start_date_contract">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Fecha de Baja Contrato:
+                        </span>
+                        <input class="form-control datepicker" type="text" name="finish_date_contract">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Fecha de Alta AFIP:
+                        </span>
+                        <input class="form-control datepicker" type="text" name="start_afip">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Fecha de Baja AFIP:
+                        </span>
+                        <input class="form-control datepicker" type="text" name="finish_afip">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Sueldo Jornada:
+                        </span>
+                          <input type="number" class="form-control" name="salary_workdays" maxlength="125">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Sueldo Total:
+                        </span>
+                          <input type="number" class="form-control" name="total_workdays" maxlength="125">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Sueldo Contrato F. SAT/Frame:
+                        </span>
+                          <input type="number" class="form-control" name="salary_contract_category_function" maxlength="125">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Sueldo Diario:
+                        </span>
+                          <input type="number" class="form-control" name="salary_daily" maxlength="125">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Sueldo A Liquidar:
+                        </span>
+                          <input type="number" class="form-control" name="salary_liquidate" maxlength="125">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Diferencia:
+                        </span>
+                        <input type="number" class="form-control" name="crew_sueldo_diferencia" maxlength="125">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 text-center" style="padding: 20px;">
+                    <button id="add_crew" type="button" class="btn btn-primary">Agregar Crew</button>
+                  </div>
+                </div>
+
+                <h5 class="info-text"> Lista de Crew  </h5>
+                <div class="row justify-content-center">
+
+                  <div class="col-md-12">
+                    <table class="table" style="margin: 0 auto;">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>Crew</th>
+                          <th>Función Frame/Categoría SAT</th>
+                          <th>Fechas</th>
+                          <th>Suplente</th>
+                        </tr>
+                      </thead>
+                      <tbody class="list_crew_view">
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <!-- append list crew  -->
+                  <div class="list_crew"> </div>
 
                 </div>
               </div>
@@ -280,6 +469,74 @@ $(document).ready(function(){
         e.preventDefault();
         alertLeaveForm(this);
       }
+    }
+
+  });
+
+  $("#add_crew").click(function(){
+    // list values
+    var id_function_frame = $('select[name=id_function_frame]').val();
+    var id_category_sat = $('select[name=id_category_sat]').val(); // agregar al schema ´project_providers´
+    var id_provider = $('select[name=id_provider]').val();
+    var id_contract = $('select[name=id_contract]').val();
+    var salary_workdays = $('input[name=salary_workdays]').val();
+    var total_workdays = $('input[name=total_workdays]').val();
+    var salary_contract_category_function = $('input[name=salary_contract_category_function]').val();
+    var salary_daily = $('input[name=salary_daily]').val();
+    var salary_liquidate = $('input[name=salary_liquidate]').val();
+    var start_date_contract = $('input[name=start_date_contract]').val();
+    var finish_date_contract = $('input[name=finish_date_contract]').val();
+    var start_afip = $('input[name=start_afip]').val(); // no required
+    var finish_afip = $('input[name=finish_afip]').val(); // no required
+
+    if(id_function_frame && id_category_sat && id_contract && id_provider &&
+       salary_workdays && total_workdays && salary_contract_category_function &&
+       salary_daily && salary_liquidate && start_date_contract && finish_date_contract)
+    {
+      var crew = {
+        'id_function_frame': id_function_frame,
+        'id_category_sat': id_category_sat,
+        'id_provider': id_provider,
+        'id_contract': id_contract,
+        'salary_workdays': salary_workdays,
+        'total_workdays': total_workdays,
+        'salary_contract_category_function': salary_contract_category_function,
+        'salary_daily': salary_daily,
+        'salary_liquidate': salary_liquidate,
+        'start_date_contract': start_date_contract,
+        'finish_date_contract': finish_date_contract,
+        'start_afip': start_afip,
+        'finish_afip': finish_afip
+      };
+
+      // add crew to list input request
+      if($('#'+id_provider).length == 0){
+        $('.list_crew').append("<input type='hidden' name='list_crew[]' id='"+id_provider+"' value='' />");
+        $('#'+id_provider).val(JSON.stringify(crew));
+      } else {
+        $('#'+id_provider).val('');
+        $('#'+id_provider).val(JSON.stringify(crew));
+
+        // remove item_view
+        $("#item_view_"+id_provider).remove();
+      }
+
+      // add crew list table front
+      var crewName = $('select[name=id_provider] option:selected').text();
+      var crewFrameSat = $('select[name=id_function_frame] option:selected').text()+" / "+$('select[name=id_category_sat] option:selected').text();
+      var crewDates = start_date_contract+" - "+finish_date_contract;
+
+      // onClick remove crew
+      var onClickRemoveCrew = "$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove()";
+
+      // add html list crew view
+      $('.list_crew_view').append("<tr id='item_view_"+id_provider+"'><td><button type='button' class='btn btn-link btn-danger btn-just-icon remove' onClick="+onClickRemoveCrew+" data-idcrew='"+id_provider+"' data-itemremove='item_view_"+id_provider+"' title='Eliminar'><i class='material-icons'>close</i></button></td><td>"+crewName+"</td><td>"+crewFrameSat+"</td><td>"+crewDates+"</td><td></td></tr>");
+
+      // restart input add crew
+      $(".empty-values-finish-add-crew input").val('');
+
+    } else {
+      alert('Complete los datos correspondientes para agregar un Crew!');
     }
 
   });

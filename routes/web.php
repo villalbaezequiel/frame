@@ -46,5 +46,9 @@ Route::group(['middleware' => ['auth']], function () {
 Route::get('/json/workers_categories/{id_frame_function}', 'Backend\JsonController@getWorkersCategories');
 Route::get('/json/sat_functions/{id_frame_function}/{id_workers_category}', 'Backend\JsonController@getSatFunctions');
 
+Route::get('/json/{type_project}/functions_frame', 'Backend\JsonController@getFunctionsFrameByTypeProject');
+Route::get('/json/{id_function_frame}/categories_sat', 'Backend\JsonController@getCategoriesSatByFunctionFrame');
+Route::get('/json/{id_frame_function}/crew', 'Backend\JsonController@getCrewByFunctionFrame');
+
 // register crew
 Route::post('/crew/store', 'Backend\ProvidersController@store')->name('crew.store');

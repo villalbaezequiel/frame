@@ -32,16 +32,26 @@
             <thead>
               <tr>
                 <th>#ID</th>
-
+                <th>Nombre</th>
+                <th>Tipo de Proyecto</th>
+                <th>Fechas: Inicio - Finalización</th>
                 <th>Activo</th>
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
               @foreach($projects as $project)
+
+              <?php
+               $start_date = explode('-', \App\Helpers::getDate($project->start_date));
+               $finish_date = explode('-', \App\Helpers::getDate($project->finish_date));
+              ?>
+
               <tr class="item-alert-confirm-delete">
                 <td>{{ $project->id }}</td>
-
+                <td>{{ $project->name }}</td>
+                <td>{{ \App\ProyectCategory::getName($project->id_proyect_category) }}</td>
+                <td>{{ $start_date[2].'/'.$start_date[1].'/'.$start_date[0] }} - {{ $finish_date[2].'/'.$finish_date[1].'/'.$finish_date[0] }}</td>
                 <td>{{ \App\Helpers::getActive($project->active) }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['projects.destroy', $project->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}

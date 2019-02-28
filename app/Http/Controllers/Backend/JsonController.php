@@ -7,8 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Helpers;
 use App\FrameFunction;
+use App\Provider;
 use App\WorkersCategory;
-use App\SatFunction;
 
 class JsonController extends Controller
 {
@@ -59,11 +59,124 @@ class JsonController extends Controller
     $message;
     try {
 
-      $satFunctions = SatFunction::where('id_frame_function', $id_frame_function)
+      $satFunctions = WorkersCategory::where('id_frame_function', $id_frame_function)
                             ->where('id_workers_category', $id_workers_category)
                             ->get();
 
       return \Response::json(array('data' => $satFunctions));
+
+    } catch(\Exception $e) {
+      if(\Config::get('app.debug')):
+        $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
+      else:
+        $message = 'Se ha producido un error. Por favor intente nuevamente.';
+      endif;
+
+      $respuesta = array(
+        'estado' => false,
+        'mensaje' => $message
+      );
+      return \Response::json($respuesta);
+    }
+  }
+
+  /*
+  * parameter: id_type_project
+  * return list FrameFunction
+  * Logica: a base de 'id_type_project' busca todas las Funciones FRAME where id_proyect_category = id_type_project and active = 1.
+  */
+  public function getFunctionsFrameByTypeProject($id_type_project)
+  {
+    $message;
+    try {
+
+      $frameFunction = FrameFunction::where('id_proyect_category', $id_type_project)
+                            ->where('active', '1')
+                            ->get();
+
+      return \Response::json(array('data' => $frameFunction));
+
+    } catch(\Exception $e) {
+      if(\Config::get('app.debug')):
+        $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
+      else:
+        $message = 'Se ha producido un error. Por favor intente nuevamente.';
+      endif;
+
+      $respuesta = array(
+        'estado' => false,
+        'mensaje' => $message
+      );
+      return \Response::json($respuesta);
+    }
+  }
+
+  /*
+  * parameter: id_frame_function
+  * return list WorkersCategory
+  * Logica: a base de 'id_frame_function' busca todas las Categorias SAT where active = 1.
+  */
+  public function getCategoriesSatByFunctionFrame($id_frame_function)
+  {
+    $message;
+    try {
+
+      $listCategoriesSat = array();
+
+      $frameFunction = FrameFunction::find($id_frame_function);
+
+      foreach(json_decode($frameFunction->id_workers_category) as $id_sat) {
+        $categorySAT = WorkersCategory::where('id', $id_sat)
+                              ->where('active', '1')
+                              ->first();
+        array_push($listCategoriesSat, $categorySAT);
+      }
+
+      return \Response::json(array('data' => $listCategoriesSat));
+
+    } catch(\Exception $e) {
+      if(\Config::get('app.debug')):
+        $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
+      else:
+        $message = 'Se ha producido un error. Por favor intente nuevamente.';
+      endif;
+
+      $respuesta = array(
+        'estado' => false,
+        'mensaje' => $message
+      );
+      return \Response::json($respuesta);
+    }
+  }
+
+  /*
+  * parameter: id_frame_function
+  * return list Crew
+  * Logica: a base de 'id_frame_function' busca todas los Crew where active = 1.
+  */
+  public function getCrewByFunctionFrame($id_frame_function)
+  {
+    $message;
+    try {
+
+      $listCrew = array();
+      $allCrew = DB::table('providers as p')
+                            ->join('users as u', 'p.id_user', '=', 'u.id')
+                            ->select('p.id', 'u.name', 'u.last_name', 'p.id_function_frame')
+                            ->where('u.active', '1')
+                            ->get();
+
+      foreach($allCrew as $crew) {
+        $crewFunctionFrame = json_decode($crew->id_function_frame);
+
+        foreach($crewFunctionFrame as $key => $value) {
+          if($value == $id_frame_function){
+            array_push($listCrew, $crew);
+          }
+        }
+      }
+
+      return \Response::json(array('data' => $listCrew));
 
     } catch(\Exception $e) {
       if(\Config::get('app.debug')):

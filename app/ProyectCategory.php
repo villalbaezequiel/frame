@@ -11,4 +11,10 @@ class ProyectCategory extends Model
     {
       return ProyectCategory::where('active', $status)->get();
     }
+
+    static public function getName($id)
+    {
+      $projectCategoryName = ProyectCategory::find($id);
+      return $projectCategoryName->name;
+    }
 }
