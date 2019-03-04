@@ -216,7 +216,7 @@
                         <span class="input-group-text">
                           Categoría SAT:
                         </span>
-                        <select class="selectpicker get_value_categories_sat" data-style="select-with-transition" name="id_category_sat">
+                        <select class="selectpicker get_value_categories_sat event_toggle_category_sat" data-style="select-with-transition" name="id_category_sat">
                           <option value="">Seleccionar</option>
                         </select>
                       </div>
@@ -322,7 +322,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Sueldo Contrato F. SAT/Frame:
+                          Sueldo Contrato Mensual:
                         </span>
                           <input type="number" class="form-control" name="salary_contract_category_function" maxlength="125">
                       </div>
@@ -559,7 +559,6 @@ $(document).ready(function(){
       alert('Seleccione una Categoria SAT, para que se autocomplete el campo seleccionado');
     }
   });
-
 
 });
 </script>

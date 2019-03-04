@@ -169,11 +169,6 @@ class ProjectsController extends Controller
            Cuando se crea un Proyecto, los usuarios asociados quedan pendientes.
            Ellos tienen que confirmar la solicitud que pueden SI trabajar en ese Proyecto.
           */
-          $list_crew = $request->get('list_crew');
-
-          if(empty($list_crew[0])){
-            return redirect('/projects/edit')->with('message', 'Error al Editar Proyecto. Debe Agregar al menos un Crew!');
-          }
 
           $start_date = explode('/', $request->get('start_date'));
           $finish_date = explode('/', $request->get('finish_date'));

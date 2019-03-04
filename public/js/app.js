@@ -181,7 +181,10 @@ $(document).ready(function(){
             // insert option
             getValueCategoriesSat.append("<option value=''>Seleccionar</option>");
             $.each(results, function(i,v){
-              getValueCategoriesSat.append("<option value='"+v.id+"'>"+v.name+"</option>");
+              var porcentajeRest = (v.sueldo_bruto * 0.19);
+              var salaryneto = (v.sueldo_bruto - porcentajeRest);
+
+              getValueCategoriesSat.append("<option value='"+v.id+"' data-salaryneto='"+salaryneto+"'>"+v.name+"</option>");
             });
 
             $('.selectpicker').selectpicker('refresh');

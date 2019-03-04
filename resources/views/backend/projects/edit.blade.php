@@ -327,7 +327,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Sueldo Contrato F. SAT/Frame:
+                          Sueldo Contrato Mensual:
                         </span>
                           <input type="number" class="form-control" name="salary_contract_category_function" maxlength="125">
                       </div>
@@ -576,6 +576,15 @@ $(document).ready(function(){
     } else {
       alert('Seleccione una Categoria SAT, para que se autocomplete el campo seleccionado');
     }
+  });
+
+
+  $(".get_value_categories_sat").change(function(){
+      const salaryNeto = $(this).data(''salaryneto);
+
+      if(salaryNeto.length >= 1 && salaryNeto != 0){
+        $('input[name=salary_contract_category_function]').val(salaryNeto);
+      }
   });
 
   // eliminar los project_providers por ajax
