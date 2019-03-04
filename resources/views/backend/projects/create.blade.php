@@ -302,7 +302,7 @@
                         <span class="input-group-text">
                           Sueldo Jornada:
                         </span>
-                          <input type="number" class="form-control" name="salary_workdays" maxlength="125">
+                          <input type="text" class="form-control validate-number-decimal" name="salary_workdays" maxlength="125">
                       </div>
                     </div>
                   </div>
@@ -313,7 +313,7 @@
                         <span class="input-group-text">
                           Sueldo Total:
                         </span>
-                          <input type="number" class="form-control" name="total_workdays" maxlength="125">
+                          <input type="text" class="form-control" name="total_workdays" maxlength="125" readonly>
                       </div>
                     </div>
                   </div>
@@ -324,7 +324,7 @@
                         <span class="input-group-text">
                           Sueldo Contrato Mensual:
                         </span>
-                          <input type="number" class="form-control" name="salary_contract_category_function" maxlength="125">
+                          <input type="text" class="form-control" name="salary_contract_category_function" maxlength="125" readonly>
                       </div>
                     </div>
                   </div>
@@ -335,7 +335,7 @@
                         <span class="input-group-text">
                           Sueldo Diario:
                         </span>
-                          <input type="number" class="form-control" name="salary_daily" maxlength="125">
+                          <input type="text" class="form-control" name="salary_daily" maxlength="125" readonly>
                       </div>
                     </div>
                   </div>
@@ -346,7 +346,7 @@
                         <span class="input-group-text">
                           Sueldo A Liquidar:
                         </span>
-                          <input type="number" class="form-control" name="salary_liquidate" maxlength="125">
+                          <input type="text" class="form-control" name="salary_liquidate" maxlength="125" readonly>
                       </div>
                     </div>
                   </div>
@@ -357,7 +357,7 @@
                         <span class="input-group-text">
                           Diferencia:
                         </span>
-                        <input type="number" class="form-control" name="crew_sueldo_diferencia" maxlength="125">
+                        <input type="text" class="form-control" name="crew_sueldo_diferencia" maxlength="125" readonly>
                       </div>
                     </div>
                   </div>
