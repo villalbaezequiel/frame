@@ -46,7 +46,7 @@
               <label class="col-md-2 col-form-label">Básico *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="sueldo_basico" value="{{ $workersCategory->sueldo_basico }}" maxlength="125" required>
+                  <input class="form-control validate-number-decimal" type="text" name="sueldo_basico" value="{{ $workersCategory->sueldo_basico }}" maxlength="125" required>
                 </div>
               </div>
             </div>
@@ -54,7 +54,7 @@
               <label class="col-md-2 col-form-label">Adicional *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="sueldo_adicional" value="{{ $workersCategory->sueldo_adicional }}" maxlength="125" required>
+                  <input class="form-control validate-number-decimal" type="text" name="sueldo_adicional" value="{{ $workersCategory->sueldo_adicional }}" maxlength="125" required>
                 </div>
               </div>
             </div>
@@ -62,7 +62,7 @@
               <label class="col-md-2 col-form-label">Presentismo</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="presentismo" value="{{ $workersCategory->presentismo }}" maxlength="125">
+                  <input class="form-control validate-number-decimal" type="text" name="presentismo" value="{{ $workersCategory->presentismo }}" maxlength="125">
                 </div>
               </div>
             </div>
@@ -70,7 +70,7 @@
               <label class="col-md-2 col-form-label">Sueldo Bruto *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="sueldo_bruto" value="{{ $workersCategory->sueldo_bruto }}" maxlength="125" required>
+                  <input class="form-control validate-number-decimal" type="text" name="sueldo_bruto" value="{{ $workersCategory->sueldo_bruto }}" maxlength="125" required>
                 </div>
               </div>
             </div>
