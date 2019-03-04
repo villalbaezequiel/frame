@@ -561,7 +561,10 @@ $(document).ready(function(){
   });
 
   $(".get_value_categories_sat").change(function(){
-      $('input[name=salary_contract_category_function]').val($(this).data('salaryneto'));
+    var salaryneto = $(this).find(':selected').data('salaryneto');
+    if(salaryneto){
+      $('input[name=salary_contract_category_function]').val(salaryneto);
+    }
   });
 
 });
