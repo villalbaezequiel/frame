@@ -579,10 +579,7 @@ $(document).ready(function(){
   });
 
   $(".get_value_categories_sat").change(function(){
-      var salaryNeto = $(this).data('salaryneto');
-      if(salaryNeto != 0){
-        $('input[name=salary_contract_category_function]').val(salaryNeto);
-      }
+      $('input[name=salary_contract_category_function]').val($(this).data('salaryneto'));
   });
 
   // eliminar los project_providers por ajax
