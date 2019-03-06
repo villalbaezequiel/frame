@@ -284,12 +284,12 @@
                         <span class="input-group-text">
                           Modalidad:
                         </span>
-                        <input class="form-control" type="text" name="view_modality_work" disabled>
+                        <select class="selectpicker" data-style="select-with-transition" name="view_modality_work"></select>
                       </div>
                     </div>
                   </div>
 
-                  <div class="col-md-10">
+                  <div class="col-md-6">
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
@@ -537,9 +537,22 @@ $(document).ready(function(){
       if($('#'+id_provider).length == 0){
         $('.list_crew').append("<input type='hidden' name='list_crew[]' id='"+id_provider+"' value='' />");
         $('#'+id_provider).val(JSON.stringify(crew));
+
+        if($("select[name=id_workday]").find(':selected').data('day') == 1){
+          if(parseFloat($('input[name=count_workdays_crew]').val()) <= parseFloat(count_workdays_crew)){
+            $('input[name=count_workdays_crew]').val(count_workdays_crew);
+          }
+        }
+
       } else {
         $('#'+id_provider).val('');
         $('#'+id_provider).val(JSON.stringify(crew));
+
+        if($("select[name=id_workday]").find(':selected').data('day') == 1){
+          if(parseFloat($('input[name=count_workdays_crew]').val()) <= parseFloat(count_workdays_crew)){
+            $('input[name=count_workdays_crew]').val(count_workdays_crew);
+          }
+        }
 
         // remove item_view
         $("#item_view_"+id_provider).remove();
@@ -611,7 +624,8 @@ $(document).ready(function(){
       $('input[name=count_workdays]').attr('readonly', 'readonly');
       $('input[name=count_workdays]').val('');
     }
-    $("input[name=view_modality_work]").val($(this).find(':selected').text());
+    $("select[name=view_modality_work]").find('option').remove().end().append('<option selected="selected">'+$(this).find(':selected').text()+'</option>');
+    $('.selectpicker').selectpicker('refresh');
   });
 
 });
@@ -639,10 +653,6 @@ function getFormatNumber(number){
       return numberInt[0]+","+numberInt[1];
     }
   }
-}
-
-function calculateCantidadJornadaLaboral(){
-
 }
 </script>
 @endsection
