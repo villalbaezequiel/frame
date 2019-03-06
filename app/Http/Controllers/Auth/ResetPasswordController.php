@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
@@ -38,13 +37,23 @@ class ResetPasswordController extends Controller
         $this->middleware('guest');
     }
 
-    protected function credentials(Request $request)
+    /**
+     * Reset the given user's password.
+     *
+     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
+     * @param  string  $password
+     * @return void
+     */
+    protected function resetPassword($user, $password)
     {
-      return [
-        'email' => $request->email,
-        'password' => $request->password,
-        'is_crew' => '1',
-        'active' => '1',
-      ];
+        $user->password = Hash::make($password);
+
+        $user->setRememberToken(Str::random(60));
+
+        $user->save();
+
+        event(new PasswordReset($user));
+
+        return redirect('/login')->with('message', 'Contraseña actualizada con Exito!');
     }
 }

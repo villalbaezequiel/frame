@@ -36,6 +36,9 @@
             @if ($errors->has('password'))
               <strong>{{ $errors->first('password') }}</strong>
             @endif
+            @if (session('message'))
+              <strong>{{ session('message') }}</strong>
+            @endif
           </p>
 
           <span class="bmd-form-group">
