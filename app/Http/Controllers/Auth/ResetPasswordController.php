@@ -36,4 +36,14 @@ class ResetPasswordController extends Controller
     {
         $this->middleware('guest');
     }
+
+    protected function credentials(Request $request)
+    {
+      return [
+        'email' => $request->email,
+        'password' => $request->password,
+        'is_crew' => '1',
+        'active' => '1',
+      ];
+    }
 }
