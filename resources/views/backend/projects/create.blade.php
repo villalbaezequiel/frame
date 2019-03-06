@@ -148,32 +148,16 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Cantidad de Jornadas: (*)
-                        </span>
-                          <input type="number" class="form-control" name="count_workdays" value="{{ old('count_workdays') }}" placeholder="Ingresar Números, Puntos (.) y/o Comas (,)" maxlength="125" required>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-10">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Horas / Duración de Jornada: (*)
-                        </span>
-                        <input type="number" class="form-control" name="duration_workdays" value="{{ old('duration_workdays') }}" placeholder="Ingresar Números, Puntos (.) y/o Comas (,)" maxlength="125" required>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-10">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
                           Modalidad: (*)
                         </span>
                           <select class="selectpicker" data-style="select-with-transition" name="id_workday" required>
                           <option value="">Seleccionar</option>
                           @foreach(\App\Workday::getAllWorkdays() as $workday)
-                          <option value="{{ $workday->id }}">{{ $workday->name }}</option>
+                          <option
+                            <?php if($workday->day): ?>
+                            data-day="{{ $workday->day }}"
+                            <?php endif; ?>
+                            value="{{ $workday->id }}">{{ $workday->name }}<?php if($workday->day && $workday->day != 1){ echo "(".$workday->day." dias)";} ?></option>
                           @endforeach
                         </select>
                       </div>
@@ -183,9 +167,29 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
+                          Duración de Jornada Laborables (horas): (*)
+                        </span>
+                        <input type="number" class="form-control" name="duration_workdays" value="{{ old('duration_workdays') }}" placeholder="Ingresar Números, Puntos (.) y/o Comas (,)" maxlength="125" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Cantidad de Jornadas Laborables:
+                        </span>
+                          <input type="number" class="form-control" name="count_workdays" value="{{ old('count_workdays') }}" placeholder="Ingresar Números, Puntos (.) y/o Comas (,)" maxlength="125" readonly>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
                           Dias: (*)
                         </span>
-                        <input type="number" class="form-control" name="days" value="{{ old('days') }}" placeholder="Ingresar Números, Puntos (.) y/o Comas (,)" maxlength="125" required>
+                        <input type="number" class="form-control" name="days" value="{{ old('days') }}" placeholder="Ingresar Números, Puntos (.) y/o Comas (,)" maxlength="125" readonly required>
                       </div>
                     </div>
                   </div>
@@ -270,6 +274,28 @@
                           Fecha de Baja Contrato:
                         </span>
                         <input class="form-control datepicker" type="text" name="finish_date_contract">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Modalidad:
+                        </span>
+                        <input class="form-control" type="text" name="view_modality_work" disabled>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-10">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Cantidad de Jornadas Laborables:
+                        </span>
+                          <input type="number" class="form-control" name="count_workdays_crew" maxlength="125">
                       </div>
                     </div>
                   </div>
@@ -437,13 +463,10 @@ $(document).ready(function(){
         finish_date: {
           required: true
         },
-        count_workdays: {
+        id_workday: {
           required: true
         },
         duration_workdays: {
-          required: true
-        },
-        id_workday: {
           required: true
         },
         days: {
@@ -483,12 +506,14 @@ $(document).ready(function(){
     var salaty_difference = $('input[name=crew_sueldo_diferencia]').val();
     var start_date_contract = $('input[name=start_date_contract]').val();
     var finish_date_contract = $('input[name=finish_date_contract]').val();
-    var start_afip = $('input[name=start_afip]').val(); // no required
-    var finish_afip = $('input[name=finish_afip]').val(); // no required
+    var count_workdays_crew = $('input[name=count_workdays_crew]').val();
+    var start_afip = $('input[name=start_afip]').val();
+    var finish_afip = $('input[name=finish_afip]').val();
 
     if(id_function_frame && id_category_sat && id_contract && id_provider &&
        salary_workdays && total_workdays && salary_contract_category_function &&
-       salary_daily && salary_liquidate && start_date_contract && finish_date_contract)
+       salary_daily && salary_liquidate && start_date_contract && finish_date_contract &&
+       count_workdays_crew && start_afip && finish_afip)
     {
       var crew = {
         'id_function_frame': id_function_frame,
@@ -503,6 +528,7 @@ $(document).ready(function(){
         'salaty_difference': salaty_difference,
         'start_date_contract': start_date_contract,
         'finish_date_contract': finish_date_contract,
+        'count_workdays_crew': count_workdays_crew,
         'start_afip': start_afip,
         'finish_afip': finish_afip
       };
@@ -541,11 +567,11 @@ $(document).ready(function(){
 
   // automatic calculate input
   $('input[name=total_workdays]').click(function(){
-    if($('input[name=salary_workdays]').val() && $('input[name=count_workdays]').val()){
+    if($('input[name=salary_workdays]').val() && $('input[name=count_workdays_crew]').val()){
 
       var salary_workdays = $('input[name=salary_workdays]').val();
-      var count_workdays = $('input[name=count_workdays]').val();
-      var total_workdays = (parseFloat(salary_workdays.replace(".", "").replace(",", ".")) * parseFloat(count_workdays));
+      var count_workdays_crew = $('input[name=count_workdays_crew]').val();
+      var total_workdays = (parseFloat(salary_workdays.replace(".", "").replace(",", ".")) * parseFloat(count_workdays_crew));
 
       $('input[name=total_workdays]').val(getFormatNumber(total_workdays));
 
@@ -577,6 +603,17 @@ $(document).ready(function(){
     }
   });
 
+  // module 2 Jornadas
+  $("select[name=id_workday]").change(function(){
+    if($(this).find(':selected').data('day') == 1){
+      $('input[name=count_workdays]').removeAttr('readonly');
+    } else {
+      $('input[name=count_workdays]').attr('readonly', 'readonly');
+      $('input[name=count_workdays]').val('');
+    }
+    $("input[name=view_modality_work]").val($(this).find(':selected').text());
+  });
+
 });
 
 function getFormatNumber(number){
@@ -602,6 +639,10 @@ function getFormatNumber(number){
       return numberInt[0]+","+numberInt[1];
     }
   }
+}
+
+function calculateCantidadJornadaLaboral(){
+
 }
 </script>
 @endsection

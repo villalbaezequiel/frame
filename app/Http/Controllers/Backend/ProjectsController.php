@@ -102,6 +102,7 @@ class ProjectsController extends Controller
             $crew->salaty_difference = $crewObj->salaty_difference;
             $crew->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
             $crew->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
+            $crew->count_workdays_crew = $crewObj->count_workdays_crew;
             $crew->start_afip = (isset($start_afip[2]) ? $start_afip[2].'-'.$start_afip[1].'-'.$start_afip[0] : $crewObj->start_afip);
             $crew->finish_afip = (isset($finish_afip[2]) ? $finish_afip[2].'-'.$finish_afip[1].'-'.$finish_afip[0] : $crewObj->finish_afip);
             $crew->active = '0';
@@ -211,6 +212,7 @@ class ProjectsController extends Controller
             $crew->salaty_difference = $crewObj->salaty_difference;
             $crew->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
             $crew->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
+            $crew->count_workdays_crew = $crewObj->count_workdays_crew;
             $crew->start_afip = (isset($start_afip[2]) ? $start_afip[2].'-'.$start_afip[1].'-'.$start_afip[0] : $crewObj->start_afip);
             $crew->finish_afip = (isset($finish_afip[2]) ? $finish_afip[2].'-'.$finish_afip[1].'-'.$finish_afip[0] : $crewObj->finish_afip);
             $crew->active = '0';
