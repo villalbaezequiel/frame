@@ -333,7 +333,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Sueldo Diario:
+                          Sueldo Diario SAT:
                         </span>
                           <input type="text" class="form-control" name="salary_daily" maxlength="125" readonly>
                       </div>
@@ -344,7 +344,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Sueldo A Liquidar:
+                          Sueldo A Liquidar Neto:
                         </span>
                           <input type="text" class="form-control" name="salary_liquidate" maxlength="125" readonly>
                       </div>
@@ -578,6 +578,7 @@ $(document).ready(function(){
   });
 
 });
+
 function getFormatNumber(number){
   var numberInt = number.toString().split('.');
   if(numberInt[1]){

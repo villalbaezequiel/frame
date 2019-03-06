@@ -307,7 +307,7 @@
                         <span class="input-group-text">
                           Sueldo Jornada:
                         </span>
-                          <input type="number" class="form-control" name="salary_workdays" maxlength="125">
+                          <input type="number" class="form-control validate-number-decimal-not-ps" name="salary_workdays" maxlength="125">
                       </div>
                     </div>
                   </div>
@@ -338,7 +338,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Sueldo Diario:
+                          Sueldo Diario SAT:
                         </span>
                           <input type="number" class="form-control" name="salary_daily" maxlength="125">
                       </div>
@@ -349,7 +349,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Sueldo A Liquidar:
+                          Sueldo A Liquidar Neto:
                         </span>
                           <input type="number" class="form-control" name="salary_liquidate" maxlength="125">
                       </div>
@@ -560,23 +560,33 @@ $(document).ready(function(){
   // automatic calculate input
   $('input[name=total_workdays]').click(function(){
     if($('input[name=salary_workdays]').val() && $('input[name=count_workdays]').val()){
-      $('input[name=total_workdays]').val($('input[name=salary_workdays]').val() * $('input[name=count_workdays]').val());
+
+      var salary_workdays = $('input[name=salary_workdays]').val();
+      var count_workdays = $('input[name=count_workdays]').val();
+      var total_workdays = (parseFloat(salary_workdays.replace(".", "").replace(",", ".")) * parseFloat(count_workdays));
+
+      $('input[name=total_workdays]').val(getFormatNumber(total_workdays));
+
+      if($('input[name=salary_contract_category_function]').val()){
+
+        var salary_contract_category_function = $('input[name=salary_contract_category_function]').val();
+        var salary_contract_category_functionFinish = parseFloat(salary_contract_category_function.replace(".", "").replace(",", "."));
+        var days = $('input[name=days]').val();
+        var salary_daily = (salary_contract_category_functionFinish / 30);
+
+        $('input[name=salary_daily]').val(getFormatNumber(salary_daily));
+        $('input[name=salary_liquidate]').val(getFormatNumber(parseFloat(days) * salary_daily));
+        $('input[name=crew_sueldo_diferencia]').val( getFormatNumber(total_workdays - (parseFloat(days) * salary_daily)) );
+
+      } else {
+        alert('Seleccione una Categoria SAT, para que se autocomplete el campo seleccionado');
+      }
+
     } else {
       alert('Ingrese un Valor en Sueldo Jornada, para que se autocomplete el campo seleccionado');
     }
   });
 
-  $('input[name=salary_daily]').click(function(){
-    if($('input[name=salary_contract_category_function]').val()){
-
-      $('input[name=salary_daily]').val($('input[name=salary_workdays]').val() / 30);
-      $('input[name=salary_liquidate]').val($('input[name=days]').val() * $('input[name=salary_daily]').val());
-      $('input[name=crew_sueldo_diferencia]').val($('input[name=total_workdays]').val() - $('input[name=salary_liquidate]').val());
-
-    } else {
-      alert('Seleccione una Categoria SAT, para que se autocomplete el campo seleccionado');
-    }
-  });
 
   $(".get_value_categories_sat").change(function(){
     var salaryneto = $(this).find(':selected').data('salaryneto');
@@ -586,7 +596,31 @@ $(document).ready(function(){
   });
 
   // eliminar los project_providers por ajax
-
 });
+
+function getFormatNumber(number){
+  var numberInt = number.toString().split('.');
+  if(numberInt[1]){
+    if(numberInt[0].length == 4) {
+      return numberInt[0].substr(0, 1)+"."+numberInt[0].substr(-3)+","+numberInt[1];
+    } else if(numberInt[0].length == 5){
+      return numberInt[0].substr(0, 2)+"."+numberInt[0].substr(-3)+","+numberInt[1];
+    } else if(numberInt[0].length == 6) {
+      return numberInt[0].substr(0, 3)+"."+numberInt[0].substr(-3)+","+numberInt[1];
+    } else {
+      return numberInt[0]+","+numberInt[1];
+    }
+  } else {
+    if(numberInt[0].length == 4) {
+      return numberInt[0].substr(0, 1)+"."+numberInt[0].substr(-3)+",00";
+    } else if(numberInt[0].length == 5){
+      return numberInt[0].substr(0, 2)+"."+numberInt[0].substr(-3)+",00";
+    } else if(numberInt[0].length == 6) {
+      return numberInt[0].substr(0, 3)+"."+numberInt[0].substr(-3)+",00";
+    } else {
+      return numberInt[0]+","+numberInt[1];
+    }
+  }
+}
 </script>
 @endsection
