@@ -302,7 +302,7 @@
                         <span class="input-group-text">
                           Sueldo Jornada:
                         </span>
-                          <input type="text" class="form-control validate-number-decimal" name="salary_workdays" maxlength="125">
+                          <input type="text" class="form-control validate-number-decimal-not-ps" name="salary_workdays" maxlength="125">
                       </div>
                     </div>
                   </div>
