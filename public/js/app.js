@@ -181,11 +181,7 @@ $(document).ready(function(){
             // insert option
             getValueCategoriesSat.append("<option value=''>Seleccionar</option>");
             $.each(results, function(i,v){
-
-              var sueldo_bruto = parseFloat(v.sueldo_bruto.replace("$", ""));
-              var salaryneto = ((sueldo_bruto * 0.19) - sueldo_bruto);
-
-              getValueCategoriesSat.append("<option value='"+v.id+"' data-salaryneto='"+salaryneto+"'>"+v.name+"</option>");
+              getValueCategoriesSat.append("<option value='"+v.id+"' data-salaryneto='"+v.sueldo_neto+"'>"+v.name+"</option>");
             });
 
             $('.selectpicker').selectpicker('refresh');

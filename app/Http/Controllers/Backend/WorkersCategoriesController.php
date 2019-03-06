@@ -51,6 +51,12 @@ class WorkersCategoriesController extends Controller
      {
        $message;
        try {
+
+           $sueldo_buto = str_replace(array("$", ".", ","), array("", "", "."), $request->get('sueldo_bruto'));
+           $salary_neto = (floatval($sueldo_buto) - (floatval($sueldo_buto)*0.19));
+           $salary_netoCheck = explode(".", "$salary_neto");
+           $salaryNetoFinish = substr($salary_netoCheck[0], 0, -3).".".substr($salary_netoCheck[0], -3).",".$salary_netoCheck[1];
+
            // New WorkersCategory
            $workersCategory = new WorkersCategory;
            $workersCategory->number_category = $request->get('number_category');
@@ -59,6 +65,7 @@ class WorkersCategoriesController extends Controller
            $workersCategory->sueldo_adicional = $request->get('sueldo_adicional');
            $workersCategory->sueldo_bruto = $request->get('sueldo_bruto');
            $workersCategory->sueldo_bruto_texto = $request->get('sueldo_bruto_texto');
+           $workersCategory->sueldo_neto = $salaryNetoFinish;
            $workersCategory->presentismo = $request->get('presentismo');
            $workersCategory->active = $request->get('active');
            $workersCategory->save();
@@ -117,6 +124,11 @@ class WorkersCategoriesController extends Controller
      {
        $message;
        try {
+           $sueldo_buto = str_replace(array("$", ".", ","), array("", "", "."), $request->get('sueldo_bruto'));
+           $salary_neto = (floatval($sueldo_buto) - (floatval($sueldo_buto)*0.19));
+           $salary_netoCheck = explode(".", "$salary_neto");
+           $salaryNetoFinish = substr($salary_netoCheck[0], 0, -3).".".substr($salary_netoCheck[0], -3).",".$salary_netoCheck[1];
+
            // Update WorkersCategory
            $workersCategory = WorkersCategory::find($id);
            $workersCategory->number_category = $request->get('number_category');
@@ -125,6 +137,7 @@ class WorkersCategoriesController extends Controller
            $workersCategory->sueldo_adicional = $request->get('sueldo_adicional');
            $workersCategory->sueldo_bruto = $request->get('sueldo_bruto');
            $workersCategory->sueldo_bruto_texto = $request->get('sueldo_bruto_texto');
+           $workersCategory->sueldo_neto = $salaryNetoFinish;
            $workersCategory->presentismo = $request->get('presentismo');
            $workersCategory->active = $request->get('active');
            $workersCategory->save();
