@@ -33,6 +33,7 @@
               <tr>
                 <th>#ID</th>
                 <th>Nombre</th>
+                <th>Dias</th>
                 <th>Activo</th>
                 <th>Acciones</th>
               </tr>
@@ -42,6 +43,7 @@
               <tr class="item-alert-confirm-delete">
                 <td>{{ $workday->id }}</td>
                 <td>{{ $workday->name }}</td>
+                <td>{{ $workday->day }}</td>
                 <td>{{ \App\Helpers::getActive($workday->active) }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['workdays.destroy', $workday->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}

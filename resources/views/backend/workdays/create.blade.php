@@ -35,6 +35,14 @@
               </div>
             </div>
             <div class="row">
+              <label class="col-md-2 col-form-label">Dias</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <input class="form-control" type="number" name="day" value="{{ old('day') }}" maxlength="125">
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <label class="col-md-2 col-form-label">Descripción *</label>
               <div class="col-md-7">
                 <div class="form-group">

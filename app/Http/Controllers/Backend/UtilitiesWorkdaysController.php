@@ -54,6 +54,7 @@ class UtilitiesWorkdaysController extends Controller
            // New Workday
            $workday = new Workday;
            $workday->name = $request->get('name');
+           $workday->day = $request->get('day');
            $workday->description = $request->get('description');
            $workday->active = $request->get('active');
            $workday->save();
@@ -115,6 +116,7 @@ class UtilitiesWorkdaysController extends Controller
            // Update Workday
            $workday = Workday::find($id);
            $workday->name = $request->get('name');
+           $workday->day = $request->get('day');
            $workday->description = $request->get('description');
            $workday->active = $request->get('active');
            $workday->save();
