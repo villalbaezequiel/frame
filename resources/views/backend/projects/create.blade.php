@@ -580,10 +580,26 @@ $(document).ready(function(){
 });
 function getFormatNumber(number){
   var numberInt = number.toString().split('.');
-  if(numberInt[0].length == 5){
-    return numberInt[0].substr(0, 2)+"."+numberInt[0].substr(-3)+","+numberInt[1];
-  } else if(numberInt[0].length == 6) {
-    return numberInt[0].substr(0, 3)+"."+numberInt[0].substr(-3)+","+numberInt[1];
+  if(numberInt[1]){
+    if(numberInt[0].length == 4) {
+      return numberInt[0].substr(0, 1)+"."+numberInt[0].substr(-3)+","+numberInt[1];
+    } else if(numberInt[0].length == 5){
+      return numberInt[0].substr(0, 2)+"."+numberInt[0].substr(-3)+","+numberInt[1];
+    } else if(numberInt[0].length == 6) {
+      return numberInt[0].substr(0, 3)+"."+numberInt[0].substr(-3)+","+numberInt[1];
+    } else {
+      return numberInt[0]+","+numberInt[1];
+    }
+  } else {
+    if(numberInt[0].length == 4) {
+      return numberInt[0].substr(0, 1)+"."+numberInt[0].substr(-3)+",00";
+    } else if(numberInt[0].length == 5){
+      return numberInt[0].substr(0, 2)+"."+numberInt[0].substr(-3)+",00";
+    } else if(numberInt[0].length == 6) {
+      return numberInt[0].substr(0, 3)+"."+numberInt[0].substr(-3)+",00";
+    } else {
+      return numberInt[0]+","+numberInt[1];
+    }
   }
 }
 </script>
