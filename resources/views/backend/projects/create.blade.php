@@ -538,9 +538,9 @@ $(document).ready(function(){
         $('.list_crew').append("<input type='hidden' name='list_crew[]' id='"+id_provider+"' value='' />");
         $('#'+id_provider).val(JSON.stringify(crew));
 
-        if($("select[name=id_workday]").find(':selected').data('day') == 1){
-          if(parseFloat($('input[name=count_workdays_crew]').val()) <= parseFloat(count_workdays_crew)){
-            $('input[name=count_workdays_crew]').val(count_workdays_crew);
+        if($("select[name=id_workday]").find(':selected').data('day') != 1){
+          if(parseFloat($('input[name=count_workdays]').val()) <= parseFloat(count_workdays_crew)){
+            $('input[name=count_workdays]').val(count_workdays_crew);
           }
         }
 
@@ -548,9 +548,9 @@ $(document).ready(function(){
         $('#'+id_provider).val('');
         $('#'+id_provider).val(JSON.stringify(crew));
 
-        if($("select[name=id_workday]").find(':selected').data('day') == 1){
-          if(parseFloat($('input[name=count_workdays_crew]').val()) <= parseFloat(count_workdays_crew)){
-            $('input[name=count_workdays_crew]').val(count_workdays_crew);
+        if($("select[name=id_workday]").find(':selected').data('day') != 1){
+          if(parseFloat($('input[name=count_workdays]').val()) <= parseFloat(count_workdays_crew)){
+            $('input[name=count_workdays]').val(count_workdays_crew);
           }
         }
 
