@@ -63,3 +63,20 @@
 .valoration_star_input:checked ~ label {
     color: orange;
 }
+
+@media screen and (max-width:770px){
+
+  div.dataTables_wrapper div.dataTables_filter,
+  div.dataTables_wrapper div.dataTables_length {
+    text-align: left;
+  }
+
+  div.dataTables_wrapper div.dataTables_info {
+    white-space: normal;
+  }
+
+  div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+    justify-content:center
+  }
+
+}
