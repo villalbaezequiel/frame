@@ -49,6 +49,7 @@ Route::get('/json/sat_functions/{id_frame_function}/{id_workers_category}', 'Bac
 Route::get('/json/{type_project}/functions_frame', 'Backend\JsonController@getFunctionsFrameByTypeProject');
 Route::get('/json/{id_function_frame}/categories_sat', 'Backend\JsonController@getCategoriesSatByFunctionFrame');
 Route::get('/json/{id_frame_function}/crew', 'Backend\JsonController@getCrewByFunctionFrame');
+Route::get('/json/check_crew_project/{id_provider}/{start_date_contract}', 'Backend\JsonController@checkAvailableCrewProject');
 
 // register crew
 Route::post('/crew/store', 'Backend\ProvidersController@store')->name('crew.store');

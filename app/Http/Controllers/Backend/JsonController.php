@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Helpers;
 use App\FrameFunction;
 use App\Provider;
+use App\ProjectProvider;
 use App\WorkersCategory;
 
 class JsonController extends Controller
@@ -193,4 +194,43 @@ class JsonController extends Controller
     }
   }
 
+    /*
+    * parameter: id_provider, start_date_contract, finish_date_contract, active = 0
+    * return Boolean
+    * Logica:
+    */
+    public function checkAvailableCrewProject($id_provider, $start_date_contract, $active = '0')
+    {
+      $message;
+      try {
+        $status = false;
+
+        $start_date = explode('-', $start_date_contract);
+        $start_date_contract_format = $start_date[2].'-'.$start_date[1].'-'.$start_date[0].' 00:00:00';
+
+        $checkCrew = ProjectProvider::where('id_provider', $id_provider)
+                                    ->where('finish_date_contract', '>=', $start_date_contract_format)
+                                    ->where('active', $active)
+                                    ->count();
+        if($checkCrew == 0){
+          $status = true;
+        } else {
+          $status = false;
+        }
+        return \Response::json(array('status' => $status));
+
+      } catch(\Exception $e) {
+        if(\Config::get('app.debug')):
+          $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
+        else:
+          $message = 'Se ha producido un error. Por favor intente nuevamente.';
+        endif;
+
+        $respuesta = array(
+          'estado' => false,
+          'mensaje' => $message
+        );
+        return \Response::json($respuesta);
+      }
+    }
 }

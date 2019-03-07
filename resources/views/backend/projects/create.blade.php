@@ -506,7 +506,7 @@ $(document).ready(function(){
     var salaty_difference = $('input[name=crew_sueldo_diferencia]').val();
     var start_date_contract = $('input[name=start_date_contract]').val();
     var finish_date_contract = $('input[name=finish_date_contract]').val();
-      var count_workdays_crew = $('input[name=count_workdays_crew]').val();
+    var count_workdays_crew = $('input[name=count_workdays_crew]').val();
     var start_afip = $('input[name=start_afip]').val();
     var finish_afip = $('input[name=finish_afip]').val();
 
@@ -515,6 +515,37 @@ $(document).ready(function(){
        salary_daily && salary_liquidate && start_date_contract && finish_date_contract &&
        count_workdays_crew && start_afip && finish_afip)
     {
+
+      // verificar si el Crew esta en otro proecto en esas fechas
+      $.ajax({
+        type: 'GET',
+        url: '/sistema/json/check_crew_project/'+id_provider+'/'+start_date_contract.replace('/', '-'),
+        dataType: 'json',
+        success: function(data){
+
+          var status = data.status;
+
+          if(status == true){
+            return true;
+          } else {
+            Swal.fire({
+              type: 'warning',
+              title: '¡Advertencia! El Crew, en las Fechas de Contrato ingresadas, se encuentra Trabajando en otro Proyecto!',
+              text: "Por favor ingrese nuevas Fechas de Contrato o pruebe con Otro Crew.",
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Si, continuar!'
+            });
+            return false;
+          }
+
+        },
+        error: function(xhr, status){
+          console.log('Error: '+xhr);
+        }
+      });
+
+
       var crew = {
         'id_function_frame': id_function_frame,
         'id_category_sat': id_category_sat,
@@ -560,7 +591,7 @@ $(document).ready(function(){
       var crewFrameSat = $('select[name=id_function_frame] option:selected').text()+" / "+$('select[name=id_category_sat] option:selected').text();
       var crewDates = start_date_contract+" - "+finish_date_contract;
 
-      // onClick remove crew
+      // button to onClick add remove crew
       var onClickRemoveCrew = "$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove()";
 
       // add html list crew view
