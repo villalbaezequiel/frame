@@ -516,36 +516,7 @@ $(document).ready(function(){
        count_workdays_crew && start_afip && finish_afip)
     {
 
-      // verificar si el Crew esta en otro proecto en esas fechas
-      $.ajax({
-        type: 'GET',
-        url: '/sistema/json/check_crew_project/'+id_provider+'/'+start_date_contract.replace(/\//g, '-'),
-        dataType: 'json',
-        success: function(data){
-
-          var status = data.status;
-
-          if(status == true){
-            return true;
-          } else {
-            Swal.fire({
-              type: 'warning',
-              title: '¡Advertencia! El Crew, en las Fechas de Contrato ingresadas, se encuentra Trabajando en otro Proyecto!',
-              text: "Por favor ingrese nuevas Fechas de Contrato o pruebe con Otro Crew.",
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Si, continuar!'
-            });
-            return false;
-          }
-
-        },
-        error: function(xhr, status){
-          console.log('Error: '+xhr);
-        }
-      });
-
-
+      // object crew
       var crew = {
         'id_function_frame': id_function_frame,
         'id_category_sat': id_category_sat,
@@ -564,41 +535,71 @@ $(document).ready(function(){
         'finish_afip': finish_afip
       };
 
-      // add crew to list input request
-      if($('#'+id_provider).length == 0){
-        $('.list_crew').append("<input type='hidden' name='list_crew[]' id='"+id_provider+"' value='' />");
-        $('#'+id_provider).val(JSON.stringify(crew));
+      // verificar si el Crew esta en otro proecto en esas fechas
+      $.ajax({
+        type: 'GET',
+        url: '/sistema/json/check_crew_project/'+id_provider+'/'+start_date_contract.replace(/\//g, '-'),
+        dataType: 'json',
+        success: function(data){
 
-      } else {
-        $('#'+id_provider).val('');
-        $('#'+id_provider).val(JSON.stringify(crew));
+          var status = data.status;
 
-        // remove item_view
-        $("#item_view_"+id_provider).remove();
-      }
+          if(status == true){
 
-      // check jornada de trabajo del proyecto segun la jornada que mas tenga de los CREW
-      if(isNaN(parseFloat($('input[name=count_workdays]').val()))) {
-        $('input[name=count_workdays]').val(count_workdays_crew);
-      } else if($("select[name=id_workday]").find(':selected').data('day') != 1){
-        if(parseFloat($('input[name=count_workdays]').val()) <= parseFloat(count_workdays_crew)){
-          $('input[name=count_workdays]').val(count_workdays_crew);
+            // add crew
+            // add crew to list input request
+            if($('#'+id_provider).length == 0){
+              $('.list_crew').append("<input type='hidden' name='list_crew[]' id='"+id_provider+"' value='' />");
+              $('#'+id_provider).val(JSON.stringify(crew));
+
+            } else {
+              $('#'+id_provider).val('');
+              $('#'+id_provider).val(JSON.stringify(crew));
+
+              // remove item_view
+              $("#item_view_"+id_provider).remove();
+            }
+
+            // check jornada de trabajo del proyecto segun la jornada que mas tenga de los CREW
+            if(isNaN(parseFloat($('input[name=count_workdays]').val()))) {
+              $('input[name=count_workdays]').val(count_workdays_crew);
+            } else if($("select[name=id_workday]").find(':selected').data('day') != 1){
+              if(parseFloat($('input[name=count_workdays]').val()) <= parseFloat(count_workdays_crew)){
+                $('input[name=count_workdays]').val(count_workdays_crew);
+              }
+            }
+
+            // add crew list table front
+            var crewName = $('select[name=id_provider] option:selected').text();
+            var crewFrameSat = $('select[name=id_function_frame] option:selected').text()+" / "+$('select[name=id_category_sat] option:selected').text();
+            var crewDates = start_date_contract+" - "+finish_date_contract;
+
+            // button to onClick add remove crew
+            var onClickRemoveCrew = "$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove()";
+
+            // add html list crew view
+            $('.list_crew_view').append("<tr id='item_view_"+id_provider+"'><td><button type='button' class='btn btn-link btn-danger btn-just-icon remove' onClick="+onClickRemoveCrew+" data-idcrew='"+id_provider+"' data-itemremove='item_view_"+id_provider+"' title='Eliminar'><i class='material-icons'>close</i></button></td><td>"+crewName+"</td><td>"+crewFrameSat+"</td><td>"+crewDates+"</td><td></td></tr>");
+
+            // restart input add crew
+            $(".empty-values-finish-add-crew input").val('');
+
+          } else {
+            Swal.fire({
+              type: 'warning',
+              title: 'El Crew se encuentra Trabajando en otro Proyecto, en las Fechas de Contrato selecionadas!',
+              text: "Por favor ingrese nuevas Fechas de Contrato o pruebe con Otro Crew.",
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Si, continuar!'
+            });
+            return false;
+          }
+
+        },
+        error: function(xhr, status){
+          console.log('Error: '+xhr);
         }
-      }
-
-      // add crew list table front
-      var crewName = $('select[name=id_provider] option:selected').text();
-      var crewFrameSat = $('select[name=id_function_frame] option:selected').text()+" / "+$('select[name=id_category_sat] option:selected').text();
-      var crewDates = start_date_contract+" - "+finish_date_contract;
-
-      // button to onClick add remove crew
-      var onClickRemoveCrew = "$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove()";
-
-      // add html list crew view
-      $('.list_crew_view').append("<tr id='item_view_"+id_provider+"'><td><button type='button' class='btn btn-link btn-danger btn-just-icon remove' onClick="+onClickRemoveCrew+" data-idcrew='"+id_provider+"' data-itemremove='item_view_"+id_provider+"' title='Eliminar'><i class='material-icons'>close</i></button></td><td>"+crewName+"</td><td>"+crewFrameSat+"</td><td>"+crewDates+"</td><td></td></tr>");
-
-      // restart input add crew
-      $(".empty-values-finish-add-crew input").val('');
+      });
 
     } else {
       alert('Complete los datos correspondientes para agregar un Crew!');
