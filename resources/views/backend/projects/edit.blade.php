@@ -564,24 +564,21 @@ $(document).ready(function(){
         $('.list_crew').append("<input type='hidden' name='list_crew[]' id='"+id_provider+"' value='' />");
         $('#'+id_provider).val(JSON.stringify(crew));
 
-        if($("select[name=id_workday]").find(':selected').data('day') != 1){
-          if(parseFloat($('input[name=count_workdays]').val()) <= parseFloat(count_workdays_crew)){
-            $('input[name=count_workdays]').val(count_workdays_crew);
-          }
-        }
-
       } else {
         $('#'+id_provider).val('');
         $('#'+id_provider).val(JSON.stringify(crew));
 
-        if($("select[name=id_workday]").find(':selected').data('day') != 1){
-          if(parseFloat($('input[name=count_workdays]').val()) <= parseFloat(count_workdays_crew)){
-            $('input[name=count_workdays]').val(count_workdays_crew);
-          }
-        }
-
         // remove item_view
         $("#item_view_"+id_provider).remove();
+      }
+
+      // check jornada de trabajo del proyecto segun la jornada que mas tenga de los CREW
+      if(isNaN(parseFloat($('input[name=count_workdays]').val()))) {
+        $('input[name=count_workdays]').val(count_workdays_crew);
+      } else if($("select[name=id_workday]").find(':selected').data('day') != 1){
+        if(parseFloat($('input[name=count_workdays]').val()) <= parseFloat(count_workdays_crew)){
+          $('input[name=count_workdays]').val(count_workdays_crew);
+        }
       }
 
       // add crew list table front
