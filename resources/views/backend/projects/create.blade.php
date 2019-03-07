@@ -519,7 +519,7 @@ $(document).ready(function(){
       // verificar si el Crew esta en otro proecto en esas fechas
       $.ajax({
         type: 'GET',
-        url: '/sistema/json/check_crew_project/'+id_provider+'/'+start_date_contract.replace('/', '-'),
+        url: '/sistema/json/check_crew_project/'+id_provider+'/'+start_date_contract.replace(/\//g, '-'),
         dataType: 'json',
         success: function(data){
 
