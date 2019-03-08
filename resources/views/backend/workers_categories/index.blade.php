@@ -34,6 +34,9 @@
                 <th>Nº Categoría</th>
                 <th>Nombre</th>
                 <th>Básico</th>
+                <th>Adicional</th>
+                <th>Presentismo</th>
+                <th>Sueldo Bruto</th>
                 <th>Activo</th>
                 <th>Acciones</th>
               </tr>
@@ -44,6 +47,9 @@
                 <td>{{ $workersCategory->number_category }}</td>
                 <td>{{ $workersCategory->name }}</td>
                 <td>{{ $workersCategory->sueldo_basico }}</td>
+                <td>{{ $workersCategory->sueldo_adicional }}</td>
+                <td>{{ $workersCategory->presentismo }}</td>
+                <td>{{ $workersCategory->sueldo_bruto }}</td>
                 <td>{{ \App\Helpers::getActive($workersCategory->active) }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['workers_categories.destroy', $workersCategory->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
