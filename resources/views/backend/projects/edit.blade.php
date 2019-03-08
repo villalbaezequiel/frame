@@ -424,7 +424,7 @@
                         @foreach($list_crew as $item_crew)
                         <tr id="item_view_{{ $item_crew->id_provider }}">
                           <!-- <td><button type='button' class='btn btn-link btn-danger btn-just-icon remove' onClick="$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove()" data-idcrew="{{ $item_crew->id_provider }}" data-itemremove="item_view_{{ $item_crew->id_provider }}" title='Eliminar'><i class='material-icons'>close</i></button></td> -->
-                          <td>{{ \App\Provider::getName($item_crew->id_provider) }}</td>
+                          <td>{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}</td>
                           <td>{{ \App\FrameFunction::getName($item_crew->id_function_frame).' / '.\App\WorkersCategory::getName($item_crew->id_category_sat) }}</td>
                           <?php
                             $start_date_contract = explode('-', \App\Helpers::getDate($item_crew->start_date_contract));

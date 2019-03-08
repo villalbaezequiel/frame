@@ -21,4 +21,12 @@ class Provider extends Model
               ->first();
       return $crew->name.' '.$crew->last_name;
     }
+
+    static public function getNameOrderLastName($id)
+    {
+      $crew = Provider::join('users', 'users.id', '=', 'providers.id_user')
+              ->where('providers.id', $id)
+              ->first();
+      return $crew->last_name.' '.$crew->name;
+    }
 }
