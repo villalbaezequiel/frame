@@ -401,6 +401,11 @@
                     </div>
                   </div>
 
+                  <div class="col-md-12 text-center" style="padding: 20px;">
+                    <button id="add_crew" type="button" class="btn btn-primary">Agregar Crew</button>
+                  </div>
+                </div>
+
                 <h5 class="info-text"> Lista de Crew  </h5>
                 <div class="row justify-content-center">
 
