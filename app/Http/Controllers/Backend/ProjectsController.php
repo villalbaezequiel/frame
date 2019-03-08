@@ -249,10 +249,17 @@ class ProjectsController extends Controller
       */
      public function destroy($id)
      {
-       $project = Project::find($id);
-       $project->delete();
+        $project = Project::find($id);
+        $project->delete();
 
-       // hay que eliminar los datos relacionados en ProjectProvider
+        // eliminar los datos relacionados en ProjectProvider
+        $crewList = ProjectProvider::where('id_project', $id)->get();
+        if($crewList[0]){
+          foreach ($crewList as $val) {
+            $crew = ProjectProvider::find($val->id);
+            $crew->delete();
+          }
+        }
 
        return response(array('message' => 'Proyecto eliminado con exito!'));
      }
