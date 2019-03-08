@@ -417,12 +417,12 @@
                           <th>Crew</th>
                           <th>Función Frame/Categoría SAT</th>
                           <th>Fechas</th>
-                          <th>Suplente</th>
+                          <th>Acciones</th>
                         </tr>
                       </thead>
                       <tbody class="list_crew_view">
                         @foreach($list_crew as $item_crew)
-                        <tr id="item_view_{{ $item_crew->id_provider }}">
+                        <tr id="item_view_{{ $item_crew->id_provider }}" class="item-alert-confirm-delete">
                           <td><button type='button' class='btn btn-link btn-danger btn-just-icon remove' onClick="$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove()" data-idcrew="{{ $item_crew->id_provider }}" data-itemremove="item_view_{{ $item_crew->id_provider }}" title='Eliminar'><i class='material-icons'>close</i></button></td>
                           <td>{{ \App\Provider::getName($item_crew->id_provider) }}</td>
                           <td>{{ \App\FrameFunction::getName($item_crew->id_function_frame).' / '.\App\WorkersCategory::getName($item_crew->id_category_sat) }}</td>
@@ -431,7 +431,12 @@
                             $finish_date_contract = explode('-', \App\Helpers::getDate($item_crew->finish_date_contract));
                           ?>
                           <td>{{ $start_date_contract[2].'/'.$start_date_contract[1].'/'.$start_date_contract[0].' - '.$finish_date_contract[2].'/'.$finish_date_contract[1].'/'.$finish_date_contract[0] }}</td>
-                          <td></td>
+                          <td>
+                            {!! Form::open(['route' => ['project_providers.destroy', $item_crew->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
+                              <a href="#" onclick="openWindowUrl({{ url('/project_providers/'.$item_crew->id.'/edit') }})" class="btn btn-link btn-warning btn-just-icon edit" title="Ver"><i class="material-icons">dvr</i></a>
+                              <button type="submit" class="btn btn-link btn-danger btn-just-icon remove" title="Eliminar"><i class="material-icons">close</i></button>
+                            {!! Form::close() !!}
+                          </td>
                         </tr>
                         @endforeach
                       </tbody>
@@ -709,5 +714,13 @@ function getFormatNumber(number){
     }
   }
 }
+</script>
+<script>
+$(document).ready(function(){
+  $(".alert-confirm-delete").submit(function(e) {
+    e.preventDefault();
+    alertConfirmDeleteItem(this);
+  });
+});
 </script>
 @endsection

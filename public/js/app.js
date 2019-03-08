@@ -74,6 +74,10 @@ function alertConfirmDeleteItem(form){
   })
 }
 
+function openWindowUrl(url) {
+  window.open(url, "nuevo", "directories=no, location=no, menubar=no, scrollbars=yes, statusbar=no, tittlebar=no, width=450, height=900");
+}
+
 $(document).ready(function(){
 
   // datatables global

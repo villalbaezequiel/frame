@@ -11,4 +11,10 @@ class Contract extends Model
     {
       return Contract::where('active', $status)->get();
     }
+
+    static public function getName($id)
+    {
+      $contract = Contract::find($id);
+      return $contract->name;
+    }
 }

@@ -52,4 +52,11 @@ class Helpers extends Model
         return substr($date, 0, 10);
     }
 
+    static public function getDateParseFormat($date)
+    {
+      $substrDate = substr($date, 0, 10);
+      $format = explode('-', $substrDate);
+      return $format[2].'-'.$format[1].'-'.$format[0];
+    }
+
 }
