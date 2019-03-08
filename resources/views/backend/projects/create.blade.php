@@ -400,11 +400,10 @@
                     <table class="table" style="margin: 0 auto;">
                       <thead>
                         <tr>
-                          <th></th>
                           <th>Crew</th>
                           <th>Función Frame/Categoría SAT</th>
                           <th>Fechas</th>
-                          <th>Suplente</th>
+                          <th>Acciones</th>
                         </tr>
                       </thead>
                       <tbody class="list_crew_view">

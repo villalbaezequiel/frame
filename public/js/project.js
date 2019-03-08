@@ -161,7 +161,7 @@ $(document).ready(function(){
             var onClickRemoveCrew = "$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove()";
 
             // add html list crew view
-            $('.list_crew_view').append("<tr id='item_view_"+id_provider+"'><td><button type='button' class='btn btn-link btn-danger btn-just-icon remove' onClick="+onClickRemoveCrew+" data-idcrew='"+id_provider+"' data-itemremove='item_view_"+id_provider+"' title='Eliminar'><i class='material-icons'>close</i></button></td><td>"+crewName+"</td><td>"+crewFrameSat+"</td><td>"+crewDates+"</td><td></td></tr>");
+            $('.list_crew_view').append("<tr id='item_view_"+id_provider+"'><td>"+crewName+"</td><td>"+crewFrameSat+"</td><td>"+crewDates+"</td><td><button type='button' class='btn btn-link btn-danger btn-just-icon remove' onClick="+onClickRemoveCrew+" data-idcrew='"+id_provider+"' data-itemremove='item_view_"+id_provider+"' title='Eliminar'><i class='material-icons'>close</i></button></td></tr>");
 
             // restart input add crew
             $(".empty-values-finish-add-crew input").val('');
