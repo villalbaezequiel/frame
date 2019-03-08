@@ -220,7 +220,7 @@ $(document).ready(function(){
             // insert option
             getValueCrew.append("<option value=''>Seleccionar</option>");
             $.each(results, function(i,v){
-              getValueCrew.append("<option value='"+v.id+"'>"+v.name+" "+v.last_name+"</option>");
+              getValueCrew.append("<option value='"+v.id+"'>"+v.last_name+" "+v.name+"</option>");
             });
 
             $('.selectpicker').selectpicker('refresh');
