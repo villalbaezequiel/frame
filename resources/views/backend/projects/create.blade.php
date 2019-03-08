@@ -339,7 +339,7 @@
                         <span class="input-group-text">
                           Sueldo Total: $
                         </span>
-                          <input type="text" class="form-control" name="total_workdays" maxlength="125" readonly>
+                          <input type="text" class="form-control" name="total_workdays" maxlength="125" placeholder="Click aquí para que actualizar los Sueldos" readonly>
                       </div>
                     </div>
                   </div>

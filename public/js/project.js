@@ -212,12 +212,18 @@ $(document).ready(function(){
         $('input[name=crew_sueldo_diferencia]').val( getFormatNumber(total_workdays - (parseFloat(days) * salary_daily)) );
 
       } else {
-        alert('Seleccione una Categoria SAT, para que se autocomplete el campo seleccionado');
+        alert('Seleccione una Categoria SAT, para que se autocomplete los campos de Sueldos.');
       }
 
     } else {
-      alert('Ingrese un Valor en Sueldo Jornada, para que se autocomplete el campo seleccionado');
+      alert('Ingrese un Valor en Cantidad de Jornadas Laborables y Sueldo Jornada, para que se autocomplete el campo seleccionado.');
     }
+  });
+
+  $('input[name=salary_contract_category_function]').click(function(){
+    if($('input[name=salary_contract_category_function]').val() == "" ){
+      alert('Seleccione una Categoria SAT, para que se autocomplete los campos de Sueldos.');
+    };
   });
 
 
