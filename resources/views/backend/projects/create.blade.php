@@ -326,7 +326,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Sueldo Jornada:
+                          Sueldo Jornada: $
                         </span>
                           <input type="text" class="form-control validate-number-decimal-not-ps" name="salary_workdays" maxlength="125">
                       </div>
@@ -337,7 +337,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Sueldo Total:
+                          Sueldo Total: $
                         </span>
                           <input type="text" class="form-control" name="total_workdays" maxlength="125" readonly>
                       </div>
@@ -348,7 +348,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Sueldo Contrato Mensual:
+                          Sueldo Contrato Mensual: $
                         </span>
                           <input type="text" class="form-control" name="salary_contract_category_function" maxlength="125" readonly>
                       </div>
@@ -359,7 +359,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Sueldo Diario SAT:
+                          Sueldo Diario SAT: $
                         </span>
                           <input type="text" class="form-control" name="salary_daily" maxlength="125" readonly>
                       </div>
@@ -370,7 +370,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Sueldo A Liquidar Neto:
+                          Sueldo A Liquidar Neto: $
                         </span>
                           <input type="text" class="form-control" name="salary_liquidate" maxlength="125" readonly>
                       </div>
@@ -381,7 +381,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Diferencia:
+                          Diferencia: $
                         </span>
                         <input type="text" class="form-control" name="crew_sueldo_diferencia" maxlength="125" readonly>
                       </div>
