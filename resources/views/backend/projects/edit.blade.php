@@ -308,7 +308,7 @@
                         <span class="input-group-text">
                           Cantidad de Jornadas Laborables:
                         </span>
-                          <input type="number" class="form-control" name="count_workdays_crew" maxlength="125">
+                        <input type="number" class="form-control" name="count_workdays_crew" maxlength="125">
                       </div>
                     </div>
                   </div>
@@ -341,7 +341,7 @@
                         <span class="input-group-text">
                           Sueldo Jornada:
                         </span>
-                          <input type="number" class="form-control validate-number-decimal-not-ps" name="salary_workdays" maxlength="125">
+                        <input type="text" class="form-control validate-number-decimal-not-ps" name="salary_workdays" maxlength="125">
                       </div>
                     </div>
                   </div>
@@ -352,7 +352,7 @@
                         <span class="input-group-text">
                           Sueldo Total:
                         </span>
-                          <input type="number" class="form-control" name="total_workdays" maxlength="125">
+                        <input type="text" class="form-control" name="total_workdays" maxlength="125" readonly>
                       </div>
                     </div>
                   </div>
@@ -363,7 +363,7 @@
                         <span class="input-group-text">
                           Sueldo Contrato Mensual:
                         </span>
-                          <input type="number" class="form-control" name="salary_contract_category_function" maxlength="125">
+                        <input type="text" class="form-control" name="salary_contract_category_function" maxlength="125" readonly>
                       </div>
                     </div>
                   </div>
@@ -374,7 +374,7 @@
                         <span class="input-group-text">
                           Sueldo Diario SAT:
                         </span>
-                          <input type="number" class="form-control" name="salary_daily" maxlength="125">
+                          <input type="text" class="form-control" name="salary_daily" maxlength="125" readonly>
                       </div>
                     </div>
                   </div>
@@ -385,7 +385,7 @@
                         <span class="input-group-text">
                           Sueldo A Liquidar Neto:
                         </span>
-                          <input type="number" class="form-control" name="salary_liquidate" maxlength="125">
+                          <input type="text" class="form-control" name="salary_liquidate" maxlength="125" readonly>
                       </div>
                     </div>
                   </div>
@@ -396,15 +396,10 @@
                         <span class="input-group-text">
                           Diferencia:
                         </span>
-                        <input type="number" class="form-control" name="crew_sueldo_diferencia" maxlength="125">
+                        <input type="text" class="form-control" name="crew_sueldo_diferencia" maxlength="125" readonly>
                       </div>
                     </div>
                   </div>
-
-                  <div class="col-md-12 text-center" style="padding: 20px;">
-                    <button id="add_crew" type="button" class="btn btn-primary">Agregar Crew</button>
-                  </div>
-                </div>
 
                 <h5 class="info-text"> Lista de Crew  </h5>
                 <div class="row justify-content-center">
