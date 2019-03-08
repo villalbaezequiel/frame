@@ -413,7 +413,7 @@
                     <table class="table" style="margin: 0 auto;">
                       <thead>
                         <tr>
-                          <th></th>
+                          <!-- <th></th> -->
                           <th>Crew</th>
                           <th>Función Frame/Categoría SAT</th>
                           <th>Fechas</th>
@@ -422,8 +422,8 @@
                       </thead>
                       <tbody class="list_crew_view">
                         @foreach($list_crew as $item_crew)
-                        <tr id="item_view_{{ $item_crew->id_provider }}" class="item-alert-confirm-delete">
-                          <td><button type='button' class='btn btn-link btn-danger btn-just-icon remove' onClick="$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove()" data-idcrew="{{ $item_crew->id_provider }}" data-itemremove="item_view_{{ $item_crew->id_provider }}" title='Eliminar'><i class='material-icons'>close</i></button></td>
+                        <tr id="item_view_{{ $item_crew->id_provider }}">
+                          <!-- <td><button type='button' class='btn btn-link btn-danger btn-just-icon remove' onClick="$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove()" data-idcrew="{{ $item_crew->id_provider }}" data-itemremove="item_view_{{ $item_crew->id_provider }}" title='Eliminar'><i class='material-icons'>close</i></button></td> -->
                           <td>{{ \App\Provider::getName($item_crew->id_provider) }}</td>
                           <td>{{ \App\FrameFunction::getName($item_crew->id_function_frame).' / '.\App\WorkersCategory::getName($item_crew->id_category_sat) }}</td>
                           <?php
@@ -432,10 +432,8 @@
                           ?>
                           <td>{{ $start_date_contract[2].'/'.$start_date_contract[1].'/'.$start_date_contract[0].' - '.$finish_date_contract[2].'/'.$finish_date_contract[1].'/'.$finish_date_contract[0] }}</td>
                           <td>
-                            {!! Form::open(['route' => ['project_providers.destroy', $item_crew->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
-                              <a href="#" onclick="openWindowUrl({{ url('/project_providers/'.$item_crew->id.'/edit') }})" class="btn btn-link btn-warning btn-just-icon edit" title="Ver"><i class="material-icons">dvr</i></a>
-                              <button type="submit" class="btn btn-link btn-danger btn-just-icon remove" title="Eliminar"><i class="material-icons">close</i></button>
-                            {!! Form::close() !!}
+                              <a data-url="{{ url('/project_providers/'.$item_crew->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit openWindowUrl" title="Ver"><i class="material-icons">dvr</i></a>
+                              <button type="button" class="btn btn-link btn-danger btn-just-icon remove alert-confirm-delete-button" title="Eliminar" data-id="{{ $item_crew->id }}" data-idprovider="{{ $item_crew->id_provider }}"><i class="material-icons">close</i></button>
                           </td>
                         </tr>
                         @endforeach
@@ -463,6 +461,12 @@
           </div>
         {!! Form::close() !!}
 
+        <!-- List Form delete to Crew -->
+        @foreach($list_crew as $item_crew)
+          {!! Form::open(['route' => ['project_providers.destroy', $item_crew->id], 'method' => 'DELETE', 'id' => $item_crew->id, 'class'=> 'alert-confirm-delete']) !!}
+          {!! Form::close() !!}
+        @endforeach
+
       </div>
     </div>
 
@@ -470,257 +474,5 @@
 </div>
 @endsection
 @section('javascript')
-<script>
-$(document).ready(function(){
-
-  // input validate
-  var rules = {
-        id_client: {
-          required: true
-        },
-        name: {
-          required: true,
-          maxlength: 125
-        },
-        description: {
-          maxlength: 125
-        },
-        id_proyect_category: {
-          required: true
-        },
-        start_date: {
-          required: true
-        },
-        finish_date: {
-          required: true
-        },
-        id_workday: {
-          required: true
-        },
-        duration_workdays: {
-          required: true
-        },
-        days: {
-          required: true
-        }
-  };
-  // Initialise the wizard
-  frameJs.initMaterialWizard(rules);
-
-  setTimeout(function() {
-    $('.card.card-wizard').addClass('active');
-  }, 600);
-
-  $('a').click(function(e){
-
-    if(!$(this).hasClass('none-alert')){
-      var parentForm = $(this).parents('form');
-      if(parentForm.length != 1 || $(this).hasClass('back-history')){
-        e.preventDefault();
-        alertLeaveForm(this);
-      }
-    }
-
-  });
-
-  $("#add_crew").click(function(){
-    // list values
-    var id_function_frame = $('select[name=id_function_frame]').val();
-    var id_category_sat = $('select[name=id_category_sat]').val(); // agregar al schema ´project_providers´
-    var id_provider = $('select[name=id_provider]').val();
-    var id_contract = $('select[name=id_contract]').val();
-    var salary_workdays = $('input[name=salary_workdays]').val();
-    var total_workdays = $('input[name=total_workdays]').val();
-    var salary_contract_category_function = $('input[name=salary_contract_category_function]').val();
-    var salary_daily = $('input[name=salary_daily]').val();
-    var salary_liquidate = $('input[name=salary_liquidate]').val();
-    var salaty_difference = $('input[name=crew_sueldo_diferencia]').val();
-    var start_date_contract = $('input[name=start_date_contract]').val();
-    var finish_date_contract = $('input[name=finish_date_contract]').val();
-    var count_workdays_crew = $('input[name=count_workdays_crew]').val();
-    var start_afip = $('input[name=start_afip]').val();
-    var finish_afip = $('input[name=finish_afip]').val();
-
-    if(id_function_frame && id_category_sat && id_contract && id_provider &&
-       salary_workdays && total_workdays && salary_contract_category_function &&
-       salary_daily && salary_liquidate && start_date_contract && finish_date_contract &&
-       count_workdays_crew && start_afip && finish_afip)
-    {
-
-      // object crew
-      var crew = {
-        'id_function_frame': id_function_frame,
-        'id_category_sat': id_category_sat,
-        'id_provider': id_provider,
-        'id_contract': id_contract,
-        'salary_workdays': salary_workdays,
-        'total_workdays': total_workdays,
-        'salary_contract_category_function': salary_contract_category_function,
-        'salary_daily': salary_daily,
-        'salary_liquidate': salary_liquidate,
-        'salaty_difference': salaty_difference,
-        'start_date_contract': start_date_contract,
-        'finish_date_contract': finish_date_contract,
-        'count_workdays_crew': count_workdays_crew,
-        'start_afip': start_afip,
-        'finish_afip': finish_afip
-      };
-
-      // verificar si el Crew esta en otro proecto en esas fechas
-      $.ajax({
-        type: 'GET',
-        url: '/sistema/json/check_crew_project/'+id_provider+'/'+start_date_contract.replace(/\//g, '-'),
-        dataType: 'json',
-        success: function(data){
-
-          var status = data.status;
-
-          if(status == true){
-
-            // add crew
-            // add crew to list input request
-            if($('#'+id_provider).length == 0){
-              $('.list_crew').append("<input type='hidden' name='list_crew[]' id='"+id_provider+"' value='' />");
-              $('#'+id_provider).val(JSON.stringify(crew));
-
-            } else {
-              $('#'+id_provider).val('');
-              $('#'+id_provider).val(JSON.stringify(crew));
-
-              // remove item_view
-              $("#item_view_"+id_provider).remove();
-            }
-
-            // check jornada de trabajo del proyecto segun la jornada que mas tenga de los CREW
-            if(isNaN(parseFloat($('input[name=count_workdays]').val()))) {
-              $('input[name=count_workdays]').val(count_workdays_crew);
-            } else if($("select[name=id_workday]").find(':selected').data('day') != 1){
-              if(parseFloat($('input[name=count_workdays]').val()) <= parseFloat(count_workdays_crew)){
-                $('input[name=count_workdays]').val(count_workdays_crew);
-              }
-            }
-
-            // add crew list table front
-            var crewName = $('select[name=id_provider] option:selected').text();
-            var crewFrameSat = $('select[name=id_function_frame] option:selected').text()+" / "+$('select[name=id_category_sat] option:selected').text();
-            var crewDates = start_date_contract+" - "+finish_date_contract;
-
-            // button to onClick add remove crew
-            var onClickRemoveCrew = "$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove()";
-
-            // add html list crew view
-            $('.list_crew_view').append("<tr id='item_view_"+id_provider+"'><td><button type='button' class='btn btn-link btn-danger btn-just-icon remove' onClick="+onClickRemoveCrew+" data-idcrew='"+id_provider+"' data-itemremove='item_view_"+id_provider+"' title='Eliminar'><i class='material-icons'>close</i></button></td><td>"+crewName+"</td><td>"+crewFrameSat+"</td><td>"+crewDates+"</td><td></td></tr>");
-
-            // restart input add crew
-            $(".empty-values-finish-add-crew input").val('');
-
-          } else {
-            Swal.fire({
-              type: 'warning',
-              title: 'El Crew se encuentra Trabajando en otro Proyecto, en las Fechas de Contrato selecionadas!',
-              text: "Por favor ingrese nuevas Fechas de Contrato o pruebe con Otro Crew.",
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Si, continuar!'
-            });
-            return false;
-          }
-
-        },
-        error: function(xhr, status){
-          console.log('Error: '+xhr);
-        }
-      });
-
-    } else {
-      alert('Complete los datos correspondientes para agregar un Crew!');
-    }
-
-  });
-
-  // automatic calculate input
-  $('input[name=total_workdays]').click(function(){
-    if($('input[name=salary_workdays]').val() && $('input[name=count_workdays_crew]').val()){
-
-      var salary_workdays = $('input[name=salary_workdays]').val();
-      var count_workdays_crew = $('input[name=count_workdays_crew]').val();
-      var total_workdays = (parseFloat(salary_workdays.replace(".", "").replace(",", ".")) * parseFloat(count_workdays_crew));
-
-      $('input[name=total_workdays]').val(getFormatNumber(total_workdays));
-
-      if($('input[name=salary_contract_category_function]').val()){
-
-        var salary_contract_category_function = $('input[name=salary_contract_category_function]').val();
-        var salary_contract_category_functionFinish = parseFloat(salary_contract_category_function.replace(".", "").replace(",", "."));
-        var days = $('input[name=days]').val();
-        var salary_daily = (salary_contract_category_functionFinish / 30);
-
-        $('input[name=salary_daily]').val(getFormatNumber(salary_daily));
-        $('input[name=salary_liquidate]').val(getFormatNumber(parseFloat(days) * salary_daily));
-        $('input[name=crew_sueldo_diferencia]').val( getFormatNumber(total_workdays - (parseFloat(days) * salary_daily)) );
-
-      } else {
-        alert('Seleccione una Categoria SAT, para que se autocomplete el campo seleccionado');
-      }
-
-    } else {
-      alert('Ingrese un Valor en Sueldo Jornada, para que se autocomplete el campo seleccionado');
-    }
-  });
-
-
-  $(".get_value_categories_sat").change(function(){
-    var salaryneto = $(this).find(':selected').data('salaryneto');
-    if(salaryneto){
-      $('input[name=salary_contract_category_function]').val(salaryneto);
-    }
-  });
-
-  // module 2 Jornadas
-  $("select[name=id_workday]").change(function(){
-    if($(this).find(':selected').data('day') == 1){
-      $('input[name=count_workdays]').removeAttr('readonly');
-    } else {
-      $('input[name=count_workdays]').attr('readonly', 'readonly');
-      $('input[name=count_workdays]').val('');
-    }
-    $("select[name=view_modality_work]").find('option').remove().end().append('<option selected="selected">'+$(this).find(':selected').text()+'</option>');
-    $('.selectpicker').selectpicker('refresh');
-  });
-
-});
-
-function getFormatNumber(number){
-  var numberInt = number.toString().split('.');
-  if(numberInt[1]){
-    if(numberInt[0].length == 4) {
-      return numberInt[0].substr(0, 1)+"."+numberInt[0].substr(-3)+","+numberInt[1];
-    } else if(numberInt[0].length == 5){
-      return numberInt[0].substr(0, 2)+"."+numberInt[0].substr(-3)+","+numberInt[1];
-    } else if(numberInt[0].length == 6) {
-      return numberInt[0].substr(0, 3)+"."+numberInt[0].substr(-3)+","+numberInt[1];
-    } else {
-      return numberInt[0]+","+numberInt[1];
-    }
-  } else {
-    if(numberInt[0].length == 4) {
-      return numberInt[0].substr(0, 1)+"."+numberInt[0].substr(-3)+",00";
-    } else if(numberInt[0].length == 5){
-      return numberInt[0].substr(0, 2)+"."+numberInt[0].substr(-3)+",00";
-    } else if(numberInt[0].length == 6) {
-      return numberInt[0].substr(0, 3)+"."+numberInt[0].substr(-3)+",00";
-    } else {
-      return numberInt[0]+","+numberInt[1];
-    }
-  }
-}
-</script>
-<script>
-$(document).ready(function(){
-  $(".alert-confirm-delete").submit(function(e) {
-    e.preventDefault();
-    alertConfirmDeleteItem(this);
-  });
-});
-</script>
+  <script src="{{ asset('/js/project.js') }}"> </script>
 @endsection
