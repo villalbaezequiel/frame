@@ -27,6 +27,14 @@
             @endif
 
             <div class="row">
+              <label class="col-md-2 col-form-label">ID Tango</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <input class="form-control" type="number" name="id_tango" value="{{ $client->id_tango }}" maxlength="125">
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <label class="col-md-2 col-form-label">Razón Social *</label>
               <div class="col-md-7">
                 <div class="form-group">
@@ -103,14 +111,6 @@
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="number" name="other_telephone" value="{{ $client->other_telephone }}" maxlength="125">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">ID Tango</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <input class="form-control" type="number" name="id_tango" value="{{ $client->id_tango }}" maxlength="125">
                 </div>
               </div>
             </div>
