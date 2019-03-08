@@ -77,8 +77,8 @@ class ProvidersController extends Controller
            $user->birthdate = (isset($birthdate[2]) ? $birthdate[2].'-'.$birthdate[1].'-'.$birthdate[0] : $request->get('birthdate'));
            $user->id_country = $request->get('id_country');
            $user->password = Hash::make('frame_'.$request->get('cuit'));
-           $user->is_crew = 1;
-           $user->active = 1;
+           $user->is_crew = '1';
+           $user->active = '1';
            $user->save();
            // New Provider
            $provider = new Provider;
