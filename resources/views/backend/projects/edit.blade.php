@@ -20,7 +20,7 @@
     <div class="wizard-container">
       <div class="card card-wizard active" data-color="purple" id="wizardProfile">
 
-        {!! Form::open(['route' => ['projects.update', $project->id], 'method' => 'PUT', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['route' => ['projects.update', $project->id], 'method' => 'PUT', 'class' => 'form-horizontal', 'onKeyPress' => 'return disableEnterKey(event)']) !!}
           <div class="card-header text-center">
             <h3 class="card-title">
               Editar Proyecto
