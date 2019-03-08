@@ -141,7 +141,7 @@ $(document).ready(function(){
         days = Math.floor((endDay.getTime() - startDay.getTime()) / 86400000); // ms per day
       }
 
-      $("input[name=days]").val(days);
+      $("input[name=days]").val((days+1));
     }
   });
 
