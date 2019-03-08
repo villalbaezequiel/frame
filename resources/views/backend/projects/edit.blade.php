@@ -226,7 +226,7 @@
                         <span class="input-group-text">
                           Categoría SAT:
                         </span>
-                        <select class="selectpicker get_value_categories_sat" data-style="select-with-transition" name="id_category_sat">
+                        <select class="selectpicker get_value_categories_sat event_toggle_category_sat" data-style="select-with-transition" name="id_category_sat">
                           <option value="">Seleccionar</option>
                         </select>
                       </div>
