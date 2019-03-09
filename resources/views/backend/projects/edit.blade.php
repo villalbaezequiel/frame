@@ -160,7 +160,7 @@
                             data-day="{{ $workday->day }}"
                             <?php endif;
                             if($project->id_workday == $workday->id){ echo "selected"; } ?>
-                            value="{{ $workday->id }}">{{ $workday->name }}<?php if($workday->day && $workday->day != 1){ echo "(".$workday->day." dias)";} ?></option>
+                            value="{{ $workday->id }}">{{ $workday->name }}<?php if($workday->day && $workday->day != 1){ echo " (".$workday->day." dias)";} ?></option>
                           @endforeach
                         </select>
                       </div>

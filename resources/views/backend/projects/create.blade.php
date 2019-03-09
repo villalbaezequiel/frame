@@ -157,7 +157,7 @@
                             <?php if($workday->day): ?>
                             data-day="{{ $workday->day }}"
                             <?php endif; ?>
-                            value="{{ $workday->id }}">{{ $workday->name }}<?php if($workday->day && $workday->day != 1){ echo "(".$workday->day." dias)";} ?></option>
+                            value="{{ $workday->id }}">{{ $workday->name }}<?php if($workday->day && $workday->day != 1){ echo " (".$workday->day." dias)";} ?></option>
                           @endforeach
                         </select>
                       </div>
