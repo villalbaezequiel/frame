@@ -13,7 +13,7 @@
         {!! Form::open(['route' => ['project_providers.update' , $crew->id], 'method' => 'PUT', 'class' => 'form-horizontal']) !!}
           <div class="form-group">
             <label>Crew:</label>
-            <input type="text" class="form-control" value="{{ \App\Provider::getName($crew->id_provider) }}" disabled>
+            <input type="text" class="form-control" value="{{ \App\Provider::getNameOrderLastName($crew->id_provider) }}" disabled>
           </div>
           <div class="form-group">
             <label>Función Frame:</label>
@@ -29,11 +29,11 @@
           </div>
           <div class="form-group">
             <label>Fecha de Alta Contrato:</label>
-            <input type="text" class="form-control" value="{{ \App\Helpers::getDateParseFormat($crew->start_date_contract) }}" disabled>
+            <input type="text" class="form-control" value="{{ \App\Helpers::getDateParseFormat($crew->start_date_contract, '/') }}" disabled>
           </div>
           <div class="form-group">
             <label>Fecha de Baja Contrato:</label>
-            <input type="text" class="form-control" value="{{ \App\Helpers::getDateParseFormat($crew->finish_date_contract) }}" disabled>
+            <input type="text" class="form-control" value="{{ \App\Helpers::getDateParseFormat($crew->finish_date_contract, '/') }}" disabled>
           </div>
           <div class="form-group">
             <label>Modalidad:</label>
@@ -45,11 +45,11 @@
           </div>
           <div class="form-group">
             <label>Fecha de Alta AFIP:</label>
-            <input type="text" class="form-control" value="{{ \App\Helpers::getDateParseFormat($crew->start_afip) }}" disabled>
+            <input type="text" class="form-control" value="{{ \App\Helpers::getDateParseFormat($crew->start_afip, '/') }}" disabled>
           </div>
           <div class="form-group">
             <label>Fecha de Baja AFIP:</label>
-            <input type="text" class="form-control" value="{{ \App\Helpers::getDateParseFormat($crew->finish_afip) }}" disabled>
+            <input type="text" class="form-control" value="{{ \App\Helpers::getDateParseFormat($crew->finish_afip, '/') }}" disabled>
           </div>
           <div class="form-group">
             <label>Sueldo Jornada:</label>
