@@ -55,7 +55,7 @@ class Helpers extends Model
     static public function getDateParseFormat($date, $separartor = '-')
     {
       $substrDate = substr($date, 0, 10);
-      $format = explode($separartor, $substrDate);
+      $format = explode('-', $substrDate);
       return $format[2].$separartor.$format[1].$separartor.$format[0];
     }
 
