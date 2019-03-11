@@ -227,6 +227,14 @@ img {
     border-left: 18px solid #3097D1;
 }
 
+.button-frame {
+    background-color: #9c27b0;
+    border-top: 10px solid #9c27b0;
+    border-right: 18px solid #9c27b0;
+    border-bottom: 10px solid #9c27b0;
+    border-left: 18px solid #9c27b0;
+}
+
 .button-green,
 .button-success {
     background-color: #2ab27b;
