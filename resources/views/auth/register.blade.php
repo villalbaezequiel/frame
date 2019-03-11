@@ -271,7 +271,7 @@
           </span>
         </div>
 
-          <span class="bmd-form-group">
+          <!-- <span class="bmd-form-group">
             <div class="input-group">
               <div class="input-group-prepend">
                 <span class="input-group-text">
@@ -290,7 +290,7 @@
               </div>
               <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Confirmar Contraseña" required>
             </div>
-          </span>
+          </span> -->
         </div>
         <div class="card-footer justify-content-center">
           <input type="hidden" name="crew_register_person" value="1" />
