@@ -54,3 +54,7 @@ Route::get('/json/check_crew_project/{id_provider}/{start_date_contract}', 'Back
 
 // register crew
 Route::post('/crew/store', 'Backend\ProvidersController@store')->name('crew.store');
+
+// accept project Crew
+Route::get('/crew/accept_project/{id_project_provider}', 'Backend\NotificationsController@getAcceptProjectCrew')->name('crew_acceptproject.get');
+Route::post('/crew/accept_project', 'Backend\NotificationsController@postAcceptProjectCrew')->name('crew_acceptproject.post');

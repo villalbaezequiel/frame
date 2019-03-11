@@ -19,7 +19,10 @@
 </head>
 
 <body class="off-canvas-sidebar">
-  @include('auth.components.nav')
+
+  @if(!\Request::is('crew/accept_project/*'))
+    @include('auth.components.nav')
+  @endif
 
   <div class="wrapper wrapper-full-page">
     <div class="page-header login-page header-filter" filter-color="black" style="background-image: url({{ asset('img/login.jpg') }}); background-size: cover; background-position: top center;">
@@ -27,7 +30,10 @@
       <div class="container">
         @yield('container')
       </div>
-      @include('auth.components.footer')
+
+      @if(!\Request::is('crew/accept_project/*'))
+        @include('auth.components.footer')
+      @endif
 
     </div>
   </div>
