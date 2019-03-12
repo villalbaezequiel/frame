@@ -77,7 +77,7 @@
           </div>
           <div class="form-group">
             <label>Activo:</label>
-            <input type="text" class="form-control" value="{{ \App\Helpers::getActive($crew->active)}}" disabled>
+            <input type="text" class="form-control" value="{{ \App\ProjectProvider::getActive($crew->active)}}" disabled>
           </div>
 <!--
           <div class="form-group">
