@@ -41,6 +41,9 @@ Route::group(['middleware' => ['auth']], function () {
   Route::resource('/utilities/studies', 'Backend\UtilitiesStudiesController');
   Route::resource('/utilities/workdays', 'Backend\UtilitiesWorkdaysController');
 
+  // export
+  Route::get('/export/crew_contract/{id_project_provider}', 'Backend\ExportController@crewContract');
+
 });
 
 // ajax return Json
