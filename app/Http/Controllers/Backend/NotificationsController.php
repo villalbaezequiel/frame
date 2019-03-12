@@ -25,23 +25,23 @@ class NotificationsController extends Controller
           if($project_provider->active == '1' || $project_provider->active == '2'){
             $message = 'La solicitud al Proyecto ya fue respondida con Anterioridad. Gracias!';
           } else {
-            if($request->get('confirmation') == 0){
+            if($request->get('confirmation') == 1){
+              $project_provider->active = "1";
+              $project_provider->save();
 
+              $message = 'Haz aceptado la solicitud del Proyecto. En brevedad nos contactaremos con usted. Gracias!';
+
+            } elseif($request->get('confirmation') == 2) {
               // send mail to suplent crew
 
               $project_provider->active = "2";
               $project_provider->save();
 
               $message = 'Haz rechazado la solicitud del Proyecto. Gracias!';
-            } else {
-              $project_provider->active = "1";
-              $project_provider->save();
-
-              $message = 'Haz aceptado la solicitud del Proyecto. En brevedad nos contactaremos con usted. Gracias!';
             }
           }
 
-          return view('notifications.crew.accept_project')->with('message', $message);
+          return back()->withInput()->with('message', $message);
 
       } catch (\Exception $e) {
 

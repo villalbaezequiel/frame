@@ -181,7 +181,7 @@
                 </div>
                 <div class="form-check form-check-inline" style="margin-top: 25px;">
                   <label class="form-check-label">
-                    <input class="form-check-input" type="radio" value="0" name="confirmation"> No
+                    <input class="form-check-input" type="radio" value="2" name="confirmation"> No
                     <span class="form-check-sign">
                       <span class="check"></span>
                     </span>
@@ -195,7 +195,7 @@
                   Aceptar:
                 </span>
               </div>
-              <input type="text" class="form-control" value="{{ \App\Helpers::getActive($crew->active) }}" disabled>
+              <input type="text" class="form-control" value="{{ \App\ProjectProvider::getActive($crew->active) }}" disabled>
             </div>
             @endif
           </div>

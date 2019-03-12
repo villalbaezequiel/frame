@@ -29,4 +29,10 @@ class Provider extends Model
               ->first();
       return $crew->last_name.' '.$crew->name;
     }
+
+    static public function getIdUser($id)
+    {
+      $crew = Provider::find($id);
+      return $crew->id_user;
+    }
 }

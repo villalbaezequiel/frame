@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Notifications\CrewProject;
+use App\User;
+use App\Provider;
 use App\Helpers;
 use App\Project;
 use App\ProjectProvider;
@@ -108,7 +111,16 @@ class ProjectsController extends Controller
             $crew->active = '0';
             $crew->save();
 
+            $user = User::find(Provider::getIdUser($crew->id_provider));
+
             // Enviar Mails a los crew notificandolo del proyecto y si acepta trabajar
+            $data = array(
+              'project' => $project,
+              'user' => $user,
+              'project_crew' => $crew
+            );
+            $user->notify(new CrewProject($data));
+
           }
           return redirect('/projects')->with('message', 'Proyecto creado con exito!');
 
@@ -219,7 +231,15 @@ class ProjectsController extends Controller
               $crew->active = '0';
               $crew->save();
 
+              $user = User::find(Provider::getIdUser($crew->id_provider));
+
               // Enviar Mails a los crew notificandolo del proyecto y si acepta trabajar
+              $data = array(
+                'project' => $project,
+                'user' => $user,
+                'project_crew' => $crew
+              );
+              $user->notify(new CrewProject($data));
             }
           }
 
