@@ -38,6 +38,7 @@
                   Tipo de Proyecto:
                 </span>
               </div>
+              <input type="text" class="form-control" value="{{ \App\Project::getProyectCategory($project_provider->id_project) }}" disabled>
             </div>
           </div>
 
