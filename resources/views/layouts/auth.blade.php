@@ -8,7 +8,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="icon" type="image/svg+xml" href="{{ asset('img/favicon_frame.svg') }}" sizes="any">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('img/favicon_frame.svg') }}" />
+    <link rel="icon" type="image/png" href="{{ asset('img/favicon-frame.png') }}" />
     <!-- Fonts and icons -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
