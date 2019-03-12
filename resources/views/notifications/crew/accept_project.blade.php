@@ -56,30 +56,10 @@
             <div class="input-group col-lg-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
-                  Tipo de Contrato:
-                </span>
-              </div>
-              <input type="text" class="form-control" value="{{ \App\Contract::getName($crew->id_contract) }}" disabled>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="input-group col-lg-6">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
                   Fecha de Alta/Baja Contrato:
                 </span>
               </div>
               <input type="text" class="form-control" value="{{ \App\Helpers::getDateParseFormat($crew->start_date_contract, '/') }} - {{ \App\Helpers::getDateParseFormat($crew->finish_date_contract, '/') }}" disabled>
-            </div>
-
-            <div class="input-group col-lg-6">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  Fecha de Alta/Baja AFIP:
-                </span>
-              </div>
-              <input type="text" class="form-control" value="{{ \App\Helpers::getDateParseFormat($crew->start_afip, '/') }} - {{ \App\Helpers::getDateParseFormat($crew->finish_afip, '/') }}" disabled>
             </div>
           </div>
 
@@ -90,7 +70,7 @@
                   Modalidad:
                 </span>
               </div>
-              <!-- <input type="text" class="form-control" value=" \App\Project::getModalidad($crew->id_project)" disabled> -->
+              <input type="text" class="form-control" value=" \App\Project::getModalidad($crew->id_project)" disabled>
             </div>
 
             <div class="input-group col-lg-6">
@@ -116,50 +96,10 @@
             <div class="input-group col-lg-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
-                  Sueldo Total:
-                </span>
-              </div>
-              <input type="text" class="form-control" value="${{ $crew->total_workdays}}" disabled>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="input-group col-lg-6">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  Sueldo Contrato Mensual:
-                </span>
-              </div>
-              <input type="text" class="form-control" value="${{ $crew->salary_contract_category_function}}" disabled>
-            </div>
-
-            <div class="input-group col-lg-6">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  Sueldo Diario SAT:
-                </span>
-              </div>
-              <input type="text" class="form-control" value="${{ $crew->salary_daily}}" disabled>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="input-group col-lg-6">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
                   Sueldo A Liquidar Neto:
                 </span>
               </div>
               <input type="text" class="form-control" value="${{ $crew->salary_liquidate}}" disabled>
-            </div>
-
-            <div class="input-group col-lg-6">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  Diferencia:
-                </span>
-              </div>
-              <input type="text" class="form-control" value="${{ $crew->salaty_difference}}" disabled>
             </div>
           </div>
 
