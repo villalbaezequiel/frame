@@ -47,7 +47,7 @@
             <div class="input-group col-lg-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
-                  Función Frame / Categoría SAT:
+                  Función Frame:
                 </span>
               </div>
               <input type="text" class="form-control" value="{{ \App\FrameFunction::getName($crew->id_function_frame) }} / {{ \App\WorkersCategory::getName($crew->id_category_sat) }}" disabled>
@@ -70,7 +70,7 @@
                   Modalidad:
                 </span>
               </div>
-              <input type="text" class="form-control" value=" \App\Project::getModalidad($crew->id_project)" disabled>
+              <input type="text" class="form-control" value="{{ \App\Project::getModalidad($crew->id_project) }}" disabled>
             </div>
 
             <div class="input-group col-lg-6">
