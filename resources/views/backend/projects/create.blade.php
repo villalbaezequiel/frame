@@ -366,7 +366,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-6">
+                  <!-- <div class="col-md-6">
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
@@ -375,7 +375,8 @@
                           <input type="text" class="form-control" name="salary_liquidate" maxlength="125" readonly>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
+                  <input type="hidden" name="salary_liquidate" maxlength="125" readonly>
 
                   <div class="col-md-6">
                     <div class="form-group">
