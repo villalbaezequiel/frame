@@ -268,7 +268,7 @@
                         <span class="input-group-text">
                           Fecha de Alta Contrato:
                         </span>
-                        <input class="form-control datepicker" type="text" name="start_date_contract">
+                        <input class="form-control datepicker_crew" type="text" name="start_date_contract">
                       </div>
                     </div>
                   </div>
@@ -279,10 +279,12 @@
                         <span class="input-group-text">
                           Fecha de Baja Contrato:
                         </span>
-                        <input class="form-control datepicker" type="text" name="finish_date_contract">
+                        <input class="form-control datepicker_crew" type="text" name="finish_date_contract">
                       </div>
                     </div>
                   </div>
+
+                  <input type="hidden" name="days_crew" value="" />
 
                   <div class="col-md-6">
                     <div class="form-group">

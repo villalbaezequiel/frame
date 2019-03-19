@@ -204,12 +204,12 @@ $(document).ready(function(){
 
         var salary_contract_category_function = $('input[name=salary_contract_category_function]').val();
         var salary_contract_category_functionFinish = parseFloat(salary_contract_category_function.replace(".", "").replace(",", "."));
-        var days = $('input[name=days]').val();
+        var days = $('input[name=days_crew]').val();
         var salary_daily = (salary_contract_category_functionFinish / 30);
 
         $('input[name=salary_daily]').val(getFormatNumber(salary_daily));
         $('input[name=salary_liquidate]').val(getFormatNumber(parseFloat(days) * salary_daily));
-        $('input[name=crew_sueldo_diferencia]').val( getFormatNumber(total_workdays - (parseFloat(days) * salary_daily)) );
+        $('input[name=crew_sueldo_diferencia]').val( getFormatNumber(salary_workdays - salary_daily));
 
       } else {
         alert('Seleccione una Categoria SAT, para que se autocomplete los campos de Sueldos.');

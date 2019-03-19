@@ -145,6 +145,20 @@ $(document).ready(function(){
     }
   });
 
+  $(".datepicker_crew").datepicker({
+    onSelect: function(){
+      var days = 0;
+      var startDay = $("input[name=start_date_contract]").datepicker('getDate');
+      var endDay = $("input[name=finish_date_contract]").datepicker('getDate');
+
+      if (startDay && endDay) {
+        days = Math.floor((endDay.getTime() - startDay.getTime()) / 86400000); // ms per day
+      }
+
+      $("input[name=days_crew]").val((days+1));
+    }
+  });
+
   $("select.ajax_functions_frame_by_type_project").change(function(){
 
       $.ajax({
