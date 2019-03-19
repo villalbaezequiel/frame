@@ -350,6 +350,17 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
+                          Sueldo Total Texto:
+                        </span>
+                        <input type="text" class="form-control" name="total_workdays_text" maxlength="125">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
                           Sueldo Contrato Mensual: $
                         </span>
                           <input type="text" class="form-control" name="salary_contract_category_function" maxlength="125" readonly>

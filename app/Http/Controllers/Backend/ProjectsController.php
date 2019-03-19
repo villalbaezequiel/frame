@@ -99,6 +99,7 @@ class ProjectsController extends Controller
             $crew->id_contract = $crewObj->id_contract;
             $crew->salary_workdays = $crewObj->salary_workdays;
             $crew->total_workdays = $crewObj->total_workdays;
+            $crew->total_workdays_text = $crewObj->total_workdays_text;
             $crew->salary_contract_category_function = $crewObj->salary_contract_category_function;
             $crew->salary_daily = $crewObj->salary_daily;
             $crew->salary_liquidate = $crewObj->salary_liquidate;
@@ -219,6 +220,7 @@ class ProjectsController extends Controller
               $crew->id_contract = $crewObj->id_contract;
               $crew->salary_workdays = $crewObj->salary_workdays;
               $crew->total_workdays = $crewObj->total_workdays;
+              $crew->total_workdays_text = $crewObj->total_workdays_text;
               $crew->salary_contract_category_function = $crewObj->salary_contract_category_function;
               $crew->salary_daily = $crewObj->salary_daily;
               $crew->salary_liquidate = $crewObj->salary_liquidate;

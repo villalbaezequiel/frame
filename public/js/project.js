@@ -83,6 +83,7 @@ $(document).ready(function(){
     var id_contract = $('select[name=id_contract]').val();
     var salary_workdays = $('input[name=salary_workdays]').val();
     var total_workdays = $('input[name=total_workdays]').val();
+    var total_workdays_text = $('input[name=total_workdays_text]').val();
     var salary_contract_category_function = $('input[name=salary_contract_category_function]').val();
     var salary_daily = $('input[name=salary_daily]').val();
     var salary_liquidate = $('input[name=salary_liquidate]').val();
@@ -94,7 +95,7 @@ $(document).ready(function(){
     var finish_afip = $('input[name=finish_afip]').val();
 
     if(id_function_frame && id_category_sat && id_contract && id_provider &&
-       salary_workdays && total_workdays && salary_contract_category_function &&
+       salary_workdays && total_workdays && total_workdays_text && salary_contract_category_function &&
        salary_daily && salary_liquidate && start_date_contract && finish_date_contract &&
        count_workdays_crew && start_afip && finish_afip)
     {
@@ -107,6 +108,7 @@ $(document).ready(function(){
         'id_contract': id_contract,
         'salary_workdays': salary_workdays,
         'total_workdays': total_workdays,
+        'total_workdays_text': total_workdays_text,
         'salary_contract_category_function': salary_contract_category_function,
         'salary_daily': salary_daily,
         'salary_liquidate': salary_liquidate,

@@ -35,4 +35,14 @@ class Provider extends Model
       $crew = Provider::find($id);
       return $crew->id_user;
     }
+
+    static public function getAddressFull($id)
+    {
+      $crew = Provider::find($id);
+      if($crew->piso_depto != null || $crew->piso_depto != ""){
+        return $crew->address.' '.$crew->address_number.'. Piso/Departamento: '.$crew->piso_depto;
+      } else {
+        return $crew->address.' '.$crew->address_number;
+      }
+    }
 }
