@@ -83,6 +83,14 @@
               </div>
             </div>
             <div class="row">
+              <label class="col-md-2 col-form-label">Categoría AFIP</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <input class="form-control" type="number" name="categoria_afip" value="{{ old('categoria_afip') }}" maxlength="300">
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <label class="col-md-2 col-form-label label-checkbox">Activo</label>
               <div class="col-md-10 checkbox-radios">
                 <div class="form-check form-check-inline">
