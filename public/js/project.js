@@ -211,7 +211,7 @@ $(document).ready(function(){
 
         $('input[name=salary_daily]').val(getFormatNumber(salary_daily));
         $('input[name=salary_liquidate]').val(getFormatNumber(parseFloat(days) * salary_daily));
-        $('input[name=crew_sueldo_diferencia]').val( getFormatNumber(salary_workdays - salary_daily));
+        $('input[name=crew_sueldo_diferencia]').val( getFormatNumber( total_workdays -  (salary_daily * 3) ));
 
       } else {
         alert('Seleccione una Categoria SAT, para que se autocomplete los campos de Sueldos.');
