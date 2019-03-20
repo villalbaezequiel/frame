@@ -32,17 +32,17 @@ class ExportController extends Controller
 
         if(Contract::getName($projectProvider->id_contract) == "Eventual"){
 
-          \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractEventual( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $user->dni, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat), $projectProvider->total_workdays_text, "$".$projectProvider->total_workdays, Project::getName($projectProvider->id_project) ));
+          \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractEventual( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat), $projectProvider->total_workdays_text, "$".$projectProvider->total_workdays, Project::getName($projectProvider->id_project) ));
           $name_contract_doc = "contrato_eventual_{$timestamp}.docx";
 
         } elseif(Contract::getName($projectProvider->id_contract) == "Plazo Fijo"){
 
-          \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractPlazoFijo( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $user->dni, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat), $projectProvider->total_workdays_text, "$".$projectProvider->total_workdays, Project::getName($projectProvider->id_project) ));
+          \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractPlazoFijo( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), Helpers::getDateParseFormat($projectProvider->finish_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat), $projectProvider->total_workdays_text, "$".$projectProvider->total_workdays, Project::getName($projectProvider->id_project, $user->dni) ));
           $name_contract_doc = "contrato_plazofijo_{$timestamp}.docx";
 
         } elseif(Contract::getName($projectProvider->id_contract) == "Servicios"){
 
-          \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractServicio( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $user->dni, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat), $projectProvider->total_workdays_text, "$".$projectProvider->total_workdays, Project::getName($projectProvider->id_project) ));
+          \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractServicio( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), Helpers::getDateParseFormat($projectProvider->finish_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat), $projectProvider->total_workdays_text, "$".$projectProvider->total_workdays, Project::getName($projectProvider->id_project) ));
           $name_contract_doc = "contrato_servicio_{$timestamp}.docx";
         }
 
