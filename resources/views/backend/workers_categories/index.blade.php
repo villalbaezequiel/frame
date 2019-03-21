@@ -6,6 +6,7 @@
 <div class="container-fluid">
 
   <a href="{{ url('/workers_categories/create') }}" class="btn btn-primary">Nueva Categoría SAT</a>
+  <a href="{{ url('/import/workers_categories') }}" class="btn btn-primary">Importar Categorías SAT</a>
 
   <div class="row">
     <div class="col-md-12">

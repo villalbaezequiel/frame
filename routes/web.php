@@ -44,6 +44,10 @@ Route::group(['middleware' => ['auth']], function () {
   // export
   Route::get('/export/crew_contract/{id_project_provider}', 'Backend\ExportController@crewContract');
 
+  // import
+  Route::get('/import/workers_categories/', 'Backend\ImportController@workersCategories');
+  Route::post('/import/workers_categories/store', 'Backend\ImportController@workersCategoriesStore')->name('import.workers_categories.store');
+
 });
 
 // ajax return Json
