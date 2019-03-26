@@ -5,11 +5,11 @@
 @section('content')
 <div class="container-fluid">
 
-  <a href="{{ asset('/docs/workers_categories/import.csv') }}" class="btn btn-primary">Descargar Estructura para Importar</a>
+  <a href="{{ asset('/docs/workers_categories/import.xlsx') }}" class="btn btn-primary none-alert">Descargar Estructura para Importar</a>
 
   <div class="row">
     <div class="col-md-12">
-      {!! Form::open(['route' => 'import.workers_categories.store', 'method' => 'POST', 'class' => 'form-horizontal']) !!}
+      {!! Form::open(['route' => 'import.workers_categories.store', 'method' => 'POST', 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
         <div class="card ">
           <div class="card-header card-header-primary card-header-text">
             <div class="card-text">
@@ -30,10 +30,10 @@
             @endif
 
             <div class="row">
-              <label class="col-md-2 col-form-label">CSV:</label>
+              <label class="col-md-2 col-form-label">Excel:</label>
               <div class="col-md-7" style="margin-top: 10px;">
                 <div class="form-file-upload">
-                  <input class="form-control" type="file" name="csv" required>
+                  <input class="form-control" type="file" name="csv_sat" required>
                 </div>
               </div>
             </div>
