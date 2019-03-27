@@ -24,7 +24,7 @@ $(document).ready(function() {
   $.each(list_crew, function(i, v){
     listEvents.push({
       id: v.id,
-      title: v.name_user+"("+v.function_frame_name+")"+,
+      title: v.name_user+"("+v.function_frame_name+")",
       start: v.start_date_contract,
       end: v.finish_date_contract,
       allDay: 1,
