@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Provider;
 use App\Helpers;
+use App\FrameFunction;
+use App\WorkersCategory;
 use App\Project;
 use App\ProjectProvider;
 
@@ -55,6 +57,15 @@ class ProjectsJornadasController extends Controller
     {
       $project = Project::find($id);
       $listCrew = ProjectProvider::where('id_project', $id)->get();
+
+      foreach ($listCrew as $crew) {
+        // name crew
+        // posicion frame/sat
+        $crew->name_user = Provider::getNameOrderLastName($crew->id_provider);
+        $crew->function_frame_name = FrameFunction::getName($crew->id_function_frame);
+        $crew->category_sat_name = WorkersCategory::getName($crew->id_category_sat);
+      }
+
       return view('backend.projects_jornadas.show', [
         'project' => $project,
         'list_crew' => $listCrew
