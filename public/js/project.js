@@ -217,7 +217,7 @@ $(document).ready(function(){
         // Si crew_sueldo_diferencia es negativo or positivo backgroundColor
         $('input[name=crew_sueldo_diferencia]').removeAttr('style');
 
-        if(crew_sueldo_diferencia > 0){
+        if(parseFloat( $('input[name=crew_sueldo_diferencia]').val() ) > 0){
           $('input[name=crew_sueldo_diferencia]').css({backgroundColor: "green", color: "white"});
         } else {
           $('input[name=crew_sueldo_diferencia]').css({backgroundColor: "red", color: "white"});
