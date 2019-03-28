@@ -46,7 +46,7 @@ class ImportController extends Controller
                 $workersCategory->sueldo_adicional = Helpers::getFormatSalary($value->adicional);
                 $workersCategory->sueldo_bruto = Helpers::getFormatSalary($value->sueldo_bruto);
                 $workersCategory->sueldo_bruto_texto = $value->sueldo_bruto_texto;
-                $workersCategory->sueldo_neto = "$".$salaryNetoFinish;
+                $workersCategory->sueldo_neto = $salaryNetoFinish;
                 $workersCategory->presentismo = Helpers::getFormatSalary($value->presentismo);
                 $workersCategory->categoria_afip = $value->categoria_afip;
                 $workersCategory->active = '1';
