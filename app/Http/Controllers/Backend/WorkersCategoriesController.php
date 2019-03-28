@@ -65,7 +65,7 @@ class WorkersCategoriesController extends Controller
            $workersCategory->sueldo_adicional = $request->get('sueldo_adicional');
            $workersCategory->sueldo_bruto = $request->get('sueldo_bruto');
            $workersCategory->sueldo_bruto_texto = $request->get('sueldo_bruto_texto');
-           $workersCategory->sueldo_neto = $salaryNetoFinish;
+           $workersCategory->sueldo_neto = "$".$salaryNetoFinish;
            $workersCategory->presentismo = $request->get('presentismo');
            $workersCategory->categoria_afip = $request->get('categoria_afip');
            $workersCategory->active = $request->get('active');
@@ -138,7 +138,7 @@ class WorkersCategoriesController extends Controller
            $workersCategory->sueldo_adicional = $request->get('sueldo_adicional');
            $workersCategory->sueldo_bruto = $request->get('sueldo_bruto');
            $workersCategory->sueldo_bruto_texto = $request->get('sueldo_bruto_texto');
-           $workersCategory->sueldo_neto = $salaryNetoFinish;
+           $workersCategory->sueldo_neto = "$".$salaryNetoFinish;
            $workersCategory->presentismo = $request->get('presentismo');
            $workersCategory->categoria_afip = $request->get('categoria_afip');
            $workersCategory->active = $request->get('active');
