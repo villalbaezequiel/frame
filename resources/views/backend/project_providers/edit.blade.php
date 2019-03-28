@@ -67,10 +67,10 @@
             <label>Sueldo Diario SAT:</label>
             <input type="text" class="form-control" value="{{ $crew->salary_daily}}" disabled>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label>Sueldo A Liquidar Neto:</label>
             <input type="text" class="form-control" value="{{ $crew->salary_liquidate}}" disabled>
-          </div>
+          </div> -->
           <div class="form-group">
             <label>Diferencia:</label>
             <input type="text" class="form-control" value="{{ $crew->salaty_difference}}" disabled>
