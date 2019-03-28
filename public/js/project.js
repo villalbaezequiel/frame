@@ -1,5 +1,9 @@
 function getFormatNumber(number){
   var numberInt = number.toString().split('.');
+
+  console.log(number);
+  console.log(numberInt);
+  
   if(numberInt[1]){
     if(numberInt[0].length == 4) {
       return numberInt[0].substr(0, 1)+"."+numberInt[0].substr(-3)+","+numberInt[1];
