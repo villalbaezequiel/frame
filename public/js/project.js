@@ -208,10 +208,18 @@ $(document).ready(function(){
         var salary_contract_category_functionFinish = parseFloat(salary_contract_category_function.replace(".", "").replace(",", "."));
         var days = $('input[name=days_crew]').val();
         var salary_daily = (salary_contract_category_functionFinish / 30);
+        var crew_sueldo_diferencia = getFormatNumber( total_workdays -  (salary_daily * parseFloat(count_workdays_crew)) );
 
         $('input[name=salary_daily]').val(getFormatNumber(salary_daily));
         $('input[name=salary_liquidate]').val(getFormatNumber(parseFloat(days) * salary_daily));
-        $('input[name=crew_sueldo_diferencia]').val( getFormatNumber( total_workdays -  (salary_daily * parseFloat(count_workdays_crew)) ));
+        $('input[name=crew_sueldo_diferencia]').val(crew_sueldo_diferencia);
+
+        // Si crew_sueldo_diferencia es negativo or positivo backgroundColor
+        if(crew_sueldo_diferencia > 0){
+          $('input[name=crew_sueldo_diferencia]').css({backgroundColor: "green", color: "white"});
+        } else {
+          $('input[name=crew_sueldo_diferencia]').css({backgroundColor: "red", color: "white"});
+        }
 
       } else {
         alert('Seleccione una Categoria SAT, para que se autocomplete los campos de Sueldos.');
