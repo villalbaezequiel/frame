@@ -88,11 +88,17 @@ $(document).ready(function() {
 
   var listEvents = [];
   $.each(list_crew, function(i, v){
+
+    var start_date = new Date(v.start_date_contract);
+    var end_date = new Date(v.finish_date_contract);
+
+    // quizas realizar un each de fechas
+
     listEvents.push({
       id: v.id,
       title: v.name_user+" ("+v.function_frame_name+")",
-      start: v.start_date_contract,
-      end: v.finish_date_contract,
+      start: start_date,
+      end: end_date,
       allDay: 1,
       backgroundColor: getRandomColor(),
       color: getRandomColor()
@@ -168,14 +174,12 @@ $(document).ready(function() {
       editable: !0,
       eventLimit: !0,
       events: listEvents,
-      eventClick: function(crew) {
+      eventClick: function(crew, element) {
           /* via ajax
             * Inicio hora
             * Fin hora
             * Horas Trabajadas -> automatico
           */
-
-          // console.log(crew);
 
           var formHtml =
           '<form id="'+crew.id+'"><div class="row">'+
@@ -220,13 +224,23 @@ $(document).ready(function() {
 
               // ajax SAVE horas jornada POR DIA
               if(status.value == true){
-                var inicio_hs_jornada = $("select[name=inicio_hs_jornada] option:selected").val();
-                var final_hs_jornada = $("select[name=final_hs_jornada] option:selected").val();
 
-                console.log(crew);
+                var inicio_hs_jornada = $("select[name=inicio_hs_jornada] option:selected").val().split(':');
+                var final_hs_jornada = $("select[name=final_hs_jornada] option:selected").val().split(':');
 
-                $calendar.fullCalendar("renderEvent",crew,!0);
-                $calendar.fullCalendar("unselect");
+                var crew_inicio = new Date(crew.start);
+                var crew_end = new Date(crew.end);
+
+                crew_inicio.setHours(inicio_hs_jornada[0]);
+                crew_inicio.setMinutes(inicio_hs_jornada[1]);
+
+                crew_end.setHours(final_hs_jornada[0]);
+                crew_end.setMinutes(final_hs_jornada[1]);
+
+                crew.start = crew_inicio;
+                crew.end = crew_end;
+
+                $calendar.fullCalendar('updateEvent', crew);
               }
 
             })
