@@ -3,17 +3,17 @@
 
 @section('container')
 <div class="row">
-  <div class="col-lg-5 col-md-6 col-sm-8 ml-auto mr-auto">
-    {!! Form::open(['route' => 'crew.store', 'method' => 'POST', 'class' => 'form']) !!}
+  <div class="col-lg-12 col-md-12 col-sm-12 ml-auto mr-auto">
+    {!! Form::open(['route' => 'crew.store', 'method' => 'POST', 'class' => 'form-inline']) !!}
       @csrf
 
-      <div class="col-md-12" style="padding: 15px;">
+      <div class="col-md-6 ml-auto mr-auto">
         <img src="{{ asset('img/logo.svg') }}" />
       </div>
 
-      <div class="card card-login">
+      <div class="card">
         <div class="card-header card-header-primary text-center">
-          <h4 class="card-title">¡Forma parte <br/> de nuestro staff!</h4>
+          <h4 class="card-title">¡Forma parte de nuestro staff!</h4>
         </div>
         <div class="card-body ">
 
@@ -34,9 +34,8 @@
             @endif
           </p>
 
-        <div style="max-height: 280px; overflow: scroll;">
-          <span class="bmd-form-group">
-            <div class="input-group">
+          <div class="form-group">
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Nombre:
@@ -44,9 +43,8 @@
               </div>
               <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
             </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
+
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Apellido:
@@ -54,9 +52,10 @@
               </div>
               <input type="text" class="form-control" name="last_name" value="{{ old('last_name') }}" required>
             </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
+          </div>
+
+          <div class="form-group">
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Email:
@@ -64,38 +63,37 @@
               </div>
               <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
             </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
+
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Género:
                 </span>
               </div>
-              <select class="form-control" data-style="btn btn-link" name="gender" required>
+              <select class="custom-select" name="gender" required>
                 <option value="">Seleccionar</option>
                 @foreach(\App\Helpers::getGendersPerson() as $key => $val)
                 <option value="{{ $key }}">{{ $val }}</option>
                 @endforeach
               </select>
             </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
+          </div>
+
+          <div class="form-group">
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Tipo de Documentación:
                 </span>
               </div>
-              <select class="form-control" data-style="btn btn-link" name="type_dni" required>
+              <select class="custom-select" name="type_dni" required>
                 @foreach(\App\Helpers::getTypesDocumentationPerson() as $key => $val)
                 <option value="{{ $key }}">{{ $val }}</option>
                 @endforeach
               </select>
             </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
+
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Número DNI/LE/CI:
@@ -103,9 +101,10 @@
               </div>
               <input class="form-control" type="text" name="dni" value="{{ old('dni') }}" required>
             </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
+          </div>
+
+          <div class="form-group">
+            <div class="input-group col-lg-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   CUIT:
@@ -113,9 +112,8 @@
               </div>
               <input class="form-control" type="number" name="cuit" value="{{ old('cuit') }}" maxlength="125" required>
             </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
+
+            <div class="input-group col-lg-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Fecha de Nacimiento:
@@ -123,24 +121,40 @@
               </div>
               <input class="form-control datepicker" type="text" name="birthdate" value="{{ old('birthdate') }}">
             </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
+          </div>
+
+          <div class="form-group">
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
-                  Estado Civil:
+                  Pais:
                 </span>
               </div>
-              <select class="form-control" data-style="btn btn-link" name="civil_status" required>
+              <select class="custom-select" name="id_country" required>
                 <option value="">Seleccionar</option>
-                @foreach(\App\Helpers::getCivilStatus() as $key => $val)
-                <option value="{{ $key }}">{{ $val }}</option>
+                @foreach(\App\Country::all() as $country)
+                <option value="{{ $country->id }}">{{ $country->name }}</option>
                 @endforeach
               </select>
             </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
+
+            <div class="input-group col-md-6">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  Nacionalidad:
+                </span>
+              </div>
+              <select class="custom-select" name="nationality" required>
+                <option value="">Seleccionar</option>
+                @foreach(\App\Country::all() as $country)
+                <option value="{{ $country->id }}">{{ $country->male.' / '.$country->female }}</option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Dirección:
@@ -148,9 +162,8 @@
               </div>
               <input class="form-control" type="text" name="address" value="{{ old('address') }}" required>
             </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
+
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Número Dirección:
@@ -158,24 +171,10 @@
               </div>
               <input class="form-control" type="number" name="address_number" value="{{ old('address_number') }}" required>
             </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  Pais:
-                </span>
-              </div>
-              <select class="form-control" data-style="btn btn-link" name="id_country" required>
-                <option value="">Seleccionar</option>
-                @foreach(\App\Country::all() as $country)
-                <option value="{{ $country->id }}">{{ $country->name }}</option>
-                @endforeach
-              </select>
-            </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
+          </div>
+
+          <div class="form-group">
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Localidad:
@@ -183,9 +182,8 @@
               </div>
               <input class="form-control" type="text" name="location" value="{{ old('location') }}" required>
             </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
+
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   CP:
@@ -193,39 +191,24 @@
               </div>
               <input class="form-control" type="number" name="cp" value="{{ old('cp') }}" required>
             </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  Nacionalidad:
-                </span>
-              </div>
-              <select class="form-control" data-style="btn btn-link" name="nationality" required>
-                <option value="">Seleccionar</option>
-                @foreach(\App\Country::all() as $country)
-                <option value="{{ $country->id }}">{{ $country->male.' / '.$country->female }}</option>
-                @endforeach
-              </select>
-            </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
+          </div>
+
+          <div class="form-group">
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Nivel de Estudio:
                 </span>
               </div>
-              <select class="form-control" data-style="btn btn-link" name="id_study" required>
+              <select class="custom-select" name="id_study" required>
                 <option value="">Seleccionar</option>
                 @foreach(\App\Study::getAllStudy('1') as $study)
                 <option value="{{ $study->id }}">{{ $study->name }}</option>
                 @endforeach
               </select>
             </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
+
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Obra Social:
@@ -233,9 +216,10 @@
               </div>
               <input class="form-control" type="text" name="social_work" value="{{ old('social_work') }}" maxlength="125">
             </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
+          </div>
+
+          <div class="form-group">
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Teléfono:
@@ -243,9 +227,8 @@
               </div>
               <input class="form-control" type="number" name="telephone" value="{{ old('telephone') }}" maxlength="125" required>
             </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
+
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Otro Teléfono:
@@ -253,23 +236,37 @@
               </div>
               <input class="form-control" type="number" name="other_telephone" value="{{ old('other_telephone') }}" maxlength="125">
             </div>
-          </span>
-          <span class="bmd-form-group">
-            <div class="input-group">
+          </div>
+
+          <div class="form-group">
+            <div class="input-group col-lg-6">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  Estado Civil:
+                </span>
+              </div>
+              <select class="custom-select" name="civil_status" required>
+                <option value="">Seleccionar</option>
+                @foreach(\App\Helpers::getCivilStatus() as $key => $val)
+                <option value="{{ $key }}">{{ $val }}</option>
+                @endforeach
+              </select>
+            </div>
+
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Función según Frame:
                 </span>
               </div>
-              <select class="form-control" data-style="btn btn-link" name="id_function_sat" required>
+              <select class="custom-select" name="id_function_sat" required>
                 <option value="">Seleccionar</option>
                 @foreach(\App\FrameFunction::getAllFrameFunction('1') as $frame)
                 <option value="{{ $frame->id }}">{{ $frame->name }}</option>
                 @endforeach
               </select>
             </div>
-          </span>
-        </div>
+          </div>
 
           <!-- <span class="bmd-form-group">
             <div class="input-group">
@@ -292,10 +289,16 @@
             </div>
           </span> -->
         </div>
-        <div class="card-footer justify-content-center">
-          <input type="hidden" name="crew_register_person" value="1" />
-          <input type="submit" class="btn btn-primary btn-link btn-lg" value="Guardar" />
+
+        <div class="card-footer">
+          <div class="col-md-12">
+            <center>
+              <input type="hidden" name="crew_register_person" value="1" />
+              <input type="submit" class="btn btn-primary btn-link btn-lg" value="Guardar" />
+            </center>
+          </div>
         </div>
+
       </div>
     {!! Form::close() !!}
   </div>
