@@ -10,11 +10,21 @@ class ProjectProvider extends Model
   static public function getActive($active)
   {
     if($active == 0){
-      return "No hay respuesta Aún.";
+      return "Pendiente.";
     } elseif($active == 1){
-      return "Si";
+      return "Aceptado";
     } elseif($active == 2) {
-      return "No";
+      return "Rechazado";
+    }
+  }
+  static public function getActiveColor($active)
+  {
+    if($active == 0){
+      echo "black";
+    } elseif($active == 1){
+      echo "green";
+    } elseif($active == 2) {
+      echo "red";
     }
   }
 

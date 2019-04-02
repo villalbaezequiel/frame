@@ -76,7 +76,7 @@
             <input type="text" class="form-control" value="{{ $crew->salaty_difference}}" disabled>
           </div>
           <div class="form-group">
-            <label>Activo:</label>
+            <label>Estado Solicitud:</label>
             <input type="text" class="form-control" value="{{ \App\ProjectProvider::getActive($crew->active)}}" disabled>
           </div>
 <!--

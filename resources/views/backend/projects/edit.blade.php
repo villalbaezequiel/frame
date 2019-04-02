@@ -464,6 +464,7 @@
                           <th>Función Frame/Categoría SAT</th>
                           <th>Fechas</th>
                           <th>Puesto</th>
+                          <th>Estado</th>
                           <th>Acciones</th>
                         </tr>
                       </thead>
@@ -479,6 +480,7 @@
                           ?>
                           <td>{{ $start_date_contract[2].'/'.$start_date_contract[1].'/'.$start_date_contract[0].' - '.$finish_date_contract[2].'/'.$finish_date_contract[1].'/'.$finish_date_contract[0] }}</td>
                           <td>{{ \App\ProjectProvider::getPuesto($item_crew->id) }}</td>
+                          <td style="color: <?php \App\ProjectProvider::getActiveColor($item_crew->active); ?>">{{ \App\ProjectProvider::getActive($item_crew->active) }}</td>
                           <td>
                               <a href="{{ url('/export/crew_contract/'.$item_crew->id) }}" target="_blank" class="btn btn-link btn-warning btn-just-icon edit" title="Descargar Contrato"><i class="material-icons">assignment</i></a>
                               <a data-url="{{ url('/project_providers/'.$item_crew->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit openWindowUrl" title="Ver"><i class="material-icons">dvr</i></a>

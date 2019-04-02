@@ -4,11 +4,16 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Notifications\CrewProject;
+use App\Helpers;
+use App\User;
 use App\Project;
+use App\Provider;
 use App\ProjectProvider;
 
 class NotificationsController extends Controller
 {
+    // ProjectProvider -> ACTIVE: 0 = "pendiente", 1 = "aceptado", 2 = "rechazado"
 
     public function getAcceptProjectCrew($id_project_provider)
     {
@@ -30,18 +35,47 @@ class NotificationsController extends Controller
               $project_provider->active = "1";
               $project_provider->save();
 
-              // si tiene suplente, actualizar su columnna (ejemplo $project_provider->suplente) a "NO LO NECESITAMOS"
-              // if(isset suplente de $project_provider->id )
-
               $message = 'Haz aceptado la solicitud del Proyecto. En brevedad nos contactaremos con usted. Gracias!';
 
             } elseif($request->get('confirmation') == 2) {
-              // send mail to suplent crew
 
-              $project_provider->active = "2";
+              $project_provider->active = "2"; // rechazado
               $project_provider->save();
 
               $message = 'Haz rechazado la solicitud del Proyecto. Gracias!';
+
+              /* ---------------------------------------------------------------*/
+
+              // Si el Titular no ACEPTA, se lo notifica al Secundario
+              // y a este Crew Secundario se le envia un Mail
+              // verifico si es Titular y tiene SUPLENTE
+
+              if($project_provider->is_reemplazo == '1' && $project_provider->active == '2'){
+
+                $checkSecundario = ProjectProvider::where('id_project', $project_provider->id_project)
+                                                  ->where('is_reemplazo', '2')
+                                                  ->where('id_crew_reemplazo', $project_provider->id_provider)
+                                                  ->where('active', '0')
+                                                  ->first();
+
+                if(!empty($checkSecundario)){
+
+                  $crewSecundario = ProjectProvider::find($checkSecundario->id);
+                  $project = Project::find($crewSecundario->id_project);
+                  $user = User::find(Provider::getIdUser($crewSecundario->id_provider));
+
+                  // Enviar Mail al crew notificandolo del proyecto y si acepta trabajar
+                  $data = array(
+                    'project' => $project,
+                    'user' => $user,
+                    'project_crew' => $crewSecundario
+                  );
+                  $user->notify(new CrewProject($data));
+
+                }
+
+              }
+
             }
           }
 
@@ -51,13 +85,35 @@ class NotificationsController extends Controller
           // aceptaron el Contrato
 
           $id_project = $project_provider->id_project;
-          $crews_project = ProjectProvider::where('id_project', $id_project)->get();
+
+          $crews_project = ProjectProvider::where('id_project', $id_project)
+                                            ->where('is_reemplazo', '1')
+                                            ->get();
           $status = true;
 
           foreach ($crews_project as $value) {
+
             if($value->active == '0'){
               $status = false;
+            } elseif($value->active == '2'){
+
+              // verifico si su Secundario acepto
+              $checkSecundario = ProjectProvider::where('id_project', $id_project)
+                                                ->where('is_reemplazo', '2')
+                                                ->where('id_crew_reemplazo', $value->id_provider)
+                                                ->first();
+              if(!empty($checkSecundario)){
+
+                if($checkSecundario->active == '0' || $checkSecundario->active == '2'){
+                  $status = false;
+                }
+
+              } else {
+                $status = false;
+              }
+
             }
+
           }
 
           if($status == true){
