@@ -1,18 +1,22 @@
+function redondeo(numero) {
+  return numero.substr(0,2);
+}
+
 function getFormatNumber(number){
   var numberInt = number.toString().split('.');
   if(numberInt[1]){
     if(numberInt[0].length == 4) {
-      return numberInt[0].substr(0, 1)+"."+numberInt[0].substr(-3)+","+numberInt[1];
+      return numberInt[0].substr(0, 1)+"."+numberInt[0].substr(-3)+","+redondeo(numberInt[1]);
     } else if(numberInt[0].length == 5){
-      return numberInt[0].substr(0, 2)+"."+numberInt[0].substr(-3)+","+numberInt[1];
+      return numberInt[0].substr(0, 2)+"."+numberInt[0].substr(-3)+","+redondeo(numberInt[1]);
     } else if(numberInt[0].length == 6) {
-      return numberInt[0].substr(0, 3)+"."+numberInt[0].substr(-3)+","+numberInt[1];
+      return numberInt[0].substr(0, 3)+"."+numberInt[0].substr(-3)+","+redondeo(numberInt[1]);
     } else {
 
       if (numberInt[1] == null){
         return numberInt[0]+",00";
       } else {
-        return numberInt[0]+","+numberInt[1];
+        return numberInt[0]+","+redondeo(numberInt[1]);
       }
 
     }
@@ -28,7 +32,7 @@ function getFormatNumber(number){
       if (numberInt[1] == null){
         return numberInt[0]+",00";
       } else {
-        return numberInt[0]+","+numberInt[1];
+        return numberInt[0]+","+redondeo(numberInt[1]);
       }
 
     }
@@ -88,6 +92,7 @@ $(document).ready(function(){
   });
 
   $("#add_crew").click(function(){
+
     // list values
     var id_function_frame = $('select[name=id_function_frame]').val();
     var id_category_sat = $('select[name=id_category_sat]').val(); // agregar al schema ´project_providers´
@@ -105,6 +110,14 @@ $(document).ready(function(){
     var count_workdays_crew = $('input[name=count_workdays_crew]').val();
     var start_afip = $('input[name=start_afip]').val();
     var finish_afip = $('input[name=finish_afip]').val();
+
+    // check is_reemplazo
+    // puesto
+    // 1 = Titular
+    // 2 = Secundario
+    var checkIsSuplente = $("select[name=is_reemplazo]").val();
+    var idCrewSuplente = $("select[name=id_crew_reemplazo]").val();
+    var nameCrewSuplente = $("select[name=id_crew_reemplazo]").find(':selected').text();
 
     if(id_function_frame && id_category_sat && id_contract && id_provider &&
        salary_workdays && total_workdays && total_workdays_text && salary_contract_category_function &&
@@ -129,10 +142,12 @@ $(document).ready(function(){
         'finish_date_contract': finish_date_contract,
         'count_workdays_crew': count_workdays_crew,
         'start_afip': start_afip,
-        'finish_afip': finish_afip
+        'finish_afip': finish_afip,
+        'is_reemplazo': checkIsSuplente,
+        'id_crew_reemplazo': idCrewSuplente
       };
 
-      // verificar si el Crew esta en otro proecto en esas fechas
+      // verificar si el Crew esta en otro proyecto en esas fechas
       $.ajax({
         type: 'GET',
         url: '/sistema/json/check_crew_project/'+id_provider+'/'+start_date_contract.replace(/\//g, '-'),
@@ -141,20 +156,51 @@ $(document).ready(function(){
 
           var status = data.status;
 
+          // add crew
           if(status == true){
 
-            // add crew
-            // add crew to list input request
-            if($('#'+id_provider).length == 0){
-              $('.list_crew').append("<input type='hidden' name='list_crew[]' id='"+id_provider+"' value='' />");
-              $('#'+id_provider).val(JSON.stringify(crew));
+            if(checkIsSuplente == "2" && idCrewSuplente != "0"){
+
+              // add crew SECUNDARIO to list input request
+              if($('#'+id_provider).length == 0){
+                $('.list_crew').append("<input type='hidden' name='list_crew_secundario[]' id='"+id_provider+"' value='' />");
+                $('#'+id_provider).val(JSON.stringify(crew));
+
+              } else {
+
+                // verifico que no pueda seleccionar un crew secundario que sea igual al titular
+                if($('#'+id_provider).attr('name') != "list_crew[]"){
+                  $('#'+id_provider).val('');
+                  $('#'+id_provider).val(JSON.stringify(crew));
+
+                  // remove item_view
+                  $("#item_view_"+id_provider).remove();
+                } else {
+                  alert("No puedes Agregar un Crew Secundario al mismo Crew Titular.");
+                  return false;
+                }
+
+              }
+
+            } else if(checkIsSuplente == "2" && idCrewSuplente == "0"){
+
+              alert('Haz Seleccionado un Crew Secundario. Por favor seleccione un Crew en "Reemplazo del Crew". Gracias!');
+              return false;
 
             } else {
-              $('#'+id_provider).val('');
-              $('#'+id_provider).val(JSON.stringify(crew));
+              // add crew TITULAR to list input request
+              if($('#'+id_provider).length == 0){
+                $('.list_crew').append("<input type='hidden' name='list_crew[]' id='"+id_provider+"' value='' />");
+                $('#'+id_provider).val(JSON.stringify(crew));
 
-              // remove item_view
-              $("#item_view_"+id_provider).remove();
+              } else {
+                $('#'+id_provider).val('');
+                $('#'+id_provider).val(JSON.stringify(crew));
+
+                // remove item_view
+                $("#item_view_"+id_provider).remove();
+              }
+
             }
 
             // check jornada de trabajo del proyecto segun la jornada que mas tenga de los CREW
@@ -172,13 +218,38 @@ $(document).ready(function(){
             var crewDates = start_date_contract+" - "+finish_date_contract;
 
             // button to onClick add remove crew
-            var onClickRemoveCrew = "$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove()";
+            var onClickRemoveCrew = "$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove();";
+
+            // Text is Titular o Secundario
+            if(checkIsSuplente == "1"){
+              var textPuesto = "Titular";
+            } else {
+              var textPuesto = "Secundario de "+nameCrewSuplente;
+            }
 
             // add html list crew view
-            $('.list_crew_view').append("<tr id='item_view_"+id_provider+"'><td>"+crewName+"</td><td>"+crewFrameSat+"</td><td>"+crewDates+"</td><td><button type='button' class='btn btn-link btn-danger btn-just-icon remove' onClick="+onClickRemoveCrew+" data-idcrew='"+id_provider+"' data-itemremove='item_view_"+id_provider+"' title='Eliminar'><i class='material-icons'>close</i></button></td></tr>");
+            $('.list_crew_view').append("<tr id='item_view_"+id_provider+"'><td>"+crewName+"</td><td>"+crewFrameSat+"</td><td>"+crewDates+"</td><td>"+textPuesto+"</td><td><button type='button' class='btn btn-link btn-danger btn-just-icon remove' onClick="+onClickRemoveCrew+" data-idcrew='"+id_provider+"' data-itemremove='item_view_"+id_provider+"' title='Eliminar'><i class='material-icons'>close</i></button></td></tr>");
 
             // restart input add crew
             $(".empty-values-finish-add-crew input").val('');
+            $("select[name=is_reemplazo]").val("1"); // Default Titular
+            $("select[name=id_crew_reemplazo]").val("0"); // "Seleccionar..."
+
+            $('input[name=crew_sueldo_diferencia]').removeAttr('style');
+
+            // una vez que haya aunque sea 1 CREW en la lista de Empleados, se habilita los INPUT de SUPLENTES
+            // y AGREGO a la lista de "Reemplazo del Crew" los crew agregados
+            // TENER EN CUENTA SI SE BORRA EL CREW DEL PROYECTO, QUE SE BORRE DE ESTA LISTA TAMBIEN
+            // Y SI EL TITULAR BORRADO TIENE UN SUPLENTE, QUE EL Suplente TAMBIEN SE ELIMINE
+
+            $("select[name=is_reemplazo]").removeAttr('disabled');
+            $("select[name=id_crew_reemplazo]").removeAttr('disabled');
+
+            if(checkIsSuplente == "1" && $("select[name=id_crew_reemplazo] option[value='"+id_provider+"']").length == 0){
+              $("select[name=id_crew_reemplazo]").append("<option value='"+id_provider+"'>"+crewName+"</option>");
+            }
+
+            $('.selectpicker').selectpicker('refresh');
 
           } else {
             Swal.fire({

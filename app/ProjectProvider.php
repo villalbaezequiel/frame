@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Provider;
 
 class ProjectProvider extends Model
 {
@@ -14,6 +15,18 @@ class ProjectProvider extends Model
       return "Si";
     } elseif($active == 2) {
       return "No";
+    }
+  }
+
+  static public function getPuesto($id)
+  {
+    $crew = ProjectProvider::find($id);
+    if($crew->is_reemplazo == "1"){
+      return "Titular";
+    } elseif($crew->is_reemplazo == "2"){
+      $suplenteDe = Provider::getNameOrderLastName($crew->id_crew_reemplazo);
+      return "Secundario de $suplenteDe";
+
     }
   }
 }

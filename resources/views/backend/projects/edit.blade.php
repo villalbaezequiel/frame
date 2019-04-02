@@ -415,6 +415,38 @@
                     </div>
                   </div>
 
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Es Reemplazo:
+                        </span>
+                        <select class="selectpicker" data-style="select-with-transition" name="is_reemplazo">
+                          <option value="1" selected>No</option> <!-- 1 = Titular -->
+                          <option value="2">Si</option> <!-- 1 = Suplente -->
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Reemplazo del Crew:
+                        </span>
+                        <select class="selectpicker" data-style="select-with-transition" name="id_crew_reemplazo">
+                          <option value="0">Seleccionar</option>
+                          @foreach($list_crew as $item_crew)
+                            @if($item_crew->is_reemplazo == "1")
+                            <option value="{{ $item_crew->id_provider }}">{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}</option>
+                            @endif
+                          @endforeach
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
                   <div class="col-md-12 text-center" style="padding: 20px;">
                     <button id="add_crew" type="button" class="btn btn-primary">Agregar Crew</button>
                   </div>
@@ -431,6 +463,7 @@
                           <th>Crew</th>
                           <th>Función Frame/Categoría SAT</th>
                           <th>Fechas</th>
+                          <th>Puesto</th>
                           <th>Acciones</th>
                         </tr>
                       </thead>
@@ -445,6 +478,7 @@
                             $finish_date_contract = explode('-', \App\Helpers::getDate($item_crew->finish_date_contract));
                           ?>
                           <td>{{ $start_date_contract[2].'/'.$start_date_contract[1].'/'.$start_date_contract[0].' - '.$finish_date_contract[2].'/'.$finish_date_contract[1].'/'.$finish_date_contract[0] }}</td>
+                          <td>{{ \App\ProjectProvider::getPuesto($item_crew->id) }}</td>
                           <td>
                               <a href="{{ url('/export/crew_contract/'.$item_crew->id) }}" target="_blank" class="btn btn-link btn-warning btn-just-icon edit" title="Descargar Contrato"><i class="material-icons">assignment</i></a>
                               <a data-url="{{ url('/project_providers/'.$item_crew->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit openWindowUrl" title="Ver"><i class="material-icons">dvr</i></a>

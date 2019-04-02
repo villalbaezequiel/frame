@@ -233,7 +233,7 @@
                         <span class="input-group-text">
                           Crew:
                         </span>
-                          <select class="selectpicker get_value_crew" data-style="select-with-transition" name="id_provider">
+                        <select class="selectpicker get_value_crew" data-style="select-with-transition" name="id_provider">
                           <option value="">Seleccionar</option>
                         </select>
                       </div>
@@ -402,6 +402,33 @@
                     </div>
                   </div>
 
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Es Reemplazo:
+                        </span>
+                        <select class="selectpicker" data-style="select-with-transition" name="is_reemplazo" disabled>
+                          <option value="1" selected>No</option> <!-- 1 = Titular -->
+                          <option value="2">Si</option> <!-- 1 = Suplente -->
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Reemplazo del Crew:
+                        </span>
+                        <select class="selectpicker" data-style="select-with-transition" name="id_crew_reemplazo" disabled>
+                          <option value="0">Seleccionar</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
                   <div class="col-md-12 text-center" style="padding: 20px;">
                     <button id="add_crew" type="button" class="btn btn-primary">Agregar Crew</button>
                   </div>
@@ -417,6 +444,7 @@
                           <th>Crew</th>
                           <th>Función Frame/Categoría SAT</th>
                           <th>Fechas</th>
+                          <th>Puesto</th>
                           <th>Acciones</th>
                         </tr>
                       </thead>
