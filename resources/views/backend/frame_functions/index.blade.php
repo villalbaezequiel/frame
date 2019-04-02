@@ -32,9 +32,9 @@
             <thead>
               <tr>
                 <th>#ID</th>
-                <th>Nombre</th>
                 <th>Tipo de Proyecto</th>
-                <th>Activo</th>
+                <th>Nombre</th>
+                <th>N* Categorias SAT</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -42,9 +42,9 @@
               @foreach($frame_functions as $frameFunction)
               <tr class="item-alert-confirm-delete">
                 <td>{{ $frameFunction->id }}</td>
+                <td>{{ \App\ProyectCategory::getName($frameFunction->id_proyect_category) }}</td>
                 <td>{{ $frameFunction->name }}</td>
-                <td>{{  \App\ProyectCategory::getName($frameFunction->id_proyect_category) }}</td>
-                <td>{{ \App\Helpers::getActive($frameFunction->active) }}</td>
+                <td>{{ \App\FrameFunction::getNumberCategoriesSat($frameFunction->id) }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['frame_functions.destroy', $frameFunction->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
                     <a href="{{ url('/frame_functions/'.$frameFunction->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>

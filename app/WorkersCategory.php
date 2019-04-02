@@ -22,4 +22,14 @@ class WorkersCategory extends Model
         return "No asociado a Categoría";
       }
     }
+
+    static public function getNumber($id)
+    {
+      $workersCategory = WorkersCategory::find($id);
+      if($workersCategory){
+        return $workersCategory->number_category;
+      } else {
+        return "Sin Número asociado.";
+      }
+    }
 }
