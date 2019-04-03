@@ -17,6 +17,7 @@ class ProjectProvider extends Model
       return "Rechazado";
     }
   }
+
   static public function getActiveColor($active)
   {
     if($active == 0){

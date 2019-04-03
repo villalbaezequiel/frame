@@ -107,7 +107,7 @@ class ProvidersController extends Controller
            }
 
            if($request->get('crew_register_person')){
-             return redirect('/register')->with('message', 'Crew creado con exito!');
+             return redirect('/register')->with('message', '1');
            } else {
              return redirect('/providers')->with('message', 'Crew creado con exito!');
            }
