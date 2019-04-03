@@ -192,7 +192,7 @@
               <label class="col-md-2 col-form-label">Teléfono *</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="number" name="telephone" value="{{ old('telephone') }}" maxlength="125" required>
+                  <input class="form-control" type="number" name="telephone" value="{{ old('telephone') }}" maxlength="125">
                 </div>
               </div>
             </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+use App\Notifications\NewCrew;
 use App\Helpers;
 use App\Provider;
 use App\ProviderAssessment;
@@ -107,7 +108,34 @@ class ProvidersController extends Controller
            }
 
            if($request->get('crew_register_person')){
+
+             // Envio un Mail al Admin notificandolo que se REGISTRO un nuevo CREW
+
+             // info del administrador
+             $chekUserAdmin = User::where('email', 'esteban@estudiomixto.com')
+                                    ->where('is_crew', '0')
+                                    ->where('active', '1')
+                                    ->first();
+
+             $chekUserAdminSecundario = User::where('email', 'villalbaezequiel64@gmail.com')
+                                    ->where('is_crew', '0')
+                                    ->where('active', '1')
+                                    ->first();
+
+              if($chekUserAdmin != null){
+                $userAdmin = User::find($chekUserAdmin->id);
+              } elseif($chekUserAdminSecundario != null) {
+                $userAdmin = User::find($chekUserAdminSecundario->id);
+              }
+
+             $data = array(
+               'user' => $userAdmin,
+               'crew' => $provider
+             );
+             $userAdmin->notify(new NewCrew($data));
+
              return redirect('/register')->with('message', '1');
+
            } else {
              return redirect('/providers')->with('message', 'Crew creado con exito!');
            }
