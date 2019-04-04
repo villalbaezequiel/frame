@@ -33,7 +33,7 @@ class FrameFunction extends Model
       $listNumberSat = "";
 
       foreach($categoriesSat as $sat){
-        $listNumberSat .= "<a href='".url("/workers_categories/$sat/edit")."' target='_blank' title='Ver Categoria SAT'>".WorkersCategory::getNumber($sat)."</a>".', ';
+        $listNumberSat .= "<a href='javascript:void(0)' class='get-salary-sat-modal' title='Ver Salarios de Categoria SAT' data-id='".$sat."'>".WorkersCategory::getNumber($sat)."</a>".', ';
       }
 
       echo $listNumberSat;

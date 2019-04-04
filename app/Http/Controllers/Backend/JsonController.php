@@ -233,4 +233,33 @@ class JsonController extends Controller
         return \Response::json($respuesta);
       }
     }
+
+    /*
+    * parameter: id_category_sat
+    * return Boolean
+    * Logica:
+    */
+    public function getSalaryCategorySat($id_category_sat)
+    {
+      $message;
+      try {
+        $satFunctions = WorkersCategory::find($id_category_sat);
+
+        return \Response::json(array('data' => $satFunctions));
+
+      } catch(\Exception $e) {
+        if(\Config::get('app.debug')):
+          $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
+        else:
+          $message = 'Se ha producido un error. Por favor intente nuevamente.';
+        endif;
+
+        $respuesta = array(
+          'estado' => false,
+          'mensaje' => $message
+        );
+        return \Response::json($respuesta);
+      }
+    }
+
 }

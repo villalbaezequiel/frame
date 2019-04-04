@@ -287,4 +287,38 @@ $(document).ready(function(){
     }
   });
 
+  $(".get-salary-sat-modal").click(function(){
+
+      $.ajax({
+        type: 'GET',
+        url: '/sistema/json/category_sat_salary/'+$(this).data('id'),
+        dataType: 'json',
+        success: function(data){
+          var results = data.data;
+
+          Swal.fire({
+            title: 'Salarios de Categoria SAT: '+results.name,
+            type: 'info',
+            html:
+              '<ul>' +
+                '<li style="text-align: left;"><strong>N* Categoria:</strong> '+results.number_category+'</li>' +
+                '<li style="text-align: left;"><strong>Sueldo Basico:</strong> '+results.sueldo_basico+'</li>' +
+                '<li style="text-align: left;"><strong>Adicional:</strong> '+results.sueldo_adicional+'</li>' +
+                '<li style="text-align: left;"><strong>Presentismo:</strong> '+results.presentismo+'</li>' +
+                '<li style="text-align: left;"><strong>Sueldo Bruto:</strong> '+results.sueldo_bruto+'</li>' +
+              '</ul>',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar'
+          });
+
+        },
+        error: function(xhr, status){
+          console.log('Error: '+xhr);
+        }
+      });
+
+  });
+
 });
