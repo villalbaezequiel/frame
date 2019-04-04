@@ -445,6 +445,7 @@
                           <th>Función Frame/Categoría SAT</th>
                           <th>Fechas</th>
                           <th>Puesto</th>
+                          <th>Estado</th>
                           <th>Acciones</th>
                         </tr>
                       </thead>
