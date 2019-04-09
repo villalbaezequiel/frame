@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\CrewProject;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 use App\User;
 use App\Provider;
 use App\Helpers;
@@ -92,6 +95,19 @@ class ProjectsController extends Controller
             $start_date_contract = explode('/', $crewObj->start_date_contract);
             $finish_date_contract = explode('/', $crewObj->finish_date_contract);
 
+            $calendar = array();
+            $startDatejson = new DateTime( $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] );
+            $endDatejson = new DateTime( $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] );
+            $endDatejson = $endDatejson->modify( '+1 day' );
+            $interval = new DateInterval('P1D');
+            $daterange = new DatePeriod($startDatejson, $interval ,$endDatejson);
+            foreach($daterange as $date){
+                $calendar[$date->format("Ymd")] = array(
+                                'start' => $date->format("Y-m-d")." 00:00:00",
+                                'finish' => $date->format("Y-m-d")." 00:00:00"
+                              );
+            }
+
             $crew = new ProjectProvider;
             $crew->id_project = $project->id;
             $crew->id_function_frame = $crewObj->id_function_frame;
@@ -112,6 +128,7 @@ class ProjectsController extends Controller
             $crew->finish_afip = (isset($finish_afip[2]) ? $finish_afip[2].'-'.$finish_afip[1].'-'.$finish_afip[0] : $crewObj->finish_afip);
             $crew->is_reemplazo = $crewObj->is_reemplazo;
             $crew->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
+            $crew->calendar = $calendar;
             $crew->active = '0';
             $crew->save();
 
@@ -137,6 +154,19 @@ class ProjectsController extends Controller
               $start_date_contract = explode('/', $crewObj->start_date_contract);
               $finish_date_contract = explode('/', $crewObj->finish_date_contract);
 
+              $calendar = array();
+              $startDatejson = new DateTime( $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] );
+              $endDatejson = new DateTime( $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] );
+              $endDatejson = $endDatejson->modify( '+1 day' );
+              $interval = new DateInterval('P1D');
+              $daterange = new DatePeriod($startDatejson, $interval ,$endDatejson);
+              foreach($daterange as $date){
+                  $calendar[$date->format("Ymd")] = array(
+                                  'start' => $date->format("Y-m-d")." 00:00:00",
+                                  'finish' => $date->format("Y-m-d")." 00:00:00"
+                                );
+              }
+
               $crew = new ProjectProvider;
               $crew->id_project = $project->id;
               $crew->id_function_frame = $crewObj->id_function_frame;
@@ -157,6 +187,7 @@ class ProjectsController extends Controller
               $crew->finish_afip = (isset($finish_afip[2]) ? $finish_afip[2].'-'.$finish_afip[1].'-'.$finish_afip[0] : $crewObj->finish_afip);
               $crew->is_reemplazo = $crewObj->is_reemplazo;
               $crew->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
+              $crew->calendar = $calendar;
               $crew->active = '0';
               $crew->save();
             }
@@ -251,6 +282,19 @@ class ProjectsController extends Controller
               $start_date_contract = explode('/', $crewObj->start_date_contract);
               $finish_date_contract = explode('/', $crewObj->finish_date_contract);
 
+              $calendar = array();
+              $startDatejson = new DateTime( $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] );
+              $endDatejson = new DateTime( $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] );
+              $endDatejson = $endDatejson->modify( '+1 day' );
+              $interval = new DateInterval('P1D');
+              $daterange = new DatePeriod($startDatejson, $interval ,$endDatejson);
+              foreach($daterange as $date){
+                  $calendar[$date->format("Ymd")] = array(
+                                  'start' => $date->format("Y-m-d")." 00:00:00",
+                                  'finish' => $date->format("Y-m-d")." 00:00:00"
+                                );
+              }
+
               $crew = new ProjectProvider;
               $crew->id_project = $project->id;
               $crew->id_function_frame = $crewObj->id_function_frame;
@@ -271,6 +315,7 @@ class ProjectsController extends Controller
               $crew->finish_afip = (isset($finish_afip[2]) ? $finish_afip[2].'-'.$finish_afip[1].'-'.$finish_afip[0] : $crewObj->finish_afip);
               $crew->is_reemplazo = $crewObj->is_reemplazo;
               $crew->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
+              $crew->calendar = $calendar;
               $crew->active = '0';
               $crew->save();
 
@@ -296,6 +341,19 @@ class ProjectsController extends Controller
               $start_date_contract = explode('/', $crewObj->start_date_contract);
               $finish_date_contract = explode('/', $crewObj->finish_date_contract);
 
+              $calendar = array();
+              $startDatejson = new DateTime( $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] );
+              $endDatejson = new DateTime( $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] );
+              $endDatejson = $endDatejson->modify( '+1 day' );
+              $interval = new DateInterval('P1D');
+              $daterange = new DatePeriod($startDatejson, $interval ,$endDatejson);
+              foreach($daterange as $date){
+                  $calendar[$date->format("Ymd")] = array(
+                                  'start' => $date->format("Y-m-d")." 00:00:00",
+                                  'finish' => $date->format("Y-m-d")." 00:00:00"
+                                );
+              }
+
               $crew = new ProjectProvider;
               $crew->id_project = $project->id;
               $crew->id_function_frame = $crewObj->id_function_frame;
@@ -316,6 +374,7 @@ class ProjectsController extends Controller
               $crew->finish_afip = (isset($finish_afip[2]) ? $finish_afip[2].'-'.$finish_afip[1].'-'.$finish_afip[0] : $crewObj->finish_afip);
               $crew->is_reemplazo = $crewObj->is_reemplazo;
               $crew->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
+              $crew->calendar = $calendar;
               $crew->active = '0';
               $crew->save();
             }

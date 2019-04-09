@@ -56,7 +56,9 @@ class ProjectsJornadasController extends Controller
     public function show($id)
     {
       $project = Project::find($id);
-      $listCrew = ProjectProvider::where('id_project', $id)->get();
+      $listCrew = ProjectProvider::where('id_project', $id)
+                                  ->where('active', '1')
+                                  ->get();
 
       foreach ($listCrew as $crew) {
         // name crew

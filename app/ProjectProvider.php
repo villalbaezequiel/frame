@@ -7,6 +7,12 @@ use App\Provider;
 
 class ProjectProvider extends Model
 {
+
+  protected $casts = [
+    'extra_hours' => 'array',
+    'calendar' => 'array'
+  ];
+
   static public function getActive($active)
   {
     if($active == 0){

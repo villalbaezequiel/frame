@@ -48,7 +48,9 @@ class ProjectProvidersController extends Controller
      */
     public function show($id)
     {
-        //
+      return view('backend.project_providers.show', [
+        'crew' => ProjectProvider::find($id)
+      ]);
     }
 
     /**

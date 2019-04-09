@@ -262,4 +262,81 @@ class JsonController extends Controller
       }
     }
 
+    /*
+    * parameter:
+    * return
+    * Logica:
+    */
+    public function storeExtraHours(Request $request)
+    {
+      $message;
+      try {
+
+        $projectProvider = ProjectProvider::find($request->get('crew'));
+        $extra_hours = $projectProvider->extra_hours;
+
+        $extra_hours[] = array(
+                          'start' => $request->get('start'),
+                          'finish' => $request->get('finish'),
+                          'price' => $request->get('price')
+                         );
+        $projectProvider->extra_hours = $extra_hours;
+        $projectProvider->save();
+
+        return \Response::json( array('status' => true, 'name' => Provider::getNameOrderLastName($projectProvider->id_provider)) );
+
+      } catch(\Exception $e) {
+        if(\Config::get('app.debug')):
+          $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
+        else:
+          $message = 'Se ha producido un error. Por favor intente nuevamente.';
+        endif;
+
+        $respuesta = array(
+          'estado' => false,
+          'mensaje' => $message
+        );
+        return \Response::json($respuesta);
+      }
+    }
+
+    /*
+    * parameter:
+    * return
+    * Logica:
+    */
+    public function storeJornadaCrew(Request $request)
+    {
+      $message;
+      try {
+
+        $idCrew = explode('_', $request->get('id'));
+
+        $projectProvider = ProjectProvider::find($idCrew[1]);
+        $calendar = $projectProvider->calendar;
+
+        $calendar[$idCrew[0]] = array(
+                          'start' => $request->get('start'),
+                          'finish' => $request->get('finish')
+                         );
+        $projectProvider->calendar = $calendar;
+        $projectProvider->save();
+
+        return \Response::json( array('status' => true) );
+
+      } catch(\Exception $e) {
+        if(\Config::get('app.debug')):
+          $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
+        else:
+          $message = 'Se ha producido un error. Por favor intente nuevamente.';
+        endif;
+
+        $respuesta = array(
+          'estado' => false,
+          'mensaje' => $message
+        );
+        return \Response::json($respuesta);
+      }
+    }
+
 }

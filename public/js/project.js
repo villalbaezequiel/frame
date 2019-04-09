@@ -389,7 +389,9 @@ $(document).ready(function(){
   // open window edit crew
   $(".openWindowUrl").click(function(){
     var url = $(this).data('url');
-    openWindowUrl(url);
+    var width = ( $(this).data('width') != null ? $(this).data('width') : 450 );
+
+    openWindowUrl(url, width);
   });
 
 });

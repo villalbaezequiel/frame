@@ -60,6 +60,8 @@ Route::get('/json/{id_function_frame}/categories_sat', 'Backend\JsonController@g
 Route::get('/json/{id_frame_function}/crew', 'Backend\JsonController@getCrewByFunctionFrame');
 Route::get('/json/check_crew_project/{id_provider}/{start_date_contract}', 'Backend\JsonController@checkAvailableCrewProject');
 Route::get('/json/category_sat_salary/{id_category_sat}', 'Backend\JsonController@getSalaryCategorySat');
+Route::get('/json/project_providers/extra_hours', 'Backend\JsonController@storeExtraHours');
+Route::get('/json/project_providers/jornada_crew', 'Backend\JsonController@storeJornadaCrew');
 
 // register crew
 Route::post('/crew/store', 'Backend\ProvidersController@store')->name('crew.store');
