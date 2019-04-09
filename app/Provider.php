@@ -45,4 +45,28 @@ class Provider extends Model
         return $crew->address.' '.$crew->address_number;
       }
     }
+
+    static public function getEmail($id)
+    {
+      $crew = Provider::join('users', 'users.id', '=', 'providers.id_user')
+              ->where('providers.id', $id)
+              ->first();
+      return $crew->email;
+    }
+
+    static public function getTelephone($id)
+    {
+      $crew = Provider::find($id);
+      if($crew->telephone != null){
+        return $crew->telephone;
+      }
+    }
+
+    static public function getOtherTelephone($id)
+    {
+      $crew = Provider::find($id);
+      if($crew->other_telephone != null){
+        return $crew->other_telephone;
+      }
+    }
 }

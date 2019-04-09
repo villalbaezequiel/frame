@@ -55,6 +55,12 @@
         </a>
       </li>
       <li class="nav-item nav-check-url ">
+        <a class="nav-link" href="{{ url('/callsheet') }}">
+          <i class="material-icons">calendar_view_day</i>
+          <p> CallSheet </p>
+        </a>
+      </li>
+      <li class="nav-item nav-check-url ">
         <a class="nav-link" href="{{ url('/clients') }}">
           <i class="material-icons">people</i>
           <p> Clientes </p>

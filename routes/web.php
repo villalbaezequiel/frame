@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth']], function () {
   Route::resource('/users', 'Backend\UsersController');
   Route::resource('/projects', 'Backend\ProjectsController');
   Route::resource('/projects_jornadas', 'Backend\ProjectsJornadasController');
+  Route::resource('/callsheet', 'Backend\CallsheetController');
   Route::resource('/project_providers', 'Backend\ProjectProvidersController');
   Route::resource('/clients', 'Backend\ClientsController');
   Route::resource('/providers', 'Backend\ProvidersController');

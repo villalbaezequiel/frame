@@ -52,7 +52,7 @@
                 <td>{{ $start_date[2].'/'.$start_date[1].'/'.$start_date[0] }} - {{ $finish_date[2].'/'.$finish_date[1].'/'.$finish_date[0] }}</td>
                 <td>{{ \App\Helpers::getActive($project->active) }}</td>
                 <td class="text-right">
-                  <a href="{{ url('/projects_jornadas/'.$project->id) }}" class="btn btn-link btn-warning btn-just-icon edit" title="Ver"><i class="material-icons">calendar_today</i></a>
+                  <a href="{{ url('/projects_jornadas/'.$project->id) }}" class="btn btn-link btn-warning btn-just-icon edit" title="Calendario Jornadas"><i class="material-icons">calendar_today</i></a>
                 </td>
               </tr>
               @endforeach
