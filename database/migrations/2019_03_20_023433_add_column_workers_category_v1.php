@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Migrations\Migration;
 
-class AddColumnWorkersCategory extends Migration
+class AddColumnWorkersCategoryV1 extends Migration
 {
     /**
      * Run the migrations.
