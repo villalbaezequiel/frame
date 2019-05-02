@@ -38,12 +38,16 @@ class ProjectProvider extends Model
   static public function getPuesto($id)
   {
     $crew = ProjectProvider::find($id);
-    if($crew->is_reemplazo == "1"){
-      return "Titular";
-    } elseif($crew->is_reemplazo == "2"){
-      $suplenteDe = Provider::getNameOrderLastName($crew->id_crew_reemplazo);
-      return "Secundario de $suplenteDe";
 
+    if($crew){
+      if($crew->is_reemplazo == "1"){
+        return "Titular";
+      } elseif($crew->is_reemplazo == "2"){
+        $suplenteDe = Provider::getNameOrderLastName($crew->id_crew_reemplazo);
+        return "Secundario de $suplenteDe";
+      }
     }
+    
   }
+
 }

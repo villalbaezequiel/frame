@@ -18,7 +18,9 @@ class FrameFunction extends Model
     static public function getName($id)
     {
       $frameFunction = FrameFunction::find($id);
-      return $frameFunction->name;
+      if($frameFunction){
+        return $frameFunction->name;
+      }
     }
 
     static public function getAllFrameFunctionByTypeProject($id_proyect_category)
@@ -29,14 +31,17 @@ class FrameFunction extends Model
     static public function getNumberCategoriesSat($id)
     {
       $frameFunction = FrameFunction::find($id);
-      $categoriesSat = json_decode($frameFunction->id_workers_category);
-      $listNumberSat = "";
 
-      foreach($categoriesSat as $sat){
-        $listNumberSat .= "<a href='javascript:void(0)' class='get-salary-sat-modal' title='Ver Salarios de Categoria SAT' data-id='".$sat."'>".WorkersCategory::getNumber($sat)."</a>".', ';
+      if($frameFunction){
+        $categoriesSat = json_decode($frameFunction->id_workers_category);
+        $listNumberSat = "";
+
+        foreach($categoriesSat as $sat){
+          $listNumberSat .= "<a href='javascript:void(0)' class='get-salary-sat-modal' title='Ver Salarios de Categoria SAT' data-id='".$sat."'>".WorkersCategory::getNumber($sat)."</a>".', ';
+        }
+
+        echo $listNumberSat;
       }
-
-      echo $listNumberSat;
 
     }
 

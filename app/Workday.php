@@ -15,10 +15,14 @@ class Workday extends Model
     static public function getName($id)
     {
       $workday = Workday::find($id);
-      if($workday->day && $workday->day != 1){
-        return $workday->name." (".$workday->day." dias)";
-      } else {
-        return $workday->name;
+
+      if($workday){
+        if($workday->day && $workday->day != 1){
+          return $workday->name." (".$workday->day." dias)";
+        } else {
+          return $workday->name;
+        }
       }
     }
+    
 }

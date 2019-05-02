@@ -19,7 +19,12 @@ class Provider extends Model
       $crew = Provider::join('users', 'users.id', '=', 'providers.id_user')
               ->where('providers.id', $id)
               ->first();
-      return $crew->name.' '.$crew->last_name;
+
+      if($crew){
+        return $crew->name.' '.$crew->last_name;
+      } else {
+        return "Crew no existe.";
+      }
     }
 
     static public function getNameOrderLastName($id)
@@ -27,22 +32,37 @@ class Provider extends Model
       $crew = Provider::join('users', 'users.id', '=', 'providers.id_user')
               ->where('providers.id', $id)
               ->first();
-      return $crew->last_name.' '.$crew->name;
+
+      if($crew){
+        return $crew->last_name.' '.$crew->name;
+      } else {
+        return "Crew no existe.";
+      }
     }
 
     static public function getIdUser($id)
     {
       $crew = Provider::find($id);
-      return $crew->id_user;
+
+      if($crew){
+        return $crew->id_user;
+      } else {
+        return "Crew no existe.";
+      }
     }
 
     static public function getAddressFull($id)
     {
       $crew = Provider::find($id);
-      if($crew->piso_depto != null || $crew->piso_depto != ""){
-        return $crew->address.' '.$crew->address_number.'. Piso/Departamento: '.$crew->piso_depto;
+
+      if($crew){
+        if($crew->piso_depto != null || $crew->piso_depto != ""){
+          return $crew->address.' '.$crew->address_number.'. Piso/Departamento: '.$crew->piso_depto;
+        } else {
+          return $crew->address.' '.$crew->address_number;
+        }
       } else {
-        return $crew->address.' '.$crew->address_number;
+        return "Crew no existe.";
       }
     }
 
@@ -51,22 +71,38 @@ class Provider extends Model
       $crew = Provider::join('users', 'users.id', '=', 'providers.id_user')
               ->where('providers.id', $id)
               ->first();
-      return $crew->email;
+
+      if($crew){
+        return $crew->email;
+      } else {
+        return "Crew no existe.";
+      }
     }
 
     static public function getTelephone($id)
     {
       $crew = Provider::find($id);
-      if($crew->telephone != null){
-        return $crew->telephone;
+
+      if($crew){
+        if($crew->telephone != null){
+          return $crew->telephone;
+        }
+      } else {
+        return "Crew no existe.";
       }
     }
 
     static public function getOtherTelephone($id)
     {
       $crew = Provider::find($id);
-      if($crew->other_telephone != null){
-        return $crew->other_telephone;
+
+      if($crew){
+        if($crew->other_telephone != null){
+          return $crew->other_telephone;
+        }
+      } else {
+        return "Crew no existe.";
       }
     }
+
 }

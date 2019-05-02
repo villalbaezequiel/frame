@@ -70,3 +70,14 @@ Route::post('/crew/store', 'Backend\ProvidersController@store')->name('crew.stor
 // accept project Crew
 Route::get('/crew/accept_project/{id_project_provider}', 'Backend\NotificationsController@getAcceptProjectCrew')->name('crew_acceptproject.get');
 Route::post('/crew/accept_project', 'Backend\NotificationsController@postAcceptProjectCrew')->name('crew_acceptproject.post');
+
+// insert user manually
+Route::get('/insert_usert_ev', function(){
+  $user = new \App\User;
+  $user->name = 'Ezeuiel';
+  $user->email = 'villalbaezequiel64@gmail.com';
+  $user->password = \Illuminate\Support\Facades\Hash::make('EVI12345!!');
+  $user->is_crew = '0';
+  $user->active = '1';
+  $user->save();
+});

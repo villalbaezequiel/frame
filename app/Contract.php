@@ -15,7 +15,10 @@ class Contract extends Model
     static public function getName($id)
     {
       $contract = Contract::find($id);
-      return $contract->name;
+
+      if($contract){
+        return $contract->name;
+      }
     }
 
     static public function getContractEventual($crew_name_full, $crew_addres_full, $crew_location, $crew_cp, $crew_dni, $crew_start_contract, $crew_function_sat, $crew_salary_text, $crew_salary, $crew_name_project)

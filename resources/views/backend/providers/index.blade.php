@@ -46,7 +46,9 @@
                 <td>{{ \App\User::getFullName($provider->id_user) }}</td>
                 <td>
                     @foreach(json_decode($provider->id_function_frame) as $key => $val)
-                       {{ \App\FrameFunction::getName($val).', ' }}
+                      @if(\App\FrameFunction::getName($val))
+                        {{ \App\FrameFunction::getName($val).', ' }}
+                      @endif
                     @endforeach
                 </td>
                 <td>{{ $provider->telephone }}</td>
