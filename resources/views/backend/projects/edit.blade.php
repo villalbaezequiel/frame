@@ -87,7 +87,7 @@
                         <span class="input-group-text">
                           Descripción:
                         </span>
-                        <input type="text" class="form-control" name="description" value="{{ $project->description }}" maxlength="125">
+                        <input type="number" class="form-control" name="description" value="{{ $project->description }}" maxlength="125">
                       </div>
                     </div>
                   </div>
