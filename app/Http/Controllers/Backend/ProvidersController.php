@@ -92,6 +92,7 @@ class ProvidersController extends Controller
            $provider->nationality = $request->get('nationality');
            $provider->id_study = $request->get('id_study');
            $provider->social_work = $request->get('social_work');
+           $provider->cbu = $request->get('cbu');
            $provider->telephone = $request->get('telephone');
            $provider->other_telephone = $request->get('other_telephone');
            $provider->id_function_frame = json_encode($request->get('id_function_frame'));
@@ -241,6 +242,7 @@ class ProvidersController extends Controller
            $provider->nationality = $request->get('nationality');
            $provider->id_study = $request->get('id_study');
            $provider->social_work = $request->get('social_work');
+           $provider->cbu = $request->get('cbu');
            $provider->telephone = $request->get('telephone');
            $provider->other_telephone = $request->get('other_telephone');
            $provider->id_function_frame = json_encode($request->get('id_function_frame'));

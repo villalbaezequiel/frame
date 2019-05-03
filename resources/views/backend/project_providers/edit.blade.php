@@ -1,95 +1,202 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Crew</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  </head>
-  <body>
+@extends('layouts.auth')
+@section('title', 'Crew')
 
-    <div class="container-fluid">
-      <div class="col-md-12">
-        {!! Form::open(['route' => ['project_providers.update' , $crew->id], 'method' => 'PUT', 'class' => 'form-horizontal']) !!}
-          <div class="form-group">
-            <label>Crew:</label>
-            <input type="text" class="form-control" value="{{ \App\Provider::getNameOrderLastName($crew->id_provider) }}" disabled>
-          </div>
-          <div class="form-group">
-            <label>Función Frame:</label>
-            <input type="text" class="form-control" value="{{ \App\FrameFunction::getName($crew->id_function_frame) }}" disabled>
-          </div>
-          <div class="form-group">
-            <label>Categoría SAT:</label>
-            <input type="text" class="form-control" value="{{ \App\WorkersCategory::getName($crew->id_category_sat) }}" disabled>
-          </div>
-          <div class="form-group">
-            <label>Tipo de Contrato:</label>
-            <input type="text" class="form-control" value="{{ \App\Contract::getName($crew->id_contract) }}" disabled>
-          </div>
-          <div class="form-group">
-            <label>Fecha de Alta Contrato:</label>
-            <input type="text" class="form-control" value="{{ \App\Helpers::getDateParseFormat($crew->start_date_contract, '/') }}" disabled>
-          </div>
-          <div class="form-group">
-            <label>Fecha de Baja Contrato:</label>
-            <input type="text" class="form-control" value="{{ \App\Helpers::getDateParseFormat($crew->finish_date_contract, '/') }}" disabled>
-          </div>
-          <div class="form-group">
-            <label>Modalidad:</label>
-            <input type="text" class="form-control" value="{{ \App\Project::getModalidad($crew->id_project) }}" disabled>
-          </div>
-          <div class="form-group">
-            <label>Cantidad de Jornadas Laborables:</label>
-            <input type="text" class="form-control" value="{{ $crew->count_workdays_crew}}" disabled>
-          </div>
-          <div class="form-group">
-            <label>Fecha de Alta AFIP:</label>
-            <input type="text" class="form-control" value="{{ \App\Helpers::getDateParseFormat($crew->start_afip, '/') }}" disabled>
-          </div>
-          <div class="form-group">
-            <label>Fecha de Baja AFIP:</label>
-            <input type="text" class="form-control" value="{{ \App\Helpers::getDateParseFormat($crew->finish_afip, '/') }}" disabled>
-          </div>
-          <div class="form-group">
-            <label>Sueldo Jornada:</label>
-            <input type="text" class="form-control" value="{{ $crew->salary_workdays}}" disabled>
-          </div>
-          <div class="form-group">
-            <label>Sueldo Total:</label>
-            <input type="text" class="form-control" value="{{ $crew->total_workdays}}" disabled>
-          </div>
-          <div class="form-group">
-            <label>Sueldo Contrato Mensual:</label>
-            <input type="text" class="form-control" value="{{ $crew->salary_contract_category_function}}" disabled>
-          </div>
-          <div class="form-group">
-            <label>Sueldo Diario SAT:</label>
-            <input type="text" class="form-control" value="{{ $crew->salary_daily}}" disabled>
-          </div>
-          <!-- <div class="form-group">
-            <label>Sueldo A Liquidar Neto:</label>
-            <input type="text" class="form-control" value="{{ $crew->salary_liquidate}}" disabled>
-          </div> -->
-          <div class="form-group">
-            <label>Diferencia:</label>
-            <input type="text" class="form-control" value="{{ $crew->salaty_difference}}" disabled>
-          </div>
-          <div class="form-group">
-            <label>Estado Solicitud:</label>
-            <input type="text" class="form-control" value="{{ \App\ProjectProvider::getActive($crew->active)}}" disabled>
-          </div>
-<!--
-          <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Agregar" />
-          </div> -->
-        </form>
-        {!! Form::close() !!}
-      </div>
-    </div>
+@section('container')
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 ml-auto mr-auto">
+      {!! Form::open(['route' => ['project_providers.update' , $crew->id], 'method' => 'PUT', 'class' => 'form-inline']) !!}
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  </body>
-</html>
+        <div class="col-md-5 ml-auto mr-auto">
+          <img src="{{ asset('img/logo.svg') }}" />
+        </div>
+
+        <div class="card">
+          <div class="card-header card-header-primary text-center">
+            <h4 class="card-title">Información de Crew!</h4>
+          </div>
+          <div class="card-body">
+
+            <div class="form-group">
+              <div class="input-group col-md-4">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    Crew:
+                  </span>
+                </div>
+                <a href='{{ url("/providers/".$crew->id_provider."/edit") }}' class="btn" target="_blank">{{ \App\Provider::getNameOrderLastName($crew->id_provider) }}</a>
+              </div>
+
+              <div class="input-group col-md-4">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    Proyecto:
+                  </span>
+                </div>
+                <a href='{{ url("/projects/".$crew->id_project."/edit") }}' class="btn" target="_blank">{{ \App\Project::getName($crew->id_project) }}</a>
+              </div>
+
+              <div class="input-group col-md-4">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    Estado de Solicitud:
+                  </span>
+                </div>
+                <select class="custom-select" name="status">
+                  <option value="0" <?php if(\App\ProjectProvider::getActive($crew->active) == 0){ echo "selected"; } ?>>Pendiente</option>
+                  <option value="1" <?php if(\App\ProjectProvider::getActive($crew->active) == 1){ echo "selected"; } ?>>Aceptado</option>
+                  <option value="2" <?php if(\App\ProjectProvider::getActive($crew->active) == 2){ echo "selected"; } ?>>Rechazado</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group col-md-6">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    Función Frame:
+                  </span>
+                </div>
+                <input type="text" class="form-control" value="{{ \App\FrameFunction::getName($crew->id_function_frame) }}" disabled>
+              </div>
+
+              <div class="input-group col-md-6">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    Categoría SAT:
+                  </span>
+                </div>
+                <input type="text" class="form-control" value="{{ \App\WorkersCategory::getName($crew->id_category_sat) }}" disabled>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group col-md-6">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    Tipo de Contrato:
+                  </span>
+                </div>
+                <input type="text" class="form-control" value="{{ \App\Contract::getName($crew->id_contract) }}" disabled>
+              </div>
+
+              <div class="input-group col-md-6">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    Cantidad de Jornadas Laborables:
+                  </span>
+                </div>
+                <input type="number" class="form-control" value="{{ $crew->count_workdays_crew }}" name="count_workdays_crew">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group col-md-6">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    Fecha de Alta Contrato:
+                  </span>
+                </div>
+                <input type="text" class="form-control datepicker_crew" value="{{ \App\Helpers::getDateParseFormat($crew->start_date_contract, '/') }}" name="start_date_contract">
+              </div>
+
+              <div class="input-group col-md-6">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    Fecha de Baja Contrato:
+                  </span>
+                </div>
+                <input type="text" class="form-control datepicker_crew" value="{{ \App\Helpers::getDateParseFormat($crew->finish_date_contract, '/') }}" name="finish_date_contract">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group col-md-6">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    Fecha de Alta AFIP:
+                  </span>
+                </div>
+                <input type="text" class="form-control datepicker" value="{{ \App\Helpers::getDateParseFormat($crew->start_afip, '/') }}" name="start_afip">
+              </div>
+
+              <div class="input-group col-md-6">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    Fecha de Baja AFIP:
+                  </span>
+                </div>
+                <input type="text" class="form-control datepicker" value="{{ \App\Helpers::getDateParseFormat($crew->finish_afip, '/') }}" name="finish_afip">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group col-md-6">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    Sueldo Jornada: $
+                  </span>
+                </div>
+                <input type="text" class="form-control validate-number-decimal-not-ps" value="{{ $crew->salary_workdays }}" name="salary_workdays">
+              </div>
+
+              <div class="input-group col-md-6">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    Sueldo Total: $
+                  </span>
+                </div>
+                <input type="text" class="form-control validate-number-decimal-not-ps" value="{{ $crew->total_workdays }}" name="total_workdays">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group col-md-6">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    Sueldo Contrato Mensual: $
+                  </span>
+                </div>
+                <input type="text" class="form-control validate-number-decimal-not-ps" value="{{ $crew->salary_contract_category_function }}">
+              </div>
+
+              <div class="input-group col-md-6">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    Sueldo Diario SAT: $
+                  </span>
+                </div>
+                <input type="text" class="form-control validate-number-decimal-not-ps" value="{{ $crew->salary_daily }}">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group col-md-6">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    Sueldo Diferencia: $
+                  </span>
+                </div>
+                <input type="text" class="form-control validate-number-decimal-not-ps" value="{{ $crew->salaty_difference }}">
+              </div>
+
+              <div class="input-group col-md-6">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    Modalidad:
+                  </span>
+                </div>
+                <input type="text" class="form-control" value="{{ \App\Project::getModalidad($crew->id_project) }}" disabled>
+              </div>
+            </div>
+
+          </div>
+          <div class="card-footer">
+            <div class="col-md-12">
+              <center>
+                <input class="btn btn-primary btn-link btn-lg" value="Guardar" />
+              </center>
+            </div>
+          </div>
+        </div>
+      {!! Form::close() !!}
+  </div>
+</div>
+<style media="screen">
+  .off-canvas-sidebar .wrapper-full-page .page-header {
+    padding: 0px!important;
+  }
+</style>
+@endsection

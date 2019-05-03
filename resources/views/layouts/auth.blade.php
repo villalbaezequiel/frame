@@ -21,7 +21,7 @@
 
 <body class="off-canvas-sidebar">
 
-  @if(!\Request::is('crew/accept_project/*'))
+  @if(!\Request::is('crew/accept_project/*') && !\Request::is('project_providers/*'))
     @include('auth.components.nav')
   @endif
 
@@ -32,7 +32,7 @@
         @yield('container')
       </div>
 
-      @if(!\Request::is('crew/accept_project/*'))
+      @if(!\Request::is('crew/accept_project/*') && !\Request::is('project_providers/*'))
         @include('auth.components.footer')
       @endif
 

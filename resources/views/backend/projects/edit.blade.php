@@ -483,9 +483,9 @@
                           <td style="color: <?php \App\ProjectProvider::getActiveColor($item_crew->active); ?>">{{ \App\ProjectProvider::getActive($item_crew->active) }}</td>
                           <td>
                               <a href="{{ url('/export/crew_contract/'.$item_crew->id) }}" target="_blank" class="btn btn-link btn-warning btn-just-icon edit" title="Descargar Contrato"><i class="material-icons">assignment</i></a>
-                              <a data-url="{{ url('/project_providers/'.$item_crew->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit openWindowUrl" title="Ver"><i class="material-icons">dvr</i></a>
+                              <a href="{{ url('/project_providers/'.$item_crew->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Ver" target="_blank"><i class="material-icons">dvr</i></a>
                               <br>
-                              <a data-url="{{ url('/project_providers/'.$item_crew->id) }}" class="btn btn-link btn-warning btn-just-icon edit openWindowUrl" data-width="900" title="Calendario"><i class="material-icons">calendar_today</i></a>
+                              <a data-url="{{ url('/project_providers/'.$item_crew->id) }}" class="btn btn-link btn-warning btn-just-icon edit openWindowUrl" data-width="900" title="Calendario - Horas Extras"><i class="material-icons">calendar_today</i></a>
                               <button type="button" class="btn btn-link btn-danger btn-just-icon remove alert-confirm-delete-button" title="Eliminar" data-id="{{ $item_crew->id }}" data-idprovider="{{ $item_crew->id_provider }}"><i class="material-icons">close</i></button>
                           </td>
                         </tr>

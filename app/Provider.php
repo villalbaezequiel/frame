@@ -105,4 +105,13 @@ class Provider extends Model
       }
     }
 
+    static public function getCBU($id)
+    {
+      $crew = Provider::find($id);
+
+      if($crew){
+        return $crew->cbu;
+      }
+    }
+
 }

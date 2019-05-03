@@ -189,6 +189,14 @@
               </div>
             </div>
             <div class="row">
+              <label class="col-md-2 col-form-label">CBU</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <input class="form-control" type="text" name="cbu" value="{{ old('cbu') }}" maxlength="125">
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <label class="col-md-2 col-form-label">Teléfono *</label>
               <div class="col-md-7">
                 <div class="form-group">
