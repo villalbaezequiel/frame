@@ -81,3 +81,6 @@
 .required-red {
     color: #c7254e;
 }
+.hidden {
+  display: none;
+}

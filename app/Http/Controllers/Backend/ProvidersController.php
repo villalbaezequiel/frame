@@ -92,6 +92,7 @@ class ProvidersController extends Controller
            $provider->nationality = $request->get('nationality');
            $provider->id_study = $request->get('id_study');
            $provider->social_work = $request->get('social_work');
+           $provider->social_work_code = $request->get('social_work_code');
            $provider->cbu = $request->get('cbu');
            $provider->bank = $request->get('bank');
            $provider->type_account = $request->get('type_account');
@@ -246,6 +247,7 @@ class ProvidersController extends Controller
            $provider->nationality = $request->get('nationality');
            $provider->id_study = $request->get('id_study');
            $provider->social_work = $request->get('social_work');
+           $provider->social_work_code = $request->get('social_work_code');
            $provider->cbu = $request->get('cbu');
            $provider->bank = $request->get('bank');
            $provider->type_account = $request->get('type_account');

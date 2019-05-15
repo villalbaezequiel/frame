@@ -789,6 +789,18 @@ frameJs = {
         marker.setMap(map);
 
 
+    },
+
+    getChangeOs: function(v) {
+      let contentSocialWorkC = document.getElementById('social_work_code_content');
+      let inputSocialWorkCode = document.getElementsByName('social_work_code');
+
+      if(v == "1"){
+        contentSocialWorkC.classList.remove("hidden");
+      } else {
+        contentSocialWorkC.classList.add("hidden");
+        inputSocialWorkCode.value = '';
+      }
     }
 
 }

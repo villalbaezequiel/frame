@@ -184,7 +184,18 @@
               <label class="col-md-2 col-form-label">Obra Social</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="social_work" value="{{ old('social_work') }}" maxlength="125">
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="social_work" onchange="frameJs.getChangeOs(this.value)">
+                    <option value="0">No</option>
+                    <option value="1">Si</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div id="social_work_code_content" class="row hidden">
+              <label class="col-md-2 col-form-label">Obra Social Codigo</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <input class="form-control" type="number" name="social_work_code" value="{{ old('social_work_code') }}">
                 </div>
               </div>
             </div>
