@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
-use App\Notifications\NewCrew;
+use App\Notifications\NewTeam;
 use App\Helpers;
 use App\Provider;
 use App\ProviderAssessment;
@@ -133,12 +133,12 @@ class ProvidersController extends Controller
                'user' => $userAdmin,
                'crew' => $provider
              );
-             $userAdmin->notify(new NewCrew($data));
+             $userAdmin->notify(new NewTeam($data));
 
              return redirect('/register')->with('message', '1');
 
            } else {
-             return redirect('/providers')->with('message', 'Crew creado con exito!');
+             return redirect('/providers')->with('message', 'Team creado con exito!');
            }
 
          else:
@@ -258,7 +258,7 @@ class ProvidersController extends Controller
              $providerAssessment->save();
            }
 
-           return redirect('/providers')->with('message', 'Crew editado con exito!');
+           return redirect('/providers')->with('message', 'Team editado con exito!');
 
          else:
 
@@ -304,6 +304,6 @@ class ProvidersController extends Controller
        // Provider Delete
        $provider->delete();
 
-       return response(array('message' => 'Crew eliminado con exito!'));
+       return response(array('message' => 'Team eliminado con exito!'));
      }
  }

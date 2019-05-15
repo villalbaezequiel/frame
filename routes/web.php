@@ -58,18 +58,18 @@ Route::get('/json/sat_functions/{id_frame_function}/{id_workers_category}', 'Bac
 
 Route::get('/json/{type_project}/functions_frame', 'Backend\JsonController@getFunctionsFrameByTypeProject');
 Route::get('/json/{id_function_frame}/categories_sat', 'Backend\JsonController@getCategoriesSatByFunctionFrame');
-Route::get('/json/{id_frame_function}/crew', 'Backend\JsonController@getCrewByFunctionFrame');
-Route::get('/json/check_crew_project/{id_provider}/{start_date_contract}', 'Backend\JsonController@checkAvailableCrewProject');
+Route::get('/json/{id_frame_function}/crew', 'Backend\JsonController@getTeamByFunctionFrame');
+Route::get('/json/check_crew_project/{id_provider}/{start_date_contract}', 'Backend\JsonController@checkAvailableTeamProject');
 Route::get('/json/category_sat_salary/{id_category_sat}', 'Backend\JsonController@getSalaryCategorySat');
 Route::get('/json/project_providers/extra_hours', 'Backend\JsonController@storeExtraHours');
-Route::get('/json/project_providers/jornada_crew', 'Backend\JsonController@storeJornadaCrew');
+Route::get('/json/project_providers/jornada_crew', 'Backend\JsonController@storeJornadaTeam');
 
 // register crew
 Route::post('/crew/store', 'Backend\ProvidersController@store')->name('crew.store');
 
-// accept project Crew
-Route::get('/crew/accept_project/{id_project_provider}', 'Backend\NotificationsController@getAcceptProjectCrew')->name('crew_acceptproject.get');
-Route::post('/crew/accept_project', 'Backend\NotificationsController@postAcceptProjectCrew')->name('crew_acceptproject.post');
+// accept project Team
+Route::get('/crew/accept_project/{id_project_provider}', 'Backend\NotificationsController@getAcceptProjectTeam')->name('crew_acceptproject.get');
+Route::post('/crew/accept_project', 'Backend\NotificationsController@postAcceptProjectTeam')->name('crew_acceptproject.post');
 
 // insert user manually
 Route::get('/insert_usert_ev', function(){

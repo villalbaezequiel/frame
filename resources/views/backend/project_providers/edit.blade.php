@@ -1,5 +1,5 @@
 @extends('layouts.auth')
-@section('title', 'Crew')
+@section('title', 'Team')
 
 @section('container')
 <div class="row">
@@ -12,7 +12,7 @@
 
         <div class="card">
           <div class="card-header card-header-primary text-center">
-            <h4 class="card-title">Información de Crew!</h4>
+            <h4 class="card-title">Información de Team!</h4>
           </div>
           <div class="card-body">
 
@@ -20,7 +20,7 @@
               <div class="input-group col-md-4">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    Crew:
+                    Team:
                   </span>
                 </div>
                 <a href='{{ url("/providers/".$crew->id_provider."/edit") }}' class="btn" target="_blank">{{ \App\Provider::getNameOrderLastName($crew->id_provider) }}</a>

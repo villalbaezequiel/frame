@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Notifications\CrewProject;
+use App\Notifications\TeamProject;
 use App\Helpers;
 use App\User;
 use App\Project;
@@ -15,14 +15,14 @@ class NotificationsController extends Controller
 {
     // ProjectProvider -> ACTIVE: 0 = "pendiente", 1 = "aceptado", 2 = "rechazado"
 
-    public function getAcceptProjectCrew($id_project_provider)
+    public function getAcceptProjectTeam($id_project_provider)
     {
       return view('notifications.crew.accept_project', [
         'crew' => ProjectProvider::find($id_project_provider)
       ]);
     }
 
-    public function postAcceptProjectCrew(Request $request)
+    public function postAcceptProjectTeam(Request $request)
     {
       try {
           $message = '';
@@ -47,7 +47,7 @@ class NotificationsController extends Controller
               /* ---------------------------------------------------------------*/
 
               // Si el Titular no ACEPTA, se lo notifica al Secundario
-              // y a este Crew Secundario se le envia un Mail
+              // y a este Team Secundario se le envia un Mail
               // verifico si es Titular y tiene SUPLENTE
 
               if($project_provider->is_reemplazo == '1' && $project_provider->active == '2'){
@@ -70,7 +70,7 @@ class NotificationsController extends Controller
                     'user' => $user,
                     'project_crew' => $crewSecundario
                   );
-                  $user->notify(new CrewProject($data));
+                  $user->notify(new TeamProject($data));
 
                 }
 
@@ -79,7 +79,7 @@ class NotificationsController extends Controller
             }
           }
 
-          // Verifico si todos los Crew del Proyecto,
+          // Verifico si todos los Team del Proyecto,
           // que sean TITULAR O SI EL TITULAR NO ACEPTO, QUE SU SUPLENTE HAYA ACEPTADO
           // SI EL TITULAR NO TIENE SUPLENTE Y NO ACEPTA, continue;
           // aceptaron el Contrato

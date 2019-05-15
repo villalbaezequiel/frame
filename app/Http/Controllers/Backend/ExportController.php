@@ -16,7 +16,7 @@ use App\ProjectProvider;
 class ExportController extends Controller
 {
     /*
-      export contract by Single Crew to Project
+      export contract by Single Team to Project
     */
     public function crewContract($id_project_provider){
       try {

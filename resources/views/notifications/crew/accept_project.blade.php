@@ -36,7 +36,7 @@
             <div class="input-group col-lg-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
-                  Crew:
+                  Team:
                 </span>
               </div>
               <input type="text" class="form-control" value="{{ \App\Provider::getNameOrderLastName($crew->id_provider) }}" disabled>

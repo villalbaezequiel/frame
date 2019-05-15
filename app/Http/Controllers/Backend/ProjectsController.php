@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Notifications\CrewProject;
+use App\Notifications\TeamProject;
 use DateTime;
 use DateInterval;
 use DatePeriod;
@@ -66,7 +66,7 @@ class ProjectsController extends Controller
           $list_crew_secundario = $request->get('list_crew_secundario');
 
           if(empty($list_crew[0])){
-            return redirect('/projects/create')->with('message', 'Error al Crear Proyecto. Debe Agregar al menos un Crew!');
+            return redirect('/projects/create')->with('message', 'Error al Crear Proyecto. Debe Agregar al menos un Team!');
           }
 
           $start_date = explode('/', $request->get('start_date'));
@@ -140,7 +140,7 @@ class ProjectsController extends Controller
               'user' => $user,
               'project_crew' => $crew
             );
-            $user->notify(new CrewProject($data));
+            $user->notify(new TeamProject($data));
 
           }
 
@@ -231,10 +231,10 @@ class ProjectsController extends Controller
      public function edit($id)
      {
        $project = Project::find($id);
-       $listCrew = ProjectProvider::where('id_project', $id)->get();
+       $listTeam = ProjectProvider::where('id_project', $id)->get();
        return view('backend.projects.edit', [
          'project' => $project,
-         'list_crew' => $listCrew
+         'list_crew' => $listTeam
        ]);
      }
 
@@ -327,7 +327,7 @@ class ProjectsController extends Controller
                 'user' => $user,
                 'project_crew' => $crew
               );
-              $user->notify(new CrewProject($data));
+              $user->notify(new TeamProject($data));
             }
           }
 

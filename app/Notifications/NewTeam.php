@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NewCrew extends Notification
+class NewTeam extends Notification
 {
   protected $data;
 
@@ -42,11 +42,11 @@ class NewCrew extends Notification
   {
     $data = $this->data;
     return (new MailMessage)
-              ->subject('Nuevo Crew!')
+              ->subject('Nuevo Team!')
               ->greeting('Hola '.$data['user']->last_name.' '.$data['user']->name.'!')
-              ->line('Estás recibiendo este correo para notificarte que se ha Registrado un nuevo Crew al Sistema de Frame.')
-              ->action('Ver Crew', route('providers.edit', $data['crew']->id))
-              ->line('En el Link anterior podrás ver Informacion del Crew.')
+              ->line('Estás recibiendo este correo para notificarte que se ha Registrado un nuevo Team al Sistema de Frame.')
+              ->action('Ver Team', route('providers.edit', $data['crew']->id))
+              ->line('En el Link anterior podrás ver Informacion del Team.')
               ->salutation('Saludos, '. config('app.name'));
   }
 

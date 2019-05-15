@@ -201,7 +201,7 @@
               </div>
 
               <div class="tab-pane" id="module_three">
-                <h5 class="info-text"> Crew </h5>
+                <h5 class="info-text"> Team </h5>
                 <div class="row justify-content-center empty-values-finish-add-crew">
 
                   <div class="col-md-6">
@@ -237,7 +237,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Crew:
+                          Team:
                         </span>
                           <select class="selectpicker get_value_crew" data-style="select-with-transition" name="id_provider">
                           <option value="">Seleccionar</option>
@@ -433,7 +433,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Reemplazo del Crew:
+                          Reemplazo del Team:
                         </span>
                         <select class="selectpicker" data-style="select-with-transition" name="id_crew_reemplazo">
                           <option value="0">Seleccionar</option>
@@ -448,11 +448,11 @@
                   </div>
 
                   <div class="col-md-12 text-center" style="padding: 20px;">
-                    <button id="add_crew" type="button" class="btn btn-primary">Agregar Crew</button>
+                    <button id="add_crew" type="button" class="btn btn-primary">Agregar Team</button>
                   </div>
                 </div>
 
-                <h5 class="info-text"> Lista de Crew  </h5>
+                <h5 class="info-text"> Lista de Team  </h5>
                 <div class="row justify-content-center">
 
                   <div class="col-md-12">
@@ -460,7 +460,7 @@
                       <thead>
                         <tr>
                           <!-- <th></th> -->
-                          <th>Crew</th>
+                          <th>Team</th>
                           <th>Función Frame/Categoría SAT</th>
                           <th>Fechas</th>
                           <th>Puesto</th>
@@ -514,7 +514,7 @@
           </div>
         {!! Form::close() !!}
 
-        <!-- List Form delete to Crew -->
+        <!-- List Form delete to Team -->
         @foreach($list_crew as $item_crew)
           {!! Form::open(['route' => ['project_providers.destroy', $item_crew->id], 'method' => 'DELETE', 'id' => $item_crew->id, 'class'=> 'alert-confirm-delete']) !!}
           {!! Form::close() !!}

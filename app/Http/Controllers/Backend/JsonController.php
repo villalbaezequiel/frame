@@ -152,32 +152,32 @@ class JsonController extends Controller
 
   /*
   * parameter: id_frame_function
-  * return list Crew
-  * Logica: a base de 'id_frame_function' busca todas los Crew where active = 1.
+  * return list Team
+  * Logica: a base de 'id_frame_function' busca todas los Team where active = 1.
   */
-  public function getCrewByFunctionFrame($id_frame_function)
+  public function getTeamByFunctionFrame($id_frame_function)
   {
     $message;
     try {
 
-      $listCrew = array();
-      $allCrew = DB::table('providers as p')
+      $listTeam = array();
+      $allTeam = DB::table('providers as p')
                             ->join('users as u', 'p.id_user', '=', 'u.id')
                             ->select('p.id', 'u.name', 'u.last_name', 'p.id_function_frame')
                             ->where('u.active', '1')
                             ->get();
 
-      foreach($allCrew as $crew) {
+      foreach($allTeam as $crew) {
         $crewFunctionFrame = json_decode($crew->id_function_frame);
 
         foreach($crewFunctionFrame as $key => $value) {
           if($value == $id_frame_function){
-            array_push($listCrew, $crew);
+            array_push($listTeam, $crew);
           }
         }
       }
 
-      return \Response::json(array('data' => $listCrew));
+      return \Response::json(array('data' => $listTeam));
 
     } catch(\Exception $e) {
       if(\Config::get('app.debug')):
@@ -199,7 +199,7 @@ class JsonController extends Controller
     * return Boolean
     * Logica:
     */
-    public function checkAvailableCrewProject($id_provider, $start_date_contract, $active = '0')
+    public function checkAvailableTeamProject($id_provider, $start_date_contract, $active = '0')
     {
       $message;
       try {
@@ -208,11 +208,11 @@ class JsonController extends Controller
         $start_date = explode('-', $start_date_contract);
         $start_date_contract_format = $start_date[2].'-'.$start_date[1].'-'.$start_date[0].' 00:00:00';
 
-        $checkCrew = ProjectProvider::where('id_provider', $id_provider)
+        $checkTeam = ProjectProvider::where('id_provider', $id_provider)
                                     ->where('finish_date_contract', '>=', $start_date_contract_format)
                                     ->where('active', $active)
                                     ->count();
-        if($checkCrew == 0){
+        if($checkTeam == 0){
           $status = true;
         } else {
           $status = false;
@@ -305,17 +305,17 @@ class JsonController extends Controller
     * return
     * Logica:
     */
-    public function storeJornadaCrew(Request $request)
+    public function storeJornadaTeam(Request $request)
     {
       $message;
       try {
 
-        $idCrew = explode('_', $request->get('id'));
+        $idTeam = explode('_', $request->get('id'));
 
-        $projectProvider = ProjectProvider::find($idCrew[1]);
+        $projectProvider = ProjectProvider::find($idTeam[1]);
         $calendar = $projectProvider->calendar;
 
-        $calendar[$idCrew[0]] = array(
+        $calendar[$idTeam[0]] = array(
                           'start' => $request->get('start'),
                           'finish' => $request->get('finish')
                          );
