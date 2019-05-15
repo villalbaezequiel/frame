@@ -69,7 +69,7 @@
       <li class="nav-item nav-check-url ">
         <a class="nav-link" href="{{ url('/providers') }}">
           <i class="material-icons">people_outline</i>
-          <p> Team </p>
+          <p> Teams </p>
         </a>
       </li>
       <li class="nav-item nav-check-url ">

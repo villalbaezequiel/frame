@@ -17,7 +17,7 @@ class NotificationsController extends Controller
 
     public function getAcceptProjectTeam($id_project_provider)
     {
-      return view('notifications.crew.accept_project', [
+      return view('notifications.team.accept_project', [
         'crew' => ProjectProvider::find($id_project_provider)
       ]);
     }
