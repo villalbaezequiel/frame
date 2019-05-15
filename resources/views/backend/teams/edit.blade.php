@@ -220,7 +220,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Función en el Equipo *</label>
+              <label class="col-md-2 col-form-label">Rol a desempeñar *</label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_function_frame[]" multiple required>
