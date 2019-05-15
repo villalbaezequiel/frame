@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Migrations\Migration;
 
-class AddColumnProjectProviders0305 extends Migration
+class AddColumnProviderOr004 extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,11 @@ class AddColumnProjectProviders0305 extends Migration
      */
     public function up()
     {
-      Schema::table('project_providers', function ($table) {
-        // por default 0,
-        // cuando se le envia el mail con la solicitud del Proyecto y la aceptan, cambia el status a 1.
-        // si la rechaza = 2
-        $table->enum('active', [0, 1, 2])->after('extra_hours');
+      Schema::table('providers', function ($table) {
+        $table->string('bank')->after('cbu');
+        $table->string('type_account')->after('bank');
+        $table->string('number_account')->after('type_account');
+        $table->string('alias_account')->after('number_account');
       });
     }
 

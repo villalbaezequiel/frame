@@ -30,7 +30,7 @@ class ProvidersController extends Controller
      */
      public function index()
      {
-       return view('backend.providers.index', [
+       return view('backend.teams.index', [
          'providers' => Provider::all()
        ]);
      }
@@ -42,7 +42,7 @@ class ProvidersController extends Controller
       */
      public function create()
      {
-       return view('backend.providers.create');
+       return view('backend.teams.create');
      }
 
      /**
@@ -93,6 +93,10 @@ class ProvidersController extends Controller
            $provider->id_study = $request->get('id_study');
            $provider->social_work = $request->get('social_work');
            $provider->cbu = $request->get('cbu');
+           $provider->bank = $request->get('bank');
+           $provider->type_account = $request->get('type_account');
+           $provider->number_account = $request->get('number_account');
+           $provider->alias_account = $request->get('alias_account');
            $provider->telephone = $request->get('telephone');
            $provider->other_telephone = $request->get('other_telephone');
            $provider->id_function_frame = json_encode($request->get('id_function_frame'));
@@ -190,7 +194,7 @@ class ProvidersController extends Controller
      public function edit($id)
      {
        $provider = Provider::find($id);
-       return view('backend.providers.edit', [
+       return view('backend.teams.edit', [
          'provider' => $provider,
          'user' => User::where('id', $provider->id_user)->first(),
          'provider_assessments' => ProviderAssessment::where('id_provider', $id)->get()
@@ -243,6 +247,10 @@ class ProvidersController extends Controller
            $provider->id_study = $request->get('id_study');
            $provider->social_work = $request->get('social_work');
            $provider->cbu = $request->get('cbu');
+           $provider->bank = $request->get('bank');
+           $provider->type_account = $request->get('type_account');
+           $provider->number_account = $request->get('number_account');
+           $provider->alias_account = $request->get('alias_account');
            $provider->telephone = $request->get('telephone');
            $provider->other_telephone = $request->get('other_telephone');
            $provider->id_function_frame = json_encode($request->get('id_function_frame'));

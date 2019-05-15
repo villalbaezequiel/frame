@@ -28,13 +28,11 @@
               </div>
             </div>
           @endif
-          <table id="datatables_crew" class="table table-hover table-striped">
+          <table id="datatables_team" class="table table-hover table-striped">
             <thead>
               <tr>
-                <th>#ID</th>
                 <th>Nombre</th>
                 <th>Puesto FRAME</th>
-                <th>Celular</th>
                 <th>Valoración</th>
                 <th>Acciones</th>
               </tr>
@@ -42,7 +40,6 @@
             <tbody>
               @foreach($providers as $provider)
               <tr class="item-alert-confirm-delete">
-                <td>{{ $provider->id }}</td>
                 <td>{{ \App\User::getFullName($provider->id_user) }}</td>
                 <td>
                     @foreach(json_decode($provider->id_function_frame) as $key => $val)
@@ -51,7 +48,6 @@
                       @endif
                     @endforeach
                 </td>
-                <td>{{ $provider->telephone }}</td>
                 <td>{{ \App\ProviderAssessment::getCountByProvider($provider->id) }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['providers.destroy', $provider->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
@@ -74,7 +70,7 @@
 <script>
 $(document).ready(function(){
 
-  $("#datatables_crew").DataTable({
+  $("#datatables_team").DataTable({
     responsive: true,
     "language": {
       "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"

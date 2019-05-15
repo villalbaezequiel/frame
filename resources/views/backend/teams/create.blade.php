@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 
-@section('title', "Team / Editar")
+@section('title', "Team / Nuevo")
 
 @section('content')
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
-      {!! Form::open(['route' => ['providers.update' , $provider->id], 'method' => 'PUT', 'class' => 'form-horizontal']) !!}
+      {!! Form::open(['route' => 'providers.store', 'method' => 'POST', 'class' => 'form-horizontal']) !!}
         <div class="card ">
           <div class="card-header card-header-primary card-header-text">
             <div class="card-text">
-              <h4 class="card-title">Editar Team</h4>
+              <h4 class="card-title">Nuevo Team</h4>
             </div>
           </div>
           <div class="card-body ">
@@ -27,26 +27,26 @@
             @endif
 
             <div class="row">
-              <label class="col-md-2 col-form-label">Nombre *</label>
+              <label class="col-md-2 col-form-label">Nombre <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="name" value="{{ $user->name }}" maxlength="125" required>
+                  <input class="form-control" type="text" name="name" value="{{ old('name') }}" maxlength="125" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Apellido *</label>
+              <label class="col-md-2 col-form-label">Apellido <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="last_name" value="{{ $user->last_name }}" maxlength="125" required>
+                  <input class="form-control" type="text" name="last_name" value="{{ old('last_name') }}" maxlength="125" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Email *</label>
+              <label class="col-md-2 col-form-label">Email <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="email" email="true" name="email" value="{{ $user->email }}" maxlength="125" required>
+                  <input class="form-control" type="email" email="true" name="email" value="{{ old('email') }}" maxlength="125" required>
                 </div>
               </div>
             </div>
@@ -57,35 +57,35 @@
                   <select class="form-control selectpicker" data-style="btn btn-link" name="gender" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Helpers::getGendersPerson() as $key => $val)
-                    <option value="{{ $key }}" <?php if($user->gender == $key){ echo "selected='selected'"; } ?>>{{ $val }}</option>
+                    <option value="{{ $key }}" <?php if(old('gender') == $key){ echo "selected='selected'"; } ?>>{{ $val }}</option>
                     @endforeach
                   </select>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Tipo de Documentación *</label>
+              <label class="col-md-2 col-form-label">Tipo de Documentación <span class="required-red">*</span></label>
               <div class="col-md-2">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="type_dni" required>
                     @foreach(\App\Helpers::getTypesDocumentationPerson() as $key => $val)
-                    <option value="{{ $key }}" <?php if($user->type_dni == $key){ echo "selected='selected'"; } ?>>{{ $val }}</option>
+                    <option value="{{ $key }}" <?php if(old('type_dni') == $key){ echo "selected='selected'"; } ?>>{{ $val }}</option>
                     @endforeach
                   </select>
                 </div>
               </div>
               <div class="col-md-5">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="dni" value="{{ $user->dni }}" placeholder="Número *" required>
+                  <input class="form-control" type="text" name="dni" value="{{ old('dni') }}" placeholder="Número *" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">CUIT *</label>
+              <label class="col-md-2 col-form-label">CUIT <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <!-- <input class="form-control" type="text" name="cuit" pattern="\b(20|23|24|27|30|33|34)(\D)?[0-9]{8}(\D)?[0-9]" value="{{ $user->cuit }}" maxlength="125" required> -->
-                  <input class="form-control" type="number" name="cuit" value="{{ $user->cuit }}" maxlength="125" required>
+                  <!-- <input class="form-control" type="text" name="cuit" pattern="\b(20|23|24|27|30|33|34)(\D)?[0-9]{8}(\D)?[0-9]" value="{{ old('cuit') }}" maxlength="125" required> -->
+                  <input class="form-control" type="number" name="cuit" value="{{ old('cuit') }}" maxlength="125" required>
                 </div>
               </div>
               <label class="col-md-3 label-on-right">
@@ -96,12 +96,7 @@
               <label class="col-md-2 col-form-label">Fecha de Nacimiento</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  @if($user->birthdate)
-                    <?php $birthdate = explode('-', \App\Helpers::getDate($user->birthdate)); ?>
-                    <input class="form-control datepicker" type="text" name="birthdate" value="{{ $birthdate[2].'/'.$birthdate[1].'/'.$birthdate[0] }}">
-                  @else
-                    <input class="form-control datepicker" type="text" name="birthdate" value="{{ \App\Helpers::getDate($user->birthdate) }}">
-                  @endif
+                  <input class="form-control datepicker" type="text" name="birthdate" value="{{ old('birthdate') }}">
                 </div>
               </div>
             </div>
@@ -112,74 +107,74 @@
                   <select class="form-control selectpicker" data-style="btn btn-link" name="civil_status" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Helpers::getCivilStatus() as $key => $val)
-                    <option value="{{ $key }}" <?php if($user->civil_status == $key){ echo "selected='selected'"; } ?>>{{ $val }}</option>
+                    <option value="{{ $key }}" <?php if(old('civil_status') == $key){ echo "selected='selected'"; } ?>>{{ $val }}</option>
                     @endforeach
                   </select>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Dirección *</label>
+              <label class="col-md-2 col-form-label">Dirección <span class="required-red">*</span></label>
               <div class="col-md-3">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="address" value="{{ $provider->address }}" required>
+                  <input class="form-control" type="text" name="address" value="{{ old('address') }}" required>
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="form-group">
-                  <input class="form-control" type="number" name="address_number" value="{{ $provider->address_number }}" placeholder="Número Dirección *" required>
+                  <input class="form-control" type="number" name="address_number" value="{{ old('address_number') }}" placeholder="Número Dirección *" required>
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="piso_depto" value="{{ $provider->piso_depto }}" placeholder="Piso/Depto">
+                  <input class="form-control" type="text" name="piso_depto" value="{{ old('piso_depto') }}" placeholder="Piso/Depto">
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Pais *</label>
+              <label class="col-md-2 col-form-label">Pais <span class="required-red">*</span></label>
               <div class="col-md-3">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_country" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Country::all() as $country)
-                    <option value="{{ $country->id }}" <?php if($user->id_country == $country->id){ echo "selected='selected'"; } ?>>{{ $country->name }}</option>
+                    <option value="{{ $country->id }}" <?php if(old('id_country') == $country->id){ echo "selected='selected'"; } ?>>{{ $country->name }}</option>
                     @endforeach
                   </select>
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="location" value="{{ $provider->location }}" placeholder="Localidad *" required>
+                  <input class="form-control" type="text" name="location" value="{{ old('location') }}" placeholder="Localidad *" required>
                 </div>
               </div>
               <div class="col-md-2">
-                <div class="form-group">
-                  <input class="form-control" type="number" name="cp" value="{{ $provider->cp }}" placeholder="Codigo Postal *" required>
+                  <div class="form-group">
+                  <input class="form-control" type="number" name="cp" value="{{ old('cp') }}" placeholder="Codigo Postal *" required>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Nacionalidad *</label>
+              <label class="col-md-2 col-form-label">Nacionalidad <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="nationality" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Country::all() as $country)
-                    <option value="{{ $country->id }}" <?php if($provider->nationality == $country->id){ echo "selected='selected'"; } ?>>{{ $country->male.' / '.$country->female }}</option>
+                    <option value="{{ $country->id }}" <?php if(old('nationality') == $country->id){ echo "selected='selected'"; } ?>>{{ $country->male.' / '.$country->female }}</option>
                     @endforeach
                   </select>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Nivel de Estudio *</label>
+              <label class="col-md-2 col-form-label">Nivel de Estudio <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_study" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Study::getAllStudy('1') as $study)
-                    <option value="{{ $study->id }}" <?php if($provider->id_study == $study->id){ echo "selected='selected'"; } ?>>{{ $study->name }}</option>
+                    <option value="{{ $study->id }}" <?php if(old('id_study') == $study->id){ echo "selected='selected'"; } ?>>{{ $study->name }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -189,23 +184,15 @@
               <label class="col-md-2 col-form-label">Obra Social</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="social_work" value="{{ $provider->social_work }}" maxlength="125">
+                  <input class="form-control" type="text" name="social_work" value="{{ old('social_work') }}" maxlength="125">
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">CBU</label>
+              <label class="col-md-2 col-form-label">Teléfono <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="cbu" value="{{ $provider->cbu }}" maxlength="125">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Teléfono *</label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <input class="form-control" type="number" name="telephone" value="{{ $provider->telephone }}" maxlength="125" required>
+                  <input class="form-control" type="number" name="telephone" value="{{ old('telephone') }}" maxlength="125">
                 </div>
               </div>
             </div>
@@ -213,47 +200,79 @@
               <label class="col-md-2 col-form-label">Otro Teléfono</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="number" name="other_telephone" value="{{ $provider->other_telephone }}" maxlength="125">
+                  <input class="form-control" type="number" name="other_telephone" value="{{ old('other_telephone') }}" maxlength="125">
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Función en el Equipo *</label>
+              <label class="col-md-2 col-form-label">Función en el Equipo <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_function_frame[]" multiple required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\FrameFunction::getAllFrameFunction('1') as $frame)
-                    <option value="{{ $frame->id }}"
-                       <?php foreach(json_decode($provider->id_function_frame) as $key => $val) {
-                          if($val == $frame->id){ echo "selected"; }
-                        }?>>
-                       {{ $frame->name }}
-                     </option>
+                    <option value="{{ $frame->id }}">{{ $frame->name }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" style="padding: 15px;">
+                <label class="col-md-12 col-form-label">
+                    <center><strong>Datos Bancarios</strong></center>
+                </label>
+            </div>
+
+            <div class="row">
+              <label class="col-md-2 col-form-label">Banco <span class="required-red">*</span></label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="bank" required>
+                    <option value="">Seleccionar</option>
+                    @foreach(\App\Helpers::getListsBank() as $k => $v)
+                    <option value="{{ $k }}">{{ $v }}</option>
                     @endforeach
                   </select>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label label-checkbox">Activo</label>
-              <div class="col-md-10 checkbox-radios">
-                <div class="form-check form-check-inline">
-                  <label class="form-check-label">
-                    <input class="form-check-input" type="radio" value="1" name="active" <?php if($user->active == 1){ echo "checked"; } ?>> Si
-                    <span class="form-check-sign">
-                      <span class="check"></span>
-                    </span>
-                  </label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <label class="form-check-label">
-                    <input class="form-check-input" type="radio" value="0" name="active" <?php if($user->active == 0){ echo "checked"; } ?>> No
-                    <span class="form-check-sign">
-                      <span class="check"></span>
-                    </span>
-                  </label>
-                </div>
+              <label class="col-md-2 col-form-label">CBU <span class="required-red">*</span></label>
+              <div class="col-md-7">
+                  <div class="form-group">
+                  <input class="form-control" type="number" name="cbu" value="{{ old('cbu') }}" step="1" min="999999999999999999999" max="9999999999999999999999" required>
+                  </div>
+              </div>
+              <label class="col-md-3 label-on-right">
+                  <code>inserte únicamente números.</code>
+              </label>
+            </div>
+            <div class="row">
+              <label class="col-md-2 col-form-label">Tipo de Cuenta <span class="required-red">*</span></label>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input class="form-control" type="text" name="type_account" value="{{ old('type_account') }}" required>
+                  </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-md-2 col-form-label">N* de Cuenta <span class="required-red">*</span></label>
+              <div class="col-md-7">
+                  <div class="form-group">
+                  <input class="form-control" type="number" name="number_account" value="{{ old('number_account') }}" step="1" required>
+                  </div>
+              </div>
+              <label class="col-md-3 label-on-right">
+                  <code>inserte únicamente números.</code>
+              </label>
+            </div>
+            <div class="row">
+              <label class="col-md-2 col-form-label">Alias <span class="required-red">*</span></label>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input class="form-control" type="text" name="alias_account" value="{{ old('alias_account') }}" required>
+                  </div>
               </div>
             </div>
 
@@ -306,46 +325,8 @@
               </div>
             </div>
 
-            <div class="row" style="padding: 15px;">
-              <label class="col-md-12 col-form-label">
-                <center><strong>Valoraciones</strong></center>
-              </label>
-            </div>
-            <div class="row">
-              <table class="table col-md-10" style="margin: 0 auto;">
-                <thead>
-                  <tr>
-                    <th class="text-center">#</th>
-                    <th>Proyecto</th>
-                    <th>Descripción</th>
-                    <th>Puntaje</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php $countValorations = 0; ?>
-                  @foreach($provider_assessments as $assessment)
-                    <tr>
-                      <td class="text-center">{{ $assessment->id }}</td>
-                      <td>{{ $assessment->id_project }}</td>
-                      <td>{{ $assessment->description }}</td>
-                      <td>{{ $assessment->value }}</td>
-                    </tr>
-                    <?php $countValorations += $assessment->value; ?>
-                  @endforeach
-                    <tr>
-                      <td class="text-center" style="color: #9c27b0;"><strong>Total</strong></td>
-                      <td></td>
-                      <td></td>
-                      <td style="color: #9c27b0;"><strong>{{ $countValorations }}</strong></td>
-                    </tr>
-                </tbody>
-              </table>
-            </div>
-
           </div>
           <div class="card-footer ml-auto mr-auto">
-            <!-- Hide Val-->
-            <input type="hidden" name="id_user" value="{{ $user->id }}" />
             <a href="javascript:void(0)" class="back-history btn">Cancelar</a>
             <input type="submit" class="btn btn-primary" value="Guardar" />
           </div>
