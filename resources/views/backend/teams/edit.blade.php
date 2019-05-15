@@ -185,9 +185,10 @@
                 </div>
               </div>
             </div>
+
             <div class="row">
-              <label class="col-md-2 col-form-label">Obra Social</label>
-              <div class="col-md-7">
+              <label class="col-md-2 col-form-label">Obra Social / Prepaga</label>
+              <div class="col-md-2">
                 <div class="form-group">
                     <select class="form-control selectpicker" data-style="btn btn-link" name="social_work" onchange="frameJs.getChangeOs(this.value)">
                       <option value="0" <?php if($provider->social_work == '0'){ echo "selected"; } ?> >No</option>
@@ -195,12 +196,9 @@
                     </select>
                 </div>
               </div>
-            </div>
-            <div id="social_work_code_content" class="row <?php if($provider->social_work == '0') { echo "hidden";} ?>">
-              <label class="col-md-2 col-form-label">Obra Social Codigo</label>
-              <div class="col-md-7">
+              <div id="social_work_code_content" class="col-md-5 <?php if($provider->social_work == '0') { echo "hidden";} ?>">
                 <div class="form-group">
-                  <input class="form-control" type="number" name="social_work_code" value="{{ $provider->social_work_code }}">
+                  <input class="form-control" type="number" name="social_work_code" value="{{ $provider->social_work_code }}" placeholder="Codigo">
                 </div>
               </div>
             </div>

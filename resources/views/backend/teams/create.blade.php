@@ -180,9 +180,10 @@
                 </div>
               </div>
             </div>
+
             <div class="row">
-              <label class="col-md-2 col-form-label">Obra Social</label>
-              <div class="col-md-7">
+              <label class="col-md-2 col-form-label">Obra Social / Prepaga</label>
+              <div class="col-md-2">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="social_work" onchange="frameJs.getChangeOs(this.value)">
                     <option value="0">No</option>
@@ -190,15 +191,13 @@
                   </select>
                 </div>
               </div>
-            </div>
-            <div id="social_work_code_content" class="row hidden">
-              <label class="col-md-2 col-form-label">Obra Social Codigo</label>
-              <div class="col-md-7">
+              <div class="col-md-5 hidden" id="social_work_code_content">
                 <div class="form-group">
-                  <input class="form-control" type="number" name="social_work_code" value="{{ old('social_work_code') }}">
+                  <input class="form-control" type="number" name="social_work_code" value="{{ old('social_work_code') }}" placeholder="Codigo">
                 </div>
               </div>
             </div>
+
             <div class="row">
               <label class="col-md-2 col-form-label">Teléfono <span class="required-red">*</span></label>
               <div class="col-md-7">
