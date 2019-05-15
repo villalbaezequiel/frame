@@ -32,11 +32,11 @@ $(document).ready(function() {
     return jornadas;
   }
 
-  function getOptionCrew(){
+  function getOptionTeam(){
 
     var formSwal =
       '<div class="row">'+
-        '<label class="col-md-6 col-form-label">Crew:</label>'+
+        '<label class="col-md-6 col-form-label">Team:</label>'+
         '<div class="col-md-4">'+
           '<div class="form-group">'+
             '<select class="form-control" data-style="btn btn-link" id="crew_hs_extra" name="crew_hs_extra" required>'+
@@ -153,7 +153,7 @@ $(document).ready(function() {
 
       swal({
         title: "Agregar horas extra",
-        html: getOptionCrew(),
+        html: getOptionTeam(),
         showCancelButton: !0,
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
@@ -228,7 +228,7 @@ $(document).ready(function() {
             });
 
           } else {
-            alert("Para Agregar horas extras a un Crew debes completar los datos mencionados en el Formulario! Gracias. ");
+            alert("Para Agregar horas extras a un Team debes completar los datos mencionados en el Formulario! Gracias. ");
           }
 
         }
@@ -302,7 +302,7 @@ $(document).ready(function() {
                 crew_end.setHours(final_hs_jornada[0]);
                 crew_end.setMinutes(final_hs_jornada[1]);
 
-                var jornadaCrew = {
+                var jornadaTeam = {
                   id: crew.id,
                   start: crew_inicio,
                   finish: crew_end
@@ -311,7 +311,7 @@ $(document).ready(function() {
                 $.ajax({
                   type: 'GET',
                   url: '/sistema/json/project_providers/jornada_crew',
-                  data: jornadaCrew,
+                  data: jornadaTeam,
                   success: function(data){
 
                     if(data.status == true){
@@ -336,7 +336,7 @@ $(document).ready(function() {
                 });
 
               } else {
-                alert("Para Agregar un horario a la Jornada del Crew debes seleccionar un Inicio y Final de Horas! Gracias. ");
+                alert("Para Agregar un horario a la Jornada del Team debes seleccionar un Inicio y Final de Horas! Gracias. ");
               }
 
             }

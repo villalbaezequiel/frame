@@ -56,11 +56,11 @@ class ProjectsJornadasController extends Controller
     public function show($id)
     {
       $project = Project::find($id);
-      $listCrew = ProjectProvider::where('id_project', $id)
+      $listTeam = ProjectProvider::where('id_project', $id)
                                   ->where('active', '1')
                                   ->get();
 
-      foreach ($listCrew as $crew) {
+      foreach ($listTeam as $crew) {
         // name crew
         // posicion frame/sat
         $crew->name_user = Provider::getNameOrderLastName($crew->id_provider);
@@ -70,7 +70,7 @@ class ProjectsJornadasController extends Controller
 
       return view('backend.projects_jornadas.show', [
         'project' => $project,
-        'list_crew' => $listCrew
+        'list_crew' => $listTeam
       ]);
     }
 

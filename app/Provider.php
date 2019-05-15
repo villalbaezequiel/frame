@@ -23,7 +23,7 @@ class Provider extends Model
       if($crew){
         return $crew->name.' '.$crew->last_name;
       } else {
-        return "Crew no existe.";
+        return "Team no existe.";
       }
     }
 
@@ -36,7 +36,7 @@ class Provider extends Model
       if($crew){
         return $crew->last_name.' '.$crew->name;
       } else {
-        return "Crew no existe.";
+        return "Team no existe.";
       }
     }
 
@@ -47,7 +47,7 @@ class Provider extends Model
       if($crew){
         return $crew->id_user;
       } else {
-        return "Crew no existe.";
+        return "Team no existe.";
       }
     }
 
@@ -62,7 +62,7 @@ class Provider extends Model
           return $crew->address.' '.$crew->address_number;
         }
       } else {
-        return "Crew no existe.";
+        return "Team no existe.";
       }
     }
 
@@ -75,7 +75,7 @@ class Provider extends Model
       if($crew){
         return $crew->email;
       } else {
-        return "Crew no existe.";
+        return "Team no existe.";
       }
     }
 
@@ -88,7 +88,7 @@ class Provider extends Model
           return $crew->telephone;
         }
       } else {
-        return "Crew no existe.";
+        return "Team no existe.";
       }
     }
 
@@ -101,7 +101,7 @@ class Provider extends Model
           return $crew->other_telephone;
         }
       } else {
-        return "Crew no existe.";
+        return "Team no existe.";
       }
     }
 

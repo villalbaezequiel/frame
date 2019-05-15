@@ -62,14 +62,14 @@ class CallsheetController extends Controller
                                   ->groupBy('id_function_frame')
                                   ->get();
 
-      $listCrew = ProjectProvider::where('id_project', $id)
+      $listTeam = ProjectProvider::where('id_project', $id)
                                   ->where('active', '1')
                                   ->get();
 
       return view('backend.callsheet.show', [
         'project' => $project,
         'functions_frame' => $functionsFrame,
-        'list_crew' => $listCrew
+        'list_crew' => $listTeam
       ]);
     }
 

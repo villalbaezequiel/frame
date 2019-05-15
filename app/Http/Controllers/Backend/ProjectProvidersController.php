@@ -89,6 +89,6 @@ class ProjectProvidersController extends Controller
       $crew = ProjectProvider::find($id);
       $crew->delete();
 
-      return response(array('message' => 'Crew eliminado con exito del Proyecto!'));
+      return response(array('message' => 'Team eliminado con exito del Proyecto!'));
     }
 }

@@ -116,8 +116,8 @@ $(document).ready(function(){
     // 1 = Titular
     // 2 = Secundario
     var checkIsSuplente = $("select[name=is_reemplazo]").val();
-    var idCrewSuplente = $("select[name=id_crew_reemplazo]").val();
-    var nameCrewSuplente = $("select[name=id_crew_reemplazo]").find(':selected').text();
+    var idTeamSuplente = $("select[name=id_crew_reemplazo]").val();
+    var nameTeamSuplente = $("select[name=id_crew_reemplazo]").find(':selected').text();
 
     if(id_function_frame && id_category_sat && id_contract && id_provider &&
        salary_workdays && total_workdays && total_workdays_text && salary_contract_category_function &&
@@ -144,10 +144,10 @@ $(document).ready(function(){
         'start_afip': start_afip,
         'finish_afip': finish_afip,
         'is_reemplazo': checkIsSuplente,
-        'id_crew_reemplazo': idCrewSuplente
+        'id_crew_reemplazo': idTeamSuplente
       };
 
-      // verificar si el Crew esta en otro proyecto en esas fechas
+      // verificar si el Team esta en otro proyecto en esas fechas
       $.ajax({
         type: 'GET',
         url: '/sistema/json/check_crew_project/'+id_provider+'/'+start_date_contract.replace(/\//g, '-'),
@@ -159,7 +159,7 @@ $(document).ready(function(){
           // add crew
           if(status == true){
 
-            if(checkIsSuplente == "2" && idCrewSuplente != "0"){
+            if(checkIsSuplente == "2" && idTeamSuplente != "0"){
 
               // add crew SECUNDARIO to list input request
               if($('#'+id_provider).length == 0){
@@ -176,15 +176,15 @@ $(document).ready(function(){
                   // remove item_view
                   $("#item_view_"+id_provider).remove();
                 } else {
-                  alert("No puedes Agregar un Crew Secundario al mismo Crew Titular.");
+                  alert("No puedes Agregar un Team Secundario al mismo Team Titular.");
                   return false;
                 }
 
               }
 
-            } else if(checkIsSuplente == "2" && idCrewSuplente == "0"){
+            } else if(checkIsSuplente == "2" && idTeamSuplente == "0"){
 
-              alert('Haz Seleccionado un Crew Secundario. Por favor seleccione un Crew en "Reemplazo del Crew". Gracias!');
+              alert('Haz Seleccionado un Team Secundario. Por favor seleccione un Team en "Reemplazo del Team". Gracias!');
               return false;
 
             } else {
@@ -218,17 +218,17 @@ $(document).ready(function(){
             var crewDates = start_date_contract+" - "+finish_date_contract;
 
             // button to onClick add remove crew
-            var onClickRemoveCrew = "$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove();";
+            var onClickRemoveTeam = "$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove();";
 
             // Text is Titular o Secundario
             if(checkIsSuplente == "1"){
               var textPuesto = "Titular";
             } else {
-              var textPuesto = "Secundario de "+nameCrewSuplente;
+              var textPuesto = "Secundario de "+nameTeamSuplente;
             }
 
             // add html list crew view
-            $('.list_crew_view').append("<tr id='item_view_"+id_provider+"'><td>"+crewName+"</td><td>"+crewFrameSat+"</td><td>"+crewDates+"</td><td>"+textPuesto+"</td><td style='color: black'>Pendiente.</td><td><button type='button' class='btn btn-link btn-danger btn-just-icon remove' onClick="+onClickRemoveCrew+" data-idcrew='"+id_provider+"' data-itemremove='item_view_"+id_provider+"' title='Eliminar'><i class='material-icons'>close</i></button></td></tr>");
+            $('.list_crew_view').append("<tr id='item_view_"+id_provider+"'><td>"+crewName+"</td><td>"+crewFrameSat+"</td><td>"+crewDates+"</td><td>"+textPuesto+"</td><td style='color: black'>Pendiente.</td><td><button type='button' class='btn btn-link btn-danger btn-just-icon remove' onClick="+onClickRemoveTeam+" data-idcrew='"+id_provider+"' data-itemremove='item_view_"+id_provider+"' title='Eliminar'><i class='material-icons'>close</i></button></td></tr>");
 
             // restart input add crew
             $(".empty-values-finish-add-crew input").val('');
@@ -238,7 +238,7 @@ $(document).ready(function(){
             $('input[name=crew_sueldo_diferencia]').removeAttr('style');
 
             // una vez que haya aunque sea 1 CREW en la lista de Empleados, se habilita los INPUT de SUPLENTES
-            // y AGREGO a la lista de "Reemplazo del Crew" los crew agregados
+            // y AGREGO a la lista de "Reemplazo del Team" los crew agregados
             // TENER EN CUENTA SI SE BORRA EL CREW DEL PROYECTO, QUE SE BORRE DE ESTA LISTA TAMBIEN
             // Y SI EL TITULAR BORRADO TIENE UN SUPLENTE, QUE EL Suplente TAMBIEN SE ELIMINE
 
@@ -254,8 +254,8 @@ $(document).ready(function(){
           } else {
             Swal.fire({
               type: 'warning',
-              title: 'El Crew se encuentra Trabajando en otro Proyecto, en las Fechas de Contrato selecionadas!',
-              text: "Por favor ingrese nuevas Fechas de Contrato o pruebe con Otro Crew.",
+              title: 'El Team se encuentra Trabajando en otro Proyecto, en las Fechas de Contrato selecionadas!',
+              text: "Por favor ingrese nuevas Fechas de Contrato o pruebe con Otro Team.",
               confirmButtonColor: '#3085d6',
               cancelButtonColor: '#d33',
               confirmButtonText: 'Si, continuar!'
@@ -270,7 +270,7 @@ $(document).ready(function(){
       });
 
     } else {
-      alert('Complete los datos correspondientes para agregar un Crew!');
+      alert('Complete los datos correspondientes para agregar un Team!');
     }
 
   });

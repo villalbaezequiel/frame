@@ -40,7 +40,7 @@
 
             @if(session('message') == '1')
             <center>
-              <strong style="color: #9c27b0!important; font-size: 1.125rem!important;">Crew creado con exito!</strong>
+              <strong style="color: #9c27b0!important; font-size: 1.125rem!important;">Team creado con exito!</strong>
             </center>
             @else
               @include('auth.card.register')

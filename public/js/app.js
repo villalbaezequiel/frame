@@ -240,15 +240,15 @@ $(document).ready(function(){
           var results = data.data;
 
           if(results.length >= 1){
-            var getValueCrew = $('select.get_value_crew');
+            var getValueTeam = $('select.get_value_crew');
 
             // empty getValueCategoriesSat
-            getValueCrew.empty();
+            getValueTeam.empty();
 
             // insert option
-            getValueCrew.append("<option value=''>Seleccionar</option>");
+            getValueTeam.append("<option value=''>Seleccionar</option>");
             $.each(results, function(i,v){
-              getValueCrew.append("<option value='"+v.id+"'>"+v.last_name+" "+v.name+"</option>");
+              getValueTeam.append("<option value='"+v.id+"'>"+v.last_name+" "+v.name+"</option>");
             });
 
             $('.selectpicker').selectpicker('refresh');

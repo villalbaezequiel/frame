@@ -17,7 +17,7 @@
       <table class="table table-hover">
         <thead class="thead-dark">
           <tr>
-            <th scope="col">Crew</th>
+            <th scope="col">Team</th>
             <th scope="col">Categoría SAT</th>
             <th scope="col">Telefono/s</th>
             <th scope="col">Email</th>
