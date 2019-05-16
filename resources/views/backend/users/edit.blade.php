@@ -125,7 +125,7 @@
               <label class="col-md-2 col-form-label">País <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_country" required>
+                  <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="id_country" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Country::all() as $country)
                     <option value="{{ $country->id }}" <?php if($user->id_country == $country->id){ echo "selected='selected'"; } ?>>{{ $country->name }}</option>
@@ -138,7 +138,7 @@
               <label class="col-md-2 col-form-label">Rol Usuario <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="role_user" required>
+                  <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="role_user" required>
                     <option value="">Seleccionar</option>
                     @foreach($roles as $rol)
                     <option value="{{ $rol->id }}" <?php if(!empty($role_user) && $rol->id == $role_user->role_id){ echo "selected='selected'"; } ?>>{{ $rol->name }}</option>

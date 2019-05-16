@@ -62,7 +62,7 @@
                         <span class="input-group-text">
                           Cliente: (*)
                         </span>
-                        <select class="selectpicker" data-style="select-with-transition" name="id_client" required>
+                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_client" required>
                           <option value="">Seleccionar</option>
                           @foreach(\App\Client::getAllClients() as $client)
                           <option value="{{ $client->id }}"><?php if($client->nick){ echo $client->nick; } else { echo $client->razon_social; } ?></option>
@@ -97,7 +97,7 @@
                         <span class="input-group-text">
                           Tipo de Proyecto: (*)
                         </span>
-                          <select class="selectpicker ajax_functions_frame_by_type_project" data-style="select-with-transition" name="id_proyect_category" required>
+                          <select class="selectpicker ajax_functions_frame_by_type_project" data-live-search="true" data-style="select-with-transition" name="id_proyect_category" required>
                           <option value="">Seleccionar</option>
                           @foreach(\App\ProyectCategory::getAllProyectCategories() as $type_project)
                           <option value="{{ $type_project->id }}">{{ $type_project->name }}</option>
@@ -150,7 +150,7 @@
                         <span class="input-group-text">
                           Modalidad: (*)
                         </span>
-                          <select class="selectpicker" data-style="select-with-transition" name="id_workday" required>
+                          <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_workday" required>
                           <option value="">Seleccionar</option>
                           @foreach(\App\Workday::getAllWorkdays() as $workday)
                           <option
@@ -207,7 +207,7 @@
                         <span class="input-group-text">
                           Función Frame:
                         </span>
-                        <select class="selectpicker get_value_frame_functions ajax_categories_sat_by_function_frame ajax_crew_by_function_frame" data-style="select-with-transition" name="id_function_frame">
+                        <select class="selectpicker get_value_frame_functions ajax_categories_sat_by_function_frame ajax_crew_by_function_frame" data-live-search="true" data-style="select-with-transition" name="id_function_frame">
                           <option value="">Seleccionar</option>
                         </select>
                       </div>
@@ -220,7 +220,7 @@
                         <span class="input-group-text">
                           Categoría SAT:
                         </span>
-                        <select class="selectpicker get_value_categories_sat event_toggle_category_sat" data-style="select-with-transition" name="id_category_sat">
+                        <select class="selectpicker get_value_categories_sat event_toggle_category_sat" data-live-search="true" data-style="select-with-transition" name="id_category_sat">
                           <option value="">Seleccionar</option>
                         </select>
                       </div>
@@ -233,7 +233,7 @@
                         <span class="input-group-text">
                           Team:
                         </span>
-                        <select class="selectpicker get_value_crew" data-style="select-with-transition" name="id_provider">
+                        <select class="selectpicker get_value_crew" data-live-search="true" data-style="select-with-transition" name="id_provider">
                           <option value="">Seleccionar</option>
                         </select>
                       </div>
@@ -246,7 +246,7 @@
                         <span class="input-group-text">
                           Tipo de Contrato:
                         </span>
-                          <select class="selectpicker" data-style="select-with-transition" name="id_contract">
+                          <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_contract">
                           <option value="">Seleccionar</option>
                           @foreach(\App\Contract::getAllContracts('1') as $contract)
                           <option value="{{ $contract->id }}">{{ $contract->name }}</option>
@@ -286,7 +286,7 @@
                         <span class="input-group-text">
                           Modalidad:
                         </span>
-                        <select class="selectpicker" data-style="select-with-transition" name="view_modality_work"></select>
+                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="view_modality_work"></select>
                       </div>
                     </div>
                   </div>
@@ -422,7 +422,7 @@
                         <span class="input-group-text">
                           Reemplazo del Team:
                         </span>
-                        <select class="selectpicker" data-style="select-with-transition" name="id_crew_reemplazo" disabled>
+                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_crew_reemplazo" disabled>
                           <option value="0">Seleccionar</option>
                         </select>
                       </div>

@@ -140,7 +140,7 @@
               <label class="col-md-2 col-form-label">Pais <span class="required-red">*</span></label>
               <div class="col-md-3">
                 <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_country" required>
+                  <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="id_country" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Country::all() as $country)
                     <option value="{{ $country->id }}" <?php if($user->id_country == $country->id){ echo "selected='selected'"; } ?>>{{ $country->name }}</option>
@@ -163,7 +163,7 @@
               <label class="col-md-2 col-form-label">Nacionalidad <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="nationality" required>
+                  <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="nationality" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Country::all() as $country)
                     <option value="{{ $country->id }}" <?php if($provider->nationality == $country->id){ echo "selected='selected'"; } ?>>{{ $country->male.' / '.$country->female }}</option>
@@ -269,7 +269,7 @@
               <label class="col-md-2 col-form-label">Banco <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="bank" required>
+                  <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="bank" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Helpers::getListsBank() as $k => $v)
                     <option value="{{ $k }}" <?php if($k == $provider->bank) { echo "selected"; } ?>>{{ $v }}</option>
@@ -327,7 +327,7 @@
               <label class="col-md-2 col-form-label">Proyecto</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="valoration_id_project">
+                  <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="valoration_id_project">
                     <option value="">Seleccionar</option>
                     @foreach(\App\Project::all() as $project)
                     <option value="{{ $project->id }}">{{ $project->name }}</option>
