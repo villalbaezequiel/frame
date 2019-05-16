@@ -172,13 +172,19 @@
     </select>
   </div>
 
-  <div class="input-group col-md-6">
+  <div class="input-group col-md-4">
     <div class="input-group-prepend">
       <span class="input-group-text">
-        Obra Social:
+          Obra Social / Prepaga:
       </span>
     </div>
-    <input class="form-control" type="text" name="social_work" value="{{ old('social_work') }}" maxlength="125">
+    <select class="custom-select" name="social_work" onchange="frameJs.getChangeOs(this.value)">
+      <option value="0">No</option>
+      <option value="1">Si</option>
+    </select>
+  </div>
+  <div class="input-group col-md-2 hidden" id="social_work_code_content">
+    <input class="form-control" type="number" name="social_work_code" value="{{ old('social_work_code') }}" placeholder="Codigo">
   </div>
 </div>
 
@@ -224,7 +230,6 @@
       </span>
     </div>
     <select class="custom-select" name="id_function_frame[]" multiple required>
-      <option value="">Seleccionar</option>
       @foreach(\App\FrameFunction::getAllFrameFunction('1') as $frame)
       <option value="{{ $frame->id }}">{{ $frame->name }}</option>
       @endforeach
@@ -232,23 +237,13 @@
   </div>
 </div>
 
-<!-- <span class="bmd-form-group">
-  <div class="input-group">
-    <div class="input-group-prepend">
-      <span class="input-group-text">
-        <i class="material-icons">lock_outline</i>
-      </span>
-    </div>
-    <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="Contraseña" required>
+<hr>
+
+<div class="form-group">
+  <div class="input-group col-md-6">
+    <span class="input-group-text">
+      <input class="form-control" type="checkbox" name="" style="margin-right: 10px;" required>
+      Aceptar<a href="#" style="margin-left: 4px;">Terminos y Condiciones</a>
+    </span>
   </div>
-</span>
-<span class="bmd-form-group">
-  <div class="input-group">
-    <div class="input-group-prepend">
-      <span class="input-group-text">
-        <i class="material-icons">lock_outline</i>
-      </span>
-    </div>
-    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Confirmar Contraseña" required>
-  </div>
-</span> -->
+</div>

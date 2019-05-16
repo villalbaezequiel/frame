@@ -16,7 +16,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link href="{{ asset('css/material-dashboard.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/layout.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
 </head>
 
 <body class="off-canvas-sidebar">
@@ -46,6 +46,7 @@
   <script src="{{ asset('/js/plugins/jquery.dataTables.min.js') }}"></script>
   <!-- app Frame  -->
   <script src="{{ asset('/js/app.js') }}" type="text/javascript"></script>
+  <script src="{{ asset('/js/core/frame_general_functions.js') }}" type="text/javascript"></script>
 
 </body>
 </html>

@@ -82,7 +82,7 @@
     color: #c7254e;
 }
 .hidden {
-  display: none;
+  display: none!important;
 }
 .text-header-frame {
   width: 48%;
