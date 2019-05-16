@@ -218,7 +218,7 @@
               <label class="col-md-2 col-form-label">Rol a desempeñar <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_function_frame[]" multiple required>
+                  <select class="form-control selectpicker" data-style="btn btn-link" data-live-search="true" name="id_function_frame[]" multiple required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\FrameFunction::getAllFrameFunction('1') as $frame)
                     <option value="{{ $frame->id }}">{{ $frame->name }}</option>

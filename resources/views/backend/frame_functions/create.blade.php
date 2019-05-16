@@ -59,7 +59,7 @@
               <label class="col-md-2 col-form-label">Categorias SAT <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_workers_category[]" multiple required>
+                  <select class="form-control selectpicker" data-style="btn btn-link" data-live-search="true" name="id_workers_category[]" multiple required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\WorkersCategory::getAllWorkersCategory('1') as $category_sat)
                     <option value="{{ $category_sat->id }}">{{ $category_sat->name.' / N* '.$category_sat->number_category }}</option>
