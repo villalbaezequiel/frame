@@ -118,29 +118,33 @@ class ProvidersController extends Controller
              // Envio un Mail al Admin notificandolo que se REGISTRO un nuevo CREW
 
              // info del administrador
-             $chekUserAdmin = User::where('email', 'esteban@estudiomixto.com')
+             if(!empty(env('NEW_CREW_NOTIFICATION1'))){
+              $chekUserAdmin = User::where('email', env('NEW_CREW_NOTIFICATION1'))
                                     ->where('is_crew', '0')
                                     ->where('active', '1')
                                     ->first();
+             }
 
-             $chekUserAdminSecundario = User::where('email', 'villalbaezequiel64@gmail.com')
+            if(!empty(env('NEW_CREW_NOTIFICATION2'))){
+              $chekUserAdminSecundario = User::where('email', env('NEW_CREW_NOTIFICATION2'))
                                     ->where('is_crew', '0')
                                     ->where('active', '1')
                                     ->first();
+            }
 
-              if($chekUserAdmin != null){
-                $userAdmin = User::find($chekUserAdmin->id);
-              } elseif($chekUserAdminSecundario != null) {
-                $userAdmin = User::find($chekUserAdminSecundario->id);
-              }
+            if(isset($chekUserAdmin) && $chekUserAdmin != null){
+              $userAdmin = User::find($chekUserAdmin->id);
+            } elseif(isset($chekUserAdminSecundario) && $chekUserAdminSecundario != null) {
+              $userAdmin = User::find($chekUserAdminSecundario->id);
+            }
 
-             $data = array(
-               'user' => $userAdmin,
-               'crew' => $provider
-             );
-             $userAdmin->notify(new NewTeam($data));
+            $data = array(
+              'user' => $userAdmin,
+              'crew' => $provider
+            );
+            $userAdmin->notify(new NewTeam($data));
 
-             return redirect('/register')->with('message', '1');
+            return redirect('/register')->with('message', '1');
 
            } else {
              return redirect('/providers')->with('message', 'Team creado con exito!');
@@ -236,6 +240,7 @@ class ProvidersController extends Controller
            $user->birthdate = (isset($birthdate[2]) ? $birthdate[2].'-'.$birthdate[1].'-'.$birthdate[0] : $request->get('birthdate'));
            $user->id_country = $request->get('id_country');
            $user->active = $request->get('active');
+           $user->is_crew = '1';
            $user->save();
            // Update Provider
            $provider = Provider::find($id);

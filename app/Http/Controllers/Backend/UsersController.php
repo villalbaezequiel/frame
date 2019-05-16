@@ -21,7 +21,9 @@ class UsersController extends Controller
     public function index()
     {
       return view('backend.users.index', [
-        'users' => User::orderBy('id', 'DESC')->get()
+        'users' => User::where('is_crew', '0')
+                        ->orderBy('id', 'DESC')
+                        ->get()
       ]);
     }
 
