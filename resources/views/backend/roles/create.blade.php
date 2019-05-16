@@ -27,7 +27,7 @@
             @endif
 
             <div class="row">
-              <label class="col-md-2 col-form-label">Nombre *</label>
+              <label class="col-md-2 col-form-label">Nombre <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="name" value="{{ old('name') }}" maxlength="125" required>
@@ -35,7 +35,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">URL Amigable *</label>
+              <label class="col-md-2 col-form-label">URL Amigable <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="slug" value="{{ old('slug') }}" maxlength="125" required>
@@ -43,7 +43,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Descripción *</label>
+              <label class="col-md-2 col-form-label">Descripción <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="description" value="{{ old('description') }}" maxlength="125" required>

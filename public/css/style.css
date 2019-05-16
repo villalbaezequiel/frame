@@ -84,3 +84,7 @@
 .hidden {
   display: none;
 }
+.text-header-frame {
+  width: 48%;
+  text-align: center;
+}

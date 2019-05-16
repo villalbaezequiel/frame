@@ -27,7 +27,7 @@
             @endif
 
             <div class="row">
-              <label class="col-md-2 col-form-label">Nombre *</label>
+              <label class="col-md-2 col-form-label">Nombre <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="name" value="{{ $user->name }}" maxlength="125" required>
@@ -35,7 +35,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Apellido *</label>
+              <label class="col-md-2 col-form-label">Apellido <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="last_name" value="{{ $user->last_name }}" maxlength="125" required>
@@ -43,7 +43,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Email *</label>
+              <label class="col-md-2 col-form-label">Email <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="email" name="email" value="{{ $user->email }}" maxlength="125" required>
@@ -51,7 +51,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Tipo de Documentación *</label>
+              <label class="col-md-2 col-form-label">Tipo de Documentación <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="type_dni" required>
@@ -63,7 +63,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">DNI *</label>
+              <label class="col-md-2 col-form-label">DNI <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="number" name="dni" value="{{ $user->dni }}" maxlength="125" required>
@@ -71,7 +71,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">CUIT *</label>
+              <label class="col-md-2 col-form-label">CUIT <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <!-- <input class="form-control" type="text" name="cuit" pattern="\b(20|23|24|27|30|33|34)(\D)?[0-9]{8}(\D)?[0-9]" value="{{ $user->cuit }}" maxlength="125" required> -->
@@ -83,7 +83,7 @@
               </label>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Género *</label>
+              <label class="col-md-2 col-form-label">Género <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="gender" required>
@@ -96,7 +96,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Estado Civil *</label>
+              <label class="col-md-2 col-form-label">Estado Civil <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="civil_status" required>
@@ -109,7 +109,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Fecha de Nacimiento *</label>
+              <label class="col-md-2 col-form-label">Fecha de Nacimiento <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   @if($user->birthdate)
@@ -122,7 +122,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">País *</label>
+              <label class="col-md-2 col-form-label">País <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_country" required>
@@ -135,7 +135,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Rol Usuario *</label>
+              <label class="col-md-2 col-form-label">Rol Usuario <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="role_user" required>

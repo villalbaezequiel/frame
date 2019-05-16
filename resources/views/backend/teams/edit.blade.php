@@ -27,7 +27,7 @@
             @endif
 
             <div class="row">
-              <label class="col-md-2 col-form-label">Nombre *</label>
+              <label class="col-md-2 col-form-label">Nombre <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="name" value="{{ $user->name }}" maxlength="125" required>
@@ -35,7 +35,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Apellido *</label>
+              <label class="col-md-2 col-form-label">Apellido <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="last_name" value="{{ $user->last_name }}" maxlength="125" required>
@@ -43,7 +43,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Email *</label>
+              <label class="col-md-2 col-form-label">Email <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="email" email="true" name="email" value="{{ $user->email }}" maxlength="125" required>
@@ -64,7 +64,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Tipo de Documentación *</label>
+              <label class="col-md-2 col-form-label">Tipo de Documentación <span class="required-red">*</span></label>
               <div class="col-md-2">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="type_dni" required>
@@ -81,7 +81,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">CUIT *</label>
+              <label class="col-md-2 col-form-label">CUIT <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <!-- <input class="form-control" type="text" name="cuit" pattern="\b(20|23|24|27|30|33|34)(\D)?[0-9]{8}(\D)?[0-9]" value="{{ $user->cuit }}" maxlength="125" required> -->
@@ -106,7 +106,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Estado Civil</label>
+              <label class="col-md-2 col-form-label">Estado Civil <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="civil_status" required>
@@ -119,7 +119,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Dirección *</label>
+              <label class="col-md-2 col-form-label">Dirección <span class="required-red">*</span></label>
               <div class="col-md-3">
                 <div class="form-group">
                   <input class="form-control" type="text" name="address" value="{{ $provider->address }}" required>
@@ -137,7 +137,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Pais *</label>
+              <label class="col-md-2 col-form-label">Pais <span class="required-red">*</span></label>
               <div class="col-md-3">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_country" required>
@@ -160,7 +160,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Nacionalidad *</label>
+              <label class="col-md-2 col-form-label">Nacionalidad <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="nationality" required>
@@ -173,7 +173,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Nivel de Estudio *</label>
+              <label class="col-md-2 col-form-label">Nivel de Estudio <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_study" required>
@@ -204,7 +204,7 @@
             </div>
 
             <div class="row">
-              <label class="col-md-2 col-form-label">Teléfono *</label>
+              <label class="col-md-2 col-form-label">Teléfono <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="number" name="telephone" value="{{ $provider->telephone }}" maxlength="125" required>
@@ -220,7 +220,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Rol a desempeñar *</label>
+              <label class="col-md-2 col-form-label">Rol a desempeñar <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_function_frame[]" multiple required>

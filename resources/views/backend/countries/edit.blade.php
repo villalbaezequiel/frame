@@ -27,7 +27,7 @@
             @endif
 
             <div class="row">
-              <label class="col-md-2 col-form-label">Nombre *</label>
+              <label class="col-md-2 col-form-label">Nombre <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="name" value="{{ $country->name }}" maxlength="125" required>
@@ -35,7 +35,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Masculino *</label>
+              <label class="col-md-2 col-form-label">Masculino <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="male" value="{{ $country->male }}" maxlength="125" required>
@@ -43,7 +43,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Femenino *</label>
+              <label class="col-md-2 col-form-label">Femenino <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="female" value="{{ $country->female }}" maxlength="125" required>

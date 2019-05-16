@@ -27,7 +27,7 @@
             @endif
 
             <div class="row">
-              <label class="col-md-2 col-form-label">Nº de Categoría *</label>
+              <label class="col-md-2 col-form-label">Nº de Categoría <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="number" name="number_category" value="{{ old('number_category') }}" maxlength="125" required>
@@ -35,7 +35,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Nombre *</label>
+              <label class="col-md-2 col-form-label">Nombre <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="name" value="{{ old('name') }}" maxlength="125" required>
@@ -43,7 +43,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Básico *</label>
+              <label class="col-md-2 col-form-label">Básico <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control validate-number-decimal" type="text" name="sueldo_basico" value="{{ old('sueldo_basico') }}" maxlength="125" required>
@@ -51,7 +51,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Adicional *</label>
+              <label class="col-md-2 col-form-label">Adicional <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control validate-number-decimal" type="text" name="sueldo_adicional" value="{{ old('sueldo_adicional') }}" maxlength="125" required>
@@ -67,7 +67,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Sueldo Bruto *</label>
+              <label class="col-md-2 col-form-label">Sueldo Bruto <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control validate-number-decimal" type="text" name="sueldo_bruto" value="{{ old('sueldo_bruto') }}" maxlength="125" required>

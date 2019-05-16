@@ -27,7 +27,7 @@
             @endif
 
             <div class="row">
-              <label class="col-md-2 col-form-label">Nombre *</label>
+              <label class="col-md-2 col-form-label">Nombre <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="name" value="{{ old('name') }}" maxlength="125" required>
@@ -43,7 +43,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Tipo de Proyecto *</label>
+              <label class="col-md-2 col-form-label">Tipo de Proyecto <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_proyect_category" required>
@@ -56,7 +56,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Categorias SAT *</label>
+              <label class="col-md-2 col-form-label">Categorias SAT <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="id_workers_category[]" multiple required>
