@@ -215,7 +215,7 @@ $(document).ready(function(){
             // insert option
             getValueCategoriesSat.append("<option value=''>Seleccionar</option>");
             $.each(results, function(i,v){
-              getValueCategoriesSat.append("<option value='"+v.id+"' data-salaryneto='"+v.sueldo_neto+"'>"+v.name+"</option>");
+              getValueCategoriesSat.append("<option value='"+v.id+"' data-salaryneto='"+v.sueldo_neto+"'>"+v.name+" / N* "+v.number_category+"</option>");
             });
 
             $('.selectpicker').selectpicker('refresh');

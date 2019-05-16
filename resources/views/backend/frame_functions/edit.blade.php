@@ -66,7 +66,7 @@
                        <?php foreach(json_decode($frameFunction->id_workers_category) as $key => $val) {
                           if($val == $category_sat->id){ echo "selected"; }
                         }?>>
-                       {{ $category_sat->name }}
+                       {{ $category_sat->name.' / N* '.$category_sat->number_category }}
                      </option>
                     @endforeach
                   </select>
