@@ -22,7 +22,7 @@ class CallsheetController extends Controller
     public function index()
     {
       return view('backend.callsheet.index', [
-        'projects' => Project::all()
+        'projects' => Project::orderBy('id', 'DESC')->get()
       ]);
     }
 

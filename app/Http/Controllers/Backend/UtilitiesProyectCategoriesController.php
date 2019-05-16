@@ -28,7 +28,7 @@ class UtilitiesProyectCategoriesController extends Controller
      public function index()
      {
        return view('backend.proyect_categories.index', [
-         'proyect_categories' => ProyectCategory::all()
+         'proyect_categories' => ProyectCategory::orderBy('id', 'DESC')->get()
        ]);
      }
 

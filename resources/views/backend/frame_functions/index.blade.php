@@ -28,22 +28,20 @@
               </div>
             </div>
           @endif
-          <table id="datatables" class="table table-hover table-striped">
+          <table id="datatables" class="table table-hover table-striped table-bordered nowrap" style="width:100%">
             <thead>
               <tr>
-                <th>#ID</th>
-                <th>Tipo de Proyecto</th>
                 <th>Nombre</th>
+                <th>Tipo de Proyecto</th>
                 <th>N* Categorias SAT</th>
-                <th>Acciones</th>
+                <th class="text-right">Acciones</th>
               </tr>
             </thead>
             <tbody>
               @foreach($frame_functions as $frameFunction)
               <tr class="item-alert-confirm-delete">
-                <td>{{ $frameFunction->id }}</td>
-                <td>{{ \App\ProyectCategory::getName($frameFunction->id_proyect_category) }}</td>
                 <td>{{ $frameFunction->name }}</td>
+                <td>{{ \App\ProyectCategory::getName($frameFunction->id_proyect_category) }}</td>
                 <td>{{ \App\FrameFunction::getNumberCategoriesSat($frameFunction->id) }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['frame_functions.destroy', $frameFunction->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}

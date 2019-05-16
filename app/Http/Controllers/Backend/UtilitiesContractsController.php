@@ -27,7 +27,7 @@ class UtilitiesContractsController extends Controller
      public function index()
      {
        return view('backend.contracts.index', [
-         'contracts' => Contract::all()
+         'contracts' => Contract::orderBy('id', 'DESC')->get()
        ]);
      }
 

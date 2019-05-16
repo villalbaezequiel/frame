@@ -22,7 +22,7 @@ class ProjectsJornadasController extends Controller
     public function index()
     {
         return view('backend.projects_jornadas.index', [
-          'projects' => Project::all()
+          'projects' => Project::orderBy('id', 'DESC')->get()
         ]);
     }
 

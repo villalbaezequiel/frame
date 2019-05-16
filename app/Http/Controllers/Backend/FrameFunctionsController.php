@@ -27,7 +27,7 @@ class FrameFunctionsController extends Controller
    public function index()
    {
      return view('backend.frame_functions.index', [
-       'frame_functions' => FrameFunction::all()
+       'frame_functions' => FrameFunction::orderBy('id', 'DESC')->get()
      ]);
    }
 

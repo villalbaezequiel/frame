@@ -28,20 +28,18 @@
               </div>
             </div>
           @endif
-          <table id="datatables" class="table table-hover table-striped">
+          <table id="datatables" class="table table-hover table-striped table-bordered nowrap" style="width:100%">
             <thead>
               <tr>
-                <th>#ID</th>
                 <th>Nombre</th>
                 <th>Dias</th>
                 <th>Activo</th>
-                <th>Acciones</th>
+                <th class="text-right">Acciones</th>
               </tr>
             </thead>
             <tbody>
               @foreach($workdays as $workday)
               <tr class="item-alert-confirm-delete">
-                <td>{{ $workday->id }}</td>
                 <td>{{ $workday->name }}</td>
                 <td>{{ $workday->day }}</td>
                 <td>{{ \App\Helpers::getActive($workday->active) }}</td>

@@ -35,7 +35,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Razón Social *</label>
+              <label class="col-md-2 col-form-label">Razón Social <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="text" name="razon_social" value="{{ $client->razon_social }}" maxlength="125" required>
@@ -43,16 +43,16 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Nombre Fantasía</label>
+              <label class="col-md-2 col-form-label">Nombre Fantasía <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="nick" value="{{ $client->nick }}" maxlength="125">
+                  <input class="form-control" type="text" name="nick" value="{{ $client->nick }}" maxlength="125" required>
                 </div>
               </div>
             </div>
 
             <div class="row">
-              <label class="col-md-2 col-form-label">CUIT *</label>
+              <label class="col-md-2 col-form-label">CUIT <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="number" name="cuit" value="{{ $client->cuit }}" maxlength="125" required>
@@ -63,7 +63,7 @@
               </label>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Dirección *</label>
+              <label class="col-md-2 col-form-label">Dirección <span class="required-red">*</span></label>
               <div class="col-md-5">
                 <div class="form-group">
                   <input class="form-control" type="text" name="address" value="{{ $client->address }}" required>
@@ -76,7 +76,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Pais *</label>
+              <label class="col-md-2 col-form-label">Pais <span class="required-red">*</span></label>
               <div class="col-md-3">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-style="btn btn-link" name="country" required>
@@ -99,7 +99,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Teléfono *</label>
+              <label class="col-md-2 col-form-label">Teléfono <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   <input class="form-control" type="number" name="telephone" value="{{ $client->telephone }}" maxlength="125" required>

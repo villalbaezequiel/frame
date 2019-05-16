@@ -29,7 +29,7 @@ class ClientsController extends Controller
     public function index()
     {
       return view('backend.clients.index', [
-        'clients' => Client::all()
+        'clients' => Client::orderBy('id', 'DESC')->get()
       ]);
     }
 

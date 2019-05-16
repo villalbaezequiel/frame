@@ -27,7 +27,7 @@ class WorkersCategoriesController extends Controller
      public function index()
      {
        return view('backend.workers_categories.index', [
-         'workers_categories' => WorkersCategory::all()
+         'workers_categories' => WorkersCategory::orderBy('id', 'DESC')->get()
        ]);
      }
 

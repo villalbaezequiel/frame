@@ -34,7 +34,7 @@ class ProjectsController extends Controller
      public function index()
      {
        return view('backend.projects.index', [
-         'projects' => Project::all()
+         'projects' => Project::orderBy('id', 'DESC')->get()
        ]);
      }
 

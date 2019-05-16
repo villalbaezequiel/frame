@@ -31,7 +31,7 @@ class ProvidersController extends Controller
      public function index()
      {
        return view('backend.teams.index', [
-         'providers' => Provider::all()
+         'providers' => Provider::orderBy('id', 'DESC')->get()
        ]);
      }
 
