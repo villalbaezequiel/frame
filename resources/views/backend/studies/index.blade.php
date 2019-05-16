@@ -31,7 +31,6 @@
           <table id="datatables" class="table table-hover table-striped table-bordered nowrap" style="width:100%">
             <thead>
               <tr>
-                <th>#ID</th>
                 <th>Nombre</th>
                 <th>Activo</th>
                 <th class="text-right">Acciones</th>
@@ -40,7 +39,6 @@
             <tbody>
               @foreach($studies as $study)
               <tr class="item-alert-confirm-delete">
-                <td>{{ $study->id }}</td>
                 <td>{{ $study->name }}</td>
                 <td>{{ \App\Helpers::getActive($study->active) }}</td>
                 <td class="text-right">

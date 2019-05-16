@@ -27,7 +27,7 @@ class UtilitiesWorkdaysController extends Controller
      public function index()
      {
        return view('backend.workdays.index', [
-         'workdays' => Workday::all()
+         'workdays' => Workday::orderBy('day', 'DESC')->get()
        ]);
      }
 

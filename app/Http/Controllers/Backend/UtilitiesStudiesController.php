@@ -27,7 +27,7 @@ class UtilitiesStudiesController extends Controller
      public function index()
      {
        return view('backend.studies.index', [
-         'studies' => Study::all()
+         'studies' => Study::orderBy('id', 'DESC')->get()
        ]);
      }
 

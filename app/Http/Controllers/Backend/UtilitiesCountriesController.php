@@ -27,7 +27,7 @@ class UtilitiesCountriesController extends Controller
      public function index()
      {
        return view('backend.countries.index', [
-         'countries' => Country::all()
+         'countries' => Country::orderBy('id', 'DESC')->get()
        ]);
      }
 
