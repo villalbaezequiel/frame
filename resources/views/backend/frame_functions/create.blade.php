@@ -68,6 +68,16 @@
                 </div>
               </div>
             </div>
+
+            <div class="row">
+              <label class="col-md-2 col-form-label">Color</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <input class="w-100" type="color" name="color" value="">
+                </div>
+              </div>
+            </div>
+
             <div class="row">
               <label class="col-md-2 col-form-label label-checkbox">Activo</label>
               <div class="col-md-10 checkbox-radios">
@@ -116,6 +126,8 @@ $(document).ready(function(){
     }
 
   });
+
+  $("input[name=color]").val(frameJs.getRandomColor());
 });
 </script>
 @endsection

@@ -79,7 +79,7 @@
               <label class="col-md-2 col-form-label">Pais <span class="required-red">*</span></label>
               <div class="col-md-3">
                 <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="country" required>
+                  <select class="form-control selectpicker" data-style="btn btn-link" data-live-search="true" name="country" required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Country::all() as $country)
                     <option value="{{ $country->id }}" <?php if($client->id_country == $country->id){ echo "selected='selected'"; } ?>>{{ $country->name }}</option>

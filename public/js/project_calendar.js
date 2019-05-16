@@ -77,19 +77,10 @@ $(document).ready(function() {
     return formSwal;
   }
 
-  function getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
-
   var listEvents = [];
   $.each(list_crew, function(i, v){
 
-    var color = getRandomColor();
+    var color = v.function_frame_color;
 
     if(v.calendar != null){
       $.each(v.calendar, function(c,d){
