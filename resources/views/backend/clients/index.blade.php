@@ -28,25 +28,23 @@
               </div>
             </div>
           @endif
-          <table id="datatables" class="table table-hover table-striped">
+          <table id="datatables" class="table table-hover table-striped table-bordered nowrap" style="width:100%">
             <thead>
               <tr>
-                <th>#ID</th>
-                <th>ID_tango</th>
-                <th>Razon Social</th>
+                <th>Nombre Fantasía</th>
                 <th>CUIT</th>
                 <th>Activo</th>
-                <th>Acciones</th>
+                <th>ID_Tango</th>
+                <th class="text-right">Acciones</th>
               </tr>
             </thead>
             <tbody>
               @foreach($clients as $client)
               <tr class="item-alert-confirm-delete">
-                <td>{{ $client->id }}</td>
-                <td><?php if($client->id_tango != null || !empty($client->id_tango)){ echo $client->id_tango; } else { echo "No asociado a Tango."; } ?></td>
-                <td>{{ $client->razon_social }}</td>
+                <td>{{ $client->nick }}</td>
                 <td>{{ $client->cuit }}</td>
                 <td>{{ \App\Helpers::getActive($client->active) }}</td>
+                <td><?php if($client->id_tango){ echo $client->id_tango; } else { echo "No asociado a Tango."; } ?></td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['clients.destroy', $client->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
                     <a href="{{ url('/clients/'.$client->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
