@@ -45,4 +45,12 @@ class FrameFunction extends Model
 
     }
 
+    static public function getColor($id)
+    {
+      $frameFunction = FrameFunction::find($id);
+      if($frameFunction){
+        return $frameFunction->color;
+      }
+    }
+
 }
