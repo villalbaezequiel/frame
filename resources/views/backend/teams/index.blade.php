@@ -28,13 +28,13 @@
               </div>
             </div>
           @endif
-          <table id="datatables_team" class="table table-hover table-striped">
+          <table id="datatables" class="table table-hover table-striped table-bordered nowrap" style="width:100%">
             <thead>
               <tr>
                 <th>Nombre</th>
                 <th>Puesto FRAME</th>
                 <th>Valoración</th>
-                <th>Acciones</th>
+                <th class="text-right">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -69,15 +69,6 @@
 @section('javascript')
 <script>
 $(document).ready(function(){
-
-  $("#datatables_team").DataTable({
-    responsive: true,
-    "language": {
-      "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-    },
-    "order": [[ 4, 'desc' ]]
-  });
-
   $(".alert-confirm-delete").submit(function(e) {
     e.preventDefault();
     alertConfirmDeleteItem(this);

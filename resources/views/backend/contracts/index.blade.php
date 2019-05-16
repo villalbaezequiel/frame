@@ -28,19 +28,17 @@
               </div>
             </div>
           @endif
-          <table id="datatables" class="table table-hover table-striped">
+          <table id="datatables" class="table table-hover table-striped table-bordered nowrap" style="width:100%">
             <thead>
               <tr>
-                <th>#ID</th>
                 <th>Nombre</th>
                 <th>Activo</th>
-                <th>Acciones</th>
+                <th class="text-right">Acciones</th>
               </tr>
             </thead>
             <tbody>
               @foreach($contracts as $contract)
               <tr class="item-alert-confirm-delete">
-                <td>{{ $contract->id }}</td>
                 <td>{{ $contract->name }}</td>
                 <td>{{ \App\Helpers::getActive($contract->active) }}</td>
                 <td class="text-right">

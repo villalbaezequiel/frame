@@ -29,7 +29,7 @@
               </div>
             </div>
           @endif
-          <table id="datatables" class="table table-hover table-striped">
+          <table id="datatables" class="table table-hover table-striped table-bordered nowrap" style="width:100%">
             <thead>
               <tr>
                 <th>Nº Categoría</th>
@@ -39,7 +39,7 @@
                 <th>Presentismo</th>
                 <th>Sueldo Bruto</th>
                 <th>Activo</th>
-                <th>Acciones</th>
+                <th class="text-right">Acciones</th>
               </tr>
             </thead>
             <tbody>
