@@ -13,11 +13,15 @@ class WorkersCategory extends Model
       return WorkersCategory::where('active', $status)->get();
     }
 
-    static public function getName($id)
+    static public function getName($id, $number_category = true)
     {
       $workersCategory = WorkersCategory::find($id);
       if($workersCategory){
-        return $workersCategory->name;
+        if($number_category){
+          return $workersCategory->name.' / N* '.SELF::getNumber($id);
+        } else {
+          return $workersCategory->name;
+        }
       } else {
         return "No asociado a Categoría";
       }

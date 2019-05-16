@@ -65,7 +65,6 @@ class ProjectsJornadasController extends Controller
         // posicion frame/sat
         $crew->name_user = Provider::getNameOrderLastName($crew->id_provider);
         $crew->function_frame_name = FrameFunction::getName($crew->id_function_frame);
-        $crew->category_sat_name = WorkersCategory::getName($crew->id_category_sat);
       }
 
       return view('backend.projects_jornadas.show', [
