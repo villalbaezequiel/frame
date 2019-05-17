@@ -5,10 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Workday;
 use App\ProyectCategory;
+use App\Client;
+use App\User;
 
 class Project extends Model
 {
-  
+
     static public function getName($id)
     {
       $project = Project::find($id);
@@ -36,4 +38,30 @@ class Project extends Model
       }
     }
 
+    static public function getCliente($id_project)
+    {
+      $project = Project::find($id_project);
+
+      if($project){
+        return Client::getNick($project->id_client);
+      }
+    }
+
+    static public function getDescription($id_project)
+    {
+      $project = Project::find($id_project);
+
+      if($project){
+        return $project->description;
+      }
+    }
+
+    static public function getReferring($id_project)
+    {
+      $project = Project::find($id_project);
+
+      if($project){
+        return User::getFullName($project->referring);
+      }
+    }
 }
