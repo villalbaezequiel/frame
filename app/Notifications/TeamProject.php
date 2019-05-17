@@ -47,7 +47,7 @@ class TeamProject extends Notification
                 ->subject('Invitación a Proyecto')
                 ->greeting('Hola '.$data['user']->last_name.' '.$data['user']->name.'!')
                 ->line('Estás recibiendo este correo para notificarte que te han Incluido en el Proyecto '.$data['project']->name.'.')
-                ->action('Ver y Responder al Contrato', route('crew_acceptproject.get', $data['project_crew']->id))
+                ->action('Ver y Responder al Contrato', route('team_acceptproject.get', $data['project_crew']->id))
                 ->line('En el Link anterior podrás ver Informacion del Contrato.')
                 ->salutation('Saludos, '. config('app.name'));
     }

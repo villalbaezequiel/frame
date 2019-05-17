@@ -68,8 +68,8 @@ Route::get('/json/project_providers/jornada_crew', 'Backend\JsonController@store
 Route::post('/crew/store', 'Backend\ProvidersController@store')->name('crew.store');
 
 // accept project Team
-Route::get('/crew/accept_project/{id_project_provider}', 'Backend\NotificationsController@getAcceptProjectTeam')->name('crew_acceptproject.get');
-Route::post('/crew/accept_project', 'Backend\NotificationsController@postAcceptProjectTeam')->name('crew_acceptproject.post');
+Route::get('/team/accept_project/{id_project_provider}', 'Backend\NotificationsController@getAcceptProjectTeam')->name('team_acceptproject.get');
+Route::post('/team/accept_project', 'Backend\NotificationsController@postAcceptProjectTeam')->name('team_acceptproject.post');
 
 // insert user manually
 Route::get('/insert_usert_ev', function(){
