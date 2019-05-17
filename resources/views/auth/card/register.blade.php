@@ -239,6 +239,61 @@
 
 <hr>
 
+<h4 style="color: #495057;font-weight: normal;text-align: center;padding: 15px;">Datos Bancarios</h4>
+
+<div class="form-group">
+  <div class="input-group col-lg-6">
+    <div class="input-group-prepend">
+      <span class="input-group-text">
+        Banco:
+      </span>
+    </div>
+    <select class="custom-select" name="bank" required>
+      <option value="">Seleccionar</option>
+      @foreach(\App\Helpers::getListsBank() as $k => $v)
+      <option value="{{ $k }}">{{ $v }}</option>
+      @endforeach
+    </select>
+  </div>
+  <div class="input-group col-md-6">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          CBU:
+        </span>
+      </div>
+      <input class="form-control" type="number" name="cbu" value="{{ old('cbu') }}" step="1" min="999999999999999999999" max="9999999999999999999999" required>
+    </div>
+</div>
+
+<div class="form-group">
+  <div class="input-group col-lg-4">
+    <div class="input-group-prepend">
+      <span class="input-group-text">
+        Tipo de Cuenta:
+      </span>
+    </div>
+    <input class="form-control" type="text" name="type_account" value="{{ old('type_account') }}" required>
+  </div>
+  <div class="input-group col-md-4">
+    <div class="input-group-prepend">
+      <span class="input-group-text">
+        N* de Cuenta:
+      </span>
+    </div>
+    <input class="form-control" type="number" name="number_account" value="{{ old('number_account') }}" step="1" required>
+  </div>
+  <div class="input-group col-lg-4">
+    <div class="input-group-prepend">
+      <span class="input-group-text">
+        Alias:
+      </span>
+    </div>
+    <input class="form-control" type="text" name="alias_account" value="{{ old('alias_account') }}" required>
+  </div>
+</div>
+
+<hr>
+
 <div class="form-group">
   <div class="input-group col-md-6">
     <span class="input-group-text">
