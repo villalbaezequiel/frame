@@ -3,11 +3,11 @@
 
 @section('container')
 <div class="row">
-  <div class="col-lg-12 col-md-12 col-sm-12 ml-auto mr-auto">
+  <div class="col-lg-12 col-md-12 col-sm-12">
     {!! Form::open(['route' => 'team_acceptproject.post', 'method' => 'POST', 'class' => 'form-inline']) !!}
       @csrf
 
-      <div class="col-md-6 ml-auto mr-auto">
+      <div class="col-md-5 ml-auto mr-auto">
         <img src="{{ asset('img/logo.svg') }}" />
       </div>
 
@@ -41,71 +41,62 @@
               </div>
               <input type="text" class="form-control" value="{{ \App\Project::getName($crew->id_project) }}" disabled>
             </div>
+          </div>
+
+          <div class="form-group">
+            <div class="input-group col-lg-6">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  Referente:
+                </span>
+              </div>
+              <input type="text" class="form-control" value="{{ \App\Project::getReferring($crew->id_project) }}" disabled>
+            </div>
 
             <div class="input-group col-lg-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
-                  Team:
+                  Descripción:
+                </span>
+              </div>
+              <input type="text" class="form-control" value="{{ \App\Project::getDescription($crew->id_project) }}" disabled>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="input-group col-lg-6">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  Nombre del Team:
                 </span>
               </div>
               <input type="text" class="form-control" value="{{ \App\Provider::getNameOrderLastName($crew->id_provider) }}" disabled>
             </div>
+
+            <div class="input-group col-lg-6">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  Rol a Desempeñar:
+                </span>
+              </div>
+              <input type="text" class="form-control" value="{{ \App\WorkersCategory::getName($crew->id_category_sat, false) }}" disabled>
+            </div>
           </div>
 
           <div class="form-group">
             <div class="input-group col-lg-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
-                  Función Frame:
-                </span>
-              </div>
-              <input type="text" class="form-control" value="{{ \App\FrameFunction::getName($crew->id_function_frame) }} / {{ \App\WorkersCategory::getName($crew->id_category_sat) }}" disabled>
-            </div>
-
-            <div class="input-group col-lg-6">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  Fecha de Alta/Baja Contrato:
+                  Fecha Estimada:
                 </span>
               </div>
               <input type="text" class="form-control" value="{{ \App\Helpers::getDateParseFormat($crew->start_date_contract, '/') }} - {{ \App\Helpers::getDateParseFormat($crew->finish_date_contract, '/') }}" disabled>
             </div>
-          </div>
-
-          <div class="form-group">
-            <div class="input-group col-lg-6">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  Modalidad:
-                </span>
-              </div>
-              <input type="text" class="form-control" value="{{ \App\Project::getModalidad($crew->id_project) }}" disabled>
-            </div>
 
             <div class="input-group col-lg-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
-                  Cantidad de Jornadas Laborables:
-                </span>
-              </div>
-              <input type="text" class="form-control" value="{{ $crew->count_workdays_crew}}" disabled>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="input-group col-lg-6">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  Sueldo Jornada:
-                </span>
-              </div>
-              <input type="text" class="form-control" value="${{ $crew->salary_workdays}}" disabled>
-            </div>
-
-            <div class="input-group col-lg-6">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  Sueldo A Liquidar Neto:
+                  Monto a cobrar estimado:
                 </span>
               </div>
               <input type="text" class="form-control" value="${{ $crew->salary_liquidate}}" disabled>

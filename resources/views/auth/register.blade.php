@@ -7,7 +7,7 @@
     {!! Form::open(['route' => 'crew.store', 'method' => 'POST', 'class' => 'form-inline']) !!}
       @csrf
 
-      <div class="col-md-6 ml-auto mr-auto">
+      <div class="col-md-5 ml-auto mr-auto">
         <img src="{{ asset('img/logo.svg') }}" />
       </div>
 
