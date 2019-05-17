@@ -372,34 +372,33 @@
               </label>
             </div>
             <div class="row">
-              <table class="table col-md-10" style="margin: 0 auto;">
-                <thead>
-                  <tr>
-                    <th class="text-center">#</th>
-                    <th>Proyecto</th>
-                    <th>Descripción</th>
-                    <th>Puntaje</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php $countValorations = 0; ?>
-                  @foreach($provider_assessments as $assessment)
+              <div class="col-md-10 ml-auto mr-auto">
+                <table class="table col-md-10" style="margin: 0 auto;">
+                  <thead>
                     <tr>
-                      <td class="text-center">{{ $assessment->id }}</td>
-                      <td>{{ $assessment->id_project }}</td>
-                      <td>{{ $assessment->description }}</td>
-                      <td>{{ $assessment->value }}</td>
+                      <th><strong>Proyecto</strong></th>
+                      <th><strong>Descripción</strong></th>
+                      <th><strong>Puntaje</strong></th>
                     </tr>
-                    <?php $countValorations += $assessment->value; ?>
-                  @endforeach
-                    <tr>
-                      <td class="text-center" style="color: #9c27b0;"><strong>Total</strong></td>
-                      <td></td>
-                      <td></td>
-                      <td style="color: #9c27b0;"><strong>{{ $countValorations }}</strong></td>
-                    </tr>
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    <?php $countValorations = 0; ?>
+                    @foreach($provider_assessments as $assessment)
+                      <tr>
+                        <td>{{ \App\Project::getName($assessment->id_project) }}</td>
+                        <td>{{ $assessment->description }}</td>
+                        <td>{{ $assessment->value }}</td>
+                      </tr>
+                      <?php $countValorations += $assessment->value; ?>
+                    @endforeach
+                      <tr>
+                        <td style="color: #9c27b0;"><strong>TOTAL</strong></td>
+                        <td></td>
+                        <td style="color: #9c27b0;"><strong>{{ $countValorations }}</strong></td>
+                      </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
 
           </div>
