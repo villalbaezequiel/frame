@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth']], function () {
 
   // export
   Route::get('/export/crew_contract/{id_project_provider}', 'Backend\ExportController@crewContract');
+  Route::get('/export/callsheet/{id_project}', 'Backend\ExportController@callSheet');
 
   // import
   Route::get('/import/workers_categories/', 'Backend\ImportController@workersCategories');

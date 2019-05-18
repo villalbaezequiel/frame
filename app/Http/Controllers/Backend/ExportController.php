@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use Storage;
 use App\Helpers;
 use App\Project;
@@ -12,6 +13,7 @@ use App\WorkersCategory;
 use App\User;
 use App\Provider;
 use App\ProjectProvider;
+use App\FrameFunction;
 
 class ExportController extends Controller
 {
@@ -65,8 +67,70 @@ class ExportController extends Controller
           'mensaje' => $message
         );
         return \Response::json($respuesta);
-
       }
+    }
 
+    public function callSheet($id_project)
+    {
+      try{
+        $functionsFrame = ProjectProvider::select('id_function_frame')
+                                    ->where('id_project', $id_project)
+                                    ->where('active', '1')
+                                    ->groupBy('id_function_frame')
+                                    ->get();
+
+        $listTeam = ProjectProvider::where('id_project', $id_project)
+                                  ->where('active', '1')
+                                  ->get();
+        $results = array();
+
+        foreach($functionsFrame as $frame){
+
+          $results[$frame->id_function_frame] = array();
+
+          foreach($listTeam as $team){
+            if($team->id_function_frame == $frame->id_function_frame){
+
+              $other_phone = (\App\Provider::getOtherTelephone($team->id_provider) != '' ? ' - '.\App\Provider::getOtherTelephone($crew->id_provider) : '');
+
+              array_push($results[$team->id_function_frame], [
+                'rol_desempenar' => WorkersCategory::getName($team->id_category_sat),
+                'nombre_team' => Provider::getNameOrderLastName($team->id_provider),
+                'telefono' => Provider::getTelephone($team->id_provider),
+                'email' => Provider::getEmail($team->id_provider).$other_phone
+              ]);
+            }
+          }
+        }
+
+        $timestamp = date('Y_m_d_h_i_s');
+        $nameProject = Project::getName($id_project);
+
+        Excel::create("callshet_{$nameProject}_{$timestamp}", function($excel) use ($results){
+
+          foreach ($results as $key => $value) {
+            $nameFF = FrameFunction::getName($key);
+            $excel->sheet($nameFF, function($sheet) use ($value){
+              $sheet->fromArray(json_decode( json_encode($value), true));
+            });
+          }
+
+        })->download();
+
+
+
+      } catch(\Exception $e) {
+        if(\Config::get('app.debug')):
+          $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
+        else:
+          $message = 'Se ha producido un error. Por favor intente nuevamente.';
+        endif;
+
+        $respuesta = array(
+          'estado' => false,
+          'mensaje' => $message
+        );
+        return \Response::json($respuesta);
+      }
     }
 }
