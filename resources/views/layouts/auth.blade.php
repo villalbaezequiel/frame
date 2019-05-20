@@ -45,8 +45,7 @@
   <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
   <script src="{{ asset('/js/plugins/jquery.dataTables.min.js') }}"></script>
   <!-- app Frame  -->
-  <script src="{{ asset('/js/app.js') }}" type="text/javascript"></script>
-  <script src="{{ asset('/js/core/frame_general_functions.js') }}" type="text/javascript"></script>
+  <script src="{{ asset('/js/frame.js') }}" type="text/javascript"></script>
 
 </body>
 </html>
