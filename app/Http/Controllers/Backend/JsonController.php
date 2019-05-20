@@ -35,17 +35,7 @@ class JsonController extends Controller
       return \Response::json(array('data' => $workersCategories));
 
     } catch(\Exception $e) {
-      if(\Config::get('app.debug')):
-        $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
-      else:
-        $message = 'Se ha producido un error. Por favor intente nuevamente.';
-      endif;
-
-      $respuesta = array(
-        'estado' => false,
-        'mensaje' => $message
-      );
-      return \Response::json($respuesta);
+      Helpers::getCapturError($e);
     }
   }
 
@@ -67,17 +57,7 @@ class JsonController extends Controller
       return \Response::json(array('data' => $satFunctions));
 
     } catch(\Exception $e) {
-      if(\Config::get('app.debug')):
-        $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
-      else:
-        $message = 'Se ha producido un error. Por favor intente nuevamente.';
-      endif;
-
-      $respuesta = array(
-        'estado' => false,
-        'mensaje' => $message
-      );
-      return \Response::json($respuesta);
+      Helpers::getCapturError($e);
     }
   }
 
@@ -98,17 +78,7 @@ class JsonController extends Controller
       return \Response::json(array('data' => $frameFunction));
 
     } catch(\Exception $e) {
-      if(\Config::get('app.debug')):
-        $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
-      else:
-        $message = 'Se ha producido un error. Por favor intente nuevamente.';
-      endif;
-
-      $respuesta = array(
-        'estado' => false,
-        'mensaje' => $message
-      );
-      return \Response::json($respuesta);
+      Helpers::getCapturError($e);
     }
   }
 
@@ -136,17 +106,7 @@ class JsonController extends Controller
       return \Response::json(array('data' => $listCategoriesSat));
 
     } catch(\Exception $e) {
-      if(\Config::get('app.debug')):
-        $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
-      else:
-        $message = 'Se ha producido un error. Por favor intente nuevamente.';
-      endif;
-
-      $respuesta = array(
-        'estado' => false,
-        'mensaje' => $message
-      );
-      return \Response::json($respuesta);
+      Helpers::getCapturError($e);
     }
   }
 
@@ -180,17 +140,7 @@ class JsonController extends Controller
       return \Response::json(array('data' => $listTeam));
 
     } catch(\Exception $e) {
-      if(\Config::get('app.debug')):
-        $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
-      else:
-        $message = 'Se ha producido un error. Por favor intente nuevamente.';
-      endif;
-
-      $respuesta = array(
-        'estado' => false,
-        'mensaje' => $message
-      );
-      return \Response::json($respuesta);
+      Helpers::getCapturError($e);
     }
   }
 
@@ -220,17 +170,7 @@ class JsonController extends Controller
         return \Response::json(array('status' => $status));
 
       } catch(\Exception $e) {
-        if(\Config::get('app.debug')):
-          $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
-        else:
-          $message = 'Se ha producido un error. Por favor intente nuevamente.';
-        endif;
-
-        $respuesta = array(
-          'estado' => false,
-          'mensaje' => $message
-        );
-        return \Response::json($respuesta);
+        Helpers::getCapturError($e);
       }
     }
 
@@ -248,17 +188,7 @@ class JsonController extends Controller
         return \Response::json(array('data' => $satFunctions));
 
       } catch(\Exception $e) {
-        if(\Config::get('app.debug')):
-          $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
-        else:
-          $message = 'Se ha producido un error. Por favor intente nuevamente.';
-        endif;
-
-        $respuesta = array(
-          'estado' => false,
-          'mensaje' => $message
-        );
-        return \Response::json($respuesta);
+        Helpers::getCapturError($e);
       }
     }
 
@@ -271,32 +201,27 @@ class JsonController extends Controller
     {
       $message;
       try {
+        $names = array();
+        foreach($request->get('crew') as $team)
+        {
+          $projectProvider = ProjectProvider::find($team);
+          $newExtraHours = $projectProvider->extra_hours;
 
-        $projectProvider = ProjectProvider::find($request->get('crew'));
-        $extra_hours = $projectProvider->extra_hours;
+          $newExtraHours[] = array(
+                            'rol' => $request->get('rol'),
+                            'start' => $request->get('start'),
+                            'finish' => $request->get('finish')
+                          );
+          $projectProvider->extra_hours = $newExtraHours;
+          $projectProvider->save();
 
-        $extra_hours[] = array(
-                          'start' => $request->get('start'),
-                          'finish' => $request->get('finish'),
-                          'price' => $request->get('price')
-                         );
-        $projectProvider->extra_hours = $extra_hours;
-        $projectProvider->save();
+          array_push($names, Provider::getNameOrderLastName($projectProvider->id_provider));
+        }
 
-        return \Response::json( array('status' => true, 'name' => Provider::getNameOrderLastName($projectProvider->id_provider)) );
+        return \Response::json( array('status' => true, 'name' => $names ) );
 
       } catch(\Exception $e) {
-        if(\Config::get('app.debug')):
-          $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
-        else:
-          $message = 'Se ha producido un error. Por favor intente nuevamente.';
-        endif;
-
-        $respuesta = array(
-          'estado' => false,
-          'mensaje' => $message
-        );
-        return \Response::json($respuesta);
+        Helpers::getCapturError($e);
       }
     }
 
@@ -325,17 +250,15 @@ class JsonController extends Controller
         return \Response::json( array('status' => true) );
 
       } catch(\Exception $e) {
-        if(\Config::get('app.debug')):
-          $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
-        else:
-          $message = 'Se ha producido un error. Por favor intente nuevamente.';
-        endif;
+        Helpers::getCapturError($e);
+      }
+    }
 
-        $respuesta = array(
-          'estado' => false,
-          'mensaje' => $message
-        );
-        return \Response::json($respuesta);
+    public function getFuctionsFrame(){
+      try {
+        return response()->json(array("results" => FrameFunction::getAllFrameFunction() ));
+      } catch(\Exception $e) {
+        Helpers::getCapturError($e);
       }
     }
 

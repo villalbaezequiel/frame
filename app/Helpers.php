@@ -159,4 +159,21 @@ class Helpers extends Model
       return $list;
     }
 
+    static function getCapturError($e)
+    {
+      if($e){
+        if(\Config::get('app.debug')):
+          $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
+        else:
+          $message = 'Se ha producido un error. Por favor intente nuevamente.';
+        endif;
+
+        $respuesta = array(
+          'estado' => false,
+          'mensaje' => $message
+        );
+        return \Response::json($respuesta);
+      }
+    }
+
 }

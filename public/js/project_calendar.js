@@ -1,92 +1,111 @@
-$(document).ready(function() {
+function getTimeCalendar()
+{
+  const schedules = [
+    "00:00","00:30",
+    "01:00","01:30",
+    "02:00","02:30",
+    "03:00","03:30",
+    "04:00","04:30",
+    "05:00","05:30",
+    "06:00","06:30",
+    "07:00","07:30",
+    "08:00","08:30",
+    "09:00","09:30",
+    "10:00","10:30",
+    "11:00","11:30",
+    "12:00","12:30",
+    "13:00","13:30",
+    "14:00","14:30",
+    "15:00","15:30",
+    "16:00","16:30",
+    "17:00","17:30",
+    "18:00","18:30",
+    "19:00","19:30",
+    "20:00","20:30",
+    "21:00","21:30",
+    "22:00","22:30",
+    "23:00","23:30"
+  ];
 
+  return schedules;
+}
 
-  function getTimeCalendar(){
-    var jornadas = [
-      "00:00","00:30",
-      "01:00","01:30",
-      "02:00","02:30",
-      "03:00","03:30",
-      "04:00","04:30",
-      "05:00","05:30",
-      "06:00","06:30",
-      "07:00","07:30",
-      "08:00","08:30",
-      "09:00","09:30",
-      "10:00","10:30",
-      "11:00","11:30",
-      "12:00","12:30",
-      "13:00","13:30",
-      "14:00","14:30",
-      "15:00","15:30",
-      "16:00","16:30",
-      "17:00","17:30",
-      "18:00","18:30",
-      "19:00","19:30",
-      "20:00","20:30",
-      "21:00","21:30",
-      "22:00","22:30",
-      "23:00","23:30"
-    ];
+function getOptionTeam()
+{
 
-    return jornadas;
-  }
+  let formSwal =
+    `<div class="row">
+    <label class="col-md-5 col-form-label text-right">Rol a Desempeñar:</label>
+    <div class="col-md-5">
+      <div class="form-group">
+        <select class="form-control" data-style="btn btn-link" id="rol_hs_extra" name="rol_hs_extra" required>
+          <option value="">Seleccionar</option>
+        </select>
+      </div>
+    </div>
+  </div>
+    <div class="row">
+      <label class="col-md-5 col-form-label text-right">Team:</label>
+      <div class="col-md-5">
+        <div class="form-group">
+          <select class="form-control pb-5" data-style="btn btn-link" id="crew_hs_extra" name="crew_hs_extra[]" multiple required>
+            <option value="">Seleccionar</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <label class="col-md-5 col-form-label text-right">Hora Inicio:</label>
+        <div class="col-md-5">
+          <div class="form-group">
+            <select class="form-control" data-style="btn btn-link" id="inicio_hs_extra" name="inicio_hs_extra" required>
+              <option value="">Seleccionar</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <label class="col-md-5 col-form-label text-right">Hora Final:</label>
+        <div class="col-md-5">
+          <div class="form-group">
+            <select class="form-control" data-style="btn btn-link" id="final_hs_extra" name="final_hs_extra" required>
+              <option value="">Seleccionar</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <label class="col-md-5 col-form-label text-right">Horas Acordadas:</label>
+        <div class="col-md-5">
+          <div class="form-group">
+            <input type="number" value="8" name="accord_hours_hs_extra" readonly />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-left">
+          <ul>
+            <li><i>Multiple Team: ctrl + click derecho para seleccionar a multiples Team.</i></li>
+            <li><i>Las Horas Extras se visualizarán de color Violeta.</i></li>
+          </ul>
+        </div>
+      </div>`;
 
-  function getOptionTeam(){
+  return formSwal;
+}
 
-    var formSwal =
-      '<div class="row">'+
-        '<label class="col-md-6 col-form-label">Team:</label>'+
-        '<div class="col-md-4">'+
-          '<div class="form-group">'+
-            '<select class="form-control" data-style="btn btn-link" id="crew_hs_extra" name="crew_hs_extra" required>'+
-              '<option value="">Seleccionar</option>'+
-            '</select>'+
-          '</div>'+
-        '</div>'+
-      '</div>'+
-      '<div class="row">'+
-          '<label class="col-md-6 col-form-label">Inicio Hora Extra:</label>'+
-          '<div class="col-md-4">'+
-            '<div class="form-group">'+
-              '<select class="form-control" data-style="btn btn-link" id="inicio_hs_extra" name="inicio_hs_extra" required>'+
-                '<option value="">Seleccionar</option>'+
-              '</select>'+
-            '</div>'+
-          '</div>'+
-        '</div>'+
-        '<div class="row">'+
-          '<label class="col-md-6 col-form-label">Final Hora Extra:</label>'+
-          '<div class="col-md-4">'+
-            '<div class="form-group">'+
-              '<select class="form-control" data-style="btn btn-link" id="final_hs_extra" name="final_hs_extra" required>'+
-                '<option value="">Seleccionar</option>'+
-              '</select>'+
-            '</div>'+
-          '</div>'+
-        '</div>'+
-        '<div class="row">'+
-          '<label class="col-md-6 col-form-label">Valor por Hora:</label>'+
-          '<div class="col-md-4">'+
-            '<div class="form-group">'+
-              '<input class="form-control" type="number" name="value_hs_extra">'+
-            '</div>'+
-          '</div>'+
-        '</div>';
+$(function() {
 
-    return formSwal;
-  }
-
-  var listEvents = [];
+  let listEvents = [];
   $.each(list_crew, function(i, v){
 
-    var color = v.function_frame_color;
+    const color = v.function_frame_color;
 
-    if(v.calendar != null){
+    if(v.calendar){
       $.each(v.calendar, function(c,d){
         listEvents.push({
-          id: c+'_'+v.id,
-          title: v.name_user+" ("+v.function_frame_name+")",
+          id: `${c}_${v.id}`,
+          title: `${v.name_user} (${v.function_frame_name})`,
           start: new Date(d.start),
           end: new Date(d.finish),
           allDay: 1,
@@ -96,14 +115,14 @@ $(document).ready(function() {
       });
     }
 
-    if(v.extra_hours != null){
+    if(v.extra_hours){
       $.each(v.extra_hours, function(a,b){
         listEvents.push({
-          title: 'Horas Extras - '+v.name_user,
+          title: `Horas Extras - ${v.name_user}`,
           start: new Date(b.start),
           end: new Date(b.finish),
-          backgroundColor: color,
-          color: color
+          backgroundColor: '#9c27b0',
+          color: '#9c27b0'
         });
       });
     }
@@ -150,39 +169,56 @@ $(document).ready(function() {
         cancelButtonClass: "btn btn-danger",
         buttonsStyling: !1,
         onBeforeOpen: () => {
+
+          // add 'rol a desempeñar' funciones frame
+          $.ajax({
+            type: 'GET',
+            url: '/sistema/json/get_function_frame',
+            success: function(data){
+              if(data.results){
+                $.each(data.results, function(i, v){
+                  $("#rol_hs_extra").append(`<option value="${v.id}">${v.name}</option>`);
+                });
+              }
+            },
+            error: function(xhr, status){
+              console.log('Error: '+xhr);
+            }
+          });
+
           $.each(list_crew, function(i, v){
-             $("#crew_hs_extra").append('<option value="'+v.id+'">'+v.name_user+'</option>');
+             $("#crew_hs_extra").append(`<option value="${v.id}">${v.name_user}</option>`);
           });
 
           $.each(getTimeCalendar(), function(i, v){
-             $("#inicio_hs_extra").append('<option value="'+v+'">'+v+'</option>');
+             $("#inicio_hs_extra").append(`<option value="${v}">${v}</option>`);
           });
 
           $.each(getTimeCalendar(), function(i, v){
-             $("#final_hs_extra").append('<option value="'+v+'">'+v+'</option>');
+             $("#final_hs_extra").append(`<option value="${v}">${v}</option>`);
           });
         }
       })
       .then(function(data){
 
-        if(data.value && data.value == true){
+        if(data.value){
           // ajax SAVE horas extras
 
-          var crew = $("#crew_hs_extra").find(':selected').val();
-          var start = $("#inicio_hs_extra").find(':selected').val().split(':');
-          var finish = $("#final_hs_extra").find(':selected').val().split(':');
-          var price = $("input[name=value_hs_extra]").val();
+          let crew = $("#crew_hs_extra").val();
+          let start = $("#inicio_hs_extra").find(':selected').val().split(':');
+          let finish = $("#final_hs_extra").find(':selected').val().split(':');
+          let rol = $("#rol_hs_extra").find(':selected').val();
 
-          if(crew != '' && start != '' && finish != '' && price != ''){
+          if(crew && start && finish){
 
             dateStart.setHours(parseFloat(start[0]),parseFloat(start[1]));
             dateFinish.setHours(parseFloat(finish[0]),parseFloat(finish[1]));
 
-            var extraHours = {
+            let extraHours = {
               crew: crew,
+              rol: rol,
               start: dateStart,
-              finish: dateFinish,
-              price: price
+              finish: dateFinish
             }
 
             $.ajax({
@@ -191,17 +227,20 @@ $(document).ready(function() {
               data: extraHours,
               success: function(data){
 
-                if(data.status == true){
+                if(data.status){
                   // swal ALERT que las horas extras se cargo con exito
                   // crear Evento en el calendario
 
-                  var hourExtra = {
-                    title: 'Horas Extras - '+data.name,
-                    start: dateStart,
-                    end: dateFinish
-                  };
-                  $calendar.fullCalendar("renderEvent",hourExtra,!0);
-                  $calendar.fullCalendar("unselect");
+                  $.each(data.name, function(ind, name){
+                    let hourExtra = {
+                      title: `Horas Extras - ${name}`,
+                      start: dateStart,
+                      end: dateFinish,
+                      color: '#9c27b0'
+                    };
+                    $calendar.fullCalendar("renderEvent",hourExtra,!0);
+                    $calendar.fullCalendar("unselect");
+                  });
 
                   Swal.fire({
                     title: 'Horas Extras ingresadas con Exito!',
@@ -219,7 +258,14 @@ $(document).ready(function() {
             });
 
           } else {
-            alert("Para Agregar horas extras a un Team debes completar los datos mencionados en el Formulario! Gracias. ");
+            Swal.fire({
+              title: 'Para Agregar horas extras a un Team debes completar los datos mencionados en el Formulario! Gracias.',
+              type: 'info',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Aceptar'
+            });
           }
 
         }
@@ -233,32 +279,32 @@ $(document).ready(function() {
     events: listEvents,
     eventClick: function(crew, element) {
 
-      if(crew.id != null){
+      if(crew.id){
 
-        var formHtml =
-        '<form id="'+crew.id+'"><div class="row">'+
-            '<label class="col-md-6 col-form-label">Hora de Inicio:</label>'+
-            '<div class="col-md-4">'+
-              '<div class="form-group">'+
-                '<select class="form-control" data-style="btn btn-link" id="inicio_hs_jornada" name="inicio_hs_jornada" required>'+
-                  '<option value="">Seleccionar</option>'+
-                '</select>'+
-              '</div>'+
-            '</div>'+
-          '</div>'+
-          '<div class="row">'+
-            '<label class="col-md-6 col-form-label">Hora de Final:</label>'+
-            '<div class="col-md-4">'+
-              '<div class="form-group">'+
-                '<select class="form-control" data-style="btn btn-link" id="final_hs_jornada" name="final_hs_jornada" required>'+
-                  '<option value="">Seleccionar</option>'+
-                '</select>'+
-              '</div>'+
-            '</div>'+
-          '</div></form>';
+        let formHtml =
+        `<form id="${crew.id}"><div class="row">
+            <label class="col-md-5 col-form-label text-right">Hora de Inicio:</label>
+            <div class="col-md-5">
+              <div class="form-group">
+                <select class="form-control" data-style="btn btn-link" id="inicio_hs_jornada" name="inicio_hs_jornada" required>
+                  <option value="">Seleccionar</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <label class="col-md-5 col-form-label text-right">Hora de Final:</label>
+            <div class="col-md-5">
+              <div class="form-group">
+                <select class="form-control" data-style="btn btn-link" id="final_hs_jornada" name="final_hs_jornada" required>
+                  <option value="">Seleccionar</option>
+                </select>
+              </div>
+            </div>
+          </div></form>`;
 
           swal({
-            title: "Horario de Jornada "+crew.title,
+            title: `Horario de Jornada ${crew.title}`,
             html: formHtml,
             showCancelButton: !0,
             confirmButtonClass: "btn btn-success",
@@ -266,26 +312,26 @@ $(document).ready(function() {
             buttonsStyling: !1,
             onBeforeOpen: () => {
               $.each(getTimeCalendar(), function(i, v){
-                 $("#inicio_hs_jornada").append('<option value="'+v+'">'+v+'</option>');
+                 $("#inicio_hs_jornada").append(`<option value="${v}">${v}</option>`);
               });
 
               $.each(getTimeCalendar(), function(i, v){
-                 $("#final_hs_jornada").append('<option value="'+v+'">'+v+'</option>');
+                 $("#final_hs_jornada").append(`<option value="${v}">${v}</option>`);
               });
             }
           })
-          .then(function(status,data){
+          .then(function(status){
 
             // ajax SAVE horas jornada POR DIA
-            if(status.value == true){
+            if(status.value){
 
-              var inicio_hs_jornada = $("select[name=inicio_hs_jornada] option:selected").val().split(':');
-              var final_hs_jornada = $("select[name=final_hs_jornada] option:selected").val().split(':');
+              let inicio_hs_jornada = $("select[name=inicio_hs_jornada] option:selected").val().split(':');
+              let final_hs_jornada = $("select[name=final_hs_jornada] option:selected").val().split(':');
 
               if(inicio_hs_jornada[0] && final_hs_jornada[0]){
 
                 var crew_inicio = new Date(crew.start);
-                var crew_end = ( crew.end != null ? new Date(crew.end) : new Date(crew.start) );
+                var crew_end = ( crew.end ? new Date(crew.end) : new Date(crew.start) );
 
                 crew_inicio.setHours(inicio_hs_jornada[0]);
                 crew_inicio.setMinutes(inicio_hs_jornada[1]);
@@ -293,7 +339,7 @@ $(document).ready(function() {
                 crew_end.setHours(final_hs_jornada[0]);
                 crew_end.setMinutes(final_hs_jornada[1]);
 
-                var jornadaTeam = {
+                let jornadaTeam = {
                   id: crew.id,
                   start: crew_inicio,
                   finish: crew_end
@@ -305,7 +351,7 @@ $(document).ready(function() {
                   data: jornadaTeam,
                   success: function(data){
 
-                    if(data.status == true){
+                    if(data.status){
 
                       crew.start = crew_inicio;
                       crew.end = crew_end;
@@ -327,7 +373,14 @@ $(document).ready(function() {
                 });
 
               } else {
-                alert("Para Agregar un horario a la Jornada del Team debes seleccionar un Inicio y Final de Horas! Gracias. ");
+                Swal.fire({
+                  title: 'Para Agregar un horario a la Jornada del Team debes seleccionar un Inicio y Final de Horas! Gracias.',
+                  type: 'info',
+                  showCancelButton: false,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Aceptar'
+                });
               }
 
             }
