@@ -49,7 +49,6 @@ function getOptionTeam()
       <div class="col-md-5">
         <div class="form-group">
           <select class="form-control pb-5" data-style="btn btn-link" id="crew_hs_extra" name="crew_hs_extra[]" multiple required>
-            <option value="">Seleccionar</option>
           </select>
         </div>
       </div>
