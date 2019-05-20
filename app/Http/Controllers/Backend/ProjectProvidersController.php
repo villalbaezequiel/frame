@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Project;
 use App\ProjectProvider;
+use App\Provider;
+use App\FrameFunction;
 
 class ProjectProvidersController extends Controller
 {
@@ -48,8 +50,19 @@ class ProjectProvidersController extends Controller
      */
     public function show($id)
     {
+
+      $team = ProjectProvider::find($id);
+      $extraHours = $team->extra_hours;
+
+      // hay que agregar campo horas segun team
+
+      foreach($extraHours as &$val) {
+        $val['rol'] = FrameFunction::getName($val['rol']);
+      }
+
       return view('backend.project_providers.show', [
-        'crew' => ProjectProvider::find($id)
+        'name' => Provider::getNameOrderLastName($team->id_provider),
+        'team_extra_hours' => $extraHours
       ]);
     }
 

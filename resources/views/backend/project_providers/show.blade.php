@@ -9,12 +9,13 @@
   <body>
 
     <div class="container-fluid">
-      <h4>Horas Extras de {{ \App\Provider::getNameOrderLastName($crew->id_provider) }}</h4>
+      <h4>Horas Extras de {{ $name }}</h4>
       <div class="col-md-12">
         <table class="table" style="margin: 0 auto;">
           <thead>
             <tr>
               <th>Fecha</th>
+              <th>Rol a Desempeñar</th>
               <th>Inicio (hs)</th>
               <th>Final (hs)</th>
               <th>Cantidad Total(hs)</th>
@@ -26,6 +27,7 @@
           <tfoot>
             <tr>
               <th>Fecha</th>
+              <th>Rol a Desempeñar</th>
               <th>Inicio (hs)</th>
               <th>Final (hs)</th>
               <th>Cantidad Total(hs)</th>
@@ -41,7 +43,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <script type="text/javascript">
-      var extra_hours = {!! json_encode($crew->extra_hours,JSON_FORCE_OBJECT) !!};
+      var extra_hours = {!! json_encode($team_extra_hours,JSON_FORCE_OBJECT) !!};
 
       function parseDate(date){
         return ("0" + (date)).slice(-2);
@@ -64,6 +66,7 @@
 
         $(".list_extra_hour").append("<tr> "+
                           "<td>"+parseDate(start.getDay())+'-'+parseDate(start.getMonth())+'-'+start.getFullYear()+"</td>"+
+                          "<td>"+v.rol+"</td>"+
                           "<td>"+parseDate(start.getHours())+':'+parseDate(start.getMinutes())+"</td>"+
                           "<td>"+parseDate(finish.getHours())+':'+parseDate(finish.getMinutes())+"</td>"+
                           "<td>"+timeConvert(countHour)+"</td>"+
