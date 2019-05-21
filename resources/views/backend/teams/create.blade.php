@@ -193,7 +193,7 @@
               </div>
               <div class="col-md-5 hidden" id="social_work_code_content">
                 <div class="form-group">
-                  <input class="form-control" type="number" name="social_work_code" value="{{ old('social_work_code') }}" placeholder="Codigo">
+                  <input class="form-control" type="text" name="social_work_code" value="{{ old('social_work_code') }}">
                 </div>
               </div>
             </div>

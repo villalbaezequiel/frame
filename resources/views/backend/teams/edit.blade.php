@@ -198,7 +198,7 @@
               </div>
               <div id="social_work_code_content" class="col-md-5 <?php if($provider->social_work == '0') { echo "hidden";} ?>">
                 <div class="form-group">
-                  <input class="form-control" type="number" name="social_work_code" value="{{ $provider->social_work_code }}" placeholder="Codigo">
+                  <input class="form-control" type="text" name="social_work_code" value="{{ $provider->social_work_code }}">
                 </div>
               </div>
             </div>

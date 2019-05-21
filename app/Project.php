@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Workday;
 use App\ProyectCategory;
 use App\Client;
+use App\Provider;
 use App\User;
 
 class Project extends Model
@@ -61,7 +62,7 @@ class Project extends Model
       $project = Project::find($id_project);
 
       if($project){
-        return User::getFullName($project->referring);
+        return Provider::getNameOrderLastName($project->id_team_referring);
       }
     }
 }
