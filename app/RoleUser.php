@@ -23,10 +23,14 @@ class RoleUser extends Model
 
   static public function getRoleUser($id)
   {
-    $rol = RoleUser::where('user_id', $id)->get();
+    $rol = RoleUser::where('user_id', $id)->first();
 
-    if(isset($rol[0])){
-      return $rol[0];
+    if($rol){
+      if($rol->role_id == 0) {
+        return false;
+      } else {
+        return $rol;
+      }
     }
   }
 
