@@ -140,7 +140,6 @@
                 <div class="form-group">
                   <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="role_user" required>
                     <option value="">Seleccionar</option>
-                    <option value="2">Ninguno</option>
                     @foreach($roles as $rol)
                     <option value="{{ $rol->id }}" <?php if(!empty($role_user) && $rol->id == $role_user->role_id){ echo "selected='selected'"; } ?>>{{ $rol->name }}</option>
                     @endforeach
