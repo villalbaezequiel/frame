@@ -293,7 +293,7 @@
               <label class="col-md-2 col-form-label">CBU <span class="required-red">*</span></label>
               <div class="col-md-7">
                   <div class="form-group">
-                  <input class="form-control" type="number" name="cbu" value="{{ old('cbu') }}" step="1" min="999999999999999999999" max="9999999999999999999999" required>
+                  <input class="form-control" type="number" name="cbu" value="{{ old('cbu') }}" step="1" min="9999999999999999999" max="99999999999999999999" required>
                   </div>
               </div>
               <label class="col-md-3 label-on-right">
