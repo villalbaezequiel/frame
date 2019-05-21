@@ -9,7 +9,8 @@ class Provider extends Model
     //
     static public function getAllProviders($status = '1')
     {
-      return Provider::join('users', 'users.id', '=', 'providers.id_user')
+      return Provider::select('providers.*', 'users.name', 'users.last_name', 'users.active')
+              ->join('users', 'users.id', '=', 'providers.id_user')
               ->where('users.active', $status)
               ->get();
     }
@@ -112,6 +113,15 @@ class Provider extends Model
       if($crew){
         return $crew->cbu;
       }
+    }
+
+    static public function getAllProvidersReferring($status = '1')
+    {
+      return Provider::select('providers.id', 'providers.id_user', 'providers.referring', 'users.active', 'users.name', 'users.last_name')
+              ->join('users', 'users.id', '=', 'providers.id_user')
+              ->where('users.active', $status)
+              ->where('providers.referring', '1')
+              ->get();
     }
 
 }

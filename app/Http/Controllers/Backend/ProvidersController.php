@@ -79,8 +79,9 @@ class ProvidersController extends Controller
            $user->id_country = $request->get('id_country');
            $user->password = Hash::make('frame_'.$request->get('cuit'));
            $user->is_crew = '1';
-           $user->active = '1';
+           $user->active = $request->get('active');
            $user->save();
+
            // New Provider
            $provider = new Provider;
            $provider->id_user = $user->id;
@@ -101,6 +102,7 @@ class ProvidersController extends Controller
            $provider->telephone = $request->get('telephone');
            $provider->other_telephone = $request->get('other_telephone');
            $provider->id_function_frame = json_encode($request->get('id_function_frame'));
+           $provider->referring = $request->get('referring');
            $provider->save();
 
            // add valoration crew
@@ -261,6 +263,7 @@ class ProvidersController extends Controller
            $provider->telephone = $request->get('telephone');
            $provider->other_telephone = $request->get('other_telephone');
            $provider->id_function_frame = json_encode($request->get('id_function_frame'));
+           $provider->referring = $request->get('referring');
            $provider->save();
 
            // add valoration crew

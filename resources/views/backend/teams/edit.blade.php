@@ -238,6 +238,27 @@
               </div>
             </div>
             <div class="row">
+              <label class="col-md-2 col-form-label label-checkbox">Referente</label>
+              <div class="col-md-10 checkbox-radios">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" value="1" name="referring" <?php if($provider->referring == 1){ echo "checked"; } ?>> Si
+                    <span class="form-check-sign">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" value="0" name="referring" <?php if($provider->referring == 0){ echo "checked"; } ?>> No
+                    <span class="form-check-sign">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <label class="col-md-2 col-form-label label-checkbox">Activo</label>
               <div class="col-md-10 checkbox-radios">
                 <div class="form-check form-check-inline">

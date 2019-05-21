@@ -302,3 +302,6 @@
     </span>
   </div>
 </div>
+
+<input type="hidden" name="active" value="1">
+<input type="hidden" name="referring" value="0">

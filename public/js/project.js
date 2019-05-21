@@ -1,9 +1,11 @@
-function redondeo(numero) {
+function redondeo(numero)
+{
   return numero.substr(0,2);
 }
 
-function getFormatNumber(number){
-  var numberInt = number.toString().split('.');
+function getFormatNumber(number)
+{
+  let numberInt = number.toString().split('.');
   if(numberInt[1]){
     if(numberInt[0].length == 4) {
       return numberInt[0].substr(0, 1)+"."+numberInt[0].substr(-3)+","+redondeo(numberInt[1]);
@@ -39,36 +41,34 @@ function getFormatNumber(number){
   }
 }
 
+function getContractProject(value)
+{
+  // id 4 = Servicios
+  if(value == 4){
+    $('.field-afip').hide();
+    $('.field-afip input').val('');
+  } else {
+    $('.field-afip').show();
+  }
+}
+
 $(document).ready(function(){
 
   // input validate
-  var rules = {
-        id_client: {
-          required: true
-        },
-        name: {
-          required: true,
-          maxlength: 125
-        },
-        description: {
-          maxlength: 125
-        },
-        id_proyect_category: {
-          required: true
-        },
+  let rules = {
         start_date: {
           required: true
         },
         finish_date: {
           required: true
         },
-        id_workday: {
+        name: {
           required: true
         },
-        duration_workdays: {
+        id_client: {
           required: true
         },
-        days: {
+        id_proyect_category: {
           required: true
         }
   };
@@ -82,7 +82,7 @@ $(document).ready(function(){
   $('a').click(function(e){
 
     if(!$(this).hasClass('none-alert')){
-      var parentForm = $(this).parents('form');
+      let parentForm = $(this).parents('form');
       if(parentForm.length != 1 || $(this).hasClass('back-history')){
         e.preventDefault();
         alertLeaveForm(this);
@@ -91,46 +91,69 @@ $(document).ready(function(){
 
   });
 
+  // add horas inicial y final
+  // hay que reemplzar esto por Promesas JS
+  $.each(frameJs.getTimeCalendar(), function(i, v){
+    $('select[name=hour_initial]').append(`<option value="${v}">${v}</option>`);
+    $('select[name=hour_end]').append(`<option value="${v}">${v}</option>`);
+  });
+  $('.selectpicker').selectpicker('refresh');
+
   $("#add_crew").click(function(){
 
     // list values
-    var id_function_frame = $('select[name=id_function_frame]').val();
-    var id_category_sat = $('select[name=id_category_sat]').val(); // agregar al schema ´project_providers´
-    var id_provider = $('select[name=id_provider]').val();
-    var id_contract = $('select[name=id_contract]').val();
-    var salary_workdays = $('input[name=salary_workdays]').val();
-    var total_workdays = $('input[name=total_workdays]').val();
-    var total_workdays_text = $('input[name=total_workdays_text]').val();
-    var salary_contract_category_function = $('input[name=salary_contract_category_function]').val();
-    var salary_daily = $('input[name=salary_daily]').val();
-    var salary_liquidate = $('input[name=salary_liquidate]').val();
-    var salaty_difference = $('input[name=crew_sueldo_diferencia]').val();
-    var start_date_contract = $('input[name=start_date_contract]').val();
-    var finish_date_contract = $('input[name=finish_date_contract]').val();
-    var count_workdays_crew = $('input[name=count_workdays_crew]').val();
-    var start_afip = $('input[name=start_afip]').val();
-    var finish_afip = $('input[name=finish_afip]').val();
+    let id_function_frame = $('select[name=id_function_frame]').val(); // required
+    let id_category_sat = $('select[name=id_category_sat]').val(); // required
+    let id_provider = $('select[name=id_provider]').val(); // required
+    let id_contract = $('select[name=id_contract]').val(); // required
+    let start_date_contract = $('input[name=start_date_contract]').val(); // required
+    let finish_date_contract = $('input[name=finish_date_contract]').val(); // required
+    let id_workday = $('select[name=id_workday]').val(); // required
+    let count_workdays_crew = $('input[name=count_workdays_crew]').val(); // required
+
+    let hour_initial = $('select[name=hour_initial]').val();
+    let hour_end = $('select[name=hour_end]').val();
+    let start_afip = $('input[name=start_afip]').val();
+    let finish_afip = $('input[name=finish_afip]').val();
+
+    let salary_workdays = $('input[name=salary_workdays]').val(); // required
+    let total_workdays = $('input[name=total_workdays]').val(); // required
+    let total_workdays_text = $('input[name=total_workdays_text]').val(); // required
+    let salary_contract_category_function = $('input[name=salary_contract_category_function]').val(); // required
+    let salary_daily = $('input[name=salary_daily]').val(); // required
+    let salary_liquidate = $('input[name=salary_liquidate]').val(); // required
+    let salaty_difference = $('input[name=crew_sueldo_diferencia]').val(); // required
+
 
     // check is_reemplazo
     // puesto
     // 1 = Titular
     // 2 = Secundario
-    var checkIsSuplente = $("select[name=is_reemplazo]").val();
-    var idTeamSuplente = $("select[name=id_crew_reemplazo]").val();
-    var nameTeamSuplente = $("select[name=id_crew_reemplazo]").find(':selected').text();
+    let checkIsSuplente = $("select[name=is_reemplazo]").val();
+    let idTeamSuplente = $("select[name=id_crew_reemplazo]").val();
+    let nameTeamSuplente = $("select[name=id_crew_reemplazo]").find(':selected').text();
 
-    if(id_function_frame && id_category_sat && id_contract && id_provider &&
-       salary_workdays && total_workdays && total_workdays_text && salary_contract_category_function &&
-       salary_daily && salary_liquidate && start_date_contract && finish_date_contract &&
-       count_workdays_crew && start_afip && finish_afip)
+    if( id_function_frame && id_category_sat && id_provider &&
+        id_contract && start_date_contract && finish_date_contract &&
+        id_workday && count_workdays_crew && salary_workdays &&
+        total_workdays && total_workdays_text && salary_contract_category_function &&
+        salary_daily && salary_liquidate && salaty_difference)
     {
 
       // object crew
-      var crew = {
+      let crew = {
         'id_function_frame': id_function_frame,
         'id_category_sat': id_category_sat,
         'id_provider': id_provider,
         'id_contract': id_contract,
+        'start_date_contract': start_date_contract,
+        'finish_date_contract': finish_date_contract,
+        'id_workday': id_workday,
+        'count_workdays_crew': count_workdays_crew,
+        'hour_initial': hour_initial,
+        'hour_end': hour_end,
+        'start_afip': start_afip,
+        'finish_afip': finish_afip,
         'salary_workdays': salary_workdays,
         'total_workdays': total_workdays,
         'total_workdays_text': total_workdays_text,
@@ -138,11 +161,6 @@ $(document).ready(function(){
         'salary_daily': salary_daily,
         'salary_liquidate': salary_liquidate,
         'salaty_difference': salaty_difference,
-        'start_date_contract': start_date_contract,
-        'finish_date_contract': finish_date_contract,
-        'count_workdays_crew': count_workdays_crew,
-        'start_afip': start_afip,
-        'finish_afip': finish_afip,
         'is_reemplazo': checkIsSuplente,
         'id_crew_reemplazo': idTeamSuplente
       };
@@ -154,16 +172,14 @@ $(document).ready(function(){
         dataType: 'json',
         success: function(data){
 
-          var status = data.status;
-
           // add crew
-          if(status == true){
+          if(data.status){
 
             if(checkIsSuplente == "2" && idTeamSuplente != "0"){
 
               // add crew SECUNDARIO to list input request
               if($('#'+id_provider).length == 0){
-                $('.list_crew').append("<input type='hidden' name='list_crew_secundario[]' id='"+id_provider+"' value='' />");
+                $('.list_crew').append(`<input type="hidden" name="list_crew_secundario[]" id="${id_provider}" value="" />`);
                 $('#'+id_provider).val(JSON.stringify(crew));
 
               } else {
@@ -190,7 +206,7 @@ $(document).ready(function(){
             } else {
               // add crew TITULAR to list input request
               if($('#'+id_provider).length == 0){
-                $('.list_crew').append("<input type='hidden' name='list_crew[]' id='"+id_provider+"' value='' />");
+                $('.list_crew').append(`<input type="hidden" name="list_crew[]" id="${id_provider}" value="" />`);
                 $('#'+id_provider).val(JSON.stringify(crew));
 
               } else {
@@ -201,15 +217,6 @@ $(document).ready(function(){
                 $("#item_view_"+id_provider).remove();
               }
 
-            }
-
-            // check jornada de trabajo del proyecto segun la jornada que mas tenga de los CREW
-            if(isNaN(parseFloat($('input[name=count_workdays]').val()))) {
-              $('input[name=count_workdays]').val(count_workdays_crew);
-            } else if($("select[name=id_workday]").find(':selected').data('day') != 1){
-              if(parseFloat($('input[name=count_workdays]').val()) <= parseFloat(count_workdays_crew)){
-                $('input[name=count_workdays]').val(count_workdays_crew);
-              }
             }
 
             // add crew list table front
@@ -321,7 +328,6 @@ $(document).ready(function(){
     };
   });
 
-
   $(".get_value_categories_sat").change(function(){
     var salaryneto = $(this).find(':selected').data('salaryneto');
     if(salaryneto){
@@ -329,24 +335,11 @@ $(document).ready(function(){
     }
   });
 
-  // module 2 Jornadas
-  $("select[name=id_workday]").change(function(){
-    if($(this).find(':selected').data('day') == 1){
-      $('input[name=count_workdays]').removeAttr('readonly');
-    } else {
-      $('input[name=count_workdays]').attr('readonly', 'readonly');
-      $('input[name=count_workdays]').val('');
-    }
-    $("select[name=view_modality_work]").find('option').remove().end().append('<option selected="selected">'+$(this).find(':selected').text()+'</option>');
-    $('.selectpicker').selectpicker('refresh');
-  });
-
-
-  // remove by ajax crew list on project
+  // Edit -> remove by ajax crew list on project
   $(".alert-confirm-delete-button").click(function() {
 
-    var form = $(this).data('id');
-    var idProvider = $(this).data('idprovider');
+    const form = $(this).data('id');
+    const idProvider = $(this).data('idprovider');
 
     // se genera un alert de confirmacion para abandonar el Formulario
     Swal.fire({
@@ -362,7 +355,7 @@ $(document).ready(function(){
       if(result.dismiss == "cancel"){
         return false;
       }
-      if(result.value == true){
+      if(result.value){
 
         $.ajax({
           url: $("#"+form).attr('action'),
