@@ -34,6 +34,7 @@
                 <th>Nombre - Apellido</th>
                 <th>DNI</th>
                 <th>Rol</th>
+                <th>Team</th>
                 <th>Activo</th>
                 <th class="text-right">Acciones</th>
               </tr>
@@ -44,6 +45,7 @@
                 <td>{{ \App\User::getFullName($user->id) }}</td>
                 <td>{{ $user->dni }}</td>
                 <td>{{ \App\RoleUser::getRoleNameByUser($user->id) }}</td>
+                <td><?php if($user->is_crew){ echo "Si"; } else { echo "No"; } ?></td>
                 <td>{{ \App\User::getActive($user->id) }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['users.destroy', $user->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}

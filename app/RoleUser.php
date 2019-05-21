@@ -16,6 +16,8 @@ class RoleUser extends Model
     if(isset($rol[0])){
       $nameRol = Role::find($rol[0]->role_id);
       return $nameRol->name;
+    } else {
+      return "No asignado";
     }
   }
 

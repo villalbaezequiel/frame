@@ -74,13 +74,12 @@
               <label class="col-md-2 col-form-label">CUIT <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <!-- <input class="form-control" type="text" name="cuit" pattern="\b(20|23|24|27|30|33|34)(\D)?[0-9]{8}(\D)?[0-9]" value="{{ old('cuit') }}" maxlength="125" required> -->
                   <input class="form-control" type="number" name="cuit" value="{{ old('cuit') }}" maxlength="125" required>
                 </div>
-                <label class="col-md-3 label-on-right">
-                  <code>inserte únicamente números.</code>
-                </label>
               </div>
+              <label class="col-md-3 label-on-right">
+                <code>inserte únicamente números.</code>
+              </label>
             </div>
             <div class="row">
               <label class="col-md-2 col-form-label">Género <span class="required-red">*</span></label>
