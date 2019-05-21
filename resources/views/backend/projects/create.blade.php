@@ -29,19 +29,14 @@
           </div>
           <div class="wizard-navigation">
             <ul class="nav nav-pills">
-              <li class="nav-item" style="width: 33.3333%;">
+              <li class="nav-item" style="width: 50%;">
                 <a class="nav-link active" href="#module_one" data-toggle="tab" role="tab">
                   Módulo 1
                 </a>
               </li>
-              <li class="nav-item" style="width: 33.3333%;">
+              <li class="nav-item" style="width: 50%;">
                 <a class="nav-link" href="#module_two" data-toggle="tab" role="tab">
                   Módulo 2
-                </a>
-              </li>
-              <li class="nav-item" style="width: 33.3333%;">
-                <a class="nav-link" href="#module_three" data-toggle="tab" role="tab">
-                  Módulo 3
                 </a>
               </li>
             </ul>
@@ -54,64 +49,6 @@
 
               <div class="tab-pane active" id="module_one">
                 <h5 class="info-text"> Información General </h5>
-                <div class="row justify-content-center">
-
-                  <div class="col-md-10">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Cliente: (*)
-                        </span>
-                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_client" required>
-                          <option value="">Seleccionar</option>
-                          @foreach(\App\Client::getAllClients() as $client)
-                          <option value="{{ $client->id }}"><?php if($client->nick){ echo $client->nick; } else { echo $client->razon_social; } ?></option>
-                          @endforeach
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-10">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Nombre: (*)
-                        </span>
-                        <input type="text" class="form-control" name="name" value="{{ old('name') }}" maxlength="125" required>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-10">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Descripción:
-                        </span>
-                        <input type="number" class="form-control" name="description" value="{{ old('description') }}" maxlength="125">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-10">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Tipo de Proyecto: (*)
-                        </span>
-                          <select class="selectpicker ajax_functions_frame_by_type_project" data-live-search="true" data-style="select-with-transition" name="id_proyect_category" required>
-                          <option value="">Seleccionar</option>
-                          @foreach(\App\ProyectCategory::getAllProyectCategories() as $type_project)
-                          <option value="{{ $type_project->id }}">{{ $type_project->name }}</option>
-                          @endforeach
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-              <div class="tab-pane" id="module_two">
-                <h5 class="info-text"> Fechas </h5>
                 <div class="row justify-content-center">
 
                   <div class="col-md-5">
@@ -148,16 +85,32 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Modalidad: (*)
+                          Centro de Costo
                         </span>
-                          <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_workday" required>
+                        <input type="text" class="form-control" name="cost_center" value="{{ old('cost_center') }}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Nombre<span class="required-red">*</span>
+                        </span>
+                        <input type="text" class="form-control" name="name" value="{{ old('name') }}" maxlength="125" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Cliente<span class="required-red">*</span>
+                        </span>
+                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_client" required>
                           <option value="">Seleccionar</option>
-                          @foreach(\App\Workday::getAllWorkdays() as $workday)
-                          <option
-                            <?php if($workday->day): ?>
-                            data-day="{{ $workday->day }}"
-                            <?php endif; ?>
-                            value="{{ $workday->id }}">{{ $workday->name }}<?php if($workday->day && $workday->day != 1){ echo " (".$workday->day." dias)";} ?></option>
+                          @foreach(\App\Client::getAllClients() as $client)
+                          <option value="{{ $client->id }}"><?php if($client->nick){ echo $client->nick; } else { echo $client->razon_social; } ?></option>
                           @endforeach
                         </select>
                       </div>
@@ -167,9 +120,9 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Duración de Jornada Laborables (horas): (*)
+                          Descripción
                         </span>
-                        <input type="number" class="form-control" name="duration_workdays" value="{{ old('duration_workdays') }}" placeholder="Ingresar Números, Puntos (.) y/o Comas (,)" maxlength="125" required>
+                        <input type="number" class="form-control" name="description" value="{{ old('description') }}" maxlength="125">
                       </div>
                     </div>
                   </div>
@@ -177,9 +130,14 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Cantidad de Jornadas Laborables:
+                          Referente:
                         </span>
-                          <input type="number" class="form-control" name="count_workdays" value="{{ old('count_workdays') }}" placeholder="Ingresar Números, Puntos (.) y/o Comas (,)" maxlength="125" readonly>
+                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_team_referring">
+                          <option value="">Seleccionar</option>
+                          @foreach(\App\Provider::getAllProvidersReferring() as $provider)
+                          <option value="{{ $provider->id }}">{{ $provider->last_name.' '.$provider->name }}</option>
+                          @endforeach
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -187,9 +145,14 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Dias: (*)
+                          Tipo de Proyecto<span class="required-red">*</span>
                         </span>
-                        <input type="number" class="form-control" name="days" value="{{ old('days') }}" placeholder="Ingresar Números, Puntos (.) y/o Comas (,)" maxlength="125" readonly required>
+                        <select class="selectpicker ajax_functions_frame_by_type_project" data-live-search="true" data-style="select-with-transition" name="id_proyect_category" required>
+                          <option value="">Seleccionar</option>
+                          @foreach(\App\ProyectCategory::getAllProyectCategories() as $type_project)
+                          <option value="{{ $type_project->id }}">{{ $type_project->name }}</option>
+                          @endforeach
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -197,7 +160,7 @@
                 </div>
               </div>
 
-              <div class="tab-pane" id="module_three">
+              <div class="tab-pane" id="module_two">
                 <h5 class="info-text"> Team </h5>
                 <div class="row justify-content-center empty-values-finish-add-crew">
 
@@ -205,7 +168,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Función Frame:
+                          Función Frame<span class="required-red">*</span>
                         </span>
                         <select class="selectpicker get_value_frame_functions ajax_categories_sat_by_function_frame ajax_crew_by_function_frame" data-live-search="true" data-style="select-with-transition" name="id_function_frame">
                           <option value="">Seleccionar</option>
@@ -218,7 +181,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Categoría SAT:
+                          Categoría SAT<span class="required-red">*</span>
                         </span>
                         <select class="selectpicker get_value_categories_sat event_toggle_category_sat" data-live-search="true" data-style="select-with-transition" name="id_category_sat">
                           <option value="">Seleccionar</option>
@@ -231,7 +194,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Team:
+                          Team<span class="required-red">*</span>
                         </span>
                         <select class="selectpicker get_value_crew" data-live-search="true" data-style="select-with-transition" name="id_provider">
                           <option value="">Seleccionar</option>
@@ -244,9 +207,9 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Tipo de Contrato:
+                          Tipo de Contrato<span class="required-red">*</span>
                         </span>
-                          <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_contract">
+                          <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_contract" onchange="getContractProject(this.value)">
                           <option value="">Seleccionar</option>
                           @foreach(\App\Contract::getAllContracts('1') as $contract)
                           <option value="{{ $contract->id }}">{{ $contract->name }}</option>
@@ -260,7 +223,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Fecha de Alta Contrato:
+                          Fecha de Alta Contrato<span class="required-red">*</span>
                         </span>
                         <input class="form-control datepicker_crew" type="text" name="start_date_contract">
                       </div>
@@ -271,7 +234,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Fecha de Baja Contrato:
+                          Fecha de Baja Contrato<span class="required-red">*</span>
                         </span>
                         <input class="form-control datepicker_crew" type="text" name="finish_date_contract">
                       </div>
@@ -284,9 +247,18 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Modalidad:
+                          Modalidad<span class="required-red">*</span>
                         </span>
-                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="view_modality_work"></select>
+                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_workday">
+                          <option value="">Seleccionar</option>
+                          @foreach(\App\Workday::getAllWorkdays() as $workday)
+                          <option
+                            <?php if($workday->day): ?>
+                            data-day="{{ $workday->day }}"
+                            <?php endif; ?>
+                            value="{{ $workday->id }}">{{ $workday->name }}<?php if($workday->day && $workday->day != 1){ echo " (".$workday->day." dias)";} ?></option>
+                          @endforeach
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -295,7 +267,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Cantidad de Jornadas Laborables:
+                          Cant. Jornadas Laborables<span class="required-red">*</span>
                         </span>
                           <input type="number" class="form-control" name="count_workdays_crew" maxlength="125">
                       </div>
@@ -306,6 +278,30 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
+                          Hora de Inicio:
+                        </span>
+                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="hour_initial">
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Hora Final:
+                        </span>
+                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="hour_end">
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 field-afip">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
                           Fecha de Alta AFIP:
                         </span>
                         <input class="form-control datepicker" type="text" name="start_afip">
@@ -313,7 +309,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-6">
+                  <div class="col-md-6 field-afip">
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
@@ -328,7 +324,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Sueldo Jornada: $
+                          Sueldo Jornada<span class="required-red" style="margin-right: 4px;">*</span> $
                         </span>
                           <input type="text" class="form-control validate-number-decimal-not-ps" name="salary_workdays" maxlength="125">
                       </div>
@@ -339,7 +335,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Sueldo Total: $
+                          Sueldo en mano $
                         </span>
                           <input type="text" class="form-control" name="total_workdays" maxlength="125" placeholder="Click aquí para que actualizar los Sueldos" readonly>
                       </div>
@@ -350,7 +346,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Sueldo Total Texto:
+                          Sueldo en mano Texto<span class="required-red">*</span>
                         </span>
                         <input type="text" class="form-control" name="total_workdays_text" maxlength="125">
                       </div>
@@ -361,7 +357,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Sueldo Contrato Mensual: $
+                          Sueldo Contrato Mensual $
                         </span>
                           <input type="text" class="form-control" name="salary_contract_category_function" maxlength="125" readonly>
                       </div>
@@ -372,30 +368,20 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Sueldo Diario SAT: $
+                          Sueldo Diario SAT $
                         </span>
                           <input type="text" class="form-control" name="salary_daily" maxlength="125" readonly>
                       </div>
                     </div>
                   </div>
 
-                  <!-- <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Sueldo A Liquidar Neto: $
-                        </span>
-                          <input type="text" class="form-control" name="salary_liquidate" maxlength="125" readonly>
-                      </div>
-                    </div>
-                  </div> -->
                   <input type="hidden" name="salary_liquidate" maxlength="125" readonly>
 
                   <div class="col-md-6">
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Diferencia: $
+                          Diferencia $
                         </span>
                         <input type="text" class="form-control" name="crew_sueldo_diferencia" maxlength="125" readonly>
                       </div>

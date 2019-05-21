@@ -16,6 +16,7 @@ class ContractsTableSeeder extends Seeder
       $list = array(
         ['Eventual'],
         ['Plazo Fijo'],
+        ['Tiempo Indeterminado'],
         ['Servicios']
       );
 

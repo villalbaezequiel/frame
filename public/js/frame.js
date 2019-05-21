@@ -325,8 +325,9 @@ $(document).ready(function(){
 });
 
 
-frameJs = {
-  initDateTimePicker: function(){
+let frameJs = {
+
+  initDateTimePicker: () => {
     $('.datetimepicker').datetimepicker({
         icons: {
           time: "fa fa-clock-o",
@@ -342,7 +343,7 @@ frameJs = {
      });
   },
 
- initMaterialWizard: function(rules) {
+  initMaterialWizard: (rules) => {
    // Code for the Validator
    var $validator = $('.card-wizard form').validate({
      rules: rules,
@@ -530,613 +531,58 @@ frameJs = {
 
          });
      }
- },
-
- initCharts: function() {
-     if ($('#roundedLineChart').length != 0 && $('#straightLinesChart').length != 0 && $('#colouredRoundedLineChart').length != 0 && $('#colouredBarsChart').length != 0 && $('#simpleBarChart').length != 0 && $('#multipleBarsChart').length != 0) {
-         /* ----------==========    Rounded Line Chart initialization    ==========---------- */
-
-         dataRoundedLineChart = {
-             labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-             series: [
-                 [12, 17, 7, 17, 23, 18, 38]
-             ]
-         };
-
-         optionsRoundedLineChart = {
-             lineSmooth: Chartist.Interpolation.cardinal({
-                 tension: 10
-             }),
-             axisX: {
-                 showGrid: false,
-             },
-             low: 0,
-             high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-             chartPadding: {
-                 top: 0,
-                 right: 0,
-                 bottom: 0,
-                 left: 0
-             },
-             showPoint: false
-         }
-
-         var RoundedLineChart = new Chartist.Line('#roundedLineChart', dataRoundedLineChart, optionsRoundedLineChart);
-
-         md.startAnimationForLineChart(RoundedLineChart);
-
-
-         /*  **************** Straight Lines Chart - single line with points ******************** */
-
-         dataStraightLinesChart = {
-             labels: ['\'07', '\'08', '\'09', '\'10', '\'11', '\'12', '\'13', '\'14', '\'15'],
-             series: [
-                 [10, 16, 8, 13, 20, 15, 20, 34, 30]
-             ]
-         };
-
-         optionsStraightLinesChart = {
-             lineSmooth: Chartist.Interpolation.cardinal({
-                 tension: 0
-             }),
-             low: 0,
-             high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-             chartPadding: {
-                 top: 0,
-                 right: 0,
-                 bottom: 0,
-                 left: 0
-             },
-             classNames: {
-                 point: 'ct-point ct-white',
-                 line: 'ct-line ct-white'
-             }
-         }
-
-         var straightLinesChart = new Chartist.Line('#straightLinesChart', dataStraightLinesChart, optionsStraightLinesChart);
-
-         md.startAnimationForLineChart(straightLinesChart);
-
-
-         /*  **************** Coloured Rounded Line Chart - Line Chart ******************** */
-
-
-         dataColouredRoundedLineChart = {
-             labels: ['\'06', '\'07', '\'08', '\'09', '\'10', '\'11', '\'12', '\'13', '\'14', '\'15'],
-             series: [
-                 [287, 480, 290, 554, 690, 690, 500, 752, 650, 900, 944]
-             ]
-         };
-
-         optionsColouredRoundedLineChart = {
-             lineSmooth: Chartist.Interpolation.cardinal({
-                 tension: 10
-             }),
-             axisY: {
-                 showGrid: true,
-                 offset: 40
-             },
-             axisX: {
-                 showGrid: false,
-             },
-             low: 0,
-             high: 1000,
-             showPoint: true,
-             height: '300px'
-         };
-
-
-         var colouredRoundedLineChart = new Chartist.Line('#colouredRoundedLineChart', dataColouredRoundedLineChart, optionsColouredRoundedLineChart);
-
-         md.startAnimationForLineChart(colouredRoundedLineChart);
-
-
-         /*  **************** Coloured Rounded Line Chart - Line Chart ******************** */
-
-
-         dataColouredBarsChart = {
-             labels: ['\'06', '\'07', '\'08', '\'09', '\'10', '\'11', '\'12', '\'13', '\'14', '\'15'],
-             series: [
-                 [287, 385, 490, 554, 586, 698, 695, 752, 788, 846, 944],
-                 [67, 152, 143, 287, 335, 435, 437, 539, 542, 544, 647],
-                 [23, 113, 67, 190, 239, 307, 308, 439, 410, 410, 509]
-             ]
-         };
-
-         optionsColouredBarsChart = {
-             lineSmooth: Chartist.Interpolation.cardinal({
-                 tension: 10
-             }),
-             axisY: {
-                 showGrid: true,
-                 offset: 40
-             },
-             axisX: {
-                 showGrid: false,
-             },
-             low: 0,
-             high: 1000,
-             showPoint: true,
-             height: '300px'
-         };
-
-
-         var colouredBarsChart = new Chartist.Line('#colouredBarsChart', dataColouredBarsChart, optionsColouredBarsChart);
-
-         md.startAnimationForLineChart(colouredBarsChart);
-
-
-
-         /*  **************** Public Preferences - Pie Chart ******************** */
-
-         var dataPreferences = {
-             labels: ['62%', '32%', '6%'],
-             series: [62, 32, 6]
-         };
-
-         var optionsPreferences = {
-             height: '230px'
-         };
-
-         Chartist.Pie('#chartPreferences', dataPreferences, optionsPreferences);
-
-         /*  **************** Simple Bar Chart - barchart ******************** */
-
-         var dataSimpleBarChart = {
-             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-             series: [
-                 [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
-             ]
-         };
-
-         var optionsSimpleBarChart = {
-             seriesBarDistance: 10,
-             axisX: {
-                 showGrid: false
-             }
-         };
-
-         var responsiveOptionsSimpleBarChart = [
-             ['screen and (max-width: 640px)', {
-                 seriesBarDistance: 5,
-                 axisX: {
-                     labelInterpolationFnc: function(value) {
-                         return value[0];
-                     }
-                 }
-             }]
-         ];
-
-         var simpleBarChart = Chartist.Bar('#simpleBarChart', dataSimpleBarChart, optionsSimpleBarChart, responsiveOptionsSimpleBarChart);
-
-         //start animation for the Emails Subscription Chart
-         md.startAnimationForBarChart(simpleBarChart);
-
-
-         var dataMultipleBarsChart = {
-             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-             series: [
-                 [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
-                 [412, 243, 280, 580, 453, 353, 300, 364, 368, 410, 636, 695]
-             ]
-         };
-
-         var optionsMultipleBarsChart = {
-             seriesBarDistance: 10,
-             axisX: {
-                 showGrid: false
-             },
-             height: '300px'
-         };
-
-         var responsiveOptionsMultipleBarsChart = [
-             ['screen and (max-width: 640px)', {
-                 seriesBarDistance: 5,
-                 axisX: {
-                     labelInterpolationFnc: function(value) {
-                         return value[0];
-                     }
-                 }
-             }]
-         ];
-
-         var multipleBarsChart = Chartist.Bar('#multipleBarsChart', dataMultipleBarsChart, optionsMultipleBarsChart, responsiveOptionsMultipleBarsChart);
-
-         //start animation for the Emails Subscription Chart
-         md.startAnimationForBarChart(multipleBarsChart);
-     }
-
- },
-
- // alerts
- showSwal: function(type) {
-     if (type == 'basic') {
-         swal({
-             title: "Here's a message!",
-             buttonsStyling: false,
-             confirmButtonClass: "btn btn-success"
-         }).catch(swal.noop)
-
-     } else if (type == 'title-and-text') {
-         swal({
-             title: "Here's a message!",
-             text: "It's pretty, isn't it?",
-             buttonsStyling: false,
-             confirmButtonClass: "btn btn-info"
-         }).catch(swal.noop)
-
-     } else if (type == 'success-message') {
-         swal({
-             title: "Good job!",
-             text: "You clicked the button!",
-             buttonsStyling: false,
-             confirmButtonClass: "btn btn-success",
-             type: "success"
-         }).catch(swal.noop)
-
-     } else if (type == 'warning-message-and-confirmation') {
-         swal({
-             title: 'Are you sure?',
-             text: "You won't be able to revert this!",
-             type: 'warning',
-             showCancelButton: true,
-             confirmButtonClass: 'btn btn-success',
-             cancelButtonClass: 'btn btn-danger',
-             confirmButtonText: 'Yes, delete it!',
-             buttonsStyling: false
-         }).then(function() {
-             swal({
-                 title: 'Deleted!',
-                 text: 'Your file has been deleted.',
-                 type: 'success',
-                 confirmButtonClass: "btn btn-success",
-                 buttonsStyling: false
-             })
-         }).catch(swal.noop)
-     } else if (type == 'warning-message-and-cancel') {
-         swal({
-             title: 'Are you sure?',
-             text: 'You will not be able to recover this imaginary file!',
-             type: 'warning',
-             showCancelButton: true,
-             confirmButtonText: 'Yes, delete it!',
-             cancelButtonText: 'No, keep it',
-             confirmButtonClass: "btn btn-success",
-             cancelButtonClass: "btn btn-danger",
-             buttonsStyling: false
-         }).then(function() {
-             swal({
-                 title: 'Deleted!',
-                 text: 'Your imaginary file has been deleted.',
-                 type: 'success',
-                 confirmButtonClass: "btn btn-success",
-                 buttonsStyling: false
-             }).catch(swal.noop)
-         }, function(dismiss) {
-             // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
-             if (dismiss === 'cancel') {
-                 swal({
-                     title: 'Cancelled',
-                     text: 'Your imaginary file is safe :)',
-                     type: 'error',
-                     confirmButtonClass: "btn btn-info",
-                     buttonsStyling: false
-                 }).catch(swal.noop)
-             }
-         })
-
-     } else if (type == 'custom-html') {
-         swal({
-             title: 'HTML example',
-             buttonsStyling: false,
-             confirmButtonClass: "btn btn-success",
-             html: 'You can use <b>bold text</b>, ' +
-                 '<a href="http://github.com">links</a> ' +
-                 'and other HTML tags'
-         }).catch(swal.noop)
-
-     } else if (type == 'auto-close') {
-         swal({
-             title: "Auto close alert!",
-             text: "I will close in 2 seconds.",
-             timer: 2000,
-             showConfirmButton: false
-         }).catch(swal.noop)
-     } else if (type == 'input-field') {
-         swal({
-             title: 'Input something',
-             html: '<div class="form-group">' +
-                 '<input id="input-field" type="text" class="form-control" />' +
-                 '</div>',
-             showCancelButton: true,
-             confirmButtonClass: 'btn btn-success',
-             cancelButtonClass: 'btn btn-danger',
-             buttonsStyling: false
-         }).then(function(result) {
-             swal({
-                 type: 'success',
-                 html: 'You entered: <strong>' +
-                     $('#input-field').val() +
-                     '</strong>',
-                 confirmButtonClass: 'btn btn-success',
-                 buttonsStyling: false
-
-             })
-         }).catch(swal.noop)
-     }
- },
-
- initGoogleMaps: function() {
-     var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
-     var mapOptions = {
-         zoom: 13,
-         center: myLatlng,
-         scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-         styles: [{
-             "featureType": "water",
-             "stylers": [{
-                 "saturation": 43
-             }, {
-                 "lightness": -11
-             }, {
-                 "hue": "#0088ff"
-             }]
-         }, {
-             "featureType": "road",
-             "elementType": "geometry.fill",
-             "stylers": [{
-                 "hue": "#ff0000"
-             }, {
-                 "saturation": -100
-             }, {
-                 "lightness": 99
-             }]
-         }, {
-             "featureType": "road",
-             "elementType": "geometry.stroke",
-             "stylers": [{
-                 "color": "#808080"
-             }, {
-                 "lightness": 54
-             }]
-         }, {
-             "featureType": "landscape.man_made",
-             "elementType": "geometry.fill",
-             "stylers": [{
-                 "color": "#ece2d9"
-             }]
-         }, {
-             "featureType": "poi.park",
-             "elementType": "geometry.fill",
-             "stylers": [{
-                 "color": "#ccdca1"
-             }]
-         }, {
-             "featureType": "road",
-             "elementType": "labels.text.fill",
-             "stylers": [{
-                 "color": "#767676"
-             }]
-         }, {
-             "featureType": "road",
-             "elementType": "labels.text.stroke",
-             "stylers": [{
-                 "color": "#ffffff"
-             }]
-         }, {
-             "featureType": "poi",
-             "stylers": [{
-                 "visibility": "off"
-             }]
-         }, {
-             "featureType": "landscape.natural",
-             "elementType": "geometry.fill",
-             "stylers": [{
-                 "visibility": "on"
-             }, {
-                 "color": "#b8cb93"
-             }]
-         }, {
-             "featureType": "poi.park",
-             "stylers": [{
-                 "visibility": "on"
-             }]
-         }, {
-             "featureType": "poi.sports_complex",
-             "stylers": [{
-                 "visibility": "on"
-             }]
-         }, {
-             "featureType": "poi.medical",
-             "stylers": [{
-                 "visibility": "on"
-             }]
-         }, {
-             "featureType": "poi.business",
-             "stylers": [{
-                 "visibility": "simplified"
-             }]
-         }]
-
-     }
-     var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-     var marker = new google.maps.Marker({
-         position: myLatlng,
-         title: "Hello World!"
-     });
-
-     // To add the marker to the map, call setMap();
-     marker.setMap(map);
- },
-
- initSmallGoogleMaps: function() {
-
-     // Regular Map
-     var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
-     var mapOptions = {
-         zoom: 8,
-         center: myLatlng,
-         scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-     }
-
-     var map = new google.maps.Map(document.getElementById("regularMap"), mapOptions);
-
-     var marker = new google.maps.Marker({
-         position: myLatlng,
-         title: "Regular Map!"
-     });
-
-     marker.setMap(map);
-
-
-     // Custom Skin & Settings Map
-     var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
-     var mapOptions = {
-         zoom: 13,
-         center: myLatlng,
-         scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-         disableDefaultUI: true, // a way to quickly hide all controls
-         zoomControl: true,
-         styles: [{
-             "featureType": "water",
-             "stylers": [{
-                 "saturation": 43
-             }, {
-                 "lightness": -11
-             }, {
-                 "hue": "#0088ff"
-             }]
-         }, {
-             "featureType": "road",
-             "elementType": "geometry.fill",
-             "stylers": [{
-                 "hue": "#ff0000"
-             }, {
-                 "saturation": -100
-             }, {
-                 "lightness": 99
-             }]
-         }, {
-             "featureType": "road",
-             "elementType": "geometry.stroke",
-             "stylers": [{
-                 "color": "#808080"
-             }, {
-                 "lightness": 54
-             }]
-         }, {
-             "featureType": "landscape.man_made",
-             "elementType": "geometry.fill",
-             "stylers": [{
-                 "color": "#ece2d9"
-             }]
-         }, {
-             "featureType": "poi.park",
-             "elementType": "geometry.fill",
-             "stylers": [{
-                 "color": "#ccdca1"
-             }]
-         }, {
-             "featureType": "road",
-             "elementType": "labels.text.fill",
-             "stylers": [{
-                 "color": "#767676"
-             }]
-         }, {
-             "featureType": "road",
-             "elementType": "labels.text.stroke",
-             "stylers": [{
-                 "color": "#ffffff"
-             }]
-         }, {
-             "featureType": "poi",
-             "stylers": [{
-                 "visibility": "off"
-             }]
-         }, {
-             "featureType": "landscape.natural",
-             "elementType": "geometry.fill",
-             "stylers": [{
-                 "visibility": "on"
-             }, {
-                 "color": "#b8cb93"
-             }]
-         }, {
-             "featureType": "poi.park",
-             "stylers": [{
-                 "visibility": "on"
-             }]
-         }, {
-             "featureType": "poi.sports_complex",
-             "stylers": [{
-                 "visibility": "on"
-             }]
-         }, {
-             "featureType": "poi.medical",
-             "stylers": [{
-                 "visibility": "on"
-             }]
-         }, {
-             "featureType": "poi.business",
-             "stylers": [{
-                 "visibility": "simplified"
-             }]
-         }]
-
-     }
-
-     var map = new google.maps.Map(document.getElementById("customSkinMap"), mapOptions);
-
-     var marker = new google.maps.Marker({
-         position: myLatlng,
-         title: "Custom Skin & Settings Map!"
-     });
-
-     marker.setMap(map);
-
-
-
-     // Satellite Map
-     var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
-     var mapOptions = {
-         zoom: 3,
-         scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-         center: myLatlng,
-         mapTypeId: google.maps.MapTypeId.SATELLITE
-     }
-
-     var map = new google.maps.Map(document.getElementById("satelliteMap"), mapOptions);
-
-     var marker = new google.maps.Marker({
-         position: myLatlng,
-         title: "Satellite Map!"
-     });
-
-     marker.setMap(map);
-
-
- },
-
- getChangeOs: function(v) {
-   let contentSocialWorkC = document.getElementById('social_work_code_content');
-   let inputSocialWorkCode = document.getElementsByName('social_work_code');
-
-   if(v == "1"){
-     contentSocialWorkC.classList.remove("hidden");
-   } else {
-     contentSocialWorkC.classList.add("hidden");
-     inputSocialWorkCode.value = '';
-   }
- },
-
- getRandomColor: function() {
-   var letters = '0123456789ABCDEF';
-   var color = '#';
-   for (var i = 0; i < 6; i++) {
-     color += letters[Math.floor(Math.random() * 16)];
-   }
-   return color;
- }
+  },
+
+    getChangeOs: (v) => {
+      let contentSocialWorkC = document.getElementById('social_work_code_content');
+      let inputSocialWorkCode = document.getElementsByName('social_work_code');
+
+      if(v == "1"){
+        contentSocialWorkC.classList.remove("hidden");
+      } else {
+        contentSocialWorkC.classList.add("hidden");
+        inputSocialWorkCode.value = '';
+      }
+    },
+
+    getRandomColor: () => {
+      var letters = '0123456789ABCDEF';
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    },
+
+    getTimeCalendar: () => {
+      const schedules = [
+        "00:00","00:30",
+        "01:00","01:30",
+        "02:00","02:30",
+        "03:00","03:30",
+        "04:00","04:30",
+        "05:00","05:30",
+        "06:00","06:30",
+        "07:00","07:30",
+        "08:00","08:30",
+        "09:00","09:30",
+        "10:00","10:30",
+        "11:00","11:30",
+        "12:00","12:30",
+        "13:00","13:30",
+        "14:00","14:30",
+        "15:00","15:30",
+        "16:00","16:30",
+        "17:00","17:30",
+        "18:00","18:30",
+        "19:00","19:30",
+        "20:00","20:30",
+        "21:00","21:30",
+        "22:00","22:30",
+        "23:00","23:30"
+      ];
+
+      return schedules;
+    }
 
 }
