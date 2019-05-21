@@ -64,6 +64,7 @@ class ClientsController extends Controller
           $client->cuit = $request->get('cuit');
           $client->address = $request->get('address');
           $client->address_number = $request->get('address_number');
+          $client->piso_depto = $request->get('piso_depto');
           $client->id_country = $request->get('country');
           $client->location = $request->get('location');
           $client->cp = $request->get('cp');
@@ -152,6 +153,7 @@ class ClientsController extends Controller
           $client->cuit = $request->get('cuit');
           $client->address = $request->get('address');
           $client->address_number = $request->get('address_number');
+          $client->piso_depto = $request->get('piso_depto');
           $client->id_country = $request->get('country');
           $client->location = $request->get('location');
           $client->cp = $request->get('cp');

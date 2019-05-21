@@ -64,7 +64,7 @@
             </div>
             <div class="row">
               <label class="col-md-2 col-form-label">Dirección <span class="required-red">*</span></label>
-              <div class="col-md-5">
+              <div class="col-md-3">
                 <div class="form-group">
                   <input class="form-control" type="text" name="address" value="{{ $client->address }}" required>
                 </div>
@@ -72,6 +72,11 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <input class="form-control" type="number" name="address_number" value="{{ $client->address_number }}" placeholder="Número Dirección *" required>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <input class="form-control" type="text" name="piso_depto" value="{{ $provider->piso_depto }}" placeholder="Piso/Depto">
                 </div>
               </div>
             </div>

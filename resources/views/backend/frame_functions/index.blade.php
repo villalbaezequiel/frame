@@ -31,18 +31,18 @@
           <table id="datatables" class="table table-hover table-striped table-bordered nowrap" style="width:100%">
             <thead>
               <tr>
+                <th>N* Categorias SAT</th>
                 <th>Nombre</th>
                 <th>Tipo de Proyecto</th>
-                <th>N* Categorias SAT</th>
                 <th class="text-right">Acciones</th>
               </tr>
             </thead>
             <tbody>
               @foreach($frame_functions as $frameFunction)
               <tr class="item-alert-confirm-delete">
+                <td>{{ \App\FrameFunction::getNumberCategoriesSat($frameFunction->id) }}</td>
                 <td>{{ $frameFunction->name }}</td>
                 <td>{{ \App\ProyectCategory::getName($frameFunction->id_proyect_category) }}</td>
-                <td>{{ \App\FrameFunction::getNumberCategoriesSat($frameFunction->id) }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['frame_functions.destroy', $frameFunction->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
                     <a href="{{ url('/frame_functions/'.$frameFunction->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
