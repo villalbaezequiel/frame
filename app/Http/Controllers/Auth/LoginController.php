@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\User;
+use App\RoleUser;
 
 class LoginController extends Controller
 {
@@ -40,11 +42,34 @@ class LoginController extends Controller
 
     protected function credentials(Request $request)
     {
-      return [
-        'email' => $request->email,
-        'password' => $request->password,
-        'is_crew' => '0',
-        'active' => '1',
-      ];
+      $user = User::where('email', $request->email)->first();
+
+      if($user){
+
+        $rol = RoleUser::where('user_id', $user->id)->first();
+
+        if($rol->role_id == 1){
+          return [
+            'email' => $request->email,
+            'password' => $request->password,
+            'active' => '1',
+          ];
+        } else {
+          return [
+            'email' => $request->email,
+            'password' => $request->password,
+            'is_crew' => '0',
+            'active' => '1',
+          ];
+        }
+      } else {
+        return [
+          'email' => $request->email,
+          'password' => $request->password,
+          'is_crew' => '0',
+          'active' => '1',
+        ];
+      }
+
     }
 }
