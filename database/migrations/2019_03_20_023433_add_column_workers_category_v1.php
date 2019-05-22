@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class AddColumnWorkersCategoryV1 extends Migration
@@ -12,7 +13,7 @@ class AddColumnWorkersCategoryV1 extends Migration
      */
     public function up()
     {
-      Schema::table('workers_categories', function ($table) {
+      Schema::table('workers_categories', function (Blueprint $table) {
         $table->integer('categoria_afip')->after('sueldo_neto')->nullable();
       });
     }

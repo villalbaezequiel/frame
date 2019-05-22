@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class AddColumnProvidersOr014 extends Migration
@@ -12,7 +13,7 @@ class AddColumnProvidersOr014 extends Migration
      */
     public function up()
     {
-      Schema::table('providers', function ($table) {
+      Schema::table('providers', function (Blueprint $table) {
         $table->enum('referring', [0, 1]);
       });
     }

@@ -15,6 +15,9 @@ class AddColumnCalendarDropOtherColumn extends Migration
     {
       Schema::table('project_providers', function (Blueprint $table) {
         $table->dropColumn('value_extra_hours');
+      });
+
+      Schema::table('project_providers', function (Blueprint $table) {
         $table->string('calendar', 10000)->nullable()->after('id_crew_reemplazo');
         /*
           Ejemplo:

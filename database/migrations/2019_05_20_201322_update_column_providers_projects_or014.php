@@ -13,7 +13,7 @@ class UpdateColumnProvidersProjectsOr014 extends Migration
      */
     public function up()
     {
-      Schema::table('project_providers', function ($table) {
+      Schema::table('project_providers', function (Blueprint $table) {
         $table->integer('id_workday')->after('id_contract');
         $table->string('hour_initial')->nullable()->after('count_workdays_crew');
         $table->string('hour_end')->nullable()->after('hour_initial');

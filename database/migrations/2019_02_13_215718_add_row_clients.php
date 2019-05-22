@@ -13,15 +13,17 @@ class AddRowClients extends Migration
      */
     public function up()
     {
-      Schema::table('clients', function ($table) {
+      Schema::table('clients', function (Blueprint $table) {
         $table->dropColumn('id_user');
+      });
+
+      Schema::table('clients', function (Blueprint $table) {
         $table->string('cuit')->after('nick');
         $table->integer('id_country')->after('address_number');
         $table->string('contact_name')->after('other_telephone')->nullable();
         $table->string('contact_email')->after('contact_name')->nullable();
         $table->string('contact_telephone')->after('contact_email')->nullable();
         $table->enum('active', ['0', '1'])->after('iva');
-
       });
     }
 

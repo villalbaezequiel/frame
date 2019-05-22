@@ -13,7 +13,7 @@ class AddColumnClientsOr015 extends Migration
      */
     public function up()
     {
-      Schema::table('clients', function ($table) {
+      Schema::table('clients', function (Blueprint $table) {
         $table->string('piso_depto')->nullable()->after('address_number');
       });
     }

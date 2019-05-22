@@ -13,15 +13,17 @@ class UpdateColumnProjectsOr014 extends Migration
      */
     public function up()
     {
-      Schema::table('projects', function ($table) {
+      Schema::table('projects', function (Blueprint $table) {
         $table->dropColumn('count_workdays');
         $table->dropColumn('duration_workdays');
         $table->dropColumn('id_workday');
         $table->dropColumn('days');
+      });
+
+      Schema::table('projects', function (Blueprint $table) {
         $table->string('observations')->nullable()->after('description');
         $table->string('cost_center')->nullable()->after('observations');
         $table->integer('id_team_referring')->nullable()->after('id_proyect_category');
-
       });
     }
 

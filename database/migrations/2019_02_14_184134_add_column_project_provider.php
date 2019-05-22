@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class AddColumnProjectProvider extends Migration
@@ -12,11 +13,14 @@ class AddColumnProjectProvider extends Migration
      */
     public function up()
     {
-      Schema::table('project_providers', function ($table) {
+      Schema::table('project_providers', function (Blueprint $table) {
           $table->dropColumn('id_function_sat');
-          $table->integer('id_function_frame')->after('id_project');
           $table->dropColumn('start_date');
           $table->dropColumn('finish_date');
+      });
+
+      Schema::table('project_providers', function (Blueprint $table) {
+          $table->integer('id_function_frame')->after('id_project');
           $table->timestamp('start_date_contract')->after('salary_liquidate')->nullable();
           $table->timestamp('finish_date_contract')->after('start_date_contract')->nullable();
           $table->timestamp('start_afip')->after('finish_date_contract')->nullable();

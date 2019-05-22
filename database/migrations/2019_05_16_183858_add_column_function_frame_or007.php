@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class AddColumnFunctionFrameOr007 extends Migration
@@ -12,7 +13,7 @@ class AddColumnFunctionFrameOr007 extends Migration
      */
     public function up()
     {
-      Schema::table('frame_functions', function ($table) {
+      Schema::table('frame_functions', function (Blueprint $table) {
         $table->string('color')->nullable()->after('id_workers_category');
     });
     }
