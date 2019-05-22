@@ -128,7 +128,9 @@ $(document).ready(function(){
     firstDay: 1,
     isRTL: false,
     showMonthAfterYear: false,
-    yearSuffix: ''
+    yearSuffix: '',
+    changeYear: true,
+    yearRange: "c-100:c+0",
   };
   $.datepicker.setDefaults($.datepicker.regional['es']);
 
