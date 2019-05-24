@@ -387,4 +387,25 @@ $(document).ready(function(){
     openWindowUrl(url, width);
   });
 
+  $('.show-content-observation').click(function(e){
+
+    e.preventDefault();
+
+    Swal.fire({
+      'title': 'Observaciones',
+      input: 'textarea',
+      inputValue: $('textarea[name=observations]').val(),
+      showCancelButton: true
+    })
+    .then((result) => {
+      if(result.dismiss == "cancel"){
+        return false;
+      }
+
+      $('textarea[name=observations]').val(result.value);
+      $('#logic_project').submit();
+    });
+
+  });
+
 });

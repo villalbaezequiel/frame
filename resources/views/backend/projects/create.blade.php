@@ -20,7 +20,7 @@
     <div class="wizard-container">
       <div class="card card-wizard active" data-color="purple" id="wizardProfile">
 
-        {!! Form::open(['route' => 'projects.store', 'method' => 'POST', 'class' => 'form-horizontal', 'onKeyPress' => 'return disableEnterKey(event)']) !!}
+        {!! Form::open(['route' => 'projects.store', 'method' => 'POST', 'class' => 'form-horizontal', 'onKeyPress' => 'return disableEnterKey(event)', 'id' => 'logic_project']) !!}
           <div class="card-header text-center">
             <h3 class="card-title">
               Nuevo Proyecto
@@ -453,8 +453,11 @@
               <input type="button" class="btn btn-previous btn-fill btn-default btn-wd disabled" name="previous" value="Anterior">
             </div>
             <div class="ml-auto">
+
+              <textarea name="observations" class="hidden"></textarea>
+
               <input type="button" class="btn btn-next btn-fill btn-primary btn-wd" name="next" value="Siguiente">
-              <input type="submit" class="btn btn-finish btn-fill btn-primary btn-wd" name="finish" value="Guardar" style="display: none;" />
+              <input type="submit" class="btn btn-finish btn-fill btn-primary btn-wd show-content-observation" name="finish" value="Guardar" style="display: none;" />
             </div>
             <div class="clearfix"></div>
           </div>
