@@ -143,23 +143,29 @@ class ExportController extends Controller
                                     'contact_telephone as contacto_de_empresa_telefono'
                                     )->get();
 
-        foreach ($results as &$result) {
-          $result->pais = Country::getName($result->pais);
-          $result->activo = Helpers::getActive($result->activo);
-          $result->retiene_ganancia = Helpers::getActive($result->retiene_ganancia);
-          $result->retiene_iibb = Helpers::getActive($result->retiene_iibb);
-          $result->retiene_iva = Helpers::getActive($result->retiene_iva);
+        if(count($results)) {
+
+          foreach ($results as &$result) {
+            $result->pais = Country::getName($result->pais);
+            $result->activo = Helpers::getActive($result->activo);
+            $result->retiene_ganancia = Helpers::getActive($result->retiene_ganancia);
+            $result->retiene_iibb = Helpers::getActive($result->retiene_iibb);
+            $result->retiene_iva = Helpers::getActive($result->retiene_iva);
+          }
+
+          $timestamp = date('Y_m_d_h_i_s');
+
+          Excel::create("clients_{$timestamp}", function($excel) use ($results){
+
+            $excel->sheet('Clientes', function($sheet) use ($results){
+              $sheet->fromArray($results);
+            });
+
+          })->download();
+
+        } else {
+          return back()->with('message', 'El Listado de Clientes se encuentra vacio!');
         }
-
-        $timestamp = date('Y_m_d_h_i_s');
-
-        Excel::create("clients_{$timestamp}", function($excel) use ($results){
-
-          $excel->sheet('Clientes', function($sheet) use ($results){
-            $sheet->fromArray($results);
-          });
-
-        })->download();
 
       } catch(\Exception $e){
         Helpers::getCapturError($e);
@@ -181,19 +187,25 @@ class ExportController extends Controller
                                     'active as activo'
                                     )->get();
 
-        foreach ($results as &$result) {
-          $result->activo = Helpers::getActive($result->activo);
+        if(count($results)) {
+
+          foreach ($results as &$result) {
+            $result->activo = Helpers::getActive($result->activo);
+          }
+
+          $timestamp = date('Y_m_d_h_i_s');
+
+          Excel::create("categorias_sat_{$timestamp}", function($excel) use ($results){
+
+            $excel->sheet('Categorias Sat', function($sheet) use ($results){
+              $sheet->fromArray($results);
+            });
+
+          })->download();
+
+        } else {
+          return back()->with('message', 'El Listado de las Categorias SAT se encuentra vacio!');
         }
-
-        $timestamp = date('Y_m_d_h_i_s');
-
-        Excel::create("categorias_sat_{$timestamp}", function($excel) use ($results){
-
-          $excel->sheet('Categorias Sat', function($sheet) use ($results){
-            $sheet->fromArray($results);
-          });
-
-        })->download();
 
       } catch(\Exception $e){
         Helpers::getCapturError($e);
@@ -212,19 +224,25 @@ class ExportController extends Controller
                                     'active as activo'
                                     )->get();
 
-        foreach ($results as &$result) {
-          $result->activo = Helpers::getActive($result->activo);
-          $result->tipo_proyecto = ProyectCategory::getName($result->tipo_proyecto);
+        if(count($results)) {
+
+          foreach ($results as &$result) {
+            $result->activo = Helpers::getActive($result->activo);
+            $result->tipo_proyecto = ProyectCategory::getName($result->tipo_proyecto);
+          }
+
+          $timestamp = date('Y_m_d_h_i_s');
+          Excel::create("funciones_frame{$timestamp}", function($excel) use ($results){
+
+            $excel->sheet('Funciones segun Frame', function($sheet) use ($results){
+              $sheet->fromArray($results);
+            });
+
+          })->download();
+
+        } else {
+          return back()->with('message', 'El Listado de las Funciones Frame se encuentra vacio!');
         }
-
-        $timestamp = date('Y_m_d_h_i_s');
-        Excel::create("funciones_frame{$timestamp}", function($excel) use ($results){
-
-          $excel->sheet('Funciones segun Frame', function($sheet) use ($results){
-            $sheet->fromArray($results);
-          });
-
-        })->download();
 
       } catch(\Exception $e){
         Helpers::getCapturError($e);
@@ -240,26 +258,31 @@ class ExportController extends Controller
                                     'id_proyect_category',
                                     'id_workers_category'
                                     )->get();
+        if(count($results)){
 
-        $timestamp = date('Y_m_d_h_i_s');
-        Excel::create("funciones_frame_relacion_categoria_sat{$timestamp}", function($excel) use ($results){
+          $timestamp = date('Y_m_d_h_i_s');
+          Excel::create("funciones_frame_relacion_categoria_sat{$timestamp}", function($excel) use ($results){
 
-          foreach ($results as $result) {
-            $type = ProyectCategory::getName($result->id_proyect_category);
-            $nameSheet = "$result->name - $type";
+            foreach ($results as $result) {
+              $type = ProyectCategory::getName($result->id_proyect_category);
+              $nameSheet = "$result->name - $type";
 
-            $categories = array();
-            foreach (json_decode($result->id_workers_category) as $val) {
-              $categories[] = array("nombre_categoria" => WorkersCategory::getName($val, false),
-                                    "numero_categoria" => WorkersCategory::getNumber($val));
+              $categories = array();
+              foreach (json_decode($result->id_workers_category) as $val) {
+                $categories[] = array("nombre_categoria" => WorkersCategory::getName($val, false),
+                                      "numero_categoria" => WorkersCategory::getNumber($val));
+              }
+
+              $excel->sheet($nameSheet, function($sheet) use ($categories){
+                $sheet->fromArray($categories);
+              });
             }
 
-            $excel->sheet($nameSheet, function($sheet) use ($categories){
-              $sheet->fromArray($categories);
-            });
-          }
+          })->download();
 
-        })->download();
+        } else {
+          return back()->with('message', 'El Listado de las Funciones Frame se encuentra vacio!');
+        }
 
       } catch(\Exception $e){
         Helpers::getCapturError($e);
