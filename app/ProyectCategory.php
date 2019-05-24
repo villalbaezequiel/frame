@@ -15,6 +15,8 @@ class ProyectCategory extends Model
     static public function getName($id)
     {
       $projectCategoryName = ProyectCategory::find($id);
-      return $projectCategoryName->name;
+      if($projectCategoryName){
+        return $projectCategoryName->name;
+      }
     }
 }

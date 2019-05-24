@@ -5,7 +5,13 @@
 @section('content')
 <div class="container-fluid">
 
-  <a href="{{ url('/providers/create') }}" class="btn btn-primary">Nuevo Team</a>
+  {!! Form::open(['route' => 'export.users', 'method' => 'POST']) !!}
+
+    <a href="{{ url('/providers/create') }}" class="btn btn-primary">Nuevo Team</a>
+
+    <input type="hidden" name="is_crew" value="1">
+    <input type="submit" class="btn btn-primary" value="Descargar Lista" />
+  {!! Form::close() !!}
 
   <div class="row">
     <div class="col-md-12">

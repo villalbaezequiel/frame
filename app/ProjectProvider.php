@@ -35,7 +35,7 @@ class ProjectProvider extends Model
     }
   }
 
-  static public function getPuesto($id)
+  static public function getPuesto($id, $of = true)
   {
     $crew = ProjectProvider::find($id);
 
@@ -43,11 +43,15 @@ class ProjectProvider extends Model
       if($crew->is_reemplazo == "1"){
         return "Titular";
       } elseif($crew->is_reemplazo == "2"){
-        $suplenteDe = Provider::getNameOrderLastName($crew->id_crew_reemplazo);
-        return "Secundario de $suplenteDe";
+        if($of){
+          $suplenteDe = Provider::getNameOrderLastName($crew->id_crew_reemplazo);
+          return "Secundario de $suplenteDe";
+        } else {
+          return "Secundario";
+        }
       }
     }
-    
+
   }
 
 }
