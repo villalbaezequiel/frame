@@ -6,6 +6,8 @@
 <div class="container-fluid">
 
   <a href="{{ url('/frame_functions/create') }}" class="btn btn-primary">Nueva Función Frame</a>
+  <a href='{{ url("/export/frame_functions") }}' class="btn btn-primary" target="_blank">Descargar Lista</a>
+  <a href='{{ url("/export/frame_functions_relation_sat") }}' class="btn btn-primary" target="_blank">Descargar Lista con Categorias Sat</a>
 
   <div class="row">
     <div class="col-md-12">

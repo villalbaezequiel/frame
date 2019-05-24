@@ -11,10 +11,10 @@ class RoleUser extends Model
 
   static public function getRoleNameByUser($id)
   {
-    $rol = RoleUser::where('user_id', $id)->get();
+    $rol = RoleUser::where('user_id', $id)->first();
 
-    if(isset($rol[0])){
-      $nameRol = Role::find($rol[0]->role_id);
+    if($rol){
+      $nameRol = Role::find($rol->role_id);
       return $nameRol->name;
     } else {
       return "No asignado";

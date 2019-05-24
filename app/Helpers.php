@@ -16,9 +16,9 @@ class Helpers extends Model
 
     static public function getActive($active)
     {
-      if($active == 0){
+      if($active == 0 || $active == '0'){
         return "No";
-      } else {
+      } elseif($active == 1 || $active == '1') {
         return "Si";
       }
     }
@@ -33,6 +33,15 @@ class Helpers extends Model
     {
       $list = array('male'=>'Masculino', 'female'=>'Femenino');
       return $list;
+    }
+
+    static public function getGenderEs($gender)
+    {
+      if($gender == "male") {
+        return "Masculino";
+      } elseif ($gender == "female") {
+        return "Femenino";
+      }
     }
 
     static public function setMessageValidationForm($key)
@@ -157,6 +166,16 @@ class Helpers extends Model
       );
 
       return $list;
+    }
+
+    static function getBank($bank)
+    {
+      $listBank = self::getListsBank();
+      foreach ($listBank as $key => $value) {
+        if($bank == $key) {
+          return $value;
+        }
+      }
     }
 
     static function getCapturError($e)

@@ -6,6 +6,7 @@
 <div class="container-fluid">
 
   <a href="{{ url('/users/create') }}" class="btn btn-primary">Nuevo Usuario</a>
+  <a href='{{ url("/export/users") }}' class="btn btn-primary">Descargar Lista</a>
 
   <div class="row">
     <div class="col-md-12">

@@ -6,6 +6,8 @@
 <div class="container-fluid">
   <div class="col-md-12 col-12 mr-auto ml-auto">
 
+    <a href='{{ url("/export/project/$project->id") }}' class="btn btn-primary none-alert" target="_blank">Descargar Proyecto</a>
+
     @if (session('message'))
       <div class="toolbar">
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
