@@ -351,7 +351,7 @@ class ExportController extends Controller
                                   'birthdate as fecha_cumpleanos',
                                   'id_country as pais',
                                   'id as rol_usuario',
-                                  'active as activo',
+                                  'active as activo'
                                 )
                                 ->where('is_crew', '0')
                                 ->get();
