@@ -33,9 +33,9 @@
             <thead>
               <tr>
                 <th>Nombre Fantasía</th>
+                <th>ID_Tango</th>
                 <th>CUIT</th>
                 <th>Activo</th>
-                <th>ID_Tango</th>
                 <th class="text-right">Acciones</th>
               </tr>
             </thead>
@@ -43,9 +43,9 @@
               @foreach($clients as $client)
               <tr class="item-alert-confirm-delete">
                 <td>{{ $client->nick }}</td>
+                <td><?php if($client->id_tango){ echo $client->id_tango; } else { echo "No asociado a Tango."; } ?></td>
                 <td>{{ $client->cuit }}</td>
                 <td>{{ \App\Helpers::getActive($client->active) }}</td>
-                <td><?php if($client->id_tango){ echo $client->id_tango; } else { echo "No asociado a Tango."; } ?></td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['clients.destroy', $client->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
                     <a href="{{ url('/clients/'.$client->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>

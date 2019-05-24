@@ -238,7 +238,7 @@ class ExportController extends Controller
         $results = FrameFunction::select(
                                     'name',
                                     'id_proyect_category',
-                                    'id_workers_category',
+                                    'id_workers_category'
                                     )->get();
 
         $timestamp = date('Y_m_d_h_i_s');
