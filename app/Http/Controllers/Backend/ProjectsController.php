@@ -82,6 +82,7 @@ class ProjectsController extends Controller
           $project->id_team_referring = $request->get('id_team_referring');
           $project->start_date = (isset($start_date[2]) ? $start_date[2].'-'.$start_date[1].'-'.$start_date[0] : $request->get('start_date'));
           $project->finish_date = (isset($finish_date[2]) ? $finish_date[2].'-'.$finish_date[1].'-'.$finish_date[0] : $request->get('finish_date'));
+          $project->is_closed = '0'; // 0 = abierto / 1 = cerrado
           $project->active = '0'; // cuando todos los proveedores que se agregaron aceptan la solicitud del proyecto, automaticamente cambia su estado a activo 1. Y cuando el proyecto finaliza tambien se da de baja el mismo.
           $project->save();
 
@@ -201,18 +202,7 @@ class ProjectsController extends Controller
           return redirect('/projects')->with('message', 'Proyecto creado con exito!');
 
        } catch(\Exception $e) {
-         if(\Config::get('app.debug')):
-           $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
-         else:
-           $message = 'Se ha producido un error. Por favor intente nuevamente.';
-         endif;
-
-         $respuesta = array(
-           'estado' => false,
-           'mensaje' => $message
-         );
-         return \Response::json($respuesta);
-
+        Helpers::getCapturError($e);
        }
      }
 
@@ -393,18 +383,7 @@ class ProjectsController extends Controller
           return redirect('/projects')->with('message', 'Proyecto editado con exito!');
 
        } catch(\Exception $e) {
-         if(\Config::get('app.debug')):
-           $message = 'ERROR('.$e->getLine().'): '.$e->getMessage();
-         else:
-           $message = 'Se ha producido un error. Por favor intente nuevamente.';
-         endif;
-
-         $respuesta = array(
-           'estado' => false,
-           'mensaje' => $message
-         );
-         return \Response::json($respuesta);
-
+        Helpers::getCapturError($e);
        }
      }
 
@@ -430,4 +409,5 @@ class ProjectsController extends Controller
 
        return response(array('message' => 'Proyecto eliminado con exito!'));
      }
+
  }

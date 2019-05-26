@@ -34,6 +34,7 @@
                 <th>Nombre</th>
                 <th>Tipo de Proyecto</th>
                 <th>Fechas: Inicio - Finalización</th>
+                <th>Estado</th>
                 <th>Activo</th>
                 <th class="text-right">Acciones</th>
               </tr>
@@ -50,12 +51,32 @@
                 <td>{{ $project->name }}</td>
                 <td>{{ \App\ProyectCategory::getName($project->id_proyect_category) }}</td>
                 <td>{{ $start_date[2].'/'.$start_date[1].'/'.$start_date[0] }} - {{ $finish_date[2].'/'.$finish_date[1].'/'.$finish_date[0] }}</td>
+                <td>{{ \App\Project::getIsClosed($project->is_closed) }}</td>
                 <td>{{ \App\Helpers::getActive($project->active) }}</td>
                 <td class="text-right">
-                  {!! Form::open(['route' => ['projects.destroy', $project->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
-                    <a href="{{ url('/projects/'.$project->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
-                    <button type="submit" class="btn btn-link btn-danger btn-just-icon remove" title="Eliminar"><i class="material-icons">close</i></button>
-                  {!! Form::close() !!}
+
+                  @if($project->is_closed)
+
+                    <!-- List Exports: info_proyecto, personal_teams_proyecto, generacion_seguros_servicios, release -->
+                    <a href="{{ url('/export/project/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Informacion del Proyecto"><i class="material-icons">file_download</i></a>
+                    <a href="{{ url('/export/project/'.$project->id.'/teams') }}" class="btn btn-link btn-success btn-just-icon" title="Generación del excel del personal del proyecto"><i class="material-icons">file_download</i></a>
+                    <!-- action closed -->
+                    <a href="{{ url('/projects_is_closed/'.$project->id.'/0') }}" class="btn btn-link btn-success btn-just-icon remove" title="Abrir Proyecto"><i class="material-icons">lock_open</i></a>
+
+                  @else
+
+                    {!! Form::open(['route' => ['projects.destroy', $project->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
+                      <!-- List Exports: info_proyecto, personal_teams_proyecto, generacion_seguros_servicios, release -->
+                      <a href="{{ url('/export/project/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Informacion del Proyecto"><i class="material-icons">file_download</i></a>
+                      <a href="{{ url('/export/project/'.$project->id.'/teams') }}" class="btn btn-link btn-success btn-just-icon" title="Generación del Excel del Personal del Proyecto"><i class="material-icons">file_download</i></a>
+                      <!-- action closed -->
+                      <a href="{{ url('/projects_is_closed/'.$project->id.'/1') }}" class="btn btn-link btn-danger btn-just-icon remove" title="Cerrar Proyecto"><i class="material-icons">lock_outline</i></a>
+                      <!-- CRUD PROJECT -->
+                      <a href="{{ url('/projects/'.$project->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
+                      <button type="submit" class="btn btn-link btn-danger btn-just-icon remove" title="Eliminar"><i class="material-icons">close</i></button>
+                    {!! Form::close() !!}
+
+                  @endif
                 </td>
               </tr>
               @endforeach

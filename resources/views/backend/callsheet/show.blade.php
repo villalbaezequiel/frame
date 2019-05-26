@@ -14,6 +14,18 @@
 
   <div class="row">
     <div class="col-md-12 ml-auto mr-auto">
+
+      @if(!count($functions_frame))
+        <div class="toolbar">
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            No se encontraron Teams para el Proyecto Seleccionado.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+      @endif
+
       @foreach($functions_frame as $frame)
       <h4 class="col-md-12 btn btn-primary">{{ \App\FrameFunction::getName($frame->id_function_frame) }}</h4>
       <table class="table table-hover">

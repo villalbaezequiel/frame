@@ -417,6 +417,7 @@ class ExportController extends Controller
                               'id_team_referring as referente',
                               'start_date as fecha_inicio',
                               'finish_date as fecha_finalizacion',
+                              'is_closed as estado',
                               'active as activo'
                             )
                             ->where('id', $id_project)
@@ -429,6 +430,7 @@ class ExportController extends Controller
           $result['referente'] = Project::getReferring($result['referente']);
           $result['fecha_inicio'] = Helpers::getDateParseFormat($result['fecha_inicio']);
           $result['fecha_finalizacion'] = Helpers::getDateParseFormat($result['fecha_finalizacion']);
+          $result['estado'] = Project::getIsClosed($result['estado']);
           $result['activo'] = Helpers::getActive($result['activo']);
         }
 

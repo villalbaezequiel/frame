@@ -61,6 +61,9 @@ Route::group(['middleware' => ['auth']], function () {
   Route::get('/import/workers_categories/', 'Backend\ImportController@workersCategories');
   Route::post('/import/workers_categories/store', 'Backend\ImportController@workersCategoriesStore')->name('import.workers_categories.store');
 
+  // action is_closed project
+  Route::get('/projects_is_closed/{id_project}/{status}', 'Backend\HelpersController@setIsClosed');
+
 });
 
 // ajax return Json

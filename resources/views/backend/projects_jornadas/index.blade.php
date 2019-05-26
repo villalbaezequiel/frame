@@ -32,6 +32,7 @@
                 <th>Nombre</th>
                 <th>Tipo de Proyecto</th>
                 <th>Fechas: Inicio - Finalización</th>
+                <th>Estado</th>
                 <th>Activo</th>
                 <th class="text-right">Acciones</th>
               </tr>
@@ -48,9 +49,15 @@
                 <td>{{ $project->name }}</td>
                 <td>{{ \App\ProyectCategory::getName($project->id_proyect_category) }}</td>
                 <td>{{ $start_date[2].'/'.$start_date[1].'/'.$start_date[0] }} - {{ $finish_date[2].'/'.$finish_date[1].'/'.$finish_date[0] }}</td>
+                <td>{{ \App\Project::getIsClosed($project->is_closed) }}</td>
                 <td>{{ \App\Helpers::getActive($project->active) }}</td>
                 <td class="text-right">
-                  <a href="{{ url('/projects_jornadas/'.$project->id) }}" class="btn btn-link btn-warning btn-just-icon edit" title="Calendario Jornadas"><i class="material-icons">calendar_today</i></a>
+                  @if($project->is_closed)
+                    <a href="{{ url('/export/project_jornadas/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Jornadas de Trabajo del Proyecto"><i class="material-icons">file_download</i></a>
+                  @else
+                    <a href="{{ url('/export/project_jornadas/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Jornadas de Trabajo del Proyecto"><i class="material-icons">file_download</i></a>
+                    <a href="{{ url('/projects_jornadas/'.$project->id) }}" class="btn btn-link btn-warning btn-just-icon edit" title="Calendario Jornadas"><i class="material-icons">calendar_today</i></a>
+                  @endif
                 </td>
               </tr>
               @endforeach

@@ -65,4 +65,13 @@ class Project extends Model
         return Provider::getNameOrderLastName($project->id_team_referring);
       }
     }
+
+    static function getIsClosed($status)
+    {
+      if($status){
+        return "Cerrado";
+      } else {
+        return "Abierto";
+      }
+    }
 }
