@@ -51,7 +51,15 @@ class ProjectProvider extends Model
         }
       }
     }
+  }
 
+  static public function getStringPuesto($is_reemplazo)
+  {
+    if($is_reemplazo == "1"){
+      return "Titular";
+    } elseif($is_reemplazo == "2"){
+      return "Secundario";
+    }
   }
 
 }
