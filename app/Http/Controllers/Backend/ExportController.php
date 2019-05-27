@@ -38,25 +38,65 @@ class ExportController extends Controller
         $section = $word->addSection();
         $timestamp = date('Y_m_d_h_i_s');
 
-        if(Contract::getName($projectProvider->id_contract) == "Eventual"){
+        switch (Contract::getName($projectProvider->id_contract))
+        {
+          case "Eventual":
+            \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractEventual( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat, false), $projectProvider->total_workdays_text, "$".$projectProvider->total_workdays, Project::getName($projectProvider->id_project), $user->email ));
+            $name_contract_doc = "contrato_eventual_{$timestamp}.docx";
+            break;
 
-          \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractEventual( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat), $projectProvider->total_workdays_text, "$".$projectProvider->total_workdays, Project::getName($projectProvider->id_project) ));
-          $name_contract_doc = "contrato_eventual_{$timestamp}.docx";
+          case "Plazo Fijo":
+            \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractPlazoFijo( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, $user->cuit, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), Helpers::getDateParseFormat($projectProvider->finish_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat, false), $projectProvider->total_workdays_text, "$".$projectProvider->total_workdays, Project::getName($projectProvider->id_project), $user->email ));
+            $name_contract_doc = "contrato_plazofijo_{$timestamp}.docx";
+            break;
 
-        } elseif(Contract::getName($projectProvider->id_contract) == "Plazo Fijo"){
+          case "Servicios":
+            \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractServicio( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), Helpers::getDateParseFormat($projectProvider->finish_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat, false), $projectProvider->total_workdays_text, "$".$projectProvider->total_workdays, Project::getName($projectProvider->id_project), $user->email ));
+            $name_contract_doc = "contrato_servicio_{$timestamp}.docx";
+            break;
 
-          \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractPlazoFijo( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), Helpers::getDateParseFormat($projectProvider->finish_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat), $projectProvider->total_workdays_text, "$".$projectProvider->total_workdays, Project::getName($projectProvider->id_project), $user->email ));
-          $name_contract_doc = "contrato_plazofijo_{$timestamp}.docx";
+          case "Tiempo Indeterminado":
+            \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractTiempoIndeterminado( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, $user->cuit, WorkersCategory::getName($projectProvider->id_category_sat, false), $projectProvider->total_workdays_text, "$".$projectProvider->total_workdays, $user->email ));
+            $name_contract_doc = "contrato_tiempo_indeterminado_{$timestamp}.docx";
+            break;
 
-        } elseif(Contract::getName($projectProvider->id_contract) == "Servicios"){
-
-          \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractServicio( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), Helpers::getDateParseFormat($projectProvider->finish_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat), $projectProvider->total_workdays_text, "$".$projectProvider->total_workdays, Project::getName($projectProvider->id_project) ));
-          $name_contract_doc = "contrato_servicio_{$timestamp}.docx";
+          default;
+            return back();
+          break;
         }
 
         $objectWriter = \PhpOffice\PhpWord\IOFactory::createWriter($word, 'Word2007');
         Storage::disk('public')->makeDirectory("contract/".$id_project_provider);
         $name_file = 'app/public/contract/'.$id_project_provider.'/'.$name_contract_doc;
+        $objectWriter->save(storage_path($name_file));
+
+        return response()->download(storage_path($name_file));
+
+      } catch(\Exception $e) {
+        Helpers::getCapturError($e);
+      }
+    }
+
+    /*
+      export release by Single Team to Project
+    */
+    public function crewRelease($id_project_provider){
+      try {
+        $projectProvider = ProjectProvider::find($id_project_provider);
+        $provider = Provider::find($projectProvider->id_provider);
+        $user = User::find($provider->id_user);
+
+        // create new docx
+        $word = new \PhpOffice\PhpWord\PhpWord();
+        $section = $word->addSection();
+        $timestamp = date('Y_m_d_h_i_s');
+
+        \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getRelease( Provider::getNameOrderLastName($projectProvider->id_provider), Helpers::getDateParseFormat($user->birthdate, '/'), Project::getName($projectProvider->id_project), WorkersCategory::getName($projectProvider->id_category_sat, false), Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), Contract::getName($projectProvider->id_contract) ));
+        $name_release_doc = "release_{$timestamp}.docx";
+
+        $objectWriter = \PhpOffice\PhpWord\IOFactory::createWriter($word, 'Word2007');
+        Storage::disk('public')->makeDirectory("release/".$id_project_provider);
+        $name_file = 'app/public/release/'.$id_project_provider.'/'.$name_release_doc;
         $objectWriter->save(storage_path($name_file));
 
         return response()->download(storage_path($name_file));
