@@ -58,6 +58,14 @@ class User extends Authenticatable
       }
     }
 
+    static function getFullNameOrder($id)
+    {
+      $user = User::find($id);
+      if($user) {
+        return $user->last_name.' '.$user->name;
+      }
+    }
+
     static function getDNI($id)
     {
       $user = User::find($id);

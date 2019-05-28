@@ -46,16 +46,14 @@ Route::group(['middleware' => ['auth']], function () {
   // export
   Route::get('/export/crew_contract/{id_project_provider}', 'Backend\ExportController@crewContract');
   Route::get('/export/release/{id_project_provider}', 'Backend\ExportController@crewRelease');
+  Route::get('/export/seguros_servicios/{id_project}', 'Backend\ExportController@seguroServicios');
   Route::get('/export/callsheet/{id_project}', 'Backend\ExportController@callSheet');
-
   Route::get('/export/clients', 'Backend\ExportController@clients');
   Route::get('/export/workers_categories', 'Backend\ExportController@workersCategories');
   Route::get('/export/frame_functions', 'Backend\ExportController@frameFunctions');
   Route::get('/export/frame_functions_relation_sat', 'Backend\ExportController@frameFunctionsByWorkersCategories');
-
   Route::get('/export/project/{id_project}', 'Backend\ExportController@project');
   Route::get('/export/project/{id_project}/teams', 'Backend\ExportController@projectTeams');
-
   Route::get('/export/users/', 'Backend\ExportController@getUsers');
   Route::post('/export/users/', 'Backend\ExportController@postUsers')->name('export.users');
 

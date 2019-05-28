@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 use Storage;
 use App\Helpers;
 use App\Project;
@@ -633,6 +634,187 @@ class ExportController extends Controller
           });
 
         })->download();
+
+      } catch(\Exception $e) {
+        Helpers::getCapturError($e);
+      }
+    }
+
+    public function seguroServicios($id_project)
+    {
+      // listado de teams, que hayan aceptado,
+      try {
+
+        $nameProject = Project::find($id_project);
+        $results = ProjectProvider::select(
+                                    'users.active as N°', // no se usa el field active, sino que tengo que hacer mencion a un campo para manipuilarlo como count
+                                    'users.id as Nombre_Apellido',
+                                    'users.dni as DNI_N',
+                                    'users.birthdate as Fecha_Nac',
+
+                                    'project_providers.id_category_sat as Actividad_Declarada',
+                                    'project_providers.created_at as Fecha_de_Declaracion',
+                                    'project_providers.start_date_contract as Vigencia_Desde',
+                                    'project_providers.finish_date_contract as Vigencia_Hasta',
+                                    'project_providers.count_workdays_crew as Cantidad_de_Dias',
+                                    'project_providers.salary_daily as Referencia_Prima_Diaria'
+                                    )
+                                    ->join('providers', 'project_providers.id_provider', '=', 'providers.id')
+                                    ->join('users', 'providers.id_user', '=', 'users.id')
+                                    ->where('project_providers.id_project', $id_project)
+                                    ->where('project_providers.id_contract', '4') // 4 = Servicios
+                                    ->where('project_providers.active', '1')
+                                    ->get();
+
+        $count = 1;
+        foreach ($results as &$team)
+        {
+          $fechaEmision = Carbon::parse($team->Vigencia_Desde);
+          $fechaExpiracion = Carbon::parse($team->Vigencia_Hasta);
+
+          $team->N° = $count;
+          $team->Nombre_Apellido = User::getFullNameOrder($team->Nombre_Apellido);
+          $team->Fecha_Nac = Helpers::getDateParseFormat($team->Fecha_Nac);
+          $team->Actividad_Declarada = WorkersCategory::getName($team->Actividad_Declarada, false);
+          $team->Fecha_de_Declaracion = Helpers::getDateParseFormat($team->Fecha_de_Declaracion);
+          $team->Vigencia_Desde = Helpers::getDateParseFormat($team->Vigencia_Desde);
+          $team->Vigencia_Hasta = Helpers::getDateParseFormat($team->Vigencia_Hasta);
+          $team->Cantidad_de_Dias = $fechaExpiracion->diffInDays($fechaEmision);
+          $team->Referencia_Prima_Diaria = '$ '.$team->Referencia_Prima_Diaria;
+          $team->Costo_por_dia_sin_IVA = '';
+          $team->Costo_por_dia_con_IVA = '';
+          $team->Movimiento = 'Alta';
+
+          $count++;
+        }
+
+        $timestamp = date('Y_m_d_h_i_s');
+        Excel::create("seguro_servicios_".$timestamp, function($excel) use ($nameProject, $results){
+
+          $excel->sheet($nameProject->name, function($sheet) use ($nameProject, $results){
+
+            $sheet->setStyle(array(
+              'font' => array(
+                'name' => 'Arial',
+                'size' => 10,
+                'bold' => false
+              )
+            ));
+
+            $sheet->setBorder('B6:N50', 'thin');
+
+            $sheet->setWidth(array(
+              'A'     =>  15,
+              'B'     =>  35,
+              'C'     =>  25,
+              'D'     =>  25,
+              'E'     =>  25,
+              'F'     =>  25,
+              'G'     =>  25,
+              'H'     =>  25,
+              'I'     =>  25,
+              'J'     =>  25,
+              'K'     =>  25,
+              'L'     =>  25,
+              'M'     =>  25,
+              'N'     =>  25
+            ));
+
+            $sheet->cell('B2', function($cell) {
+              $cell->setValue('Proyecto');
+              $cell->setBorder('thin','thin', 'thin', 'thin');
+            });
+            $sheet->cell('B3', function($cell) {
+              $cell->setValue('Cláusula de No Repetición');
+              $cell->setBorder('thin','thin', 'thin', 'thin');
+            });
+            $sheet->cell('B4', function($cell) {
+              $cell->setValue('Necesidad de Certificado de Cobertura');
+              $cell->setBorder('thin','thin', 'thin', 'thin');
+            });
+
+            $sheet->cell('C2', function($cell) use ($nameProject) {
+              $cell->setValue($nameProject->name);
+              $cell->setBorder('thin','thin', 'thin', 'thin');
+            });
+            $sheet->cell('C3', function($cell) use ($nameProject) {
+              $cell->setValue(Helpers::getActive($nameProject->clausula_no_repe));
+              $cell->setBorder('thin','thin', 'thin', 'thin');
+            });
+            $sheet->cell('C4', function($cell) use ($nameProject) {
+              $cell->setValue(Helpers::getActive($nameProject->certificado_cobertura));
+              $cell->setBorder('thin','thin', 'thin', 'thin');
+            });
+
+            $sheet->cells('B6:B50', function ($cells) {
+              $cells->setFontWeight('bold');
+            });
+
+            $sheet->cells('B6:N6', function ($cells) {
+              $cells->setFontWeight('bold');
+            });
+
+            $sheet->cells('B6:N50', function ($cells) {
+              $cells->setBorder('thin','thin', 'thin', 'thin');
+            });
+
+            $sheet->cells('C6:J50', function ($cells) {
+              $cells->setBackground('#FFFF99');
+              $cells->setFontSize(9);
+            });
+
+            $sheet->cells('N6:N50', function ($cells) {
+              $cells->setBackground('#FFFF99');
+              $cells->setFontSize(9);
+            });
+
+            $sheet->cells('N7:N50', function ($cells) {
+              $cells->setFontColor('#339966');
+            });
+
+            $sheet->cells('K6:M50', function ($cells) {
+              $cells->setBackground('#FFFFFF');
+              $cells->setFontSize(9);
+            });
+
+            $sheet->cells('B6:B50', function($cells) {
+              $cells->setAlignment('center');
+            });
+
+            $sheet->fromArray($results, null, 'B6', true, true);
+
+
+            if($nameProject->clausula_no_repe){
+              $sheet->cell('B52', function($cell) {
+                $cell->setValue('Cliente/Empresa');
+                $cell->setBorder('thin','thin', 'thin', 'thin');
+              });
+
+              $sheet->cell('C52', function($cell) {
+                $cell->setValue('Razon Social');
+                $cell->setBorder('thin','thin', 'thin', 'thin');
+              });
+
+              $sheet->cell('D52', function($cell) {
+                $cell->setValue('Cuit');
+                $cell->setBorder('thin','thin', 'thin', 'thin');
+              });
+
+              $sheet->cell('C53', function($cell) use ($nameProject){
+                $cell->setValue(Client::getRazonSocial($nameProject->id_client));
+                $cell->setBorder('thin','thin', 'thin', 'thin');
+              });
+
+              $sheet->cell('D53', function($cell) use ($nameProject){
+                $cell->setValue(Client::getCuit($nameProject->id_client));
+                $cell->setBorder('thin','thin', 'thin', 'thin');
+              });
+            }
+
+          });
+
+        })->download();
+
 
       } catch(\Exception $e) {
         Helpers::getCapturError($e);

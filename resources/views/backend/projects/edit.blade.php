@@ -469,6 +469,7 @@
                           <td style="color: <?php \App\ProjectProvider::getActiveColor($item_crew->active); ?>">{{ \App\ProjectProvider::getActive($item_crew->active) }}</td>
                           <td>
                               <a href="{{ url('/export/crew_contract/'.$item_crew->id) }}" target="_blank" class="btn btn-link btn-warning btn-just-icon edit" title="Descargar Contrato"><i class="material-icons">assignment</i></a>
+                              <a href="{{ url('/export/release/'.$item_crew->id) }}" target="_blank" class="btn btn-link btn-warning btn-just-icon edit" title="Descargar Release"><i class="material-icons">assignment</i></a>
                               <a href="{{ url('/project_providers/'.$item_crew->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Ver" target="_blank"><i class="material-icons">dvr</i></a>
                               <br>
                               <a data-url="{{ url('/project_providers/'.$item_crew->id) }}" class="btn btn-link btn-warning btn-just-icon edit openWindowUrl" data-width="900" title="Calendario - Horas Extras"><i class="material-icons">calendar_today</i></a>
@@ -484,8 +485,40 @@
                   <div class="list_crew"> </div>
 
                 </div>
-              </div>
 
+                <h5 class="info-text"> Generacion de Seguros - Contratos tipos Servicios </h5>
+                <div class="row justify-content-center">
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Cláusula de No Repetición
+                        </span>
+                        <select class="selectpicker" data-style="select-with-transition" name="clausula_no_repe">
+                          <option value="0" <?php if($project->clausula_no_repe == "0"){ echo "selected"; } ?>>No</option>
+                          <option value="1" <?php if($project->clausula_no_repe == "1"){ echo "selected"; } ?>>Si</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Necesidad de Certificado de Cobertura
+                        </span>
+                        <select class="selectpicker" data-style="select-with-transition" name="certificado_cobertura">
+                          <option value="0" <?php if($project->certificado_cobertura == "0"){ echo "selected"; } ?>>No</option>
+                          <option value="1" <?php if($project->certificado_cobertura == "1"){ echo "selected"; } ?>>Si</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
 
             </div>
           </div>

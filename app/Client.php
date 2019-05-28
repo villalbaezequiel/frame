@@ -20,4 +20,20 @@ class Client extends Model
       return Client::where('active', $status)
               ->get();
     }
+
+    static public function getRazonSocial($id)
+    {
+      $client = Client::find($id);
+      if($client){
+        return $client->razon_social;
+      }
+    }
+
+    static public function getCuit($id)
+    {
+      $client = Client::find($id);
+      if($client){
+        return $client->cuit;
+      }
+    }
 }

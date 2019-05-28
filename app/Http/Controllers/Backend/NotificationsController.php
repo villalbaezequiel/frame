@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\TeamProject;
+use App\Notifications\SeguroServicios;
 use App\Helpers;
 use App\User;
 use App\Project;
@@ -121,6 +122,19 @@ class NotificationsController extends Controller
             $project = Project::find($id_project);
             $project->active = '1';
             $project->save();
+
+            // send mail al Profesional que ve la generacion de seguros
+            if(!empty(env('MAIL_PERSONAL_SEGUROS_SERVICIOS'))){
+              $personalSeguro = User::where('email', env('MAIL_PERSONAL_SEGUROS_SERVICIOS'))->first();
+
+              $data = array(
+                'user' => $personalSeguro,
+                'project' => $project
+              );
+              $personalSeguro->notify(new SeguroServicios($data));
+            }
+
+
           }
 
           return back()->withInput()->with('message', $message);
