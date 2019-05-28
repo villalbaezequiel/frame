@@ -52,6 +52,28 @@ function getContractProject(value)
   }
 }
 
+function getTemplateTeam(idTeam, functionFrame, name, categorySat, dates, contract, statu, position, action)
+{
+  return (`<div class="col-md-4 d-flex" id="item_view_${idTeam}">
+            <div class="card mb-3">
+              <div class="card-header card-section-color">
+                ${functionFrame}
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">${name}</h4>
+                <p class="card-text mb-2">${categorySat}</p>
+                <p class="card-text mb-2">Fechas: ${dates}</p>
+                <p class="card-text mb-2">Contrato: ${contract}</p>
+                <p class="card-text mb-2">Estado: ${statu}</p>
+                <p class="card-text mb-2">Puesto: ${position}</p>
+              </div>
+              <div class="card-footer pt-0">
+                <button type="button" class="btn btn-link btn-danger btn-just-icon remove" onClick="${action}" data-idcrew="${idTeam}" data-itemremove="item_view_${idTeam}" title='Eliminar'><i class='material-icons'>close</i></button>
+              </div>
+            </div>
+          </div>`);
+}
+
 $(document).ready(function(){
 
   // input validate
@@ -171,10 +193,9 @@ $(document).ready(function(){
         url: '/sistema/json/check_crew_project/'+id_provider+'/'+start_date_contract.replace(/\//g, '-'),
         dataType: 'json',
         success: function(data){
-
           // add crew
-          if(data.status){
 
+          function continueAddTeam(){
             if(checkIsSuplente == "2" && idTeamSuplente != "0"){
 
               // add crew SECUNDARIO to list input request
@@ -221,8 +242,10 @@ $(document).ready(function(){
 
             // add crew list table front
             var crewName = $('select[name=id_provider] option:selected').text();
-            var crewFrameSat = $('select[name=id_function_frame] option:selected').text()+" / "+$('select[name=id_category_sat] option:selected').text();
+            var crewFunctionFrame = $('select[name=id_function_frame] option:selected').text();
+            var crewCategorySat = $('select[name=id_category_sat] option:selected').text();
             var crewDates = start_date_contract+" - "+finish_date_contract;
+            var contract = $('select[name=id_contract] option:selected').text();
 
             // button to onClick add remove crew
             var onClickRemoveTeam = "$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove();";
@@ -235,7 +258,7 @@ $(document).ready(function(){
             }
 
             // add html list crew view
-            $('.list_crew_view').append("<tr id='item_view_"+id_provider+"'><td>"+crewName+"</td><td>"+crewFrameSat+"</td><td>"+crewDates+"</td><td>"+textPuesto+"</td><td style='color: black'>Pendiente.</td><td><button type='button' class='btn btn-link btn-danger btn-just-icon remove' onClick="+onClickRemoveTeam+" data-idcrew='"+id_provider+"' data-itemremove='item_view_"+id_provider+"' title='Eliminar'><i class='material-icons'>close</i></button></td></tr>");
+            $('.list_crew_view').append(getTemplateTeam(id_provider,crewFunctionFrame, crewName, crewCategorySat, crewDates, contract, 'Pendiente', textPuesto, onClickRemoveTeam));
 
             // restart input add crew
             $(".empty-values-finish-add-crew input").val('');
@@ -257,17 +280,40 @@ $(document).ready(function(){
             }
 
             $('.selectpicker').selectpicker('refresh');
+          }
 
-          } else {
+          if(!data.status){
+
+            var resultTeam = data.result;
+
             Swal.fire({
               type: 'warning',
-              title: 'El Team se encuentra Trabajando en otro Proyecto, en las Fechas de Contrato selecionadas!',
-              text: "Por favor ingrese nuevas Fechas de Contrato o pruebe con Otro Team.",
+              title: 'Ups!',
+              html:
+              `<p>El Team por agregar se encuentra Trabajando en otro Proyecto, en las Fechas seleccionadas!</p>
+              <ul>
+                <li style="text-align: left;"><strong>Team:</strong> ${resultTeam.name}</li>
+                <li style="text-align: left;"><strong>Proyecto:</strong> ${resultTeam.project}</li>
+                <li style="text-align: left;"><strong>Fecha de Alta:</strong> ${resultTeam.initial}</li>
+                <li style="text-align: left;"><strong>Fecha de Baja:</strong> ${resultTeam.finished}</li>
+              </ul>
+              <p>Desea agregarlo de todas maneras?</p>
+              `,
+              showCancelButton: true,
               confirmButtonColor: '#3085d6',
               cancelButtonColor: '#d33',
               confirmButtonText: 'Si, continuar!'
+            })
+            .then((result) => {
+              if(result.dismiss == "cancel"){
+                return false;
+              }
+              if(result.value){
+                continueAddTeam();
+              }
             });
-            return false;
+          } else {
+            continueAddTeam();
           }
 
         },

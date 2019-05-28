@@ -88,3 +88,10 @@
   width: 48%;
   text-align: center;
 }
+.card-section-color {
+  background-color: rgba(0,0,0,.03)!important;
+  border-top: 1px solid rgba(0,0,0,.125)!important;
+}
+.text-muted {
+  color: #6c757d !important;
+}

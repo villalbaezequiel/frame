@@ -171,6 +171,8 @@
               </div>
 
               <div class="tab-pane" id="module_two">
+
+              @if(!$project->active)
                 <h5 class="info-text"> Team </h5>
                 <div class="row justify-content-center empty-values-finish-add-crew">
 
@@ -437,55 +439,42 @@
                     <button id="add_crew" type="button" class="btn btn-primary">Agregar Team</button>
                   </div>
                 </div>
+              @endif
 
                 <h5 class="info-text"> Lista de Team  </h5>
-                <div class="row justify-content-center">
-
-                  <div class="col-md-12">
-                    <table class="table" style="margin: 0 auto;">
-                      <thead>
-                        <tr>
-                          <!-- <th></th> -->
-                          <th>Team</th>
-                          <th>Función Frame/Categoría SAT</th>
-                          <th>Fechas</th>
-                          <th>Puesto</th>
-                          <th>Estado</th>
-                          <th>Acciones</th>
-                        </tr>
-                      </thead>
-                      <tbody class="list_crew_view">
-                        @foreach($list_crew as $item_crew)
-                        <tr id="item_view_{{ $item_crew->id_provider }}">
-                          <!-- <td><button type='button' class='btn btn-link btn-danger btn-just-icon remove' onClick="$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove()" data-idcrew="{{ $item_crew->id_provider }}" data-itemremove="item_view_{{ $item_crew->id_provider }}" title='Eliminar'><i class='material-icons'>close</i></button></td> -->
-                          <td>{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}</td>
-                          <td>{{ \App\FrameFunction::getName($item_crew->id_function_frame).' / '.\App\WorkersCategory::getName($item_crew->id_category_sat) }}</td>
-                          <?php
-                            $start_date_contract = explode('-', \App\Helpers::getDate($item_crew->start_date_contract));
-                            $finish_date_contract = explode('-', \App\Helpers::getDate($item_crew->finish_date_contract));
-                          ?>
-                          <td>{{ $start_date_contract[2].'/'.$start_date_contract[1].'/'.$start_date_contract[0].' - '.$finish_date_contract[2].'/'.$finish_date_contract[1].'/'.$finish_date_contract[0] }}</td>
-                          <td>{{ \App\ProjectProvider::getPuesto($item_crew->id) }}</td>
-                          <td style="color: <?php \App\ProjectProvider::getActiveColor($item_crew->active); ?>">{{ \App\ProjectProvider::getActive($item_crew->active) }}</td>
-                          <td>
-                              <a href="{{ url('/export/crew_contract/'.$item_crew->id) }}" target="_blank" class="btn btn-link btn-warning btn-just-icon edit" title="Descargar Contrato"><i class="material-icons">assignment</i></a>
-                              <a href="{{ url('/export/release/'.$item_crew->id) }}" target="_blank" class="btn btn-link btn-warning btn-just-icon edit" title="Descargar Release"><i class="material-icons">assignment</i></a>
-                              <a href="{{ url('/project_providers/'.$item_crew->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Ver" target="_blank"><i class="material-icons">dvr</i></a>
-                              <br>
-                              <a data-url="{{ url('/project_providers/'.$item_crew->id) }}" class="btn btn-link btn-warning btn-just-icon edit openWindowUrl" data-width="900" title="Calendario - Horas Extras"><i class="material-icons">calendar_today</i></a>
-                              <button type="button" class="btn btn-link btn-danger btn-just-icon remove alert-confirm-delete-button" title="Eliminar" data-id="{{ $item_crew->id }}" data-idprovider="{{ $item_crew->id_provider }}"><i class="material-icons">close</i></button>
-                          </td>
-                        </tr>
-                        @endforeach
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <!-- append list crew  -->
-                  <div class="list_crew"> </div>
-
+                <div class="row justify-content-center list_crew_view" style="margin-top: -22px;">
+                  @foreach($list_crew as $item_crew)
+                    <div class="col-md-4 d-flex" id="item_view_{{ $item_crew->id_provider }}">
+                      <div class="card mb-3">
+                        <div class="card-header card-section-color">
+                          {{ \App\FrameFunction::getName($item_crew->id_function_frame) }}
+                        </div>
+                        <div class="card-body">
+                          <h4 class="card-title">{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}</h4>
+                          <p class="card-text mb-2">{{ \App\WorkersCategory::getName($item_crew->id_category_sat) }}</p>
+                          <p class="card-text mb-2">Fechas: {{ \App\Helpers::getDateParseFormat($item_crew->start_date_contract, '/') }} a {{ \App\Helpers::getDateParseFormat($item_crew->finish_date_contract, '/') }}</p>
+                          <p class="card-text mb-2">Contrato: {{ \App\Contract::getName($item_crew->id_contract) }}</p>
+                          <p class="card-text mb-2">Estado: {{ \App\ProjectProvider::getActive($item_crew->active) }}</p>
+                          <p class="card-text mb-2">Puesto: {{ \App\ProjectProvider::getPuesto($item_crew->id) }}</p>
+                        </div>
+                        <div class="card-footer pt-0">
+                          <a href="{{ url('/export/crew_contract/'.$item_crew->id) }}" target="_blank" class="btn btn-link btn-warning btn-just-icon edit" title="Descargar Contrato"><i class="material-icons">assignment</i></a>
+                          <a href="{{ url('/export/release/'.$item_crew->id) }}" target="_blank" class="btn btn-link btn-warning btn-just-icon edit" title="Descargar Release"><i class="material-icons">assignment</i></a>
+                          <a data-url="{{ url('/project_providers/'.$item_crew->id) }}" class="btn btn-link btn-warning btn-just-icon edit openWindowUrl" data-width="900" title="Calendario - Horas Extras"><i class="material-icons">calendar_today</i></a>
+                          @if(!$project->active)
+                            <a href="{{ url('/project_providers/'.$item_crew->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Ver / Editar" target="_blank"><i class="material-icons">dvr</i></a>
+                          @endif
+                          <button type="button" class="btn btn-link btn-danger btn-just-icon remove alert-confirm-delete-button" title="Eliminar" data-id="{{ $item_crew->id }}" data-idprovider="{{ $item_crew->id_provider }}"><i class="material-icons">close</i></button>
+                        </div>
+                      </div>
+                    </div>
+                  @endforeach
                 </div>
 
+                <!-- append list crew  -->
+                <div class="list_crew"> </div>
+
+              @if(!$project->active)
                 <h5 class="info-text"> Generacion de Seguros - Contratos tipos Servicios </h5>
                 <div class="row justify-content-center">
 
@@ -518,6 +507,8 @@
                   </div>
 
                 </div>
+              @endif
+
               </div>
 
             </div>

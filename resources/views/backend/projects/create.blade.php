@@ -421,29 +421,10 @@
                 </div>
 
                 <h5 class="info-text"> Lista de Team  </h5>
-                <div class="row justify-content-center">
+                <div class="row justify-content-center list_crew_view" style="margin-top: -22px;"></div>
 
-                  <div class="col-md-12">
-                    <table class="table" style="margin: 0 auto;">
-                      <thead>
-                        <tr>
-                          <th>Team</th>
-                          <th>Función Frame/Categoría SAT</th>
-                          <th>Fechas</th>
-                          <th>Puesto</th>
-                          <th>Estado</th>
-                          <th>Acciones</th>
-                        </tr>
-                      </thead>
-                      <tbody class="list_crew_view">
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <!-- append list crew  -->
-                  <div class="list_crew"> </div>
-
-                </div>
+                <!-- append list crew  -->
+                <div class="list_crew"> </div>
 
                 <h5 class="info-text"> Generacion de Seguros - Contratos tipos Servicios </h5>
                 <div class="row justify-content-center">
@@ -455,8 +436,8 @@
                           Cláusula de No Repetición
                         </span>
                         <select class="selectpicker" data-style="select-with-transition" name="clausula_no_repe">
-                          <option value="0" <?php if($project->clausula_no_repe == "0"){ echo "selected"; } ?>>No</option>
-                          <option value="1" <?php if($project->clausula_no_repe == "1"){ echo "selected"; } ?>>Si</option>
+                          <option value="0">No</option>
+                          <option value="1">Si</option>
                         </select>
                       </div>
                     </div>
@@ -469,8 +450,8 @@
                           Necesidad de Certificado de Cobertura
                         </span>
                         <select class="selectpicker" data-style="select-with-transition" name="certificado_cobertura">
-                          <option value="0" <?php if($project->certificado_cobertura == "0"){ echo "selected"; } ?>>No</option>
-                          <option value="1" <?php if($project->certificado_cobertura == "1"){ echo "selected"; } ?>>Si</option>
+                          <option value="0">No</option>
+                          <option value="1">Si</option>
                         </select>
                       </div>
                     </div>

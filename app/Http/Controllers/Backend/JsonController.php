@@ -9,6 +9,7 @@ use App\Helpers;
 use App\FrameFunction;
 use App\Provider;
 use App\ProjectProvider;
+use App\Project;
 use App\WorkersCategory;
 
 class JsonController extends Controller
@@ -149,7 +150,7 @@ class JsonController extends Controller
     * return Boolean
     * Logica:
     */
-    public function checkAvailableTeamProject($id_provider, $start_date_contract, $active = '0')
+    public function checkAvailableTeamProject($id_provider, $start_date_contract, $active = '1')
     {
       $message;
       try {
@@ -159,15 +160,29 @@ class JsonController extends Controller
         $start_date_contract_format = $start_date[2].'-'.$start_date[1].'-'.$start_date[0].' 00:00:00';
 
         $checkTeam = ProjectProvider::where('id_provider', $id_provider)
-                                    ->where('finish_date_contract', '>=', $start_date_contract_format)
+                                    ->whereDate('finish_date_contract', '>=', $start_date_contract_format)
                                     ->where('active', $active)
                                     ->count();
+
+        $checkT = ProjectProvider::where('id_provider', $id_provider)->first();
+
         if($checkTeam == 0){
           $status = true;
         } else {
           $status = false;
         }
-        return \Response::json(array('status' => $status));
+
+        if($status){
+          return \Response::json(array('status' => $status));
+        } else {
+          $result = array(
+            'name' => Provider::getNameOrderLastName($checkT->id_provider),
+            'project' => Project::getName($checkT->id_project),
+            'initial' => Helpers::getDateParseFormat($checkT->start_date_contract, '/'),
+            'finished' => Helpers::getDateParseFormat($checkT->finish_date_contract, '/')
+          );
+          return \Response::json(array('status' => $status, 'result' => $result));
+        }
 
       } catch(\Exception $e) {
         Helpers::getCapturError($e);
