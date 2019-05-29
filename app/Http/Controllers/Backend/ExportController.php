@@ -539,9 +539,6 @@ class ExportController extends Controller
     public function projectTeams($id_project)
     {
       try {
-
-        $nameProject = Project::find($id_project);
-
         $listTeams = ProjectProvider::select(
 
             'users.name as nombre',
@@ -627,9 +624,9 @@ class ExportController extends Controller
         }
 
         $timestamp = date('Y_m_d_h_i_s');
-        Excel::create("proyecto_".$timestamp, function($excel) use ($nameProject, $listTeams){
+        Excel::create("proyecto_".$timestamp, function($excel) use ($listTeams){
 
-          $excel->sheet('Teams del Proyecto '.$nameProject->name, function($sheet) use ($listTeams){
+          $excel->sheet('Teams del Proyecto', function($sheet) use ($listTeams){
             $sheet->fromArray($listTeams);
           });
 
