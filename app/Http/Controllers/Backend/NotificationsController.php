@@ -123,17 +123,23 @@ class NotificationsController extends Controller
             $project->active = '1';
             $project->save();
 
-            // send mail al Profesional que ve la generacion de seguros
-            if(!empty(env('MAIL_PERSONAL_SEGUROS_SERVICIOS'))){
-              $personalSeguro = User::where('email', env('MAIL_PERSONAL_SEGUROS_SERVICIOS'))->first();
+            // chequer si tengo al menos un personal de tipo de contrato servicios
+            $checkServices = ProjectProvider::where('id_project', $id_project)
+                                            ->where('id_contract', '4') // 4 = Servicios
+                                            ->count();
 
-              $data = array(
-                'user' => $personalSeguro,
-                'project' => $project
-              );
-              $personalSeguro->notify(new SeguroServicios($data));
+            if($checkServices > 0){
+              // send mail al Profesional que ve la generacion de seguros
+              if(!empty(env('MAIL_PERSONAL_SEGUROS_SERVICIOS'))){
+                $personalSeguro = User::where('email', env('MAIL_PERSONAL_SEGUROS_SERVICIOS'))->first();
+
+                $data = array(
+                  'user' => $personalSeguro,
+                  'project' => $project
+                );
+                $personalSeguro->notify(new SeguroServicios($data));
+              }
             }
-
 
           }
 
