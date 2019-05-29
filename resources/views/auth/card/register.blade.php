@@ -226,7 +226,7 @@
   <div class="input-group col-md-6">
     <div class="input-group-prepend">
       <span class="input-group-text">
-        Función según Frame:
+        Rol a Desempeñar:
       </span>
     </div>
     <select class="custom-select" name="id_function_frame[]" multiple required>
