@@ -393,7 +393,7 @@ $(document).ready(function(){
 
         $.ajax({
           type: 'GET',
-          url: '/json/check_crew_project/'+id_provider+'/'+start_date_contract.replace(/\//g, '-'),
+          url: '/sistema/json/check_crew_project/'+id_provider+'/'+start_date_contract.replace(/\//g, '-'),
           dataType: 'json',
           success: function(data){
             // add crew
@@ -744,7 +744,7 @@ $(document).ready(function(){
         // add 'rol a desempeñar' funciones frame
         $.ajax({
           type: 'GET',
-          url: '/json/get_function_frame',
+          url: '/sistema/json/get_function_frame',
           success: function(data){
             if(data.results){
               $.each(data.results, function(i, v){
@@ -796,7 +796,7 @@ $(document).ready(function(){
 
           $.ajax({
             type: 'GET',
-            url: '/json/project_providers/extra_hours',
+            url: '/sistema/json/project_providers/extra_hours',
             data: extraHours,
             success: function(data){
 
