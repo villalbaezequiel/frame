@@ -122,7 +122,7 @@
                         <span class="input-group-text">
                           Descripción
                         </span>
-                        <input type="number" class="form-control input-type-number" name="description" value="{{ old('description') }}" maxlength="125">
+                        <input type="text" class="form-control" name="description" value="{{ old('description') }}" maxlength="125">
                       </div>
                     </div>
                   </div>
