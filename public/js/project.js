@@ -44,12 +44,18 @@ function getFormatNumber(number)
 function getContractProject(value)
 {
   // id 4 = Servicios
-  if(value == 4){
+  if(value == 4 || value == '4'){
     $('.field-afip').hide();
     $('.field-afip input').val('');
   } else {
     $('.field-afip').show();
   }
+}
+
+function getDatePickerFormat(value){
+  let newDate = new Date(value);
+
+  return newDate.getDate()+'/'+(newDate.getMonth()+1)+'/'+newDate.getFullYear();
 }
 
 function getTemplateTeam(idTeam, functionFrame, name, categorySat, dates, contract, statu, position, action)
@@ -72,6 +78,36 @@ function getTemplateTeam(idTeam, functionFrame, name, categorySat, dates, contra
               </div>
             </div>
           </div>`);
+}
+
+function setCardTeamIsset(idCard, function_frame, category_sat, dates, contract, active, puesto){
+  $("#item_view_"+idCard+" .edit-text-function_frame").text(function_frame);
+  $("#item_view_"+idCard+" .edit-text-category_sat").text(category_sat);
+  $("#item_view_"+idCard+" .edit-text-dates").text(`Fechas: ${dates}`);
+  $("#item_view_"+idCard+" .edit-text-contract").text(`Contrato: ${contract}`);
+  $("#item_view_"+idCard+" .edit-text-active").text(`Estado: ${active}`);
+  $("#item_view_"+idCard+" .edit-text-puesto").text(`Puesto: ${puesto}`);
+}
+
+function setEmptyFormTeam(){
+
+  // si el proyecto ya esta activo, que se oculte el form content del team luego de editar
+  $("#content-form-edit-team").addClass('hidden');
+
+  // restart input add crew
+  $(".empty-values-finish-add-crew input").val('');
+  $("select[name=is_reemplazo]").val("1"); // Default Titular
+  $("select[name=active]").val("0"); // Default Pendiente
+  $("select[name=id_crew_reemplazo]").val("0"); // "Seleccionar..."
+  $('input[name=crew_sueldo_diferencia]').removeAttr('style');
+  $("select[name=is_reemplazo]").removeAttr('disabled');
+  $("select[name=id_crew_reemplazo]").removeAttr('disabled');
+
+  $("#add_crew").text("Agregar Team");
+  $('.selectpicker').selectpicker('refresh');
+
+  $('body,html').stop(true,true).animate({ scrollTop: $("#ancla_list_crew_view").offset().top },1000);
+
 }
 
 $(document).ready(function(){
@@ -119,7 +155,6 @@ $(document).ready(function(){
     $('select[name=hour_initial]').append(`<option value="${v}">${v}</option>`);
     $('select[name=hour_end]').append(`<option value="${v}">${v}</option>`);
   });
-  $('.selectpicker').selectpicker('refresh');
 
   $("#add_crew").click(function(){
 
@@ -145,7 +180,8 @@ $(document).ready(function(){
     let salary_daily = $('input[name=salary_daily]').val(); // required
     let salary_liquidate = $('input[name=salary_liquidate]').val(); // required
     let salaty_difference = $('input[name=crew_sueldo_diferencia]').val(); // required
-
+    let active = $('select[name=active]').val();
+    let id_project_provider = $("input[name=id_project_provider]").val();
 
     // check is_reemplazo
     // puesto
@@ -184,146 +220,163 @@ $(document).ready(function(){
         'salary_liquidate': salary_liquidate,
         'salaty_difference': salaty_difference,
         'is_reemplazo': checkIsSuplente,
-        'id_crew_reemplazo': idTeamSuplente
+        'id_crew_reemplazo': idTeamSuplente,
+        'id_project_provider': id_project_provider,
+        'active': active
       };
 
       // verificar si el Team esta en otro proyecto en esas fechas
-      $.ajax({
-        type: 'GET',
-        url: '/sistema/json/check_crew_project/'+id_provider+'/'+start_date_contract.replace(/\//g, '-'),
-        dataType: 'json',
-        success: function(data){
-          // add crew
 
-          function continueAddTeam(){
-            if(checkIsSuplente == "2" && idTeamSuplente != "0"){
+      // text value
+      var crewNameText = $('select[name=id_provider] option:selected').text();
+      let crewFunctionFrameText = $('select[name=id_function_frame] option:selected').text();
+      let crewCategorySatText = $('select[name=id_category_sat] option:selected').text();
+      let crewDatesText = start_date_contract+" - "+finish_date_contract;
+      let contractText = $('select[name=id_contract] option:selected').text();
+      let activeText = $('select[name=active] option:selected').text();
 
-              // add crew SECUNDARIO to list input request
-              if($('#'+id_provider).length == 0){
-                $('.list_crew').append(`<input type="hidden" name="list_crew_secundario[]" id="${id_provider}" value="" />`);
-                $('#'+id_provider).val(JSON.stringify(crew));
+      // is Titular o Secundario
+      if(checkIsSuplente == "1"){
+        var textPuesto = "Titular";
+      } else {
+        var textPuesto = "Secundario de "+nameTeamSuplente;
+      }
 
-              } else {
+      let continueAddTeam = function(is_edit = false) {
+        if(checkIsSuplente == "2" && idTeamSuplente != "0"){
 
-                // verifico que no pueda seleccionar un crew secundario que sea igual al titular
-                if($('#'+id_provider).attr('name') != "list_crew[]"){
-                  $('#'+id_provider).val('');
-                  $('#'+id_provider).val(JSON.stringify(crew));
+          // add crew SECUNDARIO to list input request
+          if($('#'+id_provider).length == 0){
+            $('.list_crew').append(`<input type="hidden" name="list_crew_secundario[]" id="${id_provider}" value="" />`);
+            $('#'+id_provider).val(JSON.stringify(crew));
 
-                  // remove item_view
-                  $("#item_view_"+id_provider).remove();
-                } else {
-                  alert("No puedes Agregar un Team Secundario al mismo Team Titular.");
+          } else {
+
+            // verifico que no pueda seleccionar un crew secundario que sea igual al titular
+            if($('#'+id_provider).attr('name') != "list_crew[]"){
+              $('#'+id_provider).val('');
+              $('#'+id_provider).val(JSON.stringify(crew));
+            } else {
+              Swal.fire({
+                title: 'No puedes Agregar un Team Secundario al mismo Team Titular!',
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar'
+              });
+              return false;
+            }
+
+          }
+
+        } else if(checkIsSuplente == "2" && idTeamSuplente == "0"){
+
+          Swal.fire({
+            title: 'Haz Seleccionado un Team Secundario. Por favor seleccione un Team en "Reemplazo del Team". Gracias!',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar'
+          });
+          return false;
+
+        } else {
+          // add crew TITULAR to list input request
+          if($('#'+id_provider).length == 0){
+            $('.list_crew').append(`<input type="hidden" name="list_crew[]" id="${id_provider}" value="" />`);
+            $('#'+id_provider).val(JSON.stringify(crew));
+
+          } else {
+            $('#'+id_provider).val('');
+            $('#'+id_provider).val(JSON.stringify(crew));
+          }
+
+        }
+
+        if(!is_edit){
+          // button to onClick add remove crew
+          let onClickRemoveTeam = "$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove();";
+
+          // add html list crew view
+          $('.list_crew_view').append(getTemplateTeam(id_provider,crewFunctionFrameText, crewNameText, crewCategorySatText, crewDatesText, contractText, 'Pendiente', textPuesto, activeText, onClickRemoveTeam));
+        }
+        // una vez que haya aunque sea 1 CREW en la lista de Empleados, se habilita los INPUT de SUPLENTES
+        // y AGREGO a la lista de "Reemplazo del Team" los crew agregados
+        // TENER EN CUENTA SI SE BORRA EL CREW DEL PROYECTO, QUE SE BORRE DE ESTA LISTA TAMBIEN
+        // Y SI EL TITULAR BORRADO TIENE UN SUPLENTE, QUE EL Suplente TAMBIEN SE ELIMINE
+        if(checkIsSuplente == "1" && $("select[name=id_crew_reemplazo] option[value='"+id_provider+"']").length == 0){
+          $("select[name=id_crew_reemplazo]").append("<option value='"+id_provider+"'>"+crewNameText+"</option>");
+        }
+
+      }
+
+      if(id_project_provider && id_project_provider.length){
+        setCardTeamIsset(id_provider, crewFunctionFrameText, crewCategorySatText, crewDatesText, contractText, activeText, textPuesto);
+        continueAddTeam(true);
+      } else {
+
+        $.ajax({
+          type: 'GET',
+          url: '/sistema/json/check_crew_project/'+id_provider+'/'+start_date_contract.replace(/\//g, '-'),
+          dataType: 'json',
+          success: function(data){
+            // add crew
+
+            if(!data.status){
+
+              var resultTeam = data.result;
+
+              Swal.fire({
+                type: 'warning',
+                title: 'Ups!',
+                html:
+                `<p>El Team por agregar se encuentra Trabajando en otro Proyecto, en las Fechas seleccionadas!</p>
+                <ul>
+                  <li style="text-align: left;"><strong>Team:</strong> ${resultTeam.name}</li>
+                  <li style="text-align: left;"><strong>Proyecto:</strong> ${resultTeam.project}</li>
+                  <li style="text-align: left;"><strong>Fecha de Alta:</strong> ${resultTeam.initial}</li>
+                  <li style="text-align: left;"><strong>Fecha de Baja:</strong> ${resultTeam.finished}</li>
+                </ul>
+                <p>Desea agregarlo de todas maneras?</p>
+                `,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, continuar!'
+              })
+              .then((result) => {
+                if(result.dismiss == "cancel"){
                   return false;
                 }
-
-              }
-
-            } else if(checkIsSuplente == "2" && idTeamSuplente == "0"){
-
-              alert('Haz Seleccionado un Team Secundario. Por favor seleccione un Team en "Reemplazo del Team". Gracias!');
-              return false;
-
+                if(result.value){
+                  continueAddTeam();
+                }
+              });
             } else {
-              // add crew TITULAR to list input request
-              if($('#'+id_provider).length == 0){
-                $('.list_crew').append(`<input type="hidden" name="list_crew[]" id="${id_provider}" value="" />`);
-                $('#'+id_provider).val(JSON.stringify(crew));
-
-              } else {
-                $('#'+id_provider).val('');
-                $('#'+id_provider).val(JSON.stringify(crew));
-
-                // remove item_view
-                $("#item_view_"+id_provider).remove();
-              }
-
+              continueAddTeam();
             }
 
-            // add crew list table front
-            var crewName = $('select[name=id_provider] option:selected').text();
-            var crewFunctionFrame = $('select[name=id_function_frame] option:selected').text();
-            var crewCategorySat = $('select[name=id_category_sat] option:selected').text();
-            var crewDates = start_date_contract+" - "+finish_date_contract;
-            var contract = $('select[name=id_contract] option:selected').text();
-
-            // button to onClick add remove crew
-            var onClickRemoveTeam = "$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove();";
-
-            // Text is Titular o Secundario
-            if(checkIsSuplente == "1"){
-              var textPuesto = "Titular";
-            } else {
-              var textPuesto = "Secundario de "+nameTeamSuplente;
-            }
-
-            // add html list crew view
-            $('.list_crew_view').append(getTemplateTeam(id_provider,crewFunctionFrame, crewName, crewCategorySat, crewDates, contract, 'Pendiente', textPuesto, onClickRemoveTeam));
-
-            // restart input add crew
-            $(".empty-values-finish-add-crew input").val('');
-            $("select[name=is_reemplazo]").val("1"); // Default Titular
-            $("select[name=id_crew_reemplazo]").val("0"); // "Seleccionar..."
-
-            $('input[name=crew_sueldo_diferencia]').removeAttr('style');
-
-            // una vez que haya aunque sea 1 CREW en la lista de Empleados, se habilita los INPUT de SUPLENTES
-            // y AGREGO a la lista de "Reemplazo del Team" los crew agregados
-            // TENER EN CUENTA SI SE BORRA EL CREW DEL PROYECTO, QUE SE BORRE DE ESTA LISTA TAMBIEN
-            // Y SI EL TITULAR BORRADO TIENE UN SUPLENTE, QUE EL Suplente TAMBIEN SE ELIMINE
-
-            $("select[name=is_reemplazo]").removeAttr('disabled');
-            $("select[name=id_crew_reemplazo]").removeAttr('disabled');
-
-            if(checkIsSuplente == "1" && $("select[name=id_crew_reemplazo] option[value='"+id_provider+"']").length == 0){
-              $("select[name=id_crew_reemplazo]").append("<option value='"+id_provider+"'>"+crewName+"</option>");
-            }
-
-            $('.selectpicker').selectpicker('refresh');
+          },
+          error: function(xhr, status){
+            console.log('Error: '+xhr);
           }
+        });
+      }
 
-          if(!data.status){
-
-            var resultTeam = data.result;
-
-            Swal.fire({
-              type: 'warning',
-              title: 'Ups!',
-              html:
-              `<p>El Team por agregar se encuentra Trabajando en otro Proyecto, en las Fechas seleccionadas!</p>
-              <ul>
-                <li style="text-align: left;"><strong>Team:</strong> ${resultTeam.name}</li>
-                <li style="text-align: left;"><strong>Proyecto:</strong> ${resultTeam.project}</li>
-                <li style="text-align: left;"><strong>Fecha de Alta:</strong> ${resultTeam.initial}</li>
-                <li style="text-align: left;"><strong>Fecha de Baja:</strong> ${resultTeam.finished}</li>
-              </ul>
-              <p>Desea agregarlo de todas maneras?</p>
-              `,
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Si, continuar!'
-            })
-            .then((result) => {
-              if(result.dismiss == "cancel"){
-                return false;
-              }
-              if(result.value){
-                continueAddTeam();
-              }
-            });
-          } else {
-            continueAddTeam();
-          }
-
-        },
-        error: function(xhr, status){
-          console.log('Error: '+xhr);
-        }
-      });
+      setEmptyFormTeam();
+      $('.selectpicker').selectpicker('refresh');
 
     } else {
-      alert('Complete los datos correspondientes para agregar un Team!');
+      Swal.fire({
+        title: 'Complete los datos correspondientes para agregar un Team!',
+        type: 'warning',
+        showCancelButton: false,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aceptar'
+      });
     }
 
   });
@@ -360,17 +413,38 @@ $(document).ready(function(){
         }
 
       } else {
-        alert('Seleccione una Categoria SAT, para que se autocomplete los campos de Sueldos.');
+        Swal.fire({
+          title: 'Seleccione una Categoria SAT, para que se autocomplete los campos de Sueldos!',
+          type: 'warning',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Aceptar'
+        });
       }
 
     } else {
-      alert('Ingrese un Valor en Cantidad de Jornadas Laborables y Sueldo Jornada, para que se autocomplete el campo seleccionado.');
+      Swal.fire({
+        title: 'Ingrese un Valor en Cantidad de Jornadas Laborables y Sueldo Jornada, para que se autocomplete el campo seleccionado!',
+        type: 'warning',
+        showCancelButton: false,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aceptar'
+      });
     }
   });
 
   $('input[name=salary_contract_category_function]').click(function(){
     if($('input[name=salary_contract_category_function]').val() == "" ){
-      alert('Seleccione una Categoria SAT, para que se autocomplete los campos de Sueldos.');
+      Swal.fire({
+        title: 'Seleccione una Categoria SAT, para que se autocomplete los campos de Sueldos!',
+        type: 'warning',
+        showCancelButton: false,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aceptar'
+      });
     };
   });
 
@@ -453,5 +527,131 @@ $(document).ready(function(){
     });
 
   });
+
+  // edit team
+  $('.project-team-edit').click(function(){
+
+    $("#content-form-edit-team").removeClass('hidden');
+
+    $('body,html').stop(true,true).animate({ scrollTop: $("#module_two").offset().top },1000);
+
+    let id = $(this).data('id');
+    let categorySat = $(this).data('category');
+    let nameTeam = $(this).data('nameteam');
+
+    $.each(listTeams, function(i, v){
+      if(v.id == id){
+        // list field by form
+        $("#add_crew").text("Editar Team");
+
+        // add id to input
+        $("input[name=id_project_provider]").val(v.id);
+
+        //select id_function_frame. Each Funcion Frame
+        $.each($('select[name=id_function_frame] option'), function(ind,val){
+          let valOption = $(val).attr('value');
+          if(valOption == v.id_function_frame){
+            $(val).prop('selected', true);
+          }
+        });
+
+        // category sat
+        $('select[name=id_category_sat]').empty();
+        $('select[name=id_category_sat]').append(`<option value="${v.id_category_sat}" selected="selected">${categorySat}</option>`);
+
+        // team
+        $('select[name=id_provider]').empty();
+        $('select[name=id_provider]').append(`<option value="${v.id_provider}" selected="selected">${nameTeam}</option>`);
+
+        // type contract
+        $.each($('select[name=id_contract] option'), function(ind,val){
+          let valOption = $(val).attr('value');
+          if(valOption == v.id_contract){
+            $(val).prop('selected', true);
+          }
+        });
+
+        // si es contrato servicio, oculto dates afip
+        getContractProject(v.id_contract);
+
+        // start_date_contract
+        $('input[name=start_date_contract]').val(getDatePickerFormat(v.start_date_contract));
+
+        // finish_date_contract
+        $('input[name=finish_date_contract]').val(getDatePickerFormat(v.finish_date_contract));
+
+        // modalidad
+        $.each($('select[name=id_workday] option'), function(ind,val){
+          let valOption = $(val).attr('value');
+          if(valOption == v.id_workday){
+            $(val).prop('selected', true);
+          }
+        });
+
+        // cant jornadas
+        $('input[name="count_workdays_crew"]').val(v.count_workdays_crew);
+
+        // hour init
+        $.each($('select[name=hour_initial] option'), function(ind,val){
+          let valOption = $(val).attr('value');
+          if(valOption == v.hour_initial){
+            $(val).prop('selected', true);
+          }
+        });
+
+        // hour finished
+        $.each($('select[name=hour_end] option'), function(ind,val){
+          let valOption = $(val).attr('value');
+          if(valOption == v.hour_end){
+            $(val).prop('selected', true);
+          }
+        });
+
+        // start_afip
+        $('input[name=start_afip]').val(getDatePickerFormat(v.start_afip));
+
+        // finish_afip
+        $('input[name=finish_afip]').val(getDatePickerFormat(v.finish_afip));
+
+        // salary_workdays
+        $('input[name="salary_workdays"]').val(v.salary_workdays);
+
+        // total_workdays
+        $('input[name="total_workdays"]').val(v.total_workdays);
+
+        // total_workdays_text
+        $('input[name="total_workdays_text"]').val(v.total_workdays_text);
+
+        // salary_contract_category_function
+        $('input[name="salary_contract_category_function"]').val(v.salary_contract_category_function);
+
+        // salary_daily
+        $('input[name="salary_daily"]').val(v.salary_daily);
+
+        // crew_sueldo_diferencia
+        $('input[name="crew_sueldo_diferencia"]').val(v.salaty_difference);
+
+        // salary_liquidate
+        $('input[name="salary_liquidate"]').val(v.salary_liquidate);
+
+        // hour init
+        $.each($('select[name=active] option'), function(ind,val){
+          let valOption = $(val).attr('value');
+          if(valOption == v.active){
+            $(val).prop('selected', true);
+          }
+        });
+
+        // falta chequear si el user es secundario
+
+
+        $('.selectpicker').selectpicker('refresh');
+        return false;
+      }
+    });
+
+  });
+
+  $('.selectpicker').selectpicker('refresh');
 
 });

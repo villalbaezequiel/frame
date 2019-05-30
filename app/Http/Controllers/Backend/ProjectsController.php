@@ -88,12 +88,22 @@ class ProjectsController extends Controller
           $project->active = '0'; // cuando todos los proveedores que se agregaron aceptan la solicitud del proyecto, automaticamente cambia su estado a activo 1. Y cuando el proyecto finaliza tambien se da de baja el mismo.
           $project->save();
 
-          // add provides relation Project
+          // add provides Titulares relation Project
           foreach ($list_crew as $crew) {
             $crewObj = json_decode($crew);
 
-            $start_afip = explode('/', $crewObj->start_afip);
-            $finish_afip = explode('/', $crewObj->finish_afip);
+            // si es contrato tipo servicio, dates afip nulo
+            if($crewObj->id_contract != '4'){
+              $start_afipParse = explode('/', $crewObj->start_afip);
+              $finish_afipParse = explode('/', $crewObj->finish_afip);
+
+              $start_afip = (isset($start_afipParse[2]) ? $start_afipParse[2].'-'.$start_afipParse[1].'-'.$start_afipParse[0] : $crewObj->start_afip);
+              $finish_afip = (isset($finish_afipParse[2]) ? $finish_afipParse[2].'-'.$finish_afipParse[1].'-'.$finish_afipParse[0] : $crewObj->finish_afip);
+            } else {
+              $start_afip = null;
+              $finish_afip = null;
+            }
+
             $start_date_contract = explode('/', $crewObj->start_date_contract);
             $finish_date_contract = explode('/', $crewObj->finish_date_contract);
 
@@ -110,40 +120,40 @@ class ProjectsController extends Controller
                               );
             }
 
-            $crew = new ProjectProvider;
-            $crew->id_project = $project->id;
-            $crew->id_function_frame = $crewObj->id_function_frame;
-            $crew->id_category_sat = $crewObj->id_category_sat;
-            $crew->id_provider = $crewObj->id_provider;
-            $crew->id_contract = $crewObj->id_contract;
-            $crew->id_workday = $crewObj->id_workday;
-            $crew->salary_workdays = $crewObj->salary_workdays;
-            $crew->total_workdays = $crewObj->total_workdays;
-            $crew->total_workdays_text = $crewObj->total_workdays_text;
-            $crew->salary_contract_category_function = $crewObj->salary_contract_category_function;
-            $crew->salary_daily = $crewObj->salary_daily;
-            $crew->salary_liquidate = $crewObj->salary_liquidate;
-            $crew->salaty_difference = $crewObj->salaty_difference;
-            $crew->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
-            $crew->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
-            $crew->count_workdays_crew = $crewObj->count_workdays_crew;
-            $crew->hour_initial = $crewObj->hour_initial;
-            $crew->hour_end = $crewObj->hour_end;
-            $crew->start_afip = (isset($start_afip[2]) ? $start_afip[2].'-'.$start_afip[1].'-'.$start_afip[0] : $crewObj->start_afip);
-            $crew->finish_afip = (isset($finish_afip[2]) ? $finish_afip[2].'-'.$finish_afip[1].'-'.$finish_afip[0] : $crewObj->finish_afip);
-            $crew->is_reemplazo = $crewObj->is_reemplazo;
-            $crew->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
-            $crew->calendar = $calendar;
-            $crew->active = '0';
-            $crew->save();
+            $team = new ProjectProvider;
+            $team->id_project = $project->id;
+            $team->id_function_frame = $crewObj->id_function_frame;
+            $team->id_category_sat = $crewObj->id_category_sat;
+            $team->id_provider = $crewObj->id_provider;
+            $team->id_contract = $crewObj->id_contract;
+            $team->id_workday = $crewObj->id_workday;
+            $team->salary_workdays = $crewObj->salary_workdays;
+            $team->total_workdays = $crewObj->total_workdays;
+            $team->total_workdays_text = $crewObj->total_workdays_text;
+            $team->salary_contract_category_function = $crewObj->salary_contract_category_function;
+            $team->salary_daily = $crewObj->salary_daily;
+            $team->salary_liquidate = $crewObj->salary_liquidate;
+            $team->salaty_difference = $crewObj->salaty_difference;
+            $team->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
+            $team->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
+            $team->count_workdays_crew = $crewObj->count_workdays_crew;
+            $team->hour_initial = $crewObj->hour_initial;
+            $team->hour_end = $crewObj->hour_end;
+            $team->start_afip = $start_afip;
+            $team->finish_afip = $finish_afip;
+            $team->is_reemplazo = $crewObj->is_reemplazo;
+            $team->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
+            $team->calendar = $calendar;
+            $team->active = '0';
+            $team->save();
 
-            $user = User::find(Provider::getIdUser($crew->id_provider));
+            $user = User::find(Provider::getIdUser($team->id_provider));
 
             // Enviar Mails a los crew notificandolo del proyecto y si acepta trabajar
             $data = array(
               'project' => $project,
               'user' => $user,
-              'project_crew' => $crew
+              'project_crew' => $team
             );
             $user->notify(new TeamProject($data));
 
@@ -154,8 +164,18 @@ class ProjectsController extends Controller
             foreach ($list_crew_secundario as $crew) {
               $crewObj = json_decode($crew);
 
-              $start_afip = explode('/', $crewObj->start_afip);
-              $finish_afip = explode('/', $crewObj->finish_afip);
+              // si es contrato tipo servicio, dates afip nulo
+              if($crewObj->id_contract != '4'){
+                $start_afipParse = explode('/', $crewObj->start_afip);
+                $finish_afipParse = explode('/', $crewObj->finish_afip);
+
+                $start_afip = (isset($start_afipParse[2]) ? $start_afipParse[2].'-'.$start_afipParse[1].'-'.$start_afipParse[0] : $crewObj->start_afip);
+                $finish_afip = (isset($finish_afipParse[2]) ? $finish_afipParse[2].'-'.$finish_afipParse[1].'-'.$finish_afipParse[0] : $crewObj->finish_afip);
+              } else {
+                $start_afip = null;
+                $finish_afip = null;
+              }
+
               $start_date_contract = explode('/', $crewObj->start_date_contract);
               $finish_date_contract = explode('/', $crewObj->finish_date_contract);
 
@@ -172,32 +192,32 @@ class ProjectsController extends Controller
                                 );
               }
 
-              $crew = new ProjectProvider;
-              $crew->id_project = $project->id;
-              $crew->id_function_frame = $crewObj->id_function_frame;
-              $crew->id_category_sat = $crewObj->id_category_sat;
-              $crew->id_provider = $crewObj->id_provider;
-              $crew->id_contract = $crewObj->id_contract;
-              $crew->id_workday = $crewObj->id_workday;
-              $crew->salary_workdays = $crewObj->salary_workdays;
-              $crew->total_workdays = $crewObj->total_workdays;
-              $crew->total_workdays_text = $crewObj->total_workdays_text;
-              $crew->salary_contract_category_function = $crewObj->salary_contract_category_function;
-              $crew->salary_daily = $crewObj->salary_daily;
-              $crew->salary_liquidate = $crewObj->salary_liquidate;
-              $crew->salaty_difference = $crewObj->salaty_difference;
-              $crew->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
-              $crew->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
-              $crew->count_workdays_crew = $crewObj->count_workdays_crew;
-              $crew->hour_initial = $crewObj->hour_initial;
-              $crew->hour_end = $crewObj->hour_end;
-              $crew->start_afip = (isset($start_afip[2]) ? $start_afip[2].'-'.$start_afip[1].'-'.$start_afip[0] : $crewObj->start_afip);
-              $crew->finish_afip = (isset($finish_afip[2]) ? $finish_afip[2].'-'.$finish_afip[1].'-'.$finish_afip[0] : $crewObj->finish_afip);
-              $crew->is_reemplazo = $crewObj->is_reemplazo;
-              $crew->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
-              $crew->calendar = $calendar;
-              $crew->active = '0';
-              $crew->save();
+              $team = new ProjectProvider;
+              $team->id_project = $project->id;
+              $team->id_function_frame = $crewObj->id_function_frame;
+              $team->id_category_sat = $crewObj->id_category_sat;
+              $team->id_provider = $crewObj->id_provider;
+              $team->id_contract = $crewObj->id_contract;
+              $team->id_workday = $crewObj->id_workday;
+              $team->salary_workdays = $crewObj->salary_workdays;
+              $team->total_workdays = $crewObj->total_workdays;
+              $team->total_workdays_text = $crewObj->total_workdays_text;
+              $team->salary_contract_category_function = $crewObj->salary_contract_category_function;
+              $team->salary_daily = $crewObj->salary_daily;
+              $team->salary_liquidate = $crewObj->salary_liquidate;
+              $team->salaty_difference = $crewObj->salaty_difference;
+              $team->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
+              $team->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
+              $team->count_workdays_crew = $crewObj->count_workdays_crew;
+              $team->hour_initial = $crewObj->hour_initial;
+              $team->hour_end = $crewObj->hour_end;
+              $team->start_afip = $start_afip;
+              $team->finish_afip = $finish_afip;
+              $team->is_reemplazo = $crewObj->is_reemplazo;
+              $team->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
+              $team->calendar = $calendar;
+              $team->active = '0';
+              $team->save();
             }
           }
 
@@ -275,8 +295,18 @@ class ProjectsController extends Controller
             foreach ($list_crew as $crew) {
               $crewObj = json_decode($crew);
 
-              $start_afip = explode('/', $crewObj->start_afip);
-              $finish_afip = explode('/', $crewObj->finish_afip);
+              // si es contrato tipo servicio, dates afip nulo
+              if($crewObj->id_contract != '4'){
+                $start_afipParse = explode('/', $crewObj->start_afip);
+                $finish_afipParse = explode('/', $crewObj->finish_afip);
+
+                $start_afip = (isset($start_afipParse[2]) ? $start_afipParse[2].'-'.$start_afipParse[1].'-'.$start_afipParse[0] : $crewObj->start_afip);
+                $finish_afip = (isset($finish_afipParse[2]) ? $finish_afipParse[2].'-'.$finish_afipParse[1].'-'.$finish_afipParse[0] : $crewObj->finish_afip);
+              } else {
+                $start_afip = null;
+                $finish_afip = null;
+              }
+
               $start_date_contract = explode('/', $crewObj->start_date_contract);
               $finish_date_contract = explode('/', $crewObj->finish_date_contract);
 
@@ -293,40 +323,69 @@ class ProjectsController extends Controller
                                 );
               }
 
-              $crew = new ProjectProvider;
-              $crew->id_project = $project->id;
-              $crew->id_function_frame = $crewObj->id_function_frame;
-              $crew->id_category_sat = $crewObj->id_category_sat;
-              $crew->id_provider = $crewObj->id_provider;
-              $crew->id_contract = $crewObj->id_contract;
-              $crew->id_workday = $crewObj->id_workday;
-              $crew->salary_workdays = $crewObj->salary_workdays;
-              $crew->total_workdays = $crewObj->total_workdays;
-              $crew->total_workdays_text = $crewObj->total_workdays_text;
-              $crew->salary_contract_category_function = $crewObj->salary_contract_category_function;
-              $crew->salary_daily = $crewObj->salary_daily;
-              $crew->salary_liquidate = $crewObj->salary_liquidate;
-              $crew->salaty_difference = $crewObj->salaty_difference;
-              $crew->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
-              $crew->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
-              $crew->count_workdays_crew = $crewObj->count_workdays_crew;
-              $crew->hour_initial = $crewObj->hour_initial;
-              $crew->hour_end = $crewObj->hour_end;
-              $crew->start_afip = (isset($start_afip[2]) ? $start_afip[2].'-'.$start_afip[1].'-'.$start_afip[0] : $crewObj->start_afip);
-              $crew->finish_afip = (isset($finish_afip[2]) ? $finish_afip[2].'-'.$finish_afip[1].'-'.$finish_afip[0] : $crewObj->finish_afip);
-              $crew->is_reemplazo = $crewObj->is_reemplazo;
-              $crew->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
-              $crew->calendar = $calendar;
-              $crew->active = '0';
-              $crew->save();
+              if($crewObj->id_project_provider){
+                $team = ProjectProvider::find($crewObj->id_project_provider);
+                $team->id_project = $project->id;
+                $team->id_function_frame = $crewObj->id_function_frame;
+                $team->id_category_sat = $crewObj->id_category_sat;
+                $team->id_provider = $crewObj->id_provider;
+                $team->id_contract = $crewObj->id_contract;
+                $team->id_workday = $crewObj->id_workday;
+                $team->salary_workdays = $crewObj->salary_workdays;
+                $team->total_workdays = $crewObj->total_workdays;
+                $team->total_workdays_text = $crewObj->total_workdays_text;
+                $team->salary_contract_category_function = $crewObj->salary_contract_category_function;
+                $team->salary_daily = $crewObj->salary_daily;
+                $team->salary_liquidate = $crewObj->salary_liquidate;
+                $team->salaty_difference = $crewObj->salaty_difference;
+                $team->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
+                $team->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
+                $team->count_workdays_crew = $crewObj->count_workdays_crew;
+                $team->hour_initial = $crewObj->hour_initial;
+                $team->hour_end = $crewObj->hour_end;
+                $team->start_afip = $start_afip;
+                $team->finish_afip = $finish_afip;
+                $team->is_reemplazo = $crewObj->is_reemplazo;
+                $team->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
+                $team->calendar = $calendar;
+                $team->active = $crewObj->active;
+                $team->save();
+              } else {
+                $team = new ProjectProvider;
+                $team->id_project = $project->id;
+                $team->id_function_frame = $crewObj->id_function_frame;
+                $team->id_category_sat = $crewObj->id_category_sat;
+                $team->id_provider = $crewObj->id_provider;
+                $team->id_contract = $crewObj->id_contract;
+                $team->id_workday = $crewObj->id_workday;
+                $team->salary_workdays = $crewObj->salary_workdays;
+                $team->total_workdays = $crewObj->total_workdays;
+                $team->total_workdays_text = $crewObj->total_workdays_text;
+                $team->salary_contract_category_function = $crewObj->salary_contract_category_function;
+                $team->salary_daily = $crewObj->salary_daily;
+                $team->salary_liquidate = $crewObj->salary_liquidate;
+                $team->salaty_difference = $crewObj->salaty_difference;
+                $team->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
+                $team->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
+                $team->count_workdays_crew = $crewObj->count_workdays_crew;
+                $team->hour_initial = $crewObj->hour_initial;
+                $team->hour_end = $crewObj->hour_end;
+                $team->start_afip = $start_afip;
+                $team->finish_afip = $finish_afip;
+                $team->is_reemplazo = $crewObj->is_reemplazo;
+                $team->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
+                $team->calendar = $calendar;
+                $team->active = $crewObj->active;
+                $team->save();
+              }
 
-              $user = User::find(Provider::getIdUser($crew->id_provider));
+              $user = User::find(Provider::getIdUser($team->id_provider));
 
               // Enviar Mails a los crew notificandolo del proyecto y si acepta trabajar
               $data = array(
                 'project' => $project,
                 'user' => $user,
-                'project_crew' => $crew
+                'project_crew' => $team
               );
               $user->notify(new TeamProject($data));
             }
@@ -337,8 +396,18 @@ class ProjectsController extends Controller
             foreach ($list_crew_secundario as $crew) {
               $crewObj = json_decode($crew);
 
-              $start_afip = explode('/', $crewObj->start_afip);
-              $finish_afip = explode('/', $crewObj->finish_afip);
+              // si es contrato tipo servicio, dates afip nulo
+              if($crewObj->id_contract != '4'){
+                $start_afipParse = explode('/', $crewObj->start_afip);
+                $finish_afipParse = explode('/', $crewObj->finish_afip);
+
+                $start_afip = (isset($start_afipParse[2]) ? $start_afipParse[2].'-'.$start_afipParse[1].'-'.$start_afipParse[0] : $crewObj->start_afip);
+                $finish_afip = (isset($finish_afipParse[2]) ? $finish_afipParse[2].'-'.$finish_afipParse[1].'-'.$finish_afipParse[0] : $crewObj->finish_afip);
+              } else {
+                $start_afip = null;
+                $finish_afip = null;
+              }
+
               $start_date_contract = explode('/', $crewObj->start_date_contract);
               $finish_date_contract = explode('/', $crewObj->finish_date_contract);
 
@@ -355,38 +424,69 @@ class ProjectsController extends Controller
                                 );
               }
 
-              $crew = new ProjectProvider;
-              $crew->id_project = $project->id;
-              $crew->id_function_frame = $crewObj->id_function_frame;
-              $crew->id_category_sat = $crewObj->id_category_sat;
-              $crew->id_provider = $crewObj->id_provider;
-              $crew->id_contract = $crewObj->id_contract;
-              $crew->id_workday = $crewObj->id_workday;
-              $crew->salary_workdays = $crewObj->salary_workdays;
-              $crew->total_workdays = $crewObj->total_workdays;
-              $crew->total_workdays_text = $crewObj->total_workdays_text;
-              $crew->salary_contract_category_function = $crewObj->salary_contract_category_function;
-              $crew->salary_daily = $crewObj->salary_daily;
-              $crew->salary_liquidate = $crewObj->salary_liquidate;
-              $crew->salaty_difference = $crewObj->salaty_difference;
-              $crew->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
-              $crew->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
-              $crew->count_workdays_crew = $crewObj->count_workdays_crew;
-              $crew->hour_initial = $crewObj->hour_initial;
-              $crew->hour_end = $crewObj->hour_end;
-              $crew->start_afip = (isset($start_afip[2]) ? $start_afip[2].'-'.$start_afip[1].'-'.$start_afip[0] : $crewObj->start_afip);
-              $crew->finish_afip = (isset($finish_afip[2]) ? $finish_afip[2].'-'.$finish_afip[1].'-'.$finish_afip[0] : $crewObj->finish_afip);
-              $crew->is_reemplazo = $crewObj->is_reemplazo;
-              $crew->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
-              $crew->calendar = $calendar;
-              $crew->active = '0';
-              $crew->save();
+              if($crewObj->id_project_provider){
+                $team = ProjectProvider::find($crewObj->id_project_provider);
+                $team->id_project = $project->id;
+                $team->id_function_frame = $crewObj->id_function_frame;
+                $team->id_category_sat = $crewObj->id_category_sat;
+                $team->id_provider = $crewObj->id_provider;
+                $team->id_contract = $crewObj->id_contract;
+                $team->id_workday = $crewObj->id_workday;
+                $team->salary_workdays = $crewObj->salary_workdays;
+                $team->total_workdays = $crewObj->total_workdays;
+                $team->total_workdays_text = $crewObj->total_workdays_text;
+                $team->salary_contract_category_function = $crewObj->salary_contract_category_function;
+                $team->salary_daily = $crewObj->salary_daily;
+                $team->salary_liquidate = $crewObj->salary_liquidate;
+                $team->salaty_difference = $crewObj->salaty_difference;
+                $team->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
+                $team->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
+                $team->count_workdays_crew = $crewObj->count_workdays_crew;
+                $team->hour_initial = $crewObj->hour_initial;
+                $team->hour_end = $crewObj->hour_end;
+                $team->start_afip = $start_afip;
+                $team->finish_afip = $finish_afip;
+                $team->is_reemplazo = $crewObj->is_reemplazo;
+                $team->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
+                $team->calendar = $calendar;
+                $team->active = $crewObj->active;
+                $team->save();
+              } else {
+                $team = new ProjectProvider;
+                $team->id_project = $project->id;
+                $team->id_function_frame = $crewObj->id_function_frame;
+                $team->id_category_sat = $crewObj->id_category_sat;
+                $team->id_provider = $crewObj->id_provider;
+                $team->id_contract = $crewObj->id_contract;
+                $team->id_workday = $crewObj->id_workday;
+                $team->salary_workdays = $crewObj->salary_workdays;
+                $team->total_workdays = $crewObj->total_workdays;
+                $team->total_workdays_text = $crewObj->total_workdays_text;
+                $team->salary_contract_category_function = $crewObj->salary_contract_category_function;
+                $team->salary_daily = $crewObj->salary_daily;
+                $team->salary_liquidate = $crewObj->salary_liquidate;
+                $team->salaty_difference = $crewObj->salaty_difference;
+                $team->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
+                $team->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
+                $team->count_workdays_crew = $crewObj->count_workdays_crew;
+                $team->hour_initial = $crewObj->hour_initial;
+                $team->hour_end = $crewObj->hour_end;
+                $team->start_afip = $start_afip;
+                $team->finish_afip = $finish_afip;
+                $team->is_reemplazo = $crewObj->is_reemplazo;
+                $team->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
+                $team->calendar = $calendar;
+                $team->active = $crewObj->active;
+                $team->save();
+              }
             }
           }
 
           return redirect('/projects')->with('message', 'Proyecto editado con exito!');
 
        } catch(\Exception $e) {
+
+        dd($e);
         Helpers::getCapturError($e);
        }
      }

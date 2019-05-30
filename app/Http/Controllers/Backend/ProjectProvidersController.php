@@ -74,9 +74,7 @@ class ProjectProvidersController extends Controller
      */
     public function edit($id)
     {
-      return view('backend.project_providers.edit', [
-        'crew' => ProjectProvider::find($id)
-      ]);
+        //
     }
 
     /**

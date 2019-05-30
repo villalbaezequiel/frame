@@ -420,7 +420,7 @@
                   </div>
                 </div>
 
-                <h5 class="info-text"> Lista de Team  </h5>
+                <h5 class="info-text" id="ancla_list_crew_view"> Lista de Team </h5>
                 <div class="row justify-content-center list_crew_view" style="margin-top: -22px;"></div>
 
                 <!-- append list crew  -->
@@ -471,7 +471,7 @@
               <textarea name="observations" class="hidden"></textarea>
 
               <input type="button" class="btn btn-next btn-fill btn-primary btn-wd" name="next" value="Siguiente">
-              <input type="submit" class="btn btn-finish btn-fill btn-primary btn-wd show-content-observation" name="finish" value="Guardar" style="display: none;" />
+              <input type="submit" class="btn btn-finish btn-fill btn-primary btn-wd show-content-observation" name="finish" value="Guardar" style="display: none;" onclick="frameJs.setDisabled(this)" />
             </div>
             <div class="clearfix"></div>
           </div>

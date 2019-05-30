@@ -585,6 +585,12 @@ let frameJs = {
       ];
 
       return schedules;
+    },
+
+    setDisabled: (row) => {
+
+      console.log(row);
+      $(row).prop('disabled', true);
     }
 
 }

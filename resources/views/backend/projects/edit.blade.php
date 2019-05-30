@@ -172,7 +172,7 @@
 
               <div class="tab-pane" id="module_two">
 
-              @if(!$project->active)
+              <div <?php if($project->active){ echo "id='content-form-edit-team' class='hidden'"; } ?>>
                 <h5 class="info-text"> Team </h5>
                 <div class="row justify-content-center empty-values-finish-add-crew">
 
@@ -390,6 +390,7 @@
                     </div>
                   </div>
 
+                  <input type="hidden" name="id_project_provider" maxlength="125" readonly>
                   <input type="hidden" name="salary_liquidate" maxlength="125" readonly>
 
                   <div class="col-md-6">
@@ -409,7 +410,11 @@
                         <span class="input-group-text">
                           Es Reemplazo:
                         </span>
-                        <select class="selectpicker" data-style="select-with-transition" name="is_reemplazo" disabled>
+                        @if(count($list_crew) > 0)
+                          <select class="selectpicker" data-style="select-with-transition" name="is_reemplazo">
+                        @else
+                          <select class="selectpicker" data-style="select-with-transition" name="is_reemplazo" disabled>
+                        @endif
                           <option value="1" selected>No</option> <!-- 1 = Titular -->
                           <option value="2">Si</option> <!-- 1 = Suplente -->
                         </select>
@@ -435,35 +440,53 @@
                     </div>
                   </div>
 
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            Estado de Invitacion al Proyecto:
+                          </span>
+                          <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="active">
+                            <option value="0">Pendiente</option>
+                            <option value="1">Aceptado</option>
+                            <option value="2">Rechazado</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+
+                      </div>
+                    </div>
                   <div class="col-md-12 text-center" style="padding: 20px;">
                     <button id="add_crew" type="button" class="btn btn-primary">Agregar Team</button>
                   </div>
                 </div>
-              @endif
+              </div>
 
-                <h5 class="info-text"> Lista de Team  </h5>
+                <h5 class="info-text" id="ancla_list_crew_view" > Lista de Team </h5>
                 <div class="row justify-content-center list_crew_view" style="margin-top: -22px;">
                   @foreach($list_crew as $item_crew)
                     <div class="col-md-4 d-flex" id="item_view_{{ $item_crew->id_provider }}">
                       <div class="card mb-3">
-                        <div class="card-header card-section-color">
+                        <div class="card-header card-section-color edit-text-function_frame">
                           {{ \App\FrameFunction::getName($item_crew->id_function_frame) }}
                         </div>
                         <div class="card-body">
                           <h4 class="card-title">{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}</h4>
-                          <p class="card-text mb-2">{{ \App\WorkersCategory::getName($item_crew->id_category_sat) }}</p>
-                          <p class="card-text mb-2">Fechas: {{ \App\Helpers::getDateParseFormat($item_crew->start_date_contract, '/') }} a {{ \App\Helpers::getDateParseFormat($item_crew->finish_date_contract, '/') }}</p>
-                          <p class="card-text mb-2">Contrato: {{ \App\Contract::getName($item_crew->id_contract) }}</p>
-                          <p class="card-text mb-2">Estado: {{ \App\ProjectProvider::getActive($item_crew->active) }}</p>
-                          <p class="card-text mb-2">Puesto: {{ \App\ProjectProvider::getPuesto($item_crew->id) }}</p>
+                          <p class="card-text mb-2 edit-text-category_sat">{{ \App\WorkersCategory::getName($item_crew->id_category_sat) }}</p>
+                          <p class="card-text mb-2 edit-text-dates">Fechas: {{ \App\Helpers::getDateParseFormat($item_crew->start_date_contract, '/') }} a {{ \App\Helpers::getDateParseFormat($item_crew->finish_date_contract, '/') }}</p>
+                          <p class="card-text mb-2 edit-text-contract">Contrato: {{ \App\Contract::getName($item_crew->id_contract) }}</p>
+                          <p class="card-text mb-2 edit-text-active">Estado: {{ \App\ProjectProvider::getActive($item_crew->active) }}</p>
+                          <p class="card-text mb-2 edit-text-puesto">Puesto: {{ \App\ProjectProvider::getPuesto($item_crew->id) }}</p>
                         </div>
                         <div class="card-footer pt-0">
                           <a href="{{ url('/export/crew_contract/'.$item_crew->id) }}" target="_blank" class="btn btn-link btn-warning btn-just-icon edit" title="Descargar Contrato"><i class="material-icons">assignment</i></a>
                           <a href="{{ url('/export/release/'.$item_crew->id) }}" target="_blank" class="btn btn-link btn-warning btn-just-icon edit" title="Descargar Release"><i class="material-icons">assignment</i></a>
                           <a data-url="{{ url('/project_providers/'.$item_crew->id) }}" class="btn btn-link btn-warning btn-just-icon edit openWindowUrl" data-width="900" title="Calendario - Horas Extras"><i class="material-icons">calendar_today</i></a>
-                          @if(!$project->active)
-                            <a href="{{ url('/project_providers/'.$item_crew->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Ver / Editar" target="_blank"><i class="material-icons">dvr</i></a>
-                          @endif
+                          <a href="javascript:void(0)" class="btn btn-link btn-warning btn-just-icon edit project-team-edit" data-id="{{ $item_crew->id }}" data-nameteam="{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}" data-category="{{ \App\WorkersCategory::getName($item_crew->id_category_sat) }}" title="Ver / Editar"><i class="material-icons">dvr</i></a>
                           <button type="button" class="btn btn-link btn-danger btn-just-icon remove alert-confirm-delete-button" title="Eliminar" data-id="{{ $item_crew->id }}" data-idprovider="{{ $item_crew->id_provider }}"><i class="material-icons">close</i></button>
                         </div>
                       </div>
@@ -522,7 +545,7 @@
               <textarea name="observations" class="hidden">{{ $project->observations }}</textarea>
 
               <input type="button" class="btn btn-next btn-fill btn-primary btn-wd" name="next" value="Siguiente">
-              <input type="submit" class="btn btn-finish btn-fill btn-primary btn-wd show-content-observation" name="finish" value="Guardar" style="display: none;" />
+              <input type="submit" class="btn btn-finish btn-fill btn-primary btn-wd show-content-observation" name="finish" value="Guardar" style="display: none;" onclick="frameJs.setDisabled(this)" />
             </div>
             <div class="clearfix"></div>
           </div>
@@ -541,5 +564,8 @@
 </div>
 @endsection
 @section('javascript')
+  <script>
+    var listTeams = {!! json_encode($list_crew,JSON_FORCE_OBJECT) !!};
+  </script>
   <script src="{{ asset('/js/project.js') }}"> </script>
 @endsection
