@@ -511,8 +511,8 @@ class ExportController extends Controller
           $team->modalidad = Workday::getName($team->modalidad);
           $team->fecha_alta_contrato = Helpers::getDateParseFormat($team->fecha_alta_contrato);
           $team->fecha_baja_contrato = Helpers::getDateParseFormat($team->fecha_baja_contrato);
-          $team->fecha_alta_afip = Helpers::getDateParseFormat($team->fecha_alta_afip);
-          $team->fecha_baja_afip = Helpers::getDateParseFormat($team->fecha_baja_afip);
+          $team->fecha_alta_afip =  ($team->fecha_alta_afip != null && $team->fecha_alta_afip != '' ? Helpers::getDateParseFormat($team->fecha_alta_afip) : '');
+          $team->fecha_baja_afip =  ($team->fecha_baja_afip != null && $team->fecha_baja_afip != '' ? Helpers::getDateParseFormat($team->fecha_baja_afip) : '');
           $team->puesto = ProjectProvider::getStringPuesto($team->puesto);
           $team->reemplazo_del_team = ($team->reemplazo_del_team ? Provider::getNameOrderLastName($team->reemplazo_del_team) : '-');
           $team->activo = Helpers::getActive($team->activo);
@@ -616,8 +616,8 @@ class ExportController extends Controller
           $team->modalidad = Workday::getName($team->modalidad);
           $team->fecha_alta_contrato = Helpers::getDateParseFormat($team->fecha_alta_contrato);
           $team->fecha_baja_contrato = Helpers::getDateParseFormat($team->fecha_baja_contrato);
-          $team->fecha_alta_afip = Helpers::getDateParseFormat($team->fecha_alta_afip);
-          $team->fecha_baja_afip = Helpers::getDateParseFormat($team->fecha_baja_afip);
+          $team->fecha_alta_afip =  ($team->fecha_alta_afip != null && $team->fecha_alta_afip != '' ? Helpers::getDateParseFormat($team->fecha_alta_afip) : '');
+          $team->fecha_baja_afip =  ($team->fecha_baja_afip != null && $team->fecha_baja_afip != '' ? Helpers::getDateParseFormat($team->fecha_baja_afip) : '');
           $team->puesto = ProjectProvider::getStringPuesto($team->puesto);
           $team->reemplazo_del_team = ($team->reemplazo_del_team ? Provider::getNameOrderLastName($team->reemplazo_del_team) : '-');
           $team->activo = Helpers::getActive($team->activo);

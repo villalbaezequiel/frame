@@ -177,13 +177,13 @@
           Obra Social / Prepaga:
       </span>
     </div>
-    <select class="custom-select" name="social_work" onchange="frameJs.getChangeOs(this.value)">
+    <select class="custom-select selectpicker" data-style="btn btn-link" data-live-search="true" name="social_work" onchange="frameJs.getChangeOs(this.value)">
       <option value="0">No</option>
       <option value="1">Si</option>
     </select>
   </div>
   <div class="input-group col-md-2 hidden" id="social_work_code_content">
-    <input class="form-control input-type-number" type="text" name="social_work_code" value="{{ old('social_work_code') }}" placeholder="Codigo">
+    <input class="form-control input-type-number" type="text" name="social_work_code" value="{{ old('social_work_code') }}">
   </div>
 </div>
 
