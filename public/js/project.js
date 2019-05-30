@@ -888,6 +888,14 @@ $(document).ready(function(){
         }
       },
       error: function(xhr, status){
+        Swal.fire({
+          title: 'NO se encontraron Horas Extras!',
+          type: 'info',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Aceptar'
+        })
         console.log('Error: '+xhr);
       }
     });
