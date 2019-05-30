@@ -127,13 +127,12 @@
     <input class="form-control" type="text" name="address" value="{{ old('address') }}" required>
   </div>
 
-  <div class="input-group col-md-6">
-    <div class="input-group-prepend">
-      <span class="input-group-text">
-        Número Dirección:
-      </span>
-    </div>
-    <input class="form-control input-type-number" type="text" name="address_number" value="{{ old('address_number') }}" required>
+  <div class="input-group col-md-3">
+    <input class="form-control input-type-number" type="text" name="address_number" value="{{ old('address_number') }}" placeholder="Número Dirección *" required>
+  </div>
+
+  <div class="input-group col-md-3">
+    <input class="form-control" type="text" name="piso_depto" value="{{ old('piso_depto') }}" placeholder="Piso/Depto">
   </div>
 </div>
 
@@ -192,7 +191,7 @@
   <div class="input-group col-md-6">
     <div class="input-group-prepend">
       <span class="input-group-text">
-        Teléfono:
+        Celular:
       </span>
     </div>
     <input class="form-control input-type-number" type="text" name="telephone" value="{{ old('telephone') }}" maxlength="125">
