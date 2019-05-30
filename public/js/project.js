@@ -842,7 +842,7 @@ $(document).ready(function(){
     let nameTeam = $(this).data('nameteam');
     $.ajax({
       type: 'GET',
-      url: '/project_providers/'+id,
+      url: '/sistema/project_providers/'+id,
       success: function(data){
 
         function parseDate(date){
