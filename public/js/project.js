@@ -174,7 +174,7 @@ function getTemplateHourExtras(){
                             <th>Inicio (hs)</th>
                             <th>Final (hs)</th>
                             <th>Cantidad Total(hs)</th>
-                            <th>Precio por Hora</th>
+                            <th>A Facturar</th>
                         </tr>
                     </thead>
                     <tbody id="content-hour-extras">
