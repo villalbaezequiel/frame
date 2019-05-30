@@ -110,6 +110,80 @@ function setEmptyFormTeam(){
 
 }
 
+function getOptionTeam()
+{
+
+  let formSwal =
+    `<div class="row">
+    <label class="col-md-5 col-form-label text-right">Rol a Desempeñar:</label>
+    <div class="col-md-5">
+      <div class="form-group">
+        <select class="form-control" data-style="btn btn-link" id="rol_hs_extra" name="rol_hs_extra" required>
+          <option value="">Seleccionar</option>
+        </select>
+      </div>
+    </div>
+  </div>
+    <div class="row">
+      <label class="col-md-5 col-form-label text-right">Team:</label>
+      <div class="col-md-5">
+        <div class="form-group">
+          <select class="form-control" data-style="btn btn-link" id="crew_hs_extra" name="crew_hs_extra[]" multiple required>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <label class="col-md-5 col-form-label text-right">Hora Inicio:</label>
+        <div class="col-md-5">
+          <div class="form-group">
+            <select class="form-control" data-style="btn btn-link" id="inicio_hs_extra" name="inicio_hs_extra" required>
+              <option value="">Seleccionar</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <label class="col-md-5 col-form-label text-right">Hora Final:</label>
+        <div class="col-md-5">
+          <div class="form-group">
+            <select class="form-control" data-style="btn btn-link" id="final_hs_extra" name="final_hs_extra" required>
+              <option value="">Seleccionar</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-left">
+          <ul>
+            <li><i>El Dia el cual se agregaran las Horas Extras desde este Modulo, es el dia de Hoy.</i></li>
+            <li><i>Si deseas agregar Horas Extras a otro dia, por favor dirijase a "Jornadas de Proyectos" que se encuentra en su Menu Izquierdo.</i></li>
+          </ul>
+        </div>
+      </div>`;
+
+  return formSwal;
+}
+
+function getTemplateHourExtras(){
+  let formSwal = `<div class="table-responsive"><table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Rol a Desempeñar</th>
+                            <th>Inicio (hs)</th>
+                            <th>Final (hs)</th>
+                            <th>Cantidad Total(hs)</th>
+                            <th>Precio por Hora</th>
+                        </tr>
+                    </thead>
+                    <tbody id="content-hour-extras">
+                     </tbody>
+                  </table></div>`;
+
+  return formSwal;
+}
+
 $(document).ready(function(){
 
   // input validate
@@ -319,7 +393,7 @@ $(document).ready(function(){
 
         $.ajax({
           type: 'GET',
-          url: '/sistema/json/check_crew_project/'+id_provider+'/'+start_date_contract.replace(/\//g, '-'),
+          url: '/json/check_crew_project/'+id_provider+'/'+start_date_contract.replace(/\//g, '-'),
           dataType: 'json',
           success: function(data){
             // add crew
@@ -652,6 +726,170 @@ $(document).ready(function(){
 
   });
 
-  $('.selectpicker').selectpicker('refresh');
+  // hour extras
+  $(".add-hour-extras").click(function(){
 
+    swal({
+      title: "Agregar horas extra",
+      html: getOptionTeam(),
+      showCancelButton: !0,
+      confirmButtonClass: "btn btn-success",
+      cancelButtonClass: "btn btn-danger",
+      buttonsStyling: !1,
+      onBeforeOpen: () => {
+
+        let id_project_provider = $(this).data('id');
+        let nameteam = $(this).data('nameteam');
+
+        // add 'rol a desempeñar' funciones frame
+        $.ajax({
+          type: 'GET',
+          url: '/json/get_function_frame',
+          success: function(data){
+            if(data.results){
+              $.each(data.results, function(i, v){
+                $("#rol_hs_extra").append(`<option value="${v.id}">${v.name}</option>`);
+              });
+            }
+          },
+          error: function(xhr, status){
+            console.log('Error: '+xhr);
+          }
+        });
+
+        $("#crew_hs_extra").append(`<option value="${id_project_provider}" selected>${nameteam}</option>`);
+
+
+        $.each(frameJs.getTimeCalendar(), function(i, v){
+           $("#inicio_hs_extra").append(`<option value="${v}">${v}</option>`);
+        });
+
+        $.each(frameJs.getTimeCalendar(), function(i, v){
+           $("#final_hs_extra").append(`<option value="${v}">${v}</option>`);
+        });
+      }
+    })
+    .then(function(data){
+
+      if(data.value){
+        // ajax SAVE horas extras
+
+        let crew = $("#crew_hs_extra").val();
+        let start = $("#inicio_hs_extra").find(':selected').val().split(':');
+        let finish = $("#final_hs_extra").find(':selected').val().split(':');
+        let rol = $("#rol_hs_extra").find(':selected').val();
+
+        var dateStart = new Date();
+        var dateFinish = new Date();
+
+        if(start != '' && finish != ''){
+
+          dateStart.setHours(parseFloat(start[0]),parseFloat(start[1]));
+          dateFinish.setHours(parseFloat(finish[0]),parseFloat(finish[1]));
+
+          let extraHours = {
+            crew: crew,
+            rol: rol,
+            start: dateStart,
+            finish: dateFinish
+          }
+
+          $.ajax({
+            type: 'GET',
+            url: '/json/project_providers/extra_hours',
+            data: extraHours,
+            success: function(data){
+
+              console.log(data);
+
+              if(data.status){
+                // swal ALERT que las horas extras se cargo con exito
+                Swal.fire({
+                  title: 'Horas Extras ingresadas con Exito!',
+                  type: 'info',
+                  showCancelButton: false,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Aceptar'
+                });
+              }
+            },
+            error: function(xhr, status){
+              console.log('Error: '+xhr);
+            }
+          });
+
+        } else {
+          Swal.fire({
+            title: 'Para Agregar horas extras a un Team debes completar los datos mencionados en el Formulario! Gracias.',
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar'
+          })
+        }
+
+      }
+
+    })
+    .catch(swal.noop)
+  });
+
+  $(".show-hour-extras").click(function(){
+
+    let id = $(this).data('id');
+    let nameTeam = $(this).data('nameteam');
+    $.ajax({
+      type: 'GET',
+      url: '/project_providers/'+id,
+      success: function(data){
+
+        function parseDate(date){
+          return ("0" + (date)).slice(-2);
+        }
+
+        function timeConvert(n) {
+          var num = n;
+          var hours = (num / 60);
+          var rhours = Math.floor(hours);
+          var minutes = (hours - rhours) * 60;
+          var rminutes = Math.round(minutes);
+          return rhours + " hora(s) y " + rminutes + " minuto(s).";
+        }
+
+        if(data.results){
+          swal({
+            title: `${nameTeam} : Horas Extras`,
+            html: getTemplateHourExtras(),
+            confirmButtonClass: "btn btn-success",
+            showCancelButton: false,
+            customClass: 'swal-wide',
+            buttonsStyling: !1,
+            onBeforeOpen: () => {
+              $.each(data.results, function(i,v){
+                var start = new Date(v.start);
+                var finish = new Date(v.finish);
+                var day = start.getFullYear();
+                var countHour = ((finish - start) / 60000);
+
+                $("#content-hour-extras").append("<tr> "+
+                                  "<td>"+parseDate(start.getDay())+'-'+parseDate(start.getMonth())+'-'+start.getFullYear()+"</td>"+
+                                  "<td>"+v.rol+"</td>"+
+                                  "<td>"+parseDate(start.getHours())+':'+parseDate(start.getMinutes())+"</td>"+
+                                  "<td>"+parseDate(finish.getHours())+':'+parseDate(finish.getMinutes())+"</td>"+
+                                  "<td>"+timeConvert(countHour)+"</td>"+
+                                  "<td>$"+v.price+"</td>"+
+                              "</tr>");
+              });
+
+            }
+          });
+        }
+      },
+      error: function(xhr, status){
+        console.log('Error: '+xhr);
+      }
+    });
+  });
 });

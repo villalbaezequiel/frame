@@ -15,11 +15,11 @@ class ProjectProvider extends Model
 
   static public function getActive($active)
   {
-    if($active == 0){
+    if($active == 0 || $active == '0'){
       return "Pendiente.";
-    } elseif($active == 1){
+    } elseif($active == 1 || $active == '1'){
       return "Aceptado";
-    } elseif($active == 2) {
+    } elseif($active == 2 || $active == '2') {
       return "Rechazado";
     }
   }

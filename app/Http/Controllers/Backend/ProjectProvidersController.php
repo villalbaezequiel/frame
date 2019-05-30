@@ -60,10 +60,7 @@ class ProjectProvidersController extends Controller
         $val['rol'] = FrameFunction::getName($val['rol']);
       }
 
-      return view('backend.project_providers.show', [
-        'name' => Provider::getNameOrderLastName($team->id_provider),
-        'team_extra_hours' => $extraHours
-      ]);
+      return response()->json(['results' => $extraHours]);
     }
 
     /**
