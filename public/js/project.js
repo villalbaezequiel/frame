@@ -799,9 +799,6 @@ $(document).ready(function(){
             url: '/sistema/json/project_providers/extra_hours',
             data: extraHours,
             success: function(data){
-
-              console.log(data);
-
               if(data.status){
                 // swal ALERT que las horas extras se cargo con exito
                 Swal.fire({
@@ -858,7 +855,18 @@ $(document).ready(function(){
           return rhours + " hora(s) y " + rminutes + " minuto(s).";
         }
 
+        function getHourMinParse(n) {
+          var num = n;
+          var hours = (num / 60);
+          var rhours = Math.floor(hours);
+          var minutes = (hours - rhours) * 60;
+          var rminutes = Math.round(minutes);
+
+          return rhours+'.'+minutes;
+        }
+
         if(data.results){
+
           swal({
             title: `${nameTeam} : Horas Extras`,
             html: getTemplateHourExtras(),
@@ -872,6 +880,7 @@ $(document).ready(function(){
                 var finish = new Date(v.finish);
                 var day = start.getFullYear();
                 var countHour = ((finish - start) / 60000);
+                var price = ( (parseFloat(data.salary.replace(".", "").replace(",", ".")) / getHourMinParse(countHour) ) * 1.5);
 
                 $("#content-hour-extras").append("<tr> "+
                                   "<td>"+parseDate(start.getDay())+'-'+parseDate(start.getMonth())+'-'+start.getFullYear()+"</td>"+
@@ -879,7 +888,7 @@ $(document).ready(function(){
                                   "<td>"+parseDate(start.getHours())+':'+parseDate(start.getMinutes())+"</td>"+
                                   "<td>"+parseDate(finish.getHours())+':'+parseDate(finish.getMinutes())+"</td>"+
                                   "<td>"+timeConvert(countHour)+"</td>"+
-                                  "<td>$"+v.price+"</td>"+
+                                  "<td>$"+getFormatNumber(price)+"</td>"+
                               "</tr>");
               });
 

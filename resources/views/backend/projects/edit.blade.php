@@ -130,7 +130,7 @@
                         <span class="input-group-text">
                           Descripción:
                         </span>
-                        <input type="number" class="form-control" name="description" value="{{ $project->description }}" maxlength="125">
+                        <input type="number" class="form-control input-type-number" name="description" value="{{ $project->description }}" maxlength="125">
                       </div>
                     </div>
                   </div>
@@ -284,7 +284,7 @@
                         <span class="input-group-text">
                           Cant. Jornadas Laborables<span class="required-red">*</span>
                         </span>
-                          <input type="number" class="form-control" name="count_workdays_crew" maxlength="125">
+                          <input type="number" class="form-control input-type-number" name="count_workdays_crew" maxlength="125">
                       </div>
                     </div>
                   </div>

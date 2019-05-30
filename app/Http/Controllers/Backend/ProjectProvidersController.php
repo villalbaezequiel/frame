@@ -60,7 +60,7 @@ class ProjectProvidersController extends Controller
         $val['rol'] = FrameFunction::getName($val['rol']);
       }
 
-      return response()->json(['results' => $extraHours]);
+      return response()->json(['results' => $extraHours, 'salary' => $team->salary_workdays]);
     }
 
     /**
