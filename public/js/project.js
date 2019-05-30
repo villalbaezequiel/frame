@@ -782,7 +782,7 @@ $(document).ready(function(){
         var dateStart = new Date();
         var dateFinish = new Date();
 
-        if(start != '' && finish != ''){
+        if(start != '' && finish != '' && rol != ''){
 
           dateStart.setHours(parseFloat(start[0]),parseFloat(start[1]));
           dateFinish.setHours(parseFloat(finish[0]),parseFloat(finish[1]));
