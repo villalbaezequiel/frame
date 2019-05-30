@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\TeamProject;
+use App\Notifications\SeguroServicios;
 use DateTime;
 use DateInterval;
 use DatePeriod;
@@ -144,7 +145,7 @@ class ProjectsController extends Controller
             $team->is_reemplazo = $crewObj->is_reemplazo;
             $team->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
             $team->calendar = $calendar;
-            $team->active = '0';
+            $team->active = $crewObj->active;
             $team->save();
 
             $user = User::find(Provider::getIdUser($team->id_provider));
@@ -216,8 +217,58 @@ class ProjectsController extends Controller
               $team->is_reemplazo = $crewObj->is_reemplazo;
               $team->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
               $team->calendar = $calendar;
-              $team->active = '0';
+              $team->active = $crewObj->active;
               $team->save();
+            }
+          }
+
+          $crews_project = ProjectProvider::where('id_project', $project->id)
+                                            ->where('is_reemplazo', '1')
+                                            ->get();
+          $status = true;
+
+          foreach ($crews_project as $value) {
+            if($value->active == '0'){
+              $status = false;
+            } elseif($value->active == '2'){
+
+              // verifico si su Secundario acepto
+              $checkSecundario = ProjectProvider::where('id_project', $project->id)
+                                                ->where('is_reemplazo', '2')
+                                                ->where('id_crew_reemplazo', $value->id_provider)
+                                                ->first();
+              if(!empty($checkSecundario)){
+                if($checkSecundario->active == '0' || $checkSecundario->active == '2'){
+                  $status = false;
+                }
+              } else {
+                $status = false;
+              }
+            }
+          }
+
+          if($status == true){
+            // project active 1
+            $projectCheck = Project::find($project->id);
+            $projectCheck->active = '1';
+            $projectCheck->save();
+
+            // chequer si tengo al menos un personal de tipo de contrato servicios
+            $checkServices = ProjectProvider::where('id_project', $project->id)
+                                            ->where('id_contract', '4') // 4 = Servicios
+                                            ->count();
+
+            if($checkServices > 0){
+              // send mail al Profesional que ve la generacion de seguros
+              if(!empty(env('MAIL_PERSONAL_SEGUROS_SERVICIOS'))){
+                $personalSeguro = User::where('email', env('MAIL_PERSONAL_SEGUROS_SERVICIOS'))->first();
+
+                $data = array(
+                  'user' => $personalSeguro,
+                  'project' => $projectCheck
+                );
+                $personalSeguro->notify(new SeguroServicios($data));
+              }
             }
           }
 
@@ -478,6 +529,56 @@ class ProjectsController extends Controller
                 $team->calendar = $calendar;
                 $team->active = $crewObj->active;
                 $team->save();
+              }
+            }
+          }
+
+          $crews_project = ProjectProvider::where('id_project', $project->id)
+                                            ->where('is_reemplazo', '1')
+                                            ->get();
+          $status = true;
+
+          foreach ($crews_project as $value) {
+            if($value->active == '0'){
+              $status = false;
+            } elseif($value->active == '2'){
+
+              // verifico si su Secundario acepto
+              $checkSecundario = ProjectProvider::where('id_project', $project->id)
+                                                ->where('is_reemplazo', '2')
+                                                ->where('id_crew_reemplazo', $value->id_provider)
+                                                ->first();
+              if(!empty($checkSecundario)){
+                if($checkSecundario->active == '0' || $checkSecundario->active == '2'){
+                  $status = false;
+                }
+              } else {
+                $status = false;
+              }
+            }
+          }
+
+          if($status == true){
+            // project active 1
+            $projectCheck = Project::find($project->id);
+            $projectCheck->active = '1';
+            $projectCheck->save();
+
+            // chequer si tengo al menos un personal de tipo de contrato servicios
+            $checkServices = ProjectProvider::where('id_project', $project->id)
+                                            ->where('id_contract', '4') // 4 = Servicios
+                                            ->count();
+
+            if($checkServices > 0){
+              // send mail al Profesional que ve la generacion de seguros
+              if(!empty(env('MAIL_PERSONAL_SEGUROS_SERVICIOS'))){
+                $personalSeguro = User::where('email', env('MAIL_PERSONAL_SEGUROS_SERVICIOS'))->first();
+
+                $data = array(
+                  'user' => $personalSeguro,
+                  'project' => $projectCheck
+                );
+                $personalSeguro->notify(new SeguroServicios($data));
               }
             }
           }
