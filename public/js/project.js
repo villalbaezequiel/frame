@@ -107,7 +107,7 @@ function setEmptyFormTeam(){
   $('.selectpicker').selectpicker('refresh');
 
   $("#content-form-edit-team").addClass('hidden');
-  $(".button-show-form-team").addClass('hidden');
+  $(".button-show-form-team").removeClass('hidden');
 
   $('body,html').stop(true,true).animate({ scrollTop: $("#ancla_list_crew_view").offset().top },1000);
 
