@@ -172,7 +172,7 @@
 
               <div class="tab-pane" id="module_two">
 
-              <div <?php if($project->active){ echo "id='content-form-edit-team' class='hidden'"; } ?>>
+              <div id="content-form-edit-team" class="hidden">
                 <h5 class="info-text"> Team </h5>
                 <div class="row justify-content-center empty-values-finish-add-crew">
 
@@ -464,6 +464,10 @@
                     <button id="add_crew" type="button" class="btn btn-primary">Agregar Team</button>
                   </div>
                 </div>
+              </div>
+
+              <div class="col-md-12 text-center" style="padding: 20px;">
+                <button type="button" class="btn btn-primary button-show-form-team">Agregar Team</button>
               </div>
 
                 <h5 class="info-text" id="ancla_list_crew_view" > Lista de Team </h5>

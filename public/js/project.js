@@ -106,6 +106,9 @@ function setEmptyFormTeam(){
   $("#add_crew").text("Agregar Team");
   $('.selectpicker').selectpicker('refresh');
 
+  $("#content-form-edit-team").addClass('hidden');
+  $(".button-show-form-team").addClass('hidden');
+
   $('body,html').stop(true,true).animate({ scrollTop: $("#ancla_list_crew_view").offset().top },1000);
 
 }
@@ -909,4 +912,10 @@ $(document).ready(function(){
       }
     });
   });
+
+  $(".button-show-form-team").click(function(){
+    $("#content-form-edit-team").removeClass('hidden');
+    $(this).addClass('hidden');
+  });
+
 });
