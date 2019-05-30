@@ -30,7 +30,7 @@
               <label class="col-md-2 col-form-label">ID Tango</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="number" name="id_tango" value="{{ $client->id_tango }}" maxlength="125">
+                  <input class="form-control input-type-number" type="text" name="id_tango" value="{{ $client->id_tango }}" maxlength="125">
                 </div>
               </div>
             </div>
@@ -55,7 +55,7 @@
               <label class="col-md-2 col-form-label">CUIT <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="number" name="cuit" value="{{ $client->cuit }}" maxlength="125" required>
+                  <input class="form-control input-type-number" type="text" name="cuit" value="{{ $client->cuit }}" maxlength="125" required>
                 </div>
               </div>
               <label class="col-md-3 label-on-right">
@@ -71,7 +71,7 @@
               </div>
               <div class="col-md-2">
                 <div class="form-group">
-                  <input class="form-control" type="number" name="address_number" value="{{ $client->address_number }}" placeholder="Número Dirección *" required>
+                  <input class="form-control input-type-number" type="text" name="address_number" value="{{ $client->address_number }}" placeholder="Número Dirección *" required>
                 </div>
               </div>
               <div class="col-md-2">
@@ -99,7 +99,7 @@
               </div>
               <div class="col-md-2">
                 <div class="form-group">
-                  <input class="form-control" type="number" name="cp" value="{{ $client->cp }}" placeholder="Codigo Postal *" required>
+                  <input class="form-control input-type-number" type="text" name="cp" value="{{ $client->cp }}" placeholder="Codigo Postal *" required>
                 </div>
               </div>
             </div>
@@ -107,7 +107,7 @@
               <label class="col-md-2 col-form-label">Teléfono <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="number" name="telephone" value="{{ $client->telephone }}" maxlength="125" required>
+                  <input class="form-control input-type-number" type="text" name="telephone" value="{{ $client->telephone }}" maxlength="125" required>
                 </div>
               </div>
             </div>
@@ -115,7 +115,7 @@
               <label class="col-md-2 col-form-label">Otro Teléfono</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="number" name="other_telephone" value="{{ $client->other_telephone }}" maxlength="125">
+                  <input class="form-control input-type-number" type="text" name="other_telephone" value="{{ $client->other_telephone }}" maxlength="125">
                 </div>
               </div>
             </div>
@@ -167,7 +167,7 @@
               <label class="col-md-2 col-form-label">Teléfono</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="number" name="contact_telephone" value="{{ $client->contact_telephone }}" maxlength="125">
+                  <input class="form-control input-type-number" type="text" name="contact_telephone" value="{{ $client->contact_telephone }}" maxlength="125">
                 </div>
               </div>
             </div>

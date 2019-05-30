@@ -74,7 +74,7 @@
         CUIT:
       </span>
     </div>
-    <input class="form-control" type="number" name="cuit" value="{{ old('cuit') }}" maxlength="125" required>
+    <input class="form-control input-type-number" type="text" name="cuit" value="{{ old('cuit') }}" maxlength="125" required>
   </div>
 
   <div class="input-group col-lg-6">
@@ -133,7 +133,7 @@
         Número Dirección:
       </span>
     </div>
-    <input class="form-control" type="number" name="address_number" value="{{ old('address_number') }}" required>
+    <input class="form-control input-type-number" type="text" name="address_number" value="{{ old('address_number') }}" required>
   </div>
 </div>
 
@@ -153,7 +153,7 @@
         CP:
       </span>
     </div>
-    <input class="form-control" type="number" name="cp" value="{{ old('cp') }}" required>
+    <input class="form-control input-type-number" type="text" name="cp" value="{{ old('cp') }}" required>
   </div>
 </div>
 
@@ -184,7 +184,7 @@
     </select>
   </div>
   <div class="input-group col-md-2 hidden" id="social_work_code_content">
-    <input class="form-control" type="number" name="social_work_code" value="{{ old('social_work_code') }}" placeholder="Codigo">
+    <input class="form-control input-type-number" type="text" name="social_work_code" value="{{ old('social_work_code') }}" placeholder="Codigo">
   </div>
 </div>
 
@@ -195,7 +195,7 @@
         Teléfono:
       </span>
     </div>
-    <input class="form-control" type="number" name="telephone" value="{{ old('telephone') }}" maxlength="125">
+    <input class="form-control input-type-number" type="text" name="telephone" value="{{ old('telephone') }}" maxlength="125">
   </div>
 
   <div class="input-group col-md-6">
@@ -204,7 +204,7 @@
         Otro Teléfono:
       </span>
     </div>
-    <input class="form-control" type="number" name="other_telephone" value="{{ old('other_telephone') }}" maxlength="125">
+    <input class="form-control input-type-number" type="text" name="other_telephone" value="{{ old('other_telephone') }}" maxlength="125">
   </div>
 </div>
 
@@ -261,7 +261,7 @@
           CBU:
         </span>
       </div>
-      <input class="form-control" type="number" name="cbu" value="{{ old('cbu') }}" step="1" min="999999999999999999999" max="9999999999999999999999" required>
+      <input class="form-control input-type-number" type="text" name="cbu" value="{{ old('cbu') }}" minlength="22" maxlength="22" required>
     </div>
 </div>
 
@@ -280,7 +280,7 @@
         N* de Cuenta:
       </span>
     </div>
-    <input class="form-control" type="number" name="number_account" value="{{ old('number_account') }}" step="1" required>
+    <input class="form-control input-type-number" type="text" name="number_account" value="{{ old('number_account') }}" required>
   </div>
   <div class="input-group col-lg-4">
     <div class="input-group-prepend">
