@@ -415,6 +415,27 @@
                     </div>
                   </div>
 
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Estado de Invitacion al Proyecto:
+                        </span>
+                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="active">
+                          <option value="0">Pendiente</option>
+                          <option value="1">Aceptado</option>
+                          <option value="2">Rechazado</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                      <div class="form-group">
+
+                    </div>
+                  </div>
+
                   <div class="col-md-12 text-center" style="padding: 20px;">
                     <button id="add_crew" type="button" class="btn btn-primary">Agregar Team</button>
                   </div>
