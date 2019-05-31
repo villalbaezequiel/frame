@@ -1,5 +1,5 @@
 <div class="form-group">
-  <div class="input-group col-md-6">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Nombre:
@@ -8,7 +8,7 @@
     <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
   </div>
 
-  <div class="input-group col-md-6">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Apellido:
@@ -19,7 +19,7 @@
 </div>
 
 <div class="form-group">
-  <div class="input-group col-md-6">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Email:
@@ -28,7 +28,7 @@
     <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
   </div>
 
-  <div class="input-group col-md-6">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Género:
@@ -44,7 +44,7 @@
 </div>
 
 <div class="form-group">
-  <div class="input-group col-md-6">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Tipo de Documentación:
@@ -57,7 +57,7 @@
     </select>
   </div>
 
-  <div class="input-group col-md-6">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Número DNI/LE/CI:
@@ -68,7 +68,7 @@
 </div>
 
 <div class="form-group">
-  <div class="input-group col-lg-6">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         CUIT:
@@ -77,7 +77,7 @@
     <input class="form-control input-type-number" type="text" name="cuit" value="{{ old('cuit') }}" maxlength="125" required>
   </div>
 
-  <div class="input-group col-lg-6">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Fecha de Nacimiento:
@@ -88,7 +88,7 @@
 </div>
 
 <div class="form-group">
-  <div class="input-group col-md-6">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Pais:
@@ -102,7 +102,41 @@
     </select>
   </div>
 
-  <div class="input-group col-md-6">
+  <div class="input-group col-md-6 p-2">
+    <div class="input-group-prepend">
+      <span class="input-group-text">
+        Localidad:
+      </span>
+    </div>
+    <input class="form-control" type="text" name="location" value="{{ old('location') }}" required>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="input-group col-md-6 p-2">
+    <div class="input-group-prepend">
+      <span class="input-group-text">
+        Dirección:
+      </span>
+    </div>
+    <input class="form-control" type="text" name="address" value="{{ old('address') }}" required>
+  </div>
+
+  <div class="input-group col-md-2 p-2">
+    <input class="form-control input-type-number" type="text" name="address_number" value="{{ old('address_number') }}" placeholder="Número Dirección *" required>
+  </div>
+
+  <div class="input-group col-md-2 p-2">
+    <input class="form-control" type="text" name="piso_depto" value="{{ old('piso_depto') }}" placeholder="Piso/Depto">
+  </div>
+
+  <div class="input-group col-md-2 p-2">
+    <input class="form-control input-type-number" type="text" name="cp" value="{{ old('cp') }}" placeholder="Cp" required>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Nacionalidad:
@@ -115,49 +149,22 @@
       @endforeach
     </select>
   </div>
-</div>
 
-<div class="form-group">
-  <div class="input-group col-md-6">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
-        Dirección:
+        Visa o Otra Ciudadania?:
       </span>
     </div>
-    <input class="form-control" type="text" name="address" value="{{ old('address') }}" required>
-  </div>
-
-  <div class="input-group col-md-3">
-    <input class="form-control input-type-number" type="text" name="address_number" value="{{ old('address_number') }}" placeholder="Número Dirección *" required>
-  </div>
-
-  <div class="input-group col-md-3">
-    <input class="form-control" type="text" name="piso_depto" value="{{ old('piso_depto') }}" placeholder="Piso/Depto">
+    <select class="custom-select" data-style="btn btn-link" data-live-search="true" name="visa">
+      <option value="0">No</option>
+      <option value="1">Si</option>
+    </select>
   </div>
 </div>
 
 <div class="form-group">
-  <div class="input-group col-md-6">
-    <div class="input-group-prepend">
-      <span class="input-group-text">
-        Localidad:
-      </span>
-    </div>
-    <input class="form-control" type="text" name="location" value="{{ old('location') }}" required>
-  </div>
-
-  <div class="input-group col-md-6">
-    <div class="input-group-prepend">
-      <span class="input-group-text">
-        CP:
-      </span>
-    </div>
-    <input class="form-control input-type-number" type="text" name="cp" value="{{ old('cp') }}" required>
-  </div>
-</div>
-
-<div class="form-group">
-  <div class="input-group col-md-6">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Nivel de Estudio:
@@ -171,24 +178,48 @@
     </select>
   </div>
 
-  <div class="input-group col-md-4">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
           Obra Social / Prepaga:
       </span>
     </div>
-    <select class="custom-select selectpicker" data-style="btn btn-link" data-live-search="true" name="social_work" onchange="frameJs.getChangeOs(this.value)">
+    <select class="custom-select" data-style="btn btn-link" data-live-search="true" name="social_work" onchange="frameJs.getChangeOs(this.value)">
       <option value="0">No</option>
       <option value="1">Si</option>
     </select>
   </div>
-  <div class="input-group col-md-2 hidden" id="social_work_code_content">
-    <input class="form-control input-type-number" type="text" name="social_work_code" value="{{ old('social_work_code') }}">
+</div>
+
+<div class="form-group">
+  <div class="input-group col-md-6 p-2 hidden" id="social_work_name_content">
+    <div class="input-group-prepend">
+      <span class="input-group-text">
+          Lista de O.S.
+      </span>
+    </div>
+    <select class="custom-select" data-style="btn btn-link" data-live-search="true" name="social_work_name">
+      <option value="">Seleccionar</option>
+      @foreach(\App\Helpers::getListOs() as $key => $os)
+        <option value="{{ $key }}">{{ $os }}</option>
+      @endforeach
+    </select>
+  </div>
+
+  <div class="input-group col-md-6 p-2 hidden" id="social_work_code_content">
+    <div class="input-group-prepend">
+      <span class="input-group-text">
+          Descripcion O.S.
+      </span>
+    </div>
+    <div class="input-group col-md-6 p-2">
+      <input class="form-control" type="text" name="social_work_code" value="{{ old('social_work_code') }}">
+    </div>
   </div>
 </div>
 
 <div class="form-group">
-  <div class="input-group col-md-6">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Celular:
@@ -197,7 +228,7 @@
     <input class="form-control input-type-number" type="text" name="telephone" value="{{ old('telephone') }}" maxlength="125">
   </div>
 
-  <div class="input-group col-md-6">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Otro Teléfono:
@@ -208,7 +239,7 @@
 </div>
 
 <div class="form-group">
-  <div class="input-group col-lg-6">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Estado Civil:
@@ -222,7 +253,7 @@
     </select>
   </div>
 
-  <div class="input-group col-md-6">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Rol a Desempeñar:
@@ -241,7 +272,7 @@
 <h4 style="color: #495057;font-weight: normal;text-align: center;padding: 15px;">Datos Bancarios</h4>
 
 <div class="form-group">
-  <div class="input-group col-lg-6">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Banco:
@@ -254,7 +285,7 @@
       @endforeach
     </select>
   </div>
-  <div class="input-group col-md-6">
+  <div class="input-group col-md-6 p-2">
       <div class="input-group-prepend">
         <span class="input-group-text">
           CBU:
@@ -265,7 +296,7 @@
 </div>
 
 <div class="form-group">
-  <div class="input-group col-lg-4">
+  <div class="input-group col-md-4 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Tipo de Cuenta:
@@ -273,7 +304,7 @@
     </div>
     <input class="form-control" type="text" name="type_account" value="{{ old('type_account') }}" required>
   </div>
-  <div class="input-group col-md-4">
+  <div class="input-group col-md-4 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         N* de Cuenta:
@@ -281,20 +312,20 @@
     </div>
     <input class="form-control input-type-number" type="text" name="number_account" value="{{ old('number_account') }}" required>
   </div>
-  <div class="input-group col-lg-4">
+  <div class="input-group col-md-4 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Alias:
       </span>
     </div>
-    <input class="form-control" type="text" name="alias_account" value="{{ old('alias_account') }}" required>
+    <input class="form-control" type="text" name="alias_account" value="{{ old('alias_account') }}">
   </div>
 </div>
 
 <hr>
 
 <div class="form-group">
-  <div class="input-group col-md-6">
+  <div class="input-group col-md-6 p-2">
     <span class="input-group-text">
       <input class="form-control" type="checkbox" name="" style="margin-right: 10px;" required>
       Aceptar<a href="#" style="margin-left: 4px;">Terminos y Condiciones</a>

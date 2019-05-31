@@ -3,21 +3,17 @@
 
 @section('container')
 <div class="row">
-  <div class="col-lg-12 col-md-12 col-sm-12 ml-auto mr-auto">
+  <div class="col-md-10 ml-auto mr-auto">
     {!! Form::open(['route' => 'crew.store', 'method' => 'POST', 'class' => 'form-inline']) !!}
       @csrf
 
-      <div class="col-md-5 ml-auto mr-auto">
+      <div class="col-md-6 ml-auto mr-auto">
         <img src="{{ asset('img/logo.svg') }}" />
       </div>
 
-      <div class="card">
-        <div class="card-header card-header-primary text-center">
-          <h4 class="card-title">¡Forma parte de nuestro staff!</h4>
-        </div>
+      <div class="card card-signup">
+        <h4 class="card-title card-header-primary text-center">¡Forma parte de nuestro staff!</h4>
         <div class="card-body ">
-
-
           <p class="card-description text-center" style="color: #9c27b0!important;">
             @if ($errors->has('name'))
               <strong>{{ $errors->first('name') }}</strong>
@@ -39,15 +35,25 @@
           @if (session('message'))
 
             @if(session('message') == '1')
-            <center>
-              <strong style="color: #9c27b0!important; font-size: 1.125rem!important;">Team creado con exito!</strong>
-            </center>
+            <p class="card-description text-center" style="color: #9c27b0!important;">
+              <center>
+                <strong style="color: #9c27b0!important; font-size: 1.125rem!important;">Team creado con exito!</strong>
+              </center>
+            </p>
             @else
-              @include('auth.card.register')
+              <div class="row">
+                <div class="col-md-12 ml-auto">
+                  @include('auth.card.register')
+                </div>
+              </div>
             @endif
 
           @else
-            @include('auth.card.register')
+            <div class="row">
+              <div class="col-md-12 ml-auto">
+                @include('auth.card.register')
+              </div>
+            </div>
           @endif
         </div>
 
@@ -81,3 +87,10 @@
   </div>
 </div>
 @endsection
+<style>
+    .page-header {
+      height: auto!important;
+      max-height: 3000px!important;
+      background-size: contain!important;
+    }
+</style>

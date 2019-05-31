@@ -47,5 +47,7 @@
   <!-- app Frame  -->
   <script src="{{ asset('/js/frame.js') }}" type="text/javascript"></script>
 
+  @yield('javascript')
+
 </body>
 </html>
