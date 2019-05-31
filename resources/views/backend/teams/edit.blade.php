@@ -196,7 +196,17 @@
                     </select>
                 </div>
               </div>
-              <div id="social_work_code_content" class="col-md-5 <?php if($provider->social_work == '0') { echo "hidden";} ?>">
+              <div id="social_work_name_content" class="col-md-3 <?php if($provider->social_work == '0') { echo "hidden";} ?>">
+                <div class="form-group">
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="social_work_name">
+                    <option value="">Seleccionar</option>
+                    @foreach(\App\Helpers::getListOs() as $key => $os)
+                      <option value="{{ $key }}" <?php if($key == $provider->social_work_name){ echo "selected"; } ?>>{{ $os }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+              <div id="social_work_code_content" class="col-md-2 <?php if($provider->social_work == '0') { echo "hidden";} ?>">
                 <div class="form-group">
                   <input class="form-control" type="text" name="social_work_code" value="{{ $provider->social_work_code }}">
                 </div>
@@ -234,6 +244,27 @@
                      </option>
                     @endforeach
                   </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-md-2 col-form-label label-checkbox">Tiene Visa o Otra Ciudadania?</label>
+              <div class="col-md-10 checkbox-radios">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" value="1" name="visa" <?php if($provider->visa == 1){ echo "checked"; } ?>> Si
+                    <span class="form-check-sign">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" value="0" name="visa" <?php if($provider->visa == 0){ echo "checked"; } ?>> No
+                    <span class="form-check-sign">
+                      <span class="check"></span>
+                    </span>
+                  </label>
                 </div>
               </div>
             </div>
@@ -330,10 +361,10 @@
               </label>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Alias <span class="required-red">*</span></label>
+              <label class="col-md-2 col-form-label">Alias</label>
                 <div class="col-md-7">
                   <div class="form-group">
-                    <input class="form-control" type="text" name="alias_account" value="{{ $provider->alias_account }}" required>
+                    <input class="form-control" type="text" name="alias_account" value="{{ $provider->alias_account }}">
                   </div>
               </div>
             </div>

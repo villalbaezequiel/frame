@@ -191,7 +191,17 @@
                   </select>
                 </div>
               </div>
-              <div class="col-md-5 hidden" id="social_work_code_content">
+              <div class="col-md-3 hidden" id="social_work_name_content">
+                <div class="form-group">
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="social_work_name">
+                    <option value="">Seleccionar</option>
+                    @foreach(\App\Helpers::getListOs() as $key => $os)
+                      <option value="{{ $key }}">{{ $os }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-2 hidden" id="social_work_code_content">
                 <div class="form-group">
                   <input class="form-control" type="text" name="social_work_code" value="{{ old('social_work_code') }}">
                 </div>
@@ -224,6 +234,27 @@
                     <option value="{{ $frame->id }}">{{ $frame->name }}</option>
                     @endforeach
                   </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-md-2 col-form-label label-checkbox">Tiene Visa o Otra Ciudadania?</label>
+              <div class="col-md-10 checkbox-radios">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" value="1" name="visa"> Si
+                    <span class="form-check-sign">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" value="0" name="visa" checked> No
+                    <span class="form-check-sign">
+                      <span class="check"></span>
+                    </span>
+                  </label>
                 </div>
               </div>
             </div>
@@ -320,10 +351,10 @@
               </label>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Alias <span class="required-red">*</span></label>
+              <label class="col-md-2 col-form-label">Alias</label>
                 <div class="col-md-7">
                   <div class="form-group">
-                    <input class="form-control" type="text" name="alias_account" value="{{ old('alias_account') }}" required>
+                    <input class="form-control" type="text" name="alias_account" value="{{ old('alias_account') }}">
                   </div>
               </div>
             </div>

@@ -93,6 +93,7 @@ class ProvidersController extends Controller
            $provider->nationality = $request->get('nationality');
            $provider->id_study = $request->get('id_study');
            $provider->social_work = $request->get('social_work');
+           $provider->social_work_name = $request->get('social_work_name');
            $provider->social_work_code = $request->get('social_work_code');
            $provider->cbu = $request->get('cbu');
            $provider->bank = $request->get('bank');
@@ -103,6 +104,7 @@ class ProvidersController extends Controller
            $provider->other_telephone = $request->get('other_telephone');
            $provider->id_function_frame = json_encode($request->get('id_function_frame'));
            $provider->referring = $request->get('referring');
+           $provider->visa = $request->get('visa');
            $provider->save();
 
            // add valoration crew
@@ -254,6 +256,7 @@ class ProvidersController extends Controller
            $provider->nationality = $request->get('nationality');
            $provider->id_study = $request->get('id_study');
            $provider->social_work = $request->get('social_work');
+           $provider->social_work_name = $request->get('social_work_name');
            $provider->social_work_code = $request->get('social_work_code');
            $provider->cbu = $request->get('cbu');
            $provider->bank = $request->get('bank');
@@ -264,6 +267,7 @@ class ProvidersController extends Controller
            $provider->other_telephone = $request->get('other_telephone');
            $provider->id_function_frame = json_encode($request->get('id_function_frame'));
            $provider->referring = $request->get('referring');
+           $provider->visa = $request->get('visa');
            $provider->save();
 
            // add valoration crew
