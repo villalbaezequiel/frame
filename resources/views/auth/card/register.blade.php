@@ -34,7 +34,7 @@
         Género:
       </span>
     </div>
-    <select class="custom-select" name="gender" required>
+    <select class="selectpicker" data-style="btn btn-link" data-live-search="true"  name="gender" required>
       <option value="">Seleccionar</option>
       @foreach(\App\Helpers::getGendersPerson() as $key => $val)
       <option value="{{ $key }}">{{ $val }}</option>
@@ -50,7 +50,7 @@
         Tipo de Documentación:
       </span>
     </div>
-    <select class="custom-select" name="type_dni" required>
+    <select class="selectpicker" data-style="btn btn-link" data-live-search="true"  name="type_dni" required>
       @foreach(\App\Helpers::getTypesDocumentationPerson() as $key => $val)
       <option value="{{ $key }}">{{ $val }}</option>
       @endforeach
@@ -94,7 +94,7 @@
         Pais:
       </span>
     </div>
-    <select class="custom-select" name="id_country" required>
+    <select class="selectpicker" data-style="btn btn-link" data-live-search="true"  name="id_country" required>
       <option value="">Seleccionar</option>
       @foreach(\App\Country::all() as $country)
       <option value="{{ $country->id }}">{{ $country->name }}</option>
@@ -142,7 +142,7 @@
         Nacionalidad:
       </span>
     </div>
-    <select class="custom-select" name="nationality" required>
+    <select class="selectpicker" data-style="btn btn-link" data-live-search="true"  name="nationality" required>
       <option value="">Seleccionar</option>
       @foreach(\App\Country::all() as $country)
       <option value="{{ $country->id }}">{{ $country->male.' / '.$country->female }}</option>
@@ -153,10 +153,10 @@
   <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
-        Visa o Otra Ciudadania?:
+        Visa/Otra Ciudadania?
       </span>
     </div>
-    <select class="custom-select" data-style="btn btn-link" data-live-search="true" name="visa">
+    <select class="selectpicker" data-style="btn btn-link" data-live-search="true"  data-style="btn btn-link" data-live-search="true" name="visa">
       <option value="0">No</option>
       <option value="1">Si</option>
     </select>
@@ -170,7 +170,7 @@
         Nivel de Estudio:
       </span>
     </div>
-    <select class="custom-select" name="id_study" required>
+    <select class="selectpicker" data-style="btn btn-link" data-live-search="true"  name="id_study" required>
       <option value="">Seleccionar</option>
       @foreach(\App\Study::getAllStudy('1') as $study)
       <option value="{{ $study->id }}">{{ $study->name }}</option>
@@ -184,7 +184,7 @@
           Obra Social / Prepaga:
       </span>
     </div>
-    <select class="custom-select" data-style="btn btn-link" data-live-search="true" name="social_work" onchange="frameJs.getChangeOs(this.value)">
+    <select class="selectpicker" data-style="btn btn-link" data-live-search="true" name="social_work" onchange="frameJs.getChangeOs(this.value)">
       <option value="0">No</option>
       <option value="1">Si</option>
     </select>
@@ -198,7 +198,7 @@
           Lista de O.S.
       </span>
     </div>
-    <select class="custom-select" data-style="btn btn-link" data-live-search="true" name="social_work_name">
+    <select class="selectpicker" data-style="btn btn-link" data-live-search="true" name="social_work_name">
       <option value="">Seleccionar</option>
       @foreach(\App\Helpers::getListOs() as $key => $os)
         <option value="{{ $key }}">{{ $os }}</option>
@@ -245,7 +245,7 @@
         Estado Civil:
       </span>
     </div>
-    <select class="custom-select" name="civil_status" required>
+    <select class="selectpicker" data-style="btn btn-link" data-live-search="true"  name="civil_status" required>
       <option value="">Seleccionar</option>
       @foreach(\App\Helpers::getCivilStatus() as $key => $val)
       <option value="{{ $key }}">{{ $val }}</option>
@@ -259,7 +259,7 @@
         Rol a Desempeñar:
       </span>
     </div>
-    <select class="custom-select" name="id_function_frame[]" multiple required>
+    <select class="selectpicker" data-style="btn btn-link" data-live-search="true"  name="id_function_frame[]" multiple required>
       @foreach(\App\FrameFunction::getAllFrameFunction('1') as $frame)
       <option value="{{ $frame->id }}">{{ $frame->name }}</option>
       @endforeach
@@ -278,7 +278,7 @@
         Banco:
       </span>
     </div>
-    <select class="custom-select" name="bank" required>
+    <select class="selectpicker" data-style="btn btn-link" data-live-search="true"  name="bank" required>
       <option value="">Seleccionar</option>
       @foreach(\App\Helpers::getListsBank() as $k => $v)
       <option value="{{ $k }}">{{ $v }}</option>

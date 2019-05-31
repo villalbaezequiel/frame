@@ -39,13 +39,19 @@
     </div>
   </div>
 
-  <!-- Javascripts Plugins  -->
-  <script src="{{ asset('/js/core/jquery-3.3.1.min.js') }}"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-  <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
-  <script src="{{ asset('/js/plugins/jquery.dataTables.min.js') }}"></script>
-  <!-- app Frame  -->
-  <script src="{{ asset('/js/frame.js') }}" type="text/javascript"></script>
+   <!-- Javascripts Plugins  -->
+   <script src="{{ asset('/js/core/jquery-3.3.1.min.js') }}"></script>
+   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+   <script src="{{ asset('/js/core/popper.min.js') }}"></script>
+   <script src="{{ asset('/js/core/bootstrap-material-design.min.js') }}"></script>
+   <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+   <script src="{{ asset('/js/plugins/bootstrap-selectpicker.js') }}"></script>
+
+   <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
+   <script src="{{ asset('/js/plugins/jquery.dataTables.min.js') }}"></script>
+
+   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+   <script src="{{ asset('/js/frame.js') }}" type="text/javascript"></script>
 
   @yield('javascript')
 
