@@ -21,6 +21,7 @@ use App\Client;
 use App\ProyectCategory;
 use App\RoleUser;
 use App\Study;
+use DateTime;
 
 class ExportController extends Controller
 {
@@ -495,6 +496,7 @@ class ExportController extends Controller
                                             'count_workdays_crew as cant_jornadas_laborables',
                                             'hour_initial as hora_inicio',
                                             'hour_end as hora_final',
+                                            'hour_initial as horas_pactadas',
                                             'start_afip as fecha_alta_afip',
                                             'finish_afip as fecha_baja_afip',
                                             'is_reemplazo as puesto',
@@ -515,6 +517,7 @@ class ExportController extends Controller
           $team->fecha_baja_afip =  ($team->fecha_baja_afip != null && $team->fecha_baja_afip != '' ? Helpers::getDateParseFormat($team->fecha_baja_afip) : '');
           $team->puesto = ProjectProvider::getStringPuesto($team->puesto);
           $team->reemplazo_del_team = ($team->reemplazo_del_team ? Provider::getNameOrderLastName($team->reemplazo_del_team) : '-');
+          $team->horas_pactadas = ProjectProvider::getHoursExtras($team->hora_inicio,$team->hora_final);
           $team->activo = Helpers::getActive($team->activo);
         }
 
@@ -587,12 +590,14 @@ class ExportController extends Controller
             'project_providers.start_date_contract as fecha_alta_contrato',
             'project_providers.finish_date_contract as fecha_baja_contrato',
             'project_providers.count_workdays_crew as cant_jornadas_laborables',
-            'project_providers.hour_initial as hora_inicio',
-            'project_providers.hour_end as hora_final',
             'project_providers.start_afip as fecha_alta_afip',
             'project_providers.finish_afip as fecha_baja_afip',
             'project_providers.is_reemplazo as puesto',
             'project_providers.id_crew_reemplazo as reemplazo_del_team',
+            'project_providers.hour_initial as hora_inicio',
+            'project_providers.hour_end as hora_final',
+            'project_providers.hour_initial as horas_pactadas',
+            'project_providers.extra_hours as horas_extras',
             'project_providers.active as activo')
           ->join('providers', 'project_providers.id_provider', '=', 'providers.id')
           ->join('users', 'providers.id_user', '=', 'users.id')
@@ -610,6 +615,8 @@ class ExportController extends Controller
           $team->es_referente = Helpers::getActive($team->es_referente);
           $team->banco = Helpers::getBank($team->banco);
 
+          $team->horas_pactadas = ProjectProvider::getHoursExtras($team->hora_inicio,$team->hora_final);
+
           $team->funcion_frame = FrameFunction::getName($team->funcion_frame);
           $team->categoria_sat = WorkersCategory::getName($team->categoria_sat);
           $team->tipo_contrato = Contract::getName($team->tipo_contrato);
@@ -621,6 +628,21 @@ class ExportController extends Controller
           $team->puesto = ProjectProvider::getStringPuesto($team->puesto);
           $team->reemplazo_del_team = ($team->reemplazo_del_team ? Provider::getNameOrderLastName($team->reemplazo_del_team) : '-');
           $team->activo = Helpers::getActive($team->activo);
+
+
+          $countHsExtra = 0;
+          foreach (json_decode($team->horas_extras) as $e) {
+            $hs_extra_initial = substr($e->start, 0, strpos($e->start, '('));
+            $hs_extra_initial_date = new DateTime($hs_extra_initial);
+
+            $hs_extra_finish = substr($e->finish, 0, strpos($e->finish, '('));
+            $hs_extra_finish_date = new DateTime($hs_extra_finish);
+
+            $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
+            $countHsExtra += ($horasTrabajadas - $team->horas_pactadas);
+          }
+
+          $team->horas_extras = $countHsExtra;
         }
 
         $timestamp = date('Y_m_d_h_i_s');

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Provider;
+use DateTime;
 
 class ProjectProvider extends Model
 {
@@ -62,4 +63,17 @@ class ProjectProvider extends Model
     }
   }
 
+  static public function getHoursExtras($init, $finish)
+  {
+    $hourInitial =  new DateTime('2019-06-01 '.$init.':00');
+    $hourEnd = new DateTime('2019-06-01 '.$finish.':00');
+    return $hourInitial->diff($hourEnd)->h;
+  }
+
+  static public function getHoursExtrasExport($init, $finish)
+  {
+    $hourInitial =  new DateTime('2019-06-01 '.$init.':00');
+    $hourEnd = new DateTime('2019-06-01 '.$finish.':00');
+    return $hourInitial->diff($hourEnd)->h.'.'.$hourInitial->diff($hourEnd)->i;
+  }
 }
