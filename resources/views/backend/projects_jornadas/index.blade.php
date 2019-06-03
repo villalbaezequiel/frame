@@ -53,9 +53,9 @@
                 <td>{{ \App\Helpers::getActive($project->active) }}</td>
                 <td class="text-right">
                   @if($project->is_closed)
-                    <a href="{{ url('/export/project_jornadas/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Jornadas de Trabajo del Proyecto"><i class="material-icons">file_download</i></a>
+                    {{-- <a href="{{ url('/export/project_jornadas/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Jornadas de Trabajo del Proyecto"><i class="material-icons">file_download</i></a> --}}
                   @else
-                    <a href="{{ url('/export/project_jornadas/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Jornadas de Trabajo del Proyecto"><i class="material-icons">file_download</i></a>
+                    {{-- <a href="{{ url('/export/project_jornadas/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Jornadas de Trabajo del Proyecto"><i class="material-icons">file_download</i></a> --}}
                     <a href="{{ url('/projects_jornadas/'.$project->id) }}" class="btn btn-link btn-warning btn-just-icon edit" title="Calendario Jornadas"><i class="material-icons">calendar_today</i></a>
                   @endif
                 </td>
