@@ -173,11 +173,12 @@ function getTemplateHourExtras(){
                     <thead>
                         <tr>
                             <th>Fecha</th>
-                            <th>Rol a Desempeñar</th>
+                            <th>Rol</th>
                             <th>Inicio (hs)</th>
                             <th>Final (hs)</th>
-                            <th>Cantidad Total(hs)</th>
-                            <th>A Facturar</th>
+                            <th>Pactadas (hs)</th>
+                            <th>Extras (hs)</th>
+                            <th>Monto</th>
                         </tr>
                     </thead>
                     <tbody id="content-hour-extras">
@@ -782,13 +783,16 @@ $(document).ready(function(){
         let finish = $("#final_hs_extra").find(':selected').val().split(':');
         let rol = $("#rol_hs_extra").find(':selected').val();
 
-        var dateStart = new Date();
-        var dateFinish = new Date();
+        var dateStart = new Date(moment().format("YYYY-MM-DD"));
+        var dateFinish = new Date(moment().format("YYYY-MM-DD"));
+
+        dateStart.setDate(dateStart.getDate()+1);
+        dateFinish.setDate(dateFinish.getDate()+1);
 
         if(start != '' && finish != '' && rol != ''){
 
-          dateStart.setHours(parseFloat(start[0]),parseFloat(start[1]));
-          dateFinish.setHours(parseFloat(finish[0]),parseFloat(finish[1]));
+          dateStart.setHours(parseFloat(start[0]),parseFloat(start[1]),'00');
+          dateFinish.setHours(parseFloat(finish[0]),parseFloat(finish[1]),'00');
 
           let extraHours = {
             crew: crew,
@@ -849,13 +853,16 @@ $(document).ready(function(){
           return ("0" + (date)).slice(-2);
         }
 
-        function timeConvert(n) {
+        function calculateHsExtras(n, pactadas) {
           var num = n;
           var hours = (num / 60);
           var rhours = Math.floor(hours);
           var minutes = (hours - rhours) * 60;
           var rminutes = Math.round(minutes);
-          return rhours + " hora(s) y " + rminutes + " minuto(s).";
+
+          let total = ((rhours+'.'+rminutes) - pactadas).toString();
+
+          return total.substr(0,4);
         }
 
         function getHourMinParse(n) {
@@ -881,16 +888,16 @@ $(document).ready(function(){
               $.each(data.results, function(i,v){
                 var start = new Date(v.start);
                 var finish = new Date(v.finish);
-                var day = start.getFullYear();
                 var countHour = ((finish - start) / 60000);
                 var price = ( (parseFloat(data.salary.replace(".", "").replace(",", ".")) / getHourMinParse(countHour) ) * 1.5);
 
                 $("#content-hour-extras").append("<tr> "+
-                                  "<td>"+parseDate(start.getDay())+'-'+parseDate(start.getMonth())+'-'+start.getFullYear()+"</td>"+
+                                  "<td>"+getDatePickerFormat(v.start)+"</td>"+
                                   "<td>"+v.rol+"</td>"+
                                   "<td>"+parseDate(start.getHours())+':'+parseDate(start.getMinutes())+"</td>"+
                                   "<td>"+parseDate(finish.getHours())+':'+parseDate(finish.getMinutes())+"</td>"+
-                                  "<td>"+timeConvert(countHour)+"</td>"+
+                                  "<td>"+v.agreed_hours+"</td>"+
+                                  "<td>"+calculateHsExtras(countHour, v.agreed_hours)+"</td>"+
                                   "<td>$"+getFormatNumber(price)+"</td>"+
                               "</tr>");
               });

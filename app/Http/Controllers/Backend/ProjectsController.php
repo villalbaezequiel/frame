@@ -116,8 +116,8 @@ class ProjectsController extends Controller
             $daterange = new DatePeriod($startDatejson, $interval ,$endDatejson);
             foreach($daterange as $date){
                 $calendar[$date->format("Ymd")] = array(
-                                'start' => $date->format("Y-m-d")." 00:00:00",
-                                'finish' => $date->format("Y-m-d")." 00:00:00"
+                                'start' => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00",
+                                'finish' => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00"
                               );
             }
 
@@ -188,8 +188,8 @@ class ProjectsController extends Controller
               $daterange = new DatePeriod($startDatejson, $interval ,$endDatejson);
               foreach($daterange as $date){
                   $calendar[$date->format("Ymd")] = array(
-                                  'start' => $date->format("Y-m-d")." 00:00:00",
-                                  'finish' => $date->format("Y-m-d")." 00:00:00"
+                                  'start' => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00",
+                                  'finish' => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00"
                                 );
               }
 
@@ -369,8 +369,8 @@ class ProjectsController extends Controller
               $daterange = new DatePeriod($startDatejson, $interval ,$endDatejson);
               foreach($daterange as $date){
                   $calendar[$date->format("Ymd")] = array(
-                                  'start' => $date->format("Y-m-d")." 00:00:00",
-                                  'finish' => $date->format("Y-m-d")." 00:00:00"
+                                  'start' => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00",
+                                  'finish' => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00"
                                 );
               }
 
@@ -470,8 +470,8 @@ class ProjectsController extends Controller
               $daterange = new DatePeriod($startDatejson, $interval ,$endDatejson);
               foreach($daterange as $date){
                   $calendar[$date->format("Ymd")] = array(
-                                  'start' => $date->format("Y-m-d")." 00:00:00",
-                                  'finish' => $date->format("Y-m-d")." 00:00:00"
+                                  'start' => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00",
+                                  'finish' => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00"
                                 );
               }
 

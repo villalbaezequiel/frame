@@ -11,6 +11,7 @@ use App\Provider;
 use App\ProjectProvider;
 use App\Project;
 use App\WorkersCategory;
+use DateTime;
 
 class JsonController extends Controller
 {
@@ -222,11 +223,19 @@ class JsonController extends Controller
           $projectProvider = ProjectProvider::find($team);
           $newExtraHours = $projectProvider->extra_hours;
 
+          // validar cuantas horas extras realizo.
+          // Dependiendo de las horas de inicio y final de su jornada.
+          $hourInitial =  new DateTime('2019-06-01 '.$projectProvider->hour_initial);
+          $hourEnd = new DateTime('2019-06-01 '.$projectProvider->hour_end);
+          $agreedHours = $hourInitial->diff($hourEnd)->h;
+
           $newExtraHours[] = array(
                             'rol' => $request->get('rol'),
                             'start' => $request->get('start'),
-                            'finish' => $request->get('finish')
+                            'finish' => $request->get('finish'),
+                            'agreed_hours' => $agreedHours
                           );
+
           $projectProvider->extra_hours = $newExtraHours;
           $projectProvider->save();
 
