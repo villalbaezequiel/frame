@@ -631,15 +631,17 @@ class ExportController extends Controller
 
 
           $countHsExtra = 0;
-          foreach (json_decode($team->horas_extras) as $e) {
-            $hs_extra_initial = substr($e->start, 0, strpos($e->start, '('));
-            $hs_extra_initial_date = new DateTime($hs_extra_initial);
+          if(!empty(json_decode($team->horas_extras))){
+            foreach (json_decode($team->horas_extras) as $e) {
+              $hs_extra_initial = substr($e->start, 0, strpos($e->start, '('));
+              $hs_extra_initial_date = new DateTime($hs_extra_initial);
 
-            $hs_extra_finish = substr($e->finish, 0, strpos($e->finish, '('));
-            $hs_extra_finish_date = new DateTime($hs_extra_finish);
+              $hs_extra_finish = substr($e->finish, 0, strpos($e->finish, '('));
+              $hs_extra_finish_date = new DateTime($hs_extra_finish);
 
-            $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
-            $countHsExtra += ($horasTrabajadas - $team->horas_pactadas);
+              $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
+              $countHsExtra += ($horasTrabajadas - $team->horas_pactadas);
+            }
           }
 
           $team->horas_extras = $countHsExtra;
