@@ -76,7 +76,7 @@
               </div>
               <div class="col-md-2">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="piso_depto" value="{{ $provider->piso_depto }}" placeholder="Piso/Depto">
+                  <input class="form-control" type="text" name="piso_depto" value="{{ $client->piso_depto }}" placeholder="Piso/Depto">
                 </div>
               </div>
             </div>
