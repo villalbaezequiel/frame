@@ -327,7 +327,7 @@
 <div class="form-group">
   <div class="input-group col-md-6 p-2">
     <span class="input-group-text">
-      <input class="form-control" type="checkbox" name="" style="margin-right: 10px;" required>
+      <input class="form-control" type="checkbox" name="" style="margin-right: 10px; width: 15px;" required>
       Aceptar<a href="javascript:void(0)" class="hide-footer click-remove-wrapper-full-page" data-toggle="modal" data-target="#exampleModal" style="margin-left: 4px;">Terminos y Condiciones</a>
     </span>
   </div>

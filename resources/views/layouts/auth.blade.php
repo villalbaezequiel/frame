@@ -37,7 +37,6 @@
         .modal .modal-dialog {
           margin-top: 0px!important;
           height: 100%;
-          overflow-y: scroll;
         }
 
         .modal-dialog {
