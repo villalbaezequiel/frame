@@ -87,10 +87,3 @@
   </div>
 </div>
 @endsection
-<style>
-    .page-header {
-      height: auto!important;
-      max-height: 3000px!important;
-      background-size: contain!important;
-    }
-</style>

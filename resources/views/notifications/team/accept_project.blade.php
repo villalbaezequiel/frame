@@ -3,7 +3,7 @@
 
 @section('container')
 <div class="row">
-  <div class="col-lg-12 col-md-12 col-sm-12">
+  <div class="col-md-12 col-md-12 col-sm-12">
     {!! Form::open(['route' => 'team_acceptproject.post', 'method' => 'POST', 'class' => 'form-inline']) !!}
       @csrf
 
@@ -24,7 +24,7 @@
           </p>
 
           <div class="form-group">
-            <div class="input-group col-lg-6">
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Cliente:
@@ -33,7 +33,7 @@
               <input type="text" class="form-control" value="{{ \App\Project::getCliente($crew->id_project) }}" disabled>
             </div>
 
-            <div class="input-group col-lg-6">
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Nombre del Proyecto:
@@ -44,7 +44,7 @@
           </div>
 
           <div class="form-group">
-            <div class="input-group col-lg-6">
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Referente:
@@ -53,7 +53,7 @@
               <input type="text" class="form-control" value="{{ \App\Project::getReferring($crew->id_project) }}" disabled>
             </div>
 
-            <div class="input-group col-lg-6">
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Descripción:
@@ -64,7 +64,7 @@
           </div>
 
           <div class="form-group">
-            <div class="input-group col-lg-6">
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Nombre del Team:
@@ -73,7 +73,7 @@
               <input type="text" class="form-control" value="{{ \App\Provider::getNameOrderLastName($crew->id_provider) }}" disabled>
             </div>
 
-            <div class="input-group col-lg-6">
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Rol a Desempeñar:
@@ -84,7 +84,7 @@
           </div>
 
           <div class="form-group">
-            <div class="input-group col-lg-6">
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Fecha Estimada:
@@ -93,7 +93,7 @@
               <input type="text" class="form-control" value="{{ \App\Helpers::getDateParseFormat($crew->start_date_contract, '/') }} - {{ \App\Helpers::getDateParseFormat($crew->finish_date_contract, '/') }}" disabled>
             </div>
 
-            <div class="input-group col-lg-6">
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Monto a cobrar estimado:
@@ -105,7 +105,7 @@
 
           <div class="form-group">
             @if($crew->active == 0)
-            <div class="input-group col-lg-6">
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Aceptar:
@@ -129,7 +129,7 @@
                 </div>
             </div>
             @else
-            <div class="input-group col-lg-6">
+            <div class="input-group col-md-6">
               <div class="input-group-prepend">
                 <span class="input-group-text">
                   Aceptar:
@@ -146,7 +146,7 @@
         <div class="card-footer">
           <div class="col-md-12">
             <center>
-              <button type="submit" class="btn btn-primary btn-link btn-lg">
+              <button type="submit" class="btn btn-primary btn-link btn-md">
                 Guardar
               </button>
               <input type="hidden" name="id_project_provider" value="{{ $crew->id }}" />
@@ -160,3 +160,10 @@
   </div>
 </div>
 @endsection
+<style>
+  @media screen and (max-width: 450px) {
+    .input-group-text {
+      padding-left: 0px !important;
+    }
+  }
+</style>

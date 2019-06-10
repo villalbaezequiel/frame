@@ -43,7 +43,7 @@
 
           <span class="bmd-form-group">
             <div class="input-group">
-              <div class="input-group-prepend">
+              <div class="input-group-prepend" style="width: auto!important;">
                 <span class="input-group-text">
                   <i class="material-icons">email</i>
                 </span>
@@ -53,7 +53,7 @@
           </span>
           <span class="bmd-form-group">
             <div class="input-group">
-              <div class="input-group-prepend">
+              <div class="input-group-prepend" style="width: auto!important;">
                 <span class="input-group-text">
                   <i class="material-icons">lock_outline</i>
                 </span>

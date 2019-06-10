@@ -54,6 +54,7 @@
 }
 .valoration_star {
     font-size: 20px;
+    padding-right: 10px!important;
 }
 .valoration_star:hover,
 .valoration_star:hover ~ label {

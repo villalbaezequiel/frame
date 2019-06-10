@@ -17,6 +17,24 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link href="{{ asset('css/material-dashboard.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
+
+    <style>
+        .page-header {
+          height: auto!important;
+          max-height: 3500PX!important;
+          background-size: contain!important;
+        }
+        .input-group .input-group-text {
+          justify-content: left!important;
+        }
+
+        @media screen and (max-width: 450px) {
+          .off-canvas-sidebar .wrapper-full-page .page-header {
+            padding: 0px!important;
+          }
+        }
+    </style>
+
 </head>
 
 <body class="off-canvas-sidebar">
@@ -25,7 +43,11 @@
     @include('auth.components.nav')
   @endif
 
+@if(\Request::is('login'))
+  <div class="wrapper">
+@else
   <div class="wrapper wrapper-full-page">
+@endif
     <div class="page-header login-page header-filter" filter-color="black" style="background-image: url({{ asset('img/login.jpg') }}); background-size: cover; background-position: top center;">
 
       <div class="container">
