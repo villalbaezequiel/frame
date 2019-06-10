@@ -56,7 +56,7 @@
                   <div class="col-md-5">
                     <div class="card ">
                       <div class="card-header card-header-rose card-header-text">
-                        <div class="card-icon">
+                        <div class="card-icon card-icon-project">
                           <i class="material-icons">library_books</i>
                         </div>
                         <h4 class="card-title">Fecha de Inicio</h4>
@@ -72,7 +72,7 @@
                   <div class="col-md-5">
                     <div class="card ">
                       <div class="card-header card-header-rose card-header-text">
-                        <div class="card-icon">
+                        <div class="card-icon card-icon-project">
                           <i class="material-icons">library_books</i>
                         </div>
                         <h4 class="card-title">Fecha de Finalización</h4>
@@ -486,7 +486,7 @@
                           <p class="card-text mb-2 edit-text-active">Estado: {{ \App\ProjectProvider::getActive($item_crew->active) }}</p>
                           <p class="card-text mb-2 edit-text-puesto">Puesto: {{ \App\ProjectProvider::getPuesto($item_crew->id) }}</p>
                         </div>
-                        <div class="card-footer pt-0">
+                        <div class="card-footer card-footer-project pt-0">
                           <a href="{{ url('/export/crew_contract/'.$item_crew->id) }}" target="_blank" class="btn btn-link btn-warning btn-just-icon edit" title="Descargar Contrato"><i class="material-icons">assignment</i></a>
                           <a href="{{ url('/export/release/'.$item_crew->id) }}" target="_blank" class="btn btn-link btn-warning btn-just-icon edit" title="Descargar Release"><i class="material-icons">assignment</i></a>
                           <a data-url="javascript:void(0)" class="btn btn-link btn-warning btn-just-icon edit show-hour-extras" data-id="{{ $item_crew->id }}" data-nameteam="{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}" title="Ver Horas Extras"><i class="material-icons">calendar_today</i></a>

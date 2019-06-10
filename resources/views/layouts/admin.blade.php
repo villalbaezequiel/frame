@@ -66,8 +66,6 @@
     <script>
       $(document).ready(function() {
 
-        // md.initDashboardPageCharts();
-
         $sidebar = $('.sidebar');
         $sidebar_img_container = $sidebar.find('.sidebar-background');
         $full_page = $('.full-page');
@@ -212,15 +210,15 @@
             }, 300);
           }
 
-          // // we simulate the window Resize so the charts will get updated in realtime.
-          // var simulateWindowResize = setInterval(function() {
-          //   window.dispatchEvent(new Event('resize'));
-          // }, 180);
-          //
-          // // we stop the simulation of Window Resize after the animations are completed
-          // setTimeout(function() {
-          //   clearInterval(simulateWindowResize);
-          // }, 1000);
+          // we simulate the window Resize so the charts will get updated in realtime.
+          var simulateWindowResize = setInterval(function() {
+            window.dispatchEvent(new Event('resize'));
+          }, 180);
+
+          // we stop the simulation of Window Resize after the animations are completed
+          setTimeout(function() {
+            clearInterval(simulateWindowResize);
+          }, 1000);
 
         });
       });

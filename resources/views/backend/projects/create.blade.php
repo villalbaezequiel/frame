@@ -54,7 +54,7 @@
                   <div class="col-md-5">
                     <div class="card ">
                       <div class="card-header card-header-rose card-header-text">
-                        <div class="card-icon">
+                        <div class="card-icon card-icon-project">
                           <i class="material-icons">library_books</i>
                         </div>
                         <h4 class="card-title">Fecha de Inicio</h4>
@@ -69,7 +69,7 @@
                   <div class="col-md-5">
                     <div class="card ">
                       <div class="card-header card-header-rose card-header-text">
-                        <div class="card-icon">
+                        <div class="card-icon card-icon-project">
                           <i class="material-icons">library_books</i>
                         </div>
                         <h4 class="card-title">Fecha de Finalización</h4>

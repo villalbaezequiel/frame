@@ -51,6 +51,7 @@
    <script src="{{ asset('/js/plugins/jquery.dataTables.min.js') }}"></script>
 
    <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+   <script src="{{ asset('/js/core/material-dashboard.min.js') }}" type="text/javascript"></script>
    <script src="{{ asset('/js/frame.js') }}" type="text/javascript"></script>
 
   @yield('javascript')

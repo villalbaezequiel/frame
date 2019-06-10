@@ -98,3 +98,54 @@
 .swal-wide {
   width: 60%!important;
 }
+@media screen and (max-width: 900px) {
+  li.paginate_button.previous {
+      display: inline;
+  }
+
+  li.paginate_button.next {
+      display: inline;
+  }
+
+  li.paginate_button {
+      display: none;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  table.dataTable > tbody > tr.child ul.dtr-details > li {
+    display: grid;
+  }
+
+  table.dataTable.nowrap td, table.dataTable.nowrap th {
+    white-space: normal;
+  }
+
+  .card-icon-project {
+    float: none!important;
+  }
+
+  .card-wizard .input-group-text {
+    padding: 0px !important;
+  }
+
+  .input-group-prepend {
+    display: block!important;
+    width: 100%;
+  }
+
+}
+
+table.dataTable > tbody > tr.child ul.dtr-details {
+  width: 100%;
+}
+
+.card-footer-project {
+  display: block!important;
+  text-align: center!important;
+}
+
+.card-footer-project > .btn.btn-fab, .btn.btn-just-icon{
+  min-width: 33px!important;
+  width: 33px!important;
+}
