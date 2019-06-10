@@ -28,10 +28,24 @@
           justify-content: left!important;
         }
 
-        @media screen and (max-width: 450px) {
+        @media screen and (max-width: 980px) {
           .off-canvas-sidebar .wrapper-full-page .page-header {
             padding: 0px!important;
           }
+        }
+
+        .modal .modal-dialog {
+          margin-top: 0px!important;
+          height: 100%;
+          overflow-y: scroll;
+        }
+
+        .modal-dialog {
+          border: 1px solid #cccccc!important;
+          border-radius: 6px;
+          background-color: white;
+          width: 90%!important;
+          margin: 0 auto!important;
         }
     </style>
 
@@ -75,6 +89,19 @@
    <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
    <script src="{{ asset('/js/core/material-dashboard.min.js') }}" type="text/javascript"></script>
    <script src="{{ asset('/js/frame.js') }}" type="text/javascript"></script>
+
+  <script>
+    $(document).ready(function(){
+      $('.hide-footer').click(function(){
+        $('.footer').hide('slow');
+        $('.wrapper').removeClass('wrapper-full-page');
+      });
+      $('.show-footer').click(function(){
+        $('.footer').show('slow');
+        $('.wrapper').addClass('wrapper-full-page');
+      });
+    });
+  </script>
 
   @yield('javascript')
 

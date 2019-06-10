@@ -328,10 +328,12 @@
   <div class="input-group col-md-6 p-2">
     <span class="input-group-text">
       <input class="form-control" type="checkbox" name="" style="margin-right: 10px;" required>
-      Aceptar<a href="#" style="margin-left: 4px;">Terminos y Condiciones</a>
+      Aceptar<a href="javascript:void(0)" class="hide-footer click-remove-wrapper-full-page" data-toggle="modal" data-target="#exampleModal" style="margin-left: 4px;">Terminos y Condiciones</a>
     </span>
   </div>
 </div>
 
 <input type="hidden" name="active" value="1">
 <input type="hidden" name="referring" value="0">
+
+@include('auth.card.tyc')
