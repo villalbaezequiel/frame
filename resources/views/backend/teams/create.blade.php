@@ -335,7 +335,11 @@
               <label class="col-md-2 col-form-label">Tipo de Cuenta <span class="required-red">*</span></label>
                 <div class="col-md-7">
                   <div class="form-group">
-                    <input class="form-control" type="text" name="type_account" value="{{ old('type_account') }}" required>
+                    <select class="form-control selectpicker" data-style="btn btn-link" name="type_account" required>
+                      @foreach(\App\Provider::getTipoCuenta() as $val)
+                      <option value="{{ $val }}">{{ $val }}</option>
+                      @endforeach
+                    </select>
                   </div>
               </div>
             </div>

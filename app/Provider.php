@@ -124,4 +124,10 @@ class Provider extends Model
               ->get();
     }
 
+    static public function getTipoCuenta()
+    {
+      $list = array('Caja de ahorro $', 'Cuenta Corriente $');
+      return $list;
+    }
+
 }

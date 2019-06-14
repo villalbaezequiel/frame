@@ -296,15 +296,19 @@
 </div>
 
 <div class="form-group">
-  <div class="input-group col-md-4 p-2">
+  <div class="input-group col-md-6 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Tipo de Cuenta:
       </span>
     </div>
-    <input class="form-control" type="text" name="type_account" value="{{ old('type_account') }}" required>
+    <select class="selectpicker" data-style="btn btn-link" name="type_account" required>
+      @foreach(\App\Provider::getTipoCuenta() as $val)
+      <option value="{{ $val }}">{{ $val }}</option>
+      @endforeach
+    </select>
   </div>
-  <div class="input-group col-md-4 p-2">
+  <div class="input-group col-md-3 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         N* de Cuenta:
@@ -312,7 +316,7 @@
     </div>
     <input class="form-control input-type-number" type="text" name="number_account" value="{{ old('number_account') }}" required>
   </div>
-  <div class="input-group col-md-4 p-2">
+  <div class="input-group col-md-3 p-2">
     <div class="input-group-prepend">
       <span class="input-group-text">
         Alias:
