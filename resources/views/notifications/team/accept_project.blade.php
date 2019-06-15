@@ -99,7 +99,7 @@
                   Monto a cobrar estimado:
                 </span>
               </div>
-              <input type="text" class="form-control" value="${{ $crew->salary_liquidate}}" disabled>
+              <input type="text" class="form-control" value="${{ $crew->total_workdays}}" disabled>
             </div>
           </div>
 
