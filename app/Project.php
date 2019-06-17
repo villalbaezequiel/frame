@@ -74,4 +74,13 @@ class Project extends Model
         return "Abierto";
       }
     }
+
+    static function getCenterCost($id_project)
+    {
+      $project = Project::find($id_project);
+
+      if($project){
+        return $project->cost_center;
+      }
+    }
 }

@@ -70,7 +70,7 @@ class Contract extends Model
       return $message;
     }
 
-    static public function getContractPlazoFijo($crew_name_full, $crew_addres_full, $crew_location, $crew_cp, $crew_dni, $crew_cuit, $crew_start_contract, $crew_finish_contract, $crew_function_sat, $crew_salary_text, $crew_salary, $crew_name_project, $crew_email)
+    static public function getContractPlazoFijo($crew_name_full, $crew_addres_full, $crew_location, $crew_cp, $crew_dni, $crew_cuit, $crew_start_contract, $crew_finish_contract, $crew_function_sat, $crew_salary_text, $crew_salary, $crew_name_project, $crew_email, $center_cost)
     {
       $today = date('d/m/Y');
 
@@ -78,7 +78,7 @@ class Contract extends Model
 
       <p>Entre FZERO S.R.L., representada por el Sr. Hernán Pellegrini, DNI nº 26.116.576, en su carácter de Socio Gerente, con domicilio legal en TRONADOR Nº 671, CABA (1428), en adelante “La Empleadora”; y el Sr/a. $crew_name_full, DNI Nº $crew_dni, CUIL $crew_cuit, con domicilio en $crew_addres_full, $crew_location($crew_cp), por la otra parte, en adelante “El Empleado” se celebra el presente contrato de trabajo de carácter a plazo fijo, sujeto a la legislación vigente (cf. arts. 8 y ccs.  CCT N° 634/11 SATSAID – CAPIT; 90, 93 y ss. y ccs. R.C.T.), y que se encuentra regulado por las siguientes cláusulas:</p>
 
-      <p><strong>PRIMERA:</strong> La Empleadora contrata al Sr/a. <strong>$crew_name_full</strong>, y éste acepta desempeñarse como <strong>$crew_function_sat</strong>.</p>
+      <p><strong>PRIMERA:</strong> La Empleadora contrata al Sr/a. <strong>$crew_name_full</strong>, y éste acepta desempeñarse como <strong>$crew_function_sat</strong>, en el proyecto ($center_cost) <strong>$crew_name_project</strong>.</p>
 
       <p><strong>SEGUNDA:</strong> El Empleado se compromete a cumplir con las obligaciones y tareas inherentes a sus funciones, prestando servicios durante los siguientes días y horarios: lunes a viernes durante 7 horas 15 minutos, los cuales podrán estar sujetos a modificaciones puntuales y/o circunstancias observadas por La Empleadora. Su lugar de trabajo será en Tronador 671, CABA, pudiendo modificarse por indicación de La Empleadora.</p>
 
