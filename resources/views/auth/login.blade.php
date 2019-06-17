@@ -7,7 +7,7 @@
     <form class="form" method="POST" action="{{ route('login') }}">
       @csrf
 
-      <div class="col-md-12 ml-auto mr-auto">
+      <div class="col-md-12 p-4 ml-auto mr-auto">
         <img src="{{ asset('img/logo.svg') }}" />
       </div>
 

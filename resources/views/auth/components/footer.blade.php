@@ -19,7 +19,7 @@
         </li>
       </ul>
     </nav> -->
-    <div class="copyright float-right">
+    <div class="copyright">
       &copy;{{ date('Y') }}, hecho con <i class="material-icons">favorite</i> por
       <a href="http://www.estudiomixto.com/" target="_blank">Estudio Mixto</a> para una mejor web.
     </div>
