@@ -12,7 +12,7 @@ class FrameFunction extends Model
 
     static public function getAllFrameFunction($status = '1')
     {
-      return FrameFunction::where('active', $status)->get();
+      return FrameFunction::where('active', $status)->orderBy('name', 'ASC')->get();
     }
 
     static public function getName($id)
