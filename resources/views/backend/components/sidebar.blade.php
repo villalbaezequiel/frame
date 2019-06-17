@@ -34,6 +34,12 @@
                 <span class="sidebar-normal"> Editar Perfil </span>
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url('/logout') }}">
+                <span class="sidebar-mini"> CS </span>
+                <span class="sidebar-normal"> Cerrar Sesión </span>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
