@@ -90,27 +90,36 @@ function setCardTeamIsset(idCard, function_frame, category_sat, dates, contract,
 }
 
 function setEmptyFormTeam(){
-
-  // si el proyecto ya esta activo, que se oculte el form content del team luego de editar
-  $("#content-form-edit-team").addClass('hidden');
-
   // restart input add crew
   $(".empty-values-finish-add-crew input").val('');
   $("select[name=is_reemplazo]").val("1"); // Default Titular
   $("select[name=active]").val("0"); // Default Pendiente
   $("select[name=id_crew_reemplazo]").val("0"); // "Seleccionar..."
-  $('input[name=crew_sueldo_diferencia]').removeAttr('style');
+  $("select[name=id_function_frame]").val(""); // "Seleccionar..."
+  $("select[name=id_category_sat]").empty().append('<option value="">Seleccionar</option>'); // "Seleccionar..."
+  $("select[name=id_provider]").empty().append('<option value="">Seleccionar</option>'); // "Seleccionar..."
+  $("select[name=id_contract]").val(""); // "Seleccionar..."
+  $("select[name=id_workday]").val(""); // "Seleccionar..."
+  $("select[name=hour_initial]").val("00:00"); // 00.00
+  $("select[name=hour_end]").val("00:00"); // 00.00
+  $('input[name=crew_sueldo_diferencia]').removeAttr('style'); // elimino el backgroud del sueldo diferencia
+
+  // una vez que ya agrego un Team al PROYECTO, se habilita las OPCIONES de titular Y suplente
+  // y para seleccionar un TEAM cargado si es SUPLENTE
   $("select[name=is_reemplazo]").removeAttr('disabled');
   $("select[name=id_crew_reemplazo]").removeAttr('disabled');
 
   $("#add_crew").text("Agregar Team");
-  $('.selectpicker').selectpicker('refresh');
 
+  // section EDIT
+  // si el proyecto ya esta activo, que se oculte el form content del team luego de editar
   $("#content-form-edit-team").addClass('hidden');
   $(".button-show-form-team").removeClass('hidden');
 
   $('body,html').stop(true,true).animate({ scrollTop: $("#ancla_list_crew_view").offset().top },1000);
 
+  // udpate all select by selectpicker
+  $('.selectpicker').selectpicker('refresh');
 }
 
 function getOptionTeam()
@@ -444,7 +453,6 @@ $(document).ready(function(){
       }
 
       setEmptyFormTeam();
-      $('.selectpicker').selectpicker('refresh');
 
     } else {
       Swal.fire({
@@ -456,6 +464,9 @@ $(document).ready(function(){
         confirmButtonText: 'Aceptar'
       });
     }
+
+    // update all select
+    $('.selectpicker').selectpicker('refresh');
 
   });
 
@@ -722,7 +733,6 @@ $(document).ready(function(){
 
         // falta chequear si el user es secundario
 
-
         $('.selectpicker').selectpicker('refresh');
         return false;
       }
@@ -846,7 +856,7 @@ $(document).ready(function(){
     let nameTeam = $(this).data('nameteam');
     $.ajax({
       type: 'GET',
-      url: '/sistema/project_providers/'+id,
+      url: '/project_providers/'+id,
       success: function(data){
 
         function parseDate(date){
@@ -923,6 +933,9 @@ $(document).ready(function(){
   $(".button-show-form-team").click(function(){
     $("#content-form-edit-team").removeClass('hidden');
     $(this).addClass('hidden');
+
+    // update all select
+    $('.selectpicker').selectpicker('refresh');
   });
 
 });
