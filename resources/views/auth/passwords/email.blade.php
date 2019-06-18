@@ -7,7 +7,7 @@
     <form class="form" method="POST" action="{{ route('password.email') }}">
       @csrf
 
-      <div class="col-md-12 ml-auto mr-auto">
+      <div class="col-md-12 p-4 ml-auto mr-auto">
         <img src="{{ asset('img/logo.svg') }}" />
       </div>
 
@@ -30,7 +30,7 @@
 
           <span class="bmd-form-group">
             <div class="input-group">
-              <div class="input-group-prepend">
+              <div class="input-group-prepend" style="width: auto!important;">
                 <span class="input-group-text">
                   <i class="material-icons">email</i>
                 </span>
