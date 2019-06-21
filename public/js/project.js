@@ -280,8 +280,9 @@ $(document).ready(function(){
 
     if( id_function_frame && id_category_sat && id_provider &&
         id_contract && start_date_contract && finish_date_contract &&
-        id_workday && count_workdays_crew && salary_workdays &&
-        total_workdays && total_workdays_text && salary_contract_category_function &&
+        id_workday && count_workdays_crew && hour_initial &&
+        hour_end && salary_workdays && total_workdays &&
+        total_workdays_text && salary_contract_category_function &&
         salary_daily && salary_liquidate && salaty_difference)
     {
 
@@ -856,7 +857,7 @@ $(document).ready(function(){
     let nameTeam = $(this).data('nameteam');
     $.ajax({
       type: 'GET',
-      url: '/project_providers/'+id,
+      url: '/sistema/project_providers/'+id,
       success: function(data){
 
         function parseDate(date){

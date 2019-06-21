@@ -278,7 +278,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Hora de Inicio:
+                          Hora de Inicio<span class="required-red" style="margin-right: 4px;">*</span>
                         </span>
                         <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="hour_initial">
                         </select>
@@ -290,7 +290,7 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Hora Final:
+                          Hora Final<span class="required-red" style="margin-right: 4px;">*</span>
                         </span>
                         <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="hour_end">
                         </select>
