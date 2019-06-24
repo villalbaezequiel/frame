@@ -3,8 +3,8 @@ function getOptionTeam()
 
   let formSwal =
     `<div class="row hidden">
-    <label class="col-md-5 col-form-label text-right">Rol a Desempeñar:</label>
-    <div class="col-md-5">
+    <label class="col-sm-5 col-form-label text-right">Rol a Desempeñar:</label>
+    <div class="col-sm-5">
       <div class="form-group">
         <select class="form-control" data-style="btn btn-link" id="rol_hs_extra" name="rol_hs_extra" required>
           <option value="0" selected="selected"></option>
@@ -13,8 +13,8 @@ function getOptionTeam()
     </div>
   </div>
     <div class="row">
-      <label class="col-md-5 col-form-label text-right">Team:</label>
-      <div class="col-md-5">
+      <label class="col-sm-5 col-form-label text-right">Team:</label>
+      <div class="col-sm-5">
         <div class="form-group">
           <select class="form-control selectpicker" data-style="btn btn-link" id="crew_hs_extra" name="crew_hs_extra[]" multiple required>
           </select>
@@ -22,8 +22,8 @@ function getOptionTeam()
       </div>
     </div>
     <div class="row">
-        <label class="col-md-5 col-form-label text-right">Hora Inicio:</label>
-        <div class="col-md-5">
+        <label class="col-sm-5 col-form-label text-right">Hora Inicio:</label>
+        <div class="col-sm-5">
           <div class="form-group">
             <select class="form-control selectpicker" data-style="btn btn-link" id="inicio_hs_extra" name="inicio_hs_extra" required>
             </select>
@@ -31,8 +31,8 @@ function getOptionTeam()
         </div>
       </div>
       <div class="row">
-        <label class="col-md-5 col-form-label text-right">Hora Final:</label>
-        <div class="col-md-5">
+        <label class="col-sm-5 col-form-label text-right">Hora Final:</label>
+        <div class="col-sm-5">
           <div class="form-group">
             <select class="form-control selectpicker" data-style="btn btn-link" id="final_hs_extra" name="final_hs_extra" required>
             </select>
@@ -40,7 +40,7 @@ function getOptionTeam()
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12 text-left">
+        <div class="col-sm-12 text-left">
           <ul>
             <li><i>Multiple Seleccion: haga click en los Team que necesites.</i></li>
             <li><i>Las Horas Extras se visualizarán de color Violeta.</i></li>
