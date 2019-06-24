@@ -450,7 +450,7 @@
                 <h5 class="info-text"> Generacion de Seguros - Contratos tipos Servicios </h5>
                 <div class="row justify-content-center">
 
-                  <div class="col-md-6">
+                  <div class="col-md-12">
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text no-wrap">
@@ -464,7 +464,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-6">
+                  <div class="col-md-12">
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text no-wrap">
@@ -480,8 +480,8 @@
 
                 </div>
 
+                <h5 class="info-text"> Configurar Notificaciones </h5>
                 <div class="row justify-content-center">
-
                   <div class="col-md-12">
                     <div class="form-group">
                       <div class="input-group-prepend">
