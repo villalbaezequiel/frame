@@ -900,7 +900,7 @@ $(document).ready(function(){
                 var start = new Date(v.start);
                 var finish = new Date(v.finish);
                 var countHour = ((finish - start) / 60000);
-                var price = ( (parseFloat(data.salary.replace(".", "").replace(",", ".")) / getHourMinParse(countHour)) );
+                var price = ( (parseFloat(data.salary.replace(".", "").replace(",", ".")) / v.agreed_hours) );
 
                 $("#content-hour-extras").append("<tr> "+
                                   "<td>"+getDatePickerFormat(v.start)+"</td>"+
