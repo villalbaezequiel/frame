@@ -229,8 +229,15 @@ class JsonController extends Controller
           $hourEnd = new DateTime('2019-06-01 '.$projectProvider->hour_end);
           $agreedHours = $hourInitial->diff($hourEnd)->h;
 
+          $rolTeam = 0;
+          if(!$request->get('rol')){
+            $rolTeam = $projectProvider->id_function_frame;
+          } else {
+            $rolTeam = $request->get('rol');
+          }
+
           $newExtraHours[] = array(
-                            'rol' => $request->get('rol'),
+                            'rol' => $rolTeam,
                             'start' => $request->get('start'),
                             'finish' => $request->get('finish'),
                             'agreed_hours' => $agreedHours

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', "Jornadas de Proyectos / Calendario")
+@section('title', "Jornadas de Proyectos")
 
 @section('content')
 <div class="container-fluid">

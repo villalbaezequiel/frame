@@ -2,12 +2,12 @@ function getOptionTeam()
 {
 
   let formSwal =
-    `<div class="row">
+    `<div class="row hidden">
     <label class="col-md-5 col-form-label text-right">Rol a Desempeñar:</label>
     <div class="col-md-5">
       <div class="form-group">
         <select class="form-control" data-style="btn btn-link" id="rol_hs_extra" name="rol_hs_extra" required>
-          <option value="">Seleccionar</option>
+          <option value="0" selected="selected"></option>
         </select>
       </div>
     </div>
@@ -16,7 +16,7 @@ function getOptionTeam()
       <label class="col-md-5 col-form-label text-right">Team:</label>
       <div class="col-md-5">
         <div class="form-group">
-          <select class="form-control pb-5" data-style="btn btn-link" id="crew_hs_extra" name="crew_hs_extra[]" multiple required>
+          <select class="form-control selectpicker" data-style="btn btn-link" id="crew_hs_extra" name="crew_hs_extra[]" multiple required>
           </select>
         </div>
       </div>
@@ -25,8 +25,7 @@ function getOptionTeam()
         <label class="col-md-5 col-form-label text-right">Hora Inicio:</label>
         <div class="col-md-5">
           <div class="form-group">
-            <select class="form-control" data-style="btn btn-link" id="inicio_hs_extra" name="inicio_hs_extra" required>
-              <option value="">Seleccionar</option>
+            <select class="form-control selectpicker" data-style="btn btn-link" id="inicio_hs_extra" name="inicio_hs_extra" required>
             </select>
           </div>
         </div>
@@ -35,24 +34,15 @@ function getOptionTeam()
         <label class="col-md-5 col-form-label text-right">Hora Final:</label>
         <div class="col-md-5">
           <div class="form-group">
-            <select class="form-control" data-style="btn btn-link" id="final_hs_extra" name="final_hs_extra" required>
-              <option value="">Seleccionar</option>
+            <select class="form-control selectpicker" data-style="btn btn-link" id="final_hs_extra" name="final_hs_extra" required>
             </select>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <label class="col-md-5 col-form-label text-right">Horas Acordadas:</label>
-        <div class="col-md-5">
-          <div class="form-group">
-            <input type="number" value="8" name="accord_hours_hs_extra" readonly />
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12 text-left">
           <ul>
-            <li><i>Multiple Team: ctrl + click derecho para seleccionar a multiples Team.</i></li>
+            <li><i>Multiple Seleccion: haga click en los Team que necesites.</i></li>
             <li><i>Las Horas Extras se visualizarán de color Violeta.</i></li>
           </ul>
         </div>
@@ -164,6 +154,8 @@ $(function() {
           $.each(frameJs.getTimeCalendar(), function(i, v){
              $("#final_hs_extra").append(`<option value="${v}">${v}</option>`);
           });
+
+          $('.selectpicker').selectpicker('refresh');
         }
       })
       .then(function(data){
