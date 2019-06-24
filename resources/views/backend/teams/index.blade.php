@@ -46,7 +46,7 @@
             <tbody>
               @foreach($providers as $provider)
               <tr class="item-alert-confirm-delete">
-                <td>{{ \App\User::getFullName($provider->id_user) }}</td>
+                <td>{{ \App\User::getFullNameOrder($provider->id_user) }}</td>
                 <td>
                     @foreach(json_decode($provider->id_function_frame) as $key => $val)
                       @if(\App\FrameFunction::getName($val))

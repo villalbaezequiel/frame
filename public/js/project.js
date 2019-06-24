@@ -187,7 +187,7 @@ function getTemplateHourExtras(){
                             <th>Final (hs)</th>
                             <th>Pactadas (hs)</th>
                             <th>Extras (hs)</th>
-                            <th>Monto</th>
+                            <th>Valor</th>
                         </tr>
                     </thead>
                     <tbody id="content-hour-extras">
@@ -900,7 +900,7 @@ $(document).ready(function(){
                 var start = new Date(v.start);
                 var finish = new Date(v.finish);
                 var countHour = ((finish - start) / 60000);
-                var price = ( (parseFloat(data.salary.replace(".", "").replace(",", ".")) / getHourMinParse(countHour) ) * 1.5);
+                var price = ( (parseFloat(data.salary.replace(".", "").replace(",", ".")) / getHourMinParse(countHour)) );
 
                 $("#content-hour-extras").append("<tr> "+
                                   "<td>"+getDatePickerFormat(v.start)+"</td>"+
@@ -909,7 +909,7 @@ $(document).ready(function(){
                                   "<td>"+parseDate(finish.getHours())+':'+parseDate(finish.getMinutes())+"</td>"+
                                   "<td>"+v.agreed_hours+"</td>"+
                                   "<td>"+calculateHsExtras(countHour, v.agreed_hours)+"</td>"+
-                                  "<td>$"+getFormatNumber(price)+"</td>"+
+                                  "<td>$"+getFormatNumber( (price * 1.5) )+"</td>"+
                               "</tr>");
               });
 
