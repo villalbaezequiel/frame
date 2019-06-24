@@ -453,7 +453,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <div class="input-group-prepend">
-                        <span class="input-group-text">
+                        <span class="input-group-text no-wrap">
                           Cláusula de No Repetición
                         </span>
                         <select class="selectpicker" data-style="select-with-transition" name="clausula_no_repe">
@@ -467,7 +467,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <div class="input-group-prepend">
-                        <span class="input-group-text">
+                        <span class="input-group-text no-wrap">
                           Necesidad de Certificado de Cobertura
                         </span>
                         <select class="selectpicker" data-style="select-with-transition" name="certificado_cobertura">

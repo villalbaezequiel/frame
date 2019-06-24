@@ -164,3 +164,7 @@ table.dataTable > tbody > tr.child ul.dtr-details {
   min-width: 33px!important;
   width: 33px!important;
 }
+
+.no-wrap {
+  white-space: inherit!important;
+}
