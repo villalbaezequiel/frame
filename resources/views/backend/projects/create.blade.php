@@ -479,6 +479,24 @@
                   </div>
 
                 </div>
+
+                <div class="row justify-content-center">
+
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text no-wrap">
+                          Enviar Notificaciones a los Teams:
+                        </span>
+                        <select class="selectpicker" data-style="select-with-transition" name="notification_team">
+                          <option value="0">No</option>
+                          <option value="1" selected>Si</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
 
             </div>

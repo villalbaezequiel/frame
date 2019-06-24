@@ -156,7 +156,10 @@ class ProjectsController extends Controller
               'user' => $user,
               'project_crew' => $team
             );
-            $user->notify(new TeamProject($data));
+
+            if($request->get('notification_team') == "1" || $request->get('notification_team') == 1) {
+              $user->notify(new TeamProject($data));
+            }
 
           }
 
@@ -438,7 +441,10 @@ class ProjectsController extends Controller
                 'user' => $user,
                 'project_crew' => $team
               );
-              $user->notify(new TeamProject($data));
+
+              if($request->get('notification_team') == "1" || $request->get('notification_team') == 1) {
+                $user->notify(new TeamProject($data));
+              }
             }
           }
 
