@@ -37,6 +37,16 @@ class WorkersCategory extends Model
       }
     }
 
+    static public function getSueldoBruto($id)
+    {
+      $workersCategory = WorkersCategory::find($id);
+      if($workersCategory){
+        return $workersCategory->sueldo_bruto;
+      } else {
+        return "Sin Número asociado.";
+      }
+    }
+
     static public function getSueldoBrutoTexto($id)
     {
       $workersCategory = WorkersCategory::find($id);
