@@ -43,12 +43,12 @@ class ExportController extends Controller
         switch (Contract::getName($projectProvider->id_contract))
         {
           case "Eventual":
-            \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractEventual( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat, false), $projectProvider->total_workdays_text, "$".$projectProvider->total_workdays, Project::getName($projectProvider->id_project), $user->email ));
+            \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractEventual( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat, false), WorkersCategory::getSueldoBrutoTexto($projectProvider->id_category_sat), "$".$projectProvider->salary_contract_category_function, Project::getName($projectProvider->id_project), $user->email ));
             $name_contract_doc = "contrato_eventual_{$timestamp}.docx";
             break;
 
           case "Plazo Fijo":
-            \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractPlazoFijo( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, $user->cuit, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), Helpers::getDateParseFormat($projectProvider->finish_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat, false), $projectProvider->total_workdays_text, "$".$projectProvider->total_workdays, Project::getName($projectProvider->id_project), $user->email, Project::getCenterCost($projectProvider->id_project) ));
+            \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractPlazoFijo( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, $user->cuit, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), Helpers::getDateParseFormat($projectProvider->finish_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat, false), WorkersCategory::getSueldoBrutoTexto($projectProvider->id_category_sat), "$".$projectProvider->salary_contract_category_function, Project::getName($projectProvider->id_project), $user->email, Project::getCenterCost($projectProvider->id_project) ));
             $name_contract_doc = "contrato_plazofijo_{$timestamp}.docx";
             break;
 
@@ -58,7 +58,7 @@ class ExportController extends Controller
             break;
 
           case "Tiempo Indeterminado":
-            \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractTiempoIndeterminado( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, $user->cuit, WorkersCategory::getName($projectProvider->id_category_sat, false), $projectProvider->total_workdays_text, "$".$projectProvider->total_workdays, $user->email ));
+            \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractTiempoIndeterminado( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, $user->cuit, WorkersCategory::getName($projectProvider->id_category_sat, false), WorkersCategory::getSueldoBrutoTexto($projectProvider->id_category_sat), "$".$projectProvider->salary_contract_category_function, $user->email ));
             $name_contract_doc = "contrato_tiempo_indeterminado_{$timestamp}.docx";
             break;
 

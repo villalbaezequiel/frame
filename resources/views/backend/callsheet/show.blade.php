@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', "CallSheet / $project->name ")
+@section('title', "CallSheet")
 
 @section('content')
 <div class="container-fluid">
