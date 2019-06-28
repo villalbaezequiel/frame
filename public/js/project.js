@@ -925,6 +925,8 @@ $(document).ready(function(){
                                   "<td>$"+getFormatNumber( (price * 1.5) )+"</td>"+
                               "</tr>");
 
+                let valor_hora_hs_extras = ( parseFloat(calculateHsExtras(countHour, v.agreed_hours)).toFixed(3) * parseFloat(getFormatNumber( (price * 1.5) )).toFixed(3) );
+
                 dataExport.push({
                   fecha: getDatePickerFormat(v.start),
                   rol: v.rol,
@@ -932,8 +934,8 @@ $(document).ready(function(){
                   final: parseDate(finish.getHours())+':'+parseDate(finish.getMinutes()),
                   horas_pactadas: v.agreed_hours,
                   horas_extras: calculateHsExtras(countHour, v.agreed_hours),
-                  valor_hora_pesos: getFormatNumber( (price * 1.5) ),
-                  valor_total_pesos: ( parseFloat(calculateHsExtras(countHour, v.agreed_hours)).toFixed(3) * parseFloat(getFormatNumber( (price * 1.5) )).toFixed(3) )
+                  valor_hora: "$" + getFormatNumber( (price * 1.5) ),
+                  valor_total: "$" + Math.round(valor_hora_hs_extras * 1000) / 1000
                 });
 
               });
