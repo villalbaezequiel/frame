@@ -550,8 +550,12 @@ $(document).ready(function(){
 
   $(".get_value_categories_sat").change(function(){
     var salaryneto = $(this).find(':selected').data('salaryneto');
+    var salarybruto = $(this).find(':selected').data('salarybruto');
     if(salaryneto){
       $('input[name=salary_contract_category_function]').val(salaryneto);
+    }
+    if(salarybruto){
+      $('input[name=salary_contract_bruto_category_function]').val(salarybruto);
     }
   });
 
