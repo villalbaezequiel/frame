@@ -111,6 +111,10 @@ function setEmptyFormTeam(){
 
   $("#add_crew").text("Agregar Team");
 
+  // default sueldo bruto show y sueldo neto hidden
+  $('input[name="salary_contract_bruto_category_function"]').attr('type', 'text');
+  $('input[name="salary_contract_category_function"]').attr('type', 'hidden');
+
   // section EDIT
   // si el proyecto ya esta activo, que se oculte el form content del team luego de editar
   $("#content-form-edit-team").addClass('hidden');
@@ -727,6 +731,8 @@ $(document).ready(function(){
         $('input[name="total_workdays_text"]').val(v.total_workdays_text);
 
         // salary_contract_category_function
+        $('input[name="salary_contract_bruto_category_function"]').attr('type', 'hidden');
+        $('input[name="salary_contract_category_function"]').attr('type', 'text');
         $('input[name="salary_contract_category_function"]').val(v.salary_contract_category_function);
 
         // salary_daily
