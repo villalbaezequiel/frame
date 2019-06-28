@@ -114,6 +114,7 @@ function setEmptyFormTeam(){
   // default sueldo bruto show y sueldo neto hidden
   $('input[name="salary_contract_bruto_category_function"]').attr('type', 'text');
   $('input[name="salary_contract_category_function"]').attr('type', 'hidden');
+  $(".sueldo_contrato_team").text("Sueldo Contrato Bruto");
 
   // section EDIT
   // si el proyecto ya esta activo, que se oculte el form content del team luego de editar
@@ -733,6 +734,7 @@ $(document).ready(function(){
         // salary_contract_category_function
         $('input[name="salary_contract_bruto_category_function"]').attr('type', 'hidden');
         $('input[name="salary_contract_category_function"]').attr('type', 'text');
+        $(".sueldo_contrato_team").text("Sueldo Contrato Mensual $");
         $('input[name="salary_contract_category_function"]').val(v.salary_contract_category_function);
 
         // salary_daily
