@@ -192,7 +192,17 @@ function getTemplateHourExtras(){
                     </thead>
                     <tbody id="content-hour-extras">
                      </tbody>
-                  </table></div>`;
+                  </table></div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <form id="form_hs_extras" action="/sistema/export/horas_extras" target="_blank" method="post">
+                        <input type="hidden" name="_token" value="">
+                        <input type="hidden" name="name_team" value="">
+                        <input type="hidden" name="hs_extras" value="">
+                        <input type="submit" class="btn btn-primary" value="Exportar Horas Extras">
+                      </form>
+                    </div>
+                  </div>`;
 
   return formSwal;
 }
@@ -896,6 +906,9 @@ $(document).ready(function(){
             customClass: 'swal-wide',
             buttonsStyling: !1,
             onBeforeOpen: () => {
+
+              let dataExport = [];
+
               $.each(data.results, function(i,v){
                 var start = new Date(v.start);
                 var finish = new Date(v.finish);
@@ -911,7 +924,23 @@ $(document).ready(function(){
                                   "<td>"+calculateHsExtras(countHour, v.agreed_hours)+"</td>"+
                                   "<td>$"+getFormatNumber( (price * 1.5) )+"</td>"+
                               "</tr>");
+
+                dataExport.push({
+                  fecha: getDatePickerFormat(v.start),
+                  rol: v.rol,
+                  inicio: parseDate(start.getHours())+':'+parseDate(start.getMinutes()),
+                  final: parseDate(finish.getHours())+':'+parseDate(finish.getMinutes()),
+                  horas_pactadas: v.agreed_hours,
+                  horas_extras: calculateHsExtras(countHour, v.agreed_hours),
+                  valor_hora: "$" + getFormatNumber( (price * 1.5) ),
+                  valor_total: "$" + ( parseFloat(calculateHsExtras(countHour, v.agreed_hours)) * parseFloat(getFormatNumber( (price * 1.5) )) )
+                });
+
               });
+
+              $("#form_hs_extras input[name=_token]").val($("#logic_project input[name=_token]").val());
+              $("#form_hs_extras input[name=name_team]").val(nameTeam);
+              $("#form_hs_extras input[name=hs_extras]").val(JSON.stringify(dataExport));
 
             }
           });

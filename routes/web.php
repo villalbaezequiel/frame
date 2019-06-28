@@ -56,6 +56,7 @@ Route::group(['middleware' => ['auth']], function () {
   Route::get('/export/project/{id_project}/teams', 'Backend\ExportController@projectTeams');
   Route::get('/export/users/', 'Backend\ExportController@getUsers');
   Route::post('/export/users/', 'Backend\ExportController@postUsers')->name('export.users');
+  Route::post('/export/horas_extras/', 'Backend\ExportController@exportTeamHourExtras')->name('export.horas_extras');
 
   // import
   Route::get('/import/workers_categories/', 'Backend\ImportController@workersCategories');

@@ -842,4 +842,24 @@ class ExportController extends Controller
       }
     }
 
+    public function exportTeamHourExtras(Request $request)
+    {
+      try {
+        $team = $request->get('name_team');
+        $list = $request->get('hs_extras');
+
+        $timestamp = date('Y_m_d_h_i_s');
+        Excel::create("horas_extras_{$timestamp}", function($excel) use ($list, $team){
+
+            $excel->sheet($team, function($sheet) use ($list){
+              $sheet->fromArray(json_decode($list, true));
+            });
+
+        })->download();
+
+      } catch(\Exception $e){
+        Helpers::getCapturError($e);
+      }
+    }
+
 }
