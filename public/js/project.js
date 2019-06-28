@@ -933,7 +933,7 @@ $(document).ready(function(){
                   horas_pactadas: v.agreed_hours,
                   horas_extras: calculateHsExtras(countHour, v.agreed_hours),
                   valor_hora: "$" + getFormatNumber( (price * 1.5) ),
-                  valor_total: "$" + ( parseFloat(calculateHsExtras(countHour, v.agreed_hours)) * parseFloat(getFormatNumber( (price * 1.5) )) )
+                  valor_total: "$" + ( parseFloat(calculateHsExtras(countHour, v.agreed_hours)).toFixed(3) * parseFloat(getFormatNumber( (price * 1.5) )).toFixed(3) )
                 });
 
               });
