@@ -374,7 +374,7 @@
                         <span class="input-group-text">
                           Sueldo Contrato Bruto
                         </span>
-                        <input type="hidden" class="form-control" name="salary_contract_bruto_category_function" maxlength="125" readonly>
+                        <input type="text" class="form-control" name="salary_contract_bruto_category_function" maxlength="125" readonly>
                       </div>
                     </div>
                   </div>
