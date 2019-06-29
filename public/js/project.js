@@ -403,7 +403,7 @@ $(document).ready(function(){
           let onClickRemoveTeam = "$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove();";
 
           // add html list crew view
-          $('.list_crew_view').append(getTemplateTeam(id_provider,crewFunctionFrameText, crewNameText, crewCategorySatText, crewDatesText, contractText, activeText, textPuesto, activeText, onClickRemoveTeam));
+          $('.list_crew_view').append(getTemplateTeam(id_provider,crewFunctionFrameText, crewNameText, crewCategorySatText, crewDatesText, contractText, activeText, textPuesto, onClickRemoveTeam));
         }
         // una vez que haya aunque sea 1 CREW en la lista de Empleados, se habilita los INPUT de SUPLENTES
         // y AGREGO a la lista de "Reemplazo del Team" los crew agregados
@@ -641,6 +641,7 @@ $(document).ready(function(){
   $('.project-team-edit').click(function(){
 
     $("#content-form-edit-team").removeClass('hidden');
+    $(".button-show-form-team").addClass('hidden');
 
     $('body,html').stop(true,true).animate({ scrollTop: $("#module_two").offset().top },1000);
 
