@@ -168,3 +168,8 @@ table.dataTable > tbody > tr.child ul.dtr-details {
 .no-wrap {
   white-space: inherit!important;
 }
+
+#minimizeSidebar {
+  min-width: 41px!important;
+  width: 41px!important;
+}
