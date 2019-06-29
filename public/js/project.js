@@ -349,16 +349,16 @@ $(document).ready(function(){
         if(checkIsSuplente == "2" && idTeamSuplente != "0"){
 
           // add crew SECUNDARIO to list input request
-          if($('#'+id_provider).length == 0){
-            $('.list_crew').append(`<input type="hidden" name="list_crew_secundario[]" id="${id_provider}" value="" />`);
-            $('#'+id_provider).val(JSON.stringify(crew));
+          if($('.list_crew > #'+id_provider).length == 0){
+             $('.list_crew').append(`<input type="hidden" name="list_crew_secundario[]" id="${id_provider}" value="" />`);
+             $('.list_crew > #'+id_provider).val(JSON.stringify(crew));
 
           } else {
 
             // verifico que no pueda seleccionar un crew secundario que sea igual al titular
-            if($('#'+id_provider).attr('name') != "list_crew[]"){
-              $('#'+id_provider).val('');
-              $('#'+id_provider).val(JSON.stringify(crew));
+            if($('.list_crew > #'+id_provider).attr('name') != "list_crew[]"){
+               $('.list_crew > #'+id_provider).val('');
+               $('.list_crew > #'+id_provider).val(JSON.stringify(crew));
             } else {
               Swal.fire({
                 title: 'No puedes Agregar un Team Secundario al mismo Team Titular!',
@@ -386,14 +386,17 @@ $(document).ready(function(){
           return false;
 
         } else {
+
+          console.log(id_provider);
+
           // add crew TITULAR to list input request
-          if($('#'+id_provider).length == 0){
+          if($('.list_crew > #'+id_provider).length == 0){
             $('.list_crew').append(`<input type="hidden" name="list_crew[]" id="${id_provider}" value="" />`);
-            $('#'+id_provider).val(JSON.stringify(crew));
+            $('.list_crew > #'+id_provider).val(JSON.stringify(crew));
 
           } else {
-            $('#'+id_provider).val('');
-            $('#'+id_provider).val(JSON.stringify(crew));
+            $('.list_crew > #'+id_provider).val('');
+            $('.list_crew > #'+id_provider).val(JSON.stringify(crew));
           }
 
         }
