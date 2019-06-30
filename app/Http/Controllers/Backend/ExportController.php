@@ -668,47 +668,53 @@ class ExportController extends Controller
                                       ->where('id_project', $id_project)
                                       ->get();
 
-        $timestamp = date('Y_m_d_h_i_s');
-        Excel::create("proyectoId{$id_project}_hsextras_{$timestamp}", function($excel) use ($listTeams){
+        if(count($listTeams)){
+          $timestamp = date('Y_m_d_h_i_s');
+          Excel::create("proyectoId{$id_project}_hsextras_{$timestamp}", function($excel) use ($listTeams){
 
-          foreach ($listTeams as $val) {
+            foreach ($listTeams as $val) {
 
-            $horasExtras = $val->extra_hours;
-            $name = Provider::getNameOrderLastName($val->id_provider);
-            $arrayHs = array();
+              $horasExtras = $val->extra_hours;
+              $name = Provider::getNameOrderLastName($val->id_provider);
+              $arrayHs = array();
 
-            foreach ($horasExtras as $hs_extra) {
+              if(!empty($horasExtras)){
+                foreach ($horasExtras as $hs_extra) {
 
-              $hs_extra_initial = substr($hs_extra['start'], 0, strpos($hs_extra['start'], '('));
-              $hs_extra_initial_date = new DateTime($hs_extra_initial);
+                  $hs_extra_initial = substr($hs_extra['start'], 0, strpos($hs_extra['start'], '('));
+                  $hs_extra_initial_date = new DateTime($hs_extra_initial);
 
-              $hs_extra_finish = substr($hs_extra['finish'], 0, strpos($hs_extra['finish'], '('));
-              $hs_extra_finish_date = new DateTime($hs_extra_finish);
+                  $hs_extra_finish = substr($hs_extra['finish'], 0, strpos($hs_extra['finish'], '('));
+                  $hs_extra_finish_date = new DateTime($hs_extra_finish);
 
-              $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
-              $parseSalary = str_replace(array('.', ','), array('', '.'), $val->salary_workdays);
-              $horasExtras = ((int) $horasTrabajadas - $hs_extra['agreed_hours']);
-              $valorHora = ( ($parseSalary / (int) $hs_extra['agreed_hours']) * 1.5 );
+                  $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
+                  $parseSalary = str_replace(array('.', ','), array('', '.'), $val->salary_workdays);
+                  $horasExtras = ((int) $horasTrabajadas - $hs_extra['agreed_hours']);
+                  $valorHora = ( ($parseSalary / (int) $hs_extra['agreed_hours']) * 1.5 );
 
-              $arrayHs[] = array(
-                            "fecha" => $hs_extra_initial_date->format('d/m/Y'),
-                            "rol" => FrameFunction::getName($hs_extra['rol']),
-                            "inicio" => $hs_extra_initial_date->format('H:i'),
-                            "final" => $hs_extra_finish_date->format('H:i'),
-                            "horas_pactadas" => $hs_extra['agreed_hours'],
-                            "horas_extras" => $horasExtras,
-                            "valor_hora" => "$" . round($valorHora, 2),
-                            "valor_total" => "$" . round(($valorHora * $horasExtras), 2)
-                          );
+                  $arrayHs[] = array(
+                                "fecha" => $hs_extra_initial_date->format('d/m/Y'),
+                                "rol" => FrameFunction::getName($hs_extra['rol']),
+                                "inicio" => $hs_extra_initial_date->format('H:i'),
+                                "final" => $hs_extra_finish_date->format('H:i'),
+                                "horas_pactadas" => $hs_extra['agreed_hours'],
+                                "horas_extras" => $horasExtras,
+                                "valor_hora" => "$" . round($valorHora, 2),
+                                "valor_total" => "$" . round(($valorHora * $horasExtras), 2)
+                              );
+                }
+              }
+
+              $excel->sheet($name, function($sheet) use ($arrayHs){
+                $sheet->fromArray($arrayHs);
+              });
+
             }
 
-            $excel->sheet($name, function($sheet) use ($arrayHs){
-              $sheet->fromArray($arrayHs);
-            });
-
-          }
-
-        })->download();
+          })->download();
+        } else {
+          return back()->with("message", "No se encontraron Horas Extras para los Teams del Proyecto Seleccionado.");
+        }
 
       } catch(\Exception $e) {
         Helpers::getCapturError($e);
