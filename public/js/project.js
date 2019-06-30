@@ -930,6 +930,7 @@ $(document).ready(function(){
                 var finish = new Date(v.finish);
                 var countHour = ((finish - start) / 60000);
                 var price = ( (parseFloat(data.salary.replace(".", "").replace(",", ".")) / v.agreed_hours) );
+                var valorHoraHsExtra = Math.round(parseFloat((price * 1.5)) * 100) / 100;
 
                 $("#content-hour-extras").append("<tr> "+
                                   "<td>"+getDatePickerFormat(v.start)+"</td>"+
@@ -938,10 +939,10 @@ $(document).ready(function(){
                                   "<td>"+parseDate(finish.getHours())+':'+parseDate(finish.getMinutes())+"</td>"+
                                   "<td>"+v.agreed_hours+"</td>"+
                                   "<td>"+calculateHsExtras(countHour, v.agreed_hours)+"</td>"+
-                                  "<td>$"+getFormatNumber( (price * 1.5) )+"</td>"+
+                                  "<td>$"+ valorHoraHsExtra.toFixed(2) +"</td>"+
                               "</tr>");
 
-                let valor_hora_hs_extras = ( parseFloat(calculateHsExtras(countHour, v.agreed_hours)).toFixed(3) * parseFloat(getFormatNumber( (price * 1.5) )).toFixed(3) );
+                let valorTotalHoraHsExtra = ( parseFloat(calculateHsExtras(countHour, v.agreed_hours)).toFixed(3) * valorHoraHsExtra );
 
                 dataExport.push({
                   fecha: getDatePickerFormat(v.start),
@@ -950,8 +951,8 @@ $(document).ready(function(){
                   final: parseDate(finish.getHours())+':'+parseDate(finish.getMinutes()),
                   horas_pactadas: v.agreed_hours,
                   horas_extras: calculateHsExtras(countHour, v.agreed_hours),
-                  valor_hora: "$" + getFormatNumber( (price * 1.5) ),
-                  valor_total: "$" + Math.round(valor_hora_hs_extras * 1000) / 1000
+                  valor_hora: "$" + valorHoraHsExtra.toFixed(2),
+                  valor_total: "$" + valorTotalHoraHsExtra.toFixed(2)
                 });
 
               });
