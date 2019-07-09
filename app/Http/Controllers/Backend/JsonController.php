@@ -221,6 +221,9 @@ class JsonController extends Controller
         foreach($request->get('crew') as $team)
         {
           $projectProvider = ProjectProvider::find($team);
+
+          dd($projectProvider);
+          die();
           $newExtraHours = $projectProvider->extra_hours;
 
           // validar cuantas horas extras realizo.
@@ -288,6 +291,26 @@ class JsonController extends Controller
     public function getFuctionsFrame(){
       try {
         return response()->json(array("results" => FrameFunction::getAllFrameFunction() ));
+      } catch(\Exception $e) {
+        Helpers::getCapturError($e);
+      }
+    }
+
+    public function postRemoveHsExtra(Request $request){
+      try {
+
+        $projectProvider = ProjectProvider::find($request->get('id'));
+
+        $hsExtras = json_decode(json_encode($projectProvider->extra_hours), true);
+        if($hsExtras[$request->get('key')]){
+          unset($hsExtras[$request->get('key')]);
+        }
+
+        $projectProvider->extra_hours = $hsExtras;
+        $projectProvider->save();
+
+        return back()->with('message', 'Horas Extras eliminadas con exito!');
+
       } catch(\Exception $e) {
         Helpers::getCapturError($e);
       }

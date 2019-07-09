@@ -68,22 +68,27 @@ Route::group(['middleware' => ['auth']], function () {
 
 });
 
-// ajax return Json
-Route::get('/json/workers_categories/{id_frame_function}', 'Backend\JsonController@getWorkersCategories');
-Route::get('/json/sat_functions/{id_frame_function}/{id_workers_category}', 'Backend\JsonController@getSatFunctions');
+/* ----- ajax return Json ----- */
+  // get
+  Route::get('/json/workers_categories/{id_frame_function}', 'Backend\JsonController@getWorkersCategories');
+  Route::get('/json/sat_functions/{id_frame_function}/{id_workers_category}', 'Backend\JsonController@getSatFunctions');
+  Route::get('/json/{type_project}/functions_frame', 'Backend\JsonController@getFunctionsFrameByTypeProject');
+  Route::get('/json/{id_function_frame}/categories_sat', 'Backend\JsonController@getCategoriesSatByFunctionFrame');
+  Route::get('/json/{id_frame_function}/crew', 'Backend\JsonController@getTeamByFunctionFrame');
+  Route::get('/json/check_crew_project/{id_provider}/{start_date_contract}', 'Backend\JsonController@checkAvailableTeamProject');
+  Route::get('/json/category_sat_salary/{id_category_sat}', 'Backend\JsonController@getSalaryCategorySat');
+  Route::get('/json/project_providers/jornada_crew', 'Backend\JsonController@storeJornadaTeam');
+  Route::get('/json/get_function_frame', 'Backend\JsonController@getFuctionsFrame');
 
-Route::get('/json/{type_project}/functions_frame', 'Backend\JsonController@getFunctionsFrameByTypeProject');
-Route::get('/json/{id_function_frame}/categories_sat', 'Backend\JsonController@getCategoriesSatByFunctionFrame');
-Route::get('/json/{id_frame_function}/crew', 'Backend\JsonController@getTeamByFunctionFrame');
-Route::get('/json/check_crew_project/{id_provider}/{start_date_contract}', 'Backend\JsonController@checkAvailableTeamProject');
-Route::get('/json/category_sat_salary/{id_category_sat}', 'Backend\JsonController@getSalaryCategorySat');
-Route::get('/json/project_providers/extra_hours', 'Backend\JsonController@storeExtraHours');
-Route::get('/json/project_providers/jornada_crew', 'Backend\JsonController@storeJornadaTeam');
-Route::get('/json/get_function_frame', 'Backend\JsonController@getFuctionsFrame');
+  // post
+  Route::post('/json/project_providers/extra_hours', 'Backend\JsonController@storeExtraHours');
+  Route::post('/json/remove_hs_extra', 'Backend\JsonController@postRemoveHsExtra');
 
-// register crew
-Route::post('/crew/store', 'Backend\ProvidersController@store')->name('crew.store');
 
-// accept project Team
-Route::get('/team/accept_project/{id_project_provider}', 'Backend\NotificationsController@getAcceptProjectTeam')->name('team_acceptproject.get');
-Route::post('/team/accept_project', 'Backend\NotificationsController@postAcceptProjectTeam')->name('team_acceptproject.post');
+/* ----- AUTH ----- */
+  // register crew
+  Route::post('/crew/store', 'Backend\ProvidersController@store')->name('crew.store');
+
+  // accept project Team
+  Route::get('/team/accept_project/{id_project_provider}', 'Backend\NotificationsController@getAcceptProjectTeam')->name('team_acceptproject.get');
+  Route::post('/team/accept_project', 'Backend\NotificationsController@postAcceptProjectTeam')->name('team_acceptproject.post');

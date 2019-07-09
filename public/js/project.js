@@ -193,6 +193,7 @@ function getTemplateHourExtras(){
                             <th>Pactadas (hs)</th>
                             <th>Extras (hs)</th>
                             <th>Valor</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody id="content-hour-extras">
@@ -839,7 +840,7 @@ $(document).ready(function(){
           }
 
           $.ajax({
-            type: 'GET',
+            type: 'POST',
             url: '/sistema/json/project_providers/extra_hours',
             data: extraHours,
             success: function(data){
@@ -931,16 +932,25 @@ $(document).ready(function(){
                 var countHour = ((finish - start) / 60000);
                 var price = ( (parseFloat(data.salary.replace(".", "").replace(",", ".")) / v.agreed_hours) );
                 var valorHoraHsExtra = Math.round(parseFloat((price * 1.5)) * 100) / 100;
+                let _tokenForm = $("#logic_project input[name=_token]").val();
 
-                $("#content-hour-extras").append("<tr> "+
-                                  "<td>"+getDatePickerFormat(v.start)+"</td>"+
-                                  "<td>"+v.rol+"</td>"+
-                                  "<td>"+parseDate(start.getHours())+':'+parseDate(start.getMinutes())+"</td>"+
-                                  "<td>"+parseDate(finish.getHours())+':'+parseDate(finish.getMinutes())+"</td>"+
-                                  "<td>"+v.agreed_hours+"</td>"+
-                                  "<td>"+calculateHsExtras(countHour, v.agreed_hours)+"</td>"+
-                                  "<td>$"+ valorHoraHsExtra.toFixed(2) +"</td>"+
-                              "</tr>");
+                $("#content-hour-extras").append(`<tr>
+                                  <td>${getDatePickerFormat(v.start)}</td>
+                                  <td>${v.rol}</td>
+                                  <td>${parseDate(start.getHours())}:${parseDate(start.getMinutes())}</td>
+                                  <td>${parseDate(finish.getHours())}:${parseDate(finish.getMinutes())}</td>
+                                  <td>${v.agreed_hours}</td>
+                                  <td>${calculateHsExtras(countHour, v.agreed_hours)}</td>
+                                  <td>` +"$"+ `${valorHoraHsExtra.toFixed(2)}</td>
+                                  <td>
+                                    <button type="submit" form="${i}" class="btn btn-primary">Eliminar</button>
+                                    <form id="${i}" action="/json/remove_hs_extra" style="display:none;" method="POST">
+                                      <input type="hidden" name="_token" value="${_tokenForm}">
+                                      <input type="hidden" value="${i}" name="key" />
+                                      <input type="hidden" value="${id}" name="id" />
+                                    </form>
+                                  </td>
+                              </tr>`);
 
                 let valorTotalHoraHsExtra = ( parseFloat(calculateHsExtras(countHour, v.agreed_hours)).toFixed(3) * valorHoraHsExtra );
 
