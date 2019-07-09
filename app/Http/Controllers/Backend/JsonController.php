@@ -221,9 +221,6 @@ class JsonController extends Controller
         foreach($request->get('crew') as $team)
         {
           $projectProvider = ProjectProvider::find($team);
-
-          dd($projectProvider);
-          die();
           $newExtraHours = $projectProvider->extra_hours;
 
           // validar cuantas horas extras realizo.
