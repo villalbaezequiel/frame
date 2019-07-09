@@ -15,19 +15,6 @@ class Provider extends Model
               ->get();
     }
 
-    static public function getName($id)
-    {
-      $crew = Provider::join('users', 'users.id', '=', 'providers.id_user')
-              ->where('providers.id', $id)
-              ->first();
-
-      if($crew){
-        return $crew->name.' '.$crew->last_name;
-      } else {
-        return "Team no existe.";
-      }
-    }
-
     static public function getNameOrderLastName($id)
     {
       $crew = Provider::join('users', 'users.id', '=', 'providers.id_user')

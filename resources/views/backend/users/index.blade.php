@@ -32,7 +32,7 @@
           <table id="datatables" class="table table-hover table-striped table-bordered nowrap" style="width:100%">
             <thead>
               <tr>
-                <th>Nombre - Apellido</th>
+                <th>Nombre</th>
                 <th>DNI</th>
                 <th>Rol</th>
                 <th>Team</th>

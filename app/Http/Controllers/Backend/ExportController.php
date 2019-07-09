@@ -754,7 +754,7 @@ class ExportController extends Controller
           $fechaExpiracion = Carbon::parse($team->Vigencia_Hasta);
 
           $team->N° = $count;
-          $team->Nombre_Apellido = User::getFullNameOrder($team->Nombre_Apellido);
+          $team->Nombre_Apellido = User::getFullName($team->Nombre_Apellido);
           $team->Fecha_Nac = Helpers::getDateParseFormat($team->Fecha_Nac);
           $team->Actividad_Declarada = WorkersCategory::getName($team->Actividad_Declarada, false);
           $team->Fecha_de_Declaracion = Helpers::getDateParseFormat($team->Fecha_de_Declaracion);

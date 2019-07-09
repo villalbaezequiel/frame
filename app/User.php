@@ -54,14 +54,6 @@ class User extends Authenticatable
     {
       $user = User::find($id);
       if($user) {
-        return $user->name.' '.$user->last_name;
-      }
-    }
-
-    static function getFullNameOrder($id)
-    {
-      $user = User::find($id);
-      if($user) {
         return $user->last_name.' '.$user->name;
       }
     }
