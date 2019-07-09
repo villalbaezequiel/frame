@@ -944,7 +944,7 @@ $(document).ready(function(){
                                   <td>` +"$"+ `${valorHoraHsExtra.toFixed(2)}</td>
                                   <td>
                                     <button type="submit" form="${i}" class="btn btn-primary">Eliminar</button>
-                                    <form id="${i}" action="/json/remove_hs_extra" style="display:none;" method="POST">
+                                    <form id="${i}" action="/sistema/json/remove_hs_extra" style="display:none;" method="POST">
                                       <input type="hidden" name="_token" value="${_tokenForm}">
                                       <input type="hidden" value="${i}" name="key" />
                                       <input type="hidden" value="${id}" name="id" />
