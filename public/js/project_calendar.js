@@ -181,7 +181,7 @@ $(function() {
             }
 
             $.ajax({
-              type: 'GET',
+              type: 'POST',
               url: '/sistema/json/project_providers/extra_hours',
               data: extraHours,
               success: function(data){
