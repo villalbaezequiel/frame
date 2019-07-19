@@ -129,7 +129,7 @@ class ExportController extends Controller
           foreach($listTeam as $team){
             if($team->id_function_frame == $frame->id_function_frame){
 
-              $other_phone = (\App\Provider::getOtherTelephone($team->id_provider) != '' ? ' - '.\App\Provider::getOtherTelephone($crew->id_provider) : '');
+              $other_phone = (\App\Provider::getOtherTelephone($team->id_provider) != '' ? ' - '.\App\Provider::getOtherTelephone($team->id_provider) : '');
 
               array_push($results[$team->id_function_frame], [
                 'rol_desempenar' => WorkersCategory::getName($team->id_category_sat),
