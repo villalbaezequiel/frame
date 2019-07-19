@@ -522,7 +522,9 @@ class ExportController extends Controller
         }
 
         $timestamp = date('Y_m_d_h_i_s');
-        Excel::create("proyecto_".$timestamp, function($excel) use ($results, $listTeams){
+        $nameProject = Project::getCenterCost($id_project);
+
+        Excel::create("{$nameProject}_info".$timestamp, function($excel) use ($results, $listTeams){
 
           $excel->sheet($results[0]['nombre'], function($sheet) use ($results){
             $sheet->fromArray($results);
@@ -648,7 +650,9 @@ class ExportController extends Controller
         }
 
         $timestamp = date('Y_m_d_h_i_s');
-        Excel::create("proyecto_".$timestamp, function($excel) use ($listTeams){
+        $nameProject = Project::getCenterCost($id_project);
+
+        Excel::create("{$nameProject}_teams_".$timestamp, function($excel) use ($listTeams){
 
           $excel->sheet('Teams del Proyecto', function($sheet) use ($listTeams){
             $sheet->fromArray($listTeams);
@@ -669,8 +673,11 @@ class ExportController extends Controller
                                       ->get();
 
         if(count($listTeams)){
+
+          $nameProject = Project::getCenterCost($id_project);
+
           $timestamp = date('Y_m_d_h_i_s');
-          Excel::create("proyectoId{$id_project}_hsextras_{$timestamp}", function($excel) use ($listTeams){
+          Excel::create("{$nameProject}_hsextras_{$timestamp}", function($excel) use ($listTeams){
 
             foreach ($listTeams as $val) {
 
