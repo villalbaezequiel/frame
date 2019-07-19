@@ -142,7 +142,7 @@ class ExportController extends Controller
         }
 
         $timestamp = date('Y_m_d_h_i_s');
-        $nameProject = Project::getName($id_project);
+        $nameProject = Project::getCenterCost($id_project);
 
         Excel::create("callshet_{$nameProject}_{$timestamp}", function($excel) use ($results){
 
