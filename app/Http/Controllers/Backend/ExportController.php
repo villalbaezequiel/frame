@@ -761,7 +761,7 @@ class ExportController extends Controller
           $team->Vigencia_Desde = Helpers::getDateParseFormat($team->Vigencia_Desde);
           $team->Vigencia_Hasta = Helpers::getDateParseFormat($team->Vigencia_Hasta);
           $team->Cantidad_de_Dias = $fechaExpiracion->diffInDays($fechaEmision);
-          $team->Referencia_Prima_Diaria = '$ '.$team->Referencia_Prima_Diaria;
+          $team->Referencia_Prima_Diaria = '';
           $team->Costo_por_dia_sin_IVA = '';
           $team->Costo_por_dia_con_IVA = '';
           $team->Movimiento = 'Alta';
