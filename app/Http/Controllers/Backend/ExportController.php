@@ -38,34 +38,34 @@ class ExportController extends Controller
         // create new docx
         $word = new \PhpOffice\PhpWord\PhpWord();
         $section = $word->addSection();
-        $timestamp = date('Y_m_d_h_i_s');
+        $timestamp = date('mdhis');
+        $nameProject = Project::getCenterCost($projectProvider->id_project);
+        $lastName = User::getLastName($provider->id_user);
 
         switch (Contract::getName($projectProvider->id_contract))
         {
           case "Eventual":
             \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractEventual( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat, false), WorkersCategory::getSueldoBrutoTexto($projectProvider->id_category_sat), WorkersCategory::getSueldoBruto($projectProvider->id_category_sat), Project::getName($projectProvider->id_project), $user->email ));
-            $name_contract_doc = "contrato_eventual_{$timestamp}.docx";
             break;
 
           case "Plazo Fijo":
             \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractPlazoFijo( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, $user->cuit, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), Helpers::getDateParseFormat($projectProvider->finish_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat, false), WorkersCategory::getSueldoBrutoTexto($projectProvider->id_category_sat), WorkersCategory::getSueldoBruto($projectProvider->id_category_sat), Project::getName($projectProvider->id_project), $user->email, Project::getCenterCost($projectProvider->id_project) ));
-            $name_contract_doc = "contrato_plazofijo_{$timestamp}.docx";
             break;
 
           case "Servicios":
             \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractServicio( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), Helpers::getDateParseFormat($projectProvider->finish_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat, false), $projectProvider->total_workdays_text, "$".$projectProvider->total_workdays, Project::getName($projectProvider->id_project), $user->email ));
-            $name_contract_doc = "contrato_servicio_{$timestamp}.docx";
             break;
 
           case "Tiempo Indeterminado":
             \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractTiempoIndeterminado( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, $user->cuit, WorkersCategory::getName($projectProvider->id_category_sat, false), WorkersCategory::getSueldoBrutoTexto($projectProvider->id_category_sat), WorkersCategory::getSueldoBruto($projectProvider->id_category_sat), $user->email ));
-            $name_contract_doc = "contrato_tiempo_indeterminado_{$timestamp}.docx";
             break;
 
           default;
             return back();
           break;
         }
+
+        $name_contract_doc = "{$nameProject}_{$lastName}_contrato_{$timestamp}.docx";
 
         $objectWriter = \PhpOffice\PhpWord\IOFactory::createWriter($word, 'Word2007');
         Storage::disk('public')->makeDirectory("contract/".$id_project_provider);
@@ -91,10 +91,14 @@ class ExportController extends Controller
         // create new docx
         $word = new \PhpOffice\PhpWord\PhpWord();
         $section = $word->addSection();
-        $timestamp = date('Y_m_d_h_i_s');
 
         \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getRelease( Provider::getNameOrderLastName($projectProvider->id_provider), Helpers::getDateParseFormat($user->birthdate, '/'), Project::getName($projectProvider->id_project), WorkersCategory::getName($projectProvider->id_category_sat, false), Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), Contract::getName($projectProvider->id_contract) ));
-        $name_release_doc = "release_{$timestamp}.docx";
+
+        $timestamp = date('mdhis');
+        $nameProject = Project::getCenterCost($projectProvider->id_project);
+        $lastName = User::getLastName($provider->id_user);
+
+        $name_release_doc = "{$nameProject}_{$lastName}_release_{$timestamp}.docx";
 
         $objectWriter = \PhpOffice\PhpWord\IOFactory::createWriter($word, 'Word2007');
         Storage::disk('public')->makeDirectory("release/".$id_project_provider);
@@ -141,7 +145,7 @@ class ExportController extends Controller
           }
         }
 
-        $timestamp = date('Y_m_d_h_i_s');
+        $timestamp = date('Ymdhis');
         $nameProject = Project::getCenterCost($id_project);
 
         Excel::create("callshet_{$nameProject}_{$timestamp}", function($excel) use ($results){
@@ -195,7 +199,7 @@ class ExportController extends Controller
             $result->retiene_iva = Helpers::getActive($result->retiene_iva);
           }
 
-          $timestamp = date('Y_m_d_h_i_s');
+          $timestamp = date('Ymdhis');
 
           Excel::create("clients_{$timestamp}", function($excel) use ($results){
 
@@ -235,7 +239,7 @@ class ExportController extends Controller
             $result->activo = Helpers::getActive($result->activo);
           }
 
-          $timestamp = date('Y_m_d_h_i_s');
+          $timestamp = date('Ymdhis');
 
           Excel::create("categorias_sat_{$timestamp}", function($excel) use ($results){
 
@@ -273,7 +277,7 @@ class ExportController extends Controller
             $result->tipo_proyecto = ProyectCategory::getName($result->tipo_proyecto);
           }
 
-          $timestamp = date('Y_m_d_h_i_s');
+          $timestamp = date('Ymdhis');
           Excel::create("funciones_frame{$timestamp}", function($excel) use ($results){
 
             $excel->sheet('Funciones segun Frame', function($sheet) use ($results){
@@ -302,7 +306,7 @@ class ExportController extends Controller
                                     )->get();
         if(count($results)){
 
-          $timestamp = date('Y_m_d_h_i_s');
+          $timestamp = date('Ymdhis');
           Excel::create("funciones_frame_relacion_categoria_sat{$timestamp}", function($excel) use ($results){
 
             foreach ($results as $result) {
@@ -339,7 +343,7 @@ class ExportController extends Controller
     public function postUsers(Request $request)
     {
       try {
-        $timestamp = date('Y_m_d_h_i_s');
+        $timestamp = date('Ymdhis');
 
         if($request->get('is_crew')){
           $results = User::select('users.name as nombre',
@@ -521,10 +525,10 @@ class ExportController extends Controller
           $team->activo = Helpers::getActive($team->activo);
         }
 
-        $timestamp = date('Y_m_d_h_i_s');
+        $timestamp = date('Ymdhis');
         $nameProject = Project::getCenterCost($id_project);
 
-        Excel::create("{$nameProject}_info".$timestamp, function($excel) use ($results, $listTeams){
+        Excel::create("{$nameProject}_info_".$timestamp, function($excel) use ($results, $listTeams){
 
           $excel->sheet($results[0]['nombre'], function($sheet) use ($results){
             $sheet->fromArray($results);
@@ -649,7 +653,7 @@ class ExportController extends Controller
           $team->horas_extras = $countHsExtra;
         }
 
-        $timestamp = date('Y_m_d_h_i_s');
+        $timestamp = date('Ymdhis');
         $nameProject = Project::getCenterCost($id_project);
 
         Excel::create("{$nameProject}_teams_".$timestamp, function($excel) use ($listTeams){
@@ -676,7 +680,7 @@ class ExportController extends Controller
 
           $nameProject = Project::getCenterCost($id_project);
 
-          $timestamp = date('Y_m_d_h_i_s');
+          $timestamp = date('Ymdhis');
           Excel::create("{$nameProject}_hsextras_{$timestamp}", function($excel) use ($listTeams){
 
             foreach ($listTeams as $val) {
@@ -776,7 +780,7 @@ class ExportController extends Controller
           $count++;
         }
 
-        $timestamp = date('Y_m_d_h_i_s');
+        $timestamp = date('Ymdhis');
         Excel::create("seguro_servicios_".$timestamp, function($excel) use ($nameProject, $results){
 
           $excel->sheet($nameProject->name, function($sheet) use ($nameProject, $results){
@@ -914,9 +918,14 @@ class ExportController extends Controller
       try {
         $team = $request->get('name_team');
         $list = $request->get('hs_extras');
+        $projectProvider = ProjectProvider::find($request->get('id_project_provider'));
+        $provider = Provider::find($projectProvider->id_provider);
 
-        $timestamp = date('Y_m_d_h_i_s');
-        Excel::create("horas_extras_{$timestamp}", function($excel) use ($list, $team){
+        $timestamp = date('mdhis');
+        $nameProject = Project::getCenterCost($projectProvider->id_project);
+        $lastName = User::getLastName($provider->id_user);
+
+        Excel::create("{$nameProject}_{$lastName}_hsextras_{$timestamp}", function($excel) use ($list, $team){
 
             $excel->sheet($team, function($sheet) use ($list){
               $sheet->fromArray(json_decode($list, true));

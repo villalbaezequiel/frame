@@ -201,10 +201,11 @@ function getTemplateHourExtras(){
                   </table></div>
                   <div class="row">
                     <div class="col-md-12">
-                      <form id="form_hs_extras" action="/sistema/export/horas_extras" target="_blank" method="post">
-                        <input type="hidden" name="_token" value="">
+                    <form id="form_hs_extras" action="/sistema/export/horas_extras" target="_blank" method="post">
+                    <input type="hidden" name="_token" value="">
                         <input type="hidden" name="name_team" value="">
                         <input type="hidden" name="hs_extras" value="">
+                        <input type="hidden" name="id_project_provider" value="">
                         <input type="submit" class="btn btn-primary" value="Exportar Horas Extras">
                       </form>
                     </div>
@@ -969,6 +970,7 @@ $(document).ready(function(){
 
               $("#form_hs_extras input[name=_token]").val($("#logic_project input[name=_token]").val());
               $("#form_hs_extras input[name=name_team]").val(nameTeam);
+              $("#form_hs_extras input[name=id_project_provider]").val(id);
               $("#form_hs_extras input[name=hs_extras]").val(JSON.stringify(dataExport));
 
             }
