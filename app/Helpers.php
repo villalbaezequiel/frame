@@ -613,4 +613,11 @@ class Helpers extends Model
 
      return $list;
    }
+
+   static function getDay($day)
+   {
+      $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado");
+
+      return $dias[$day];
+   }
 }

@@ -52,10 +52,18 @@ function getContractProject(value)
   }
 }
 
-function getDatePickerFormat(value){
+function getDatePickerFormat(value, day = false){
+
+  let days =["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
   let newDate = new Date(value);
 
-  return newDate.getDate()+'/'+(newDate.getMonth()+1)+'/'+newDate.getFullYear();
+  if(day){
+    return days[newDate.getUTCDay()]+' '+newDate.getDate()+'/'+(newDate.getMonth()+1)+'/'+newDate.getFullYear();
+
+  } else {
+    return newDate.getDate()+'/'+(newDate.getMonth()+1)+'/'+newDate.getFullYear();
+  }
+
 }
 
 function getTemplateTeam(idTeam, functionFrame, name, categorySat, dates, contract, statu, position, action)
@@ -956,7 +964,7 @@ $(document).ready(function(){
                 let valorTotalHoraHsExtra = ( parseFloat(calculateHsExtras(countHour, v.agreed_hours)).toFixed(3) * valorHoraHsExtra );
 
                 dataExport.push({
-                  fecha: getDatePickerFormat(v.start),
+                  fecha: getDatePickerFormat(v.start, true),
                   rol: v.rol,
                   inicio: parseDate(start.getHours())+':'+parseDate(start.getMinutes()),
                   final: parseDate(finish.getHours())+':'+parseDate(finish.getMinutes()),

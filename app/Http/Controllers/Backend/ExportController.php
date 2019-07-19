@@ -704,7 +704,7 @@ class ExportController extends Controller
                   $valorHora = ( ($parseSalary / (int) $hs_extra['agreed_hours']) * 1.5 );
 
                   $arrayHs[] = array(
-                                "fecha" => $hs_extra_initial_date->format('d/m/Y'),
+                                "fecha" => Helpers::getDay($hs_extra_initial_date->format('w')).' '.$hs_extra_initial_date->format('d/m/Y'),
                                 "rol" => FrameFunction::getName($hs_extra['rol']),
                                 "inicio" => $hs_extra_initial_date->format('H:i'),
                                 "final" => $hs_extra_finish_date->format('H:i'),
