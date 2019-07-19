@@ -780,8 +780,10 @@ class ExportController extends Controller
           $count++;
         }
 
+        $getCenterCoste = Project::getCenterCost($id_project);
         $timestamp = date('Ymdhis');
-        Excel::create("seguro_servicios_".$timestamp, function($excel) use ($nameProject, $results){
+
+        Excel::create("{$getCenterCoste}_seguro_".$timestamp, function($excel) use ($nameProject, $results){
 
           $excel->sheet($nameProject->name, function($sheet) use ($nameProject, $results){
 
