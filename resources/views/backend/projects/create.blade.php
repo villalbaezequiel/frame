@@ -490,8 +490,8 @@
                           Enviar Notificaciones a los Teams:
                         </span>
                         <select class="selectpicker" data-style="select-with-transition" name="notification_team">
-                          <option value="0">No</option>
-                          <option value="1" selected>Si</option>
+                          <option value="0" selected>No</option>
+                          <option value="1">Si</option>
                         </select>
                       </div>
                     </div>
