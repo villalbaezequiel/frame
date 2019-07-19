@@ -353,7 +353,7 @@ class ExportController extends Controller
                                   'users.type_dni as tipo_dni',
                                   'users.dni',
                                   'users.cuit',
-                                  'users.birthdate as fecha_cumpleanos',
+                                  'users.birthdate as fecha_nacimiento',
                                   'users.civil_status as estado_civil',
 
                                   'providers.address as direccion',
@@ -388,7 +388,7 @@ class ExportController extends Controller
 
           foreach ($results as &$result) {
             $result->genero = Helpers::getGenderEs($result->genero);
-            $result->fecha_cumpleanos = Helpers::getDateParseFormat($result->fecha_cumpleanos);
+            $result->fecha_nacimiento = Helpers::getDateParseFormat($result->fecha_nacimiento);
             $result->pais = Country::getName($result->pais);
 
             $result->rol_usuario = RoleUser::getRoleNameByUser($result->rol_usuario);
@@ -419,7 +419,7 @@ class ExportController extends Controller
                                   'cuit',
                                   'gender as genero',
                                   'civil_status as estado_civil',
-                                  'birthdate as fecha_cumpleanos',
+                                  'birthdate as fecha_nacimiento',
                                   'id_country as pais',
                                   'id as rol_usuario',
                                   'active as activo'
@@ -429,7 +429,7 @@ class ExportController extends Controller
 
           foreach ($results as &$result) {
             $result->genero = Helpers::getGenderEs($result->genero);
-            $result->fecha_cumpleanos = Helpers::getDateParseFormat($result->fecha_cumpleanos);
+            $result->fecha_nacimiento = Helpers::getDateParseFormat($result->fecha_nacimiento);
             $result->pais = Country::getName($result->pais);
             $result->activo = Helpers::getActive($result->activo);
             $result->rol_usuario = RoleUser::getRoleNameByUser($result->rol_usuario);
@@ -557,7 +557,7 @@ class ExportController extends Controller
             'users.type_dni as tipo_dni',
             'users.dni',
             'users.cuit',
-            'users.birthdate as fecha_cumpleanos',
+            'users.birthdate as fecha_nacimiento',
             'users.civil_status as estado_civil',
 
             'providers.address as direccion',
@@ -613,7 +613,7 @@ class ExportController extends Controller
         foreach ($listTeams as &$team) {
 
           $team->genero = Helpers::getGenderEs($team->genero);
-          $team->fecha_cumpleanos = Helpers::getDateParseFormat($team->fecha_cumpleanos);
+          $team->fecha_nacimiento = Helpers::getDateParseFormat($team->fecha_nacimiento);
           $team->pais = Country::getName($team->pais);
           $team->nacionalidad = Country::getNacionality($team->nacionalidad);
           $team->nivel_estudio = Study::getName($team->nivel_estudio);
