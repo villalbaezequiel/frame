@@ -814,6 +814,10 @@ class ExportController extends Controller
               'N'     =>  25
             ));
 
+            $sheet->cell('B1', function($cell) {
+              $cell->setValue('Nº de Centro de Costo');
+              $cell->setBorder('thin','thin', 'thin', 'thin');
+            });
             $sheet->cell('B2', function($cell) {
               $cell->setValue('Proyecto');
               $cell->setBorder('thin','thin', 'thin', 'thin');
@@ -827,6 +831,10 @@ class ExportController extends Controller
               $cell->setBorder('thin','thin', 'thin', 'thin');
             });
 
+            $sheet->cell('C1', function($cell) use ($nameProject) {
+              $cell->setValue($nameProject->cost_center);
+              $cell->setBorder('thin','thin', 'thin', 'thin');
+            });
             $sheet->cell('C2', function($cell) use ($nameProject) {
               $cell->setValue($nameProject->name);
               $cell->setBorder('thin','thin', 'thin', 'thin');
