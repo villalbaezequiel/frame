@@ -148,11 +148,11 @@ class ExportController extends Controller
         $timestamp = date('Ymdhis');
         $nameProject = Project::getCenterCost($id_project);
 
-        Excel::create("callshet_{$nameProject}_{$timestamp}", function($excel) use ($results){
+        Excel::create(Helpers::setLimitString("callshet_{$nameProject}_{$timestamp}", 27), function($excel) use ($results){
 
           foreach ($results as $key => $value) {
             $nameFF = FrameFunction::getName($key);
-            $excel->sheet($nameFF, function($sheet) use ($value){
+            $excel->sheet(Helpers::setLimitString($nameFF, 27), function($sheet) use ($value){
               $sheet->fromArray(json_decode( json_encode($value), true));
             });
           }
@@ -201,7 +201,7 @@ class ExportController extends Controller
 
           $timestamp = date('Ymdhis');
 
-          Excel::create("clients_{$timestamp}", function($excel) use ($results){
+          Excel::create(Helpers::setLimitString("clients_{$timestamp}", 27), function($excel) use ($results){
 
             $excel->sheet('Clientes', function($sheet) use ($results){
               $sheet->fromArray($results);
@@ -241,7 +241,7 @@ class ExportController extends Controller
 
           $timestamp = date('Ymdhis');
 
-          Excel::create("categorias_sat_{$timestamp}", function($excel) use ($results){
+          Excel::create(Helpers::setLimitString("categorias_sat_{$timestamp}", 27), function($excel) use ($results){
 
             $excel->sheet('Categorias Sat', function($sheet) use ($results){
               $sheet->fromArray($results);
@@ -278,7 +278,7 @@ class ExportController extends Controller
           }
 
           $timestamp = date('Ymdhis');
-          Excel::create("funciones_frame{$timestamp}", function($excel) use ($results){
+          Excel::create(Helpers::setLimitString("funciones_frame_{$timestamp}", 27), function($excel) use ($results){
 
             $excel->sheet('Funciones segun Frame', function($sheet) use ($results){
               $sheet->fromArray($results);
@@ -307,7 +307,7 @@ class ExportController extends Controller
         if(count($results)){
 
           $timestamp = date('Ymdhis');
-          Excel::create("funciones_frame_relacion_categoria_sat{$timestamp}", function($excel) use ($results){
+          Excel::create(Helpers::setLimitString("funciones_frame_relacion_categoria_sat_{$timestamp}", 27), function($excel) use ($results){
 
             foreach ($results as $result) {
               $type = ProyectCategory::getName($result->id_proyect_category);
@@ -319,7 +319,7 @@ class ExportController extends Controller
                                       "numero_categoria" => WorkersCategory::getNumber($val));
               }
 
-              $excel->sheet($nameSheet, function($sheet) use ($categories){
+              $excel->sheet(Helpers::setLimitString($nameSheet, 27), function($sheet) use ($categories){
                 $sheet->fromArray($categories);
               });
             }
@@ -438,9 +438,9 @@ class ExportController extends Controller
           $nameExcel = "usuarios";
         }
 
-        Excel::create($nameExcel."_".$timestamp, function($excel) use ($results, $nameExcel){
+        Excel::create(Helpers::setLimitString($nameExcel."_".$timestamp, 27), function($excel) use ($results, $nameExcel){
 
-          $excel->sheet($nameExcel, function($sheet) use ($results){
+          $excel->sheet(Helpers::setLimitString($nameExcel, 27), function($sheet) use ($results){
             $sheet->fromArray($results);
           });
 
@@ -528,9 +528,9 @@ class ExportController extends Controller
         $timestamp = date('Ymdhis');
         $nameProject = Project::getCenterCost($id_project);
 
-        Excel::create("{$nameProject}_info_".$timestamp, function($excel) use ($results, $listTeams){
+        Excel::create(Helpers::setLimitString("{$nameProject}_info_".$timestamp, 27), function($excel) use ($results, $listTeams){
 
-          $excel->sheet($results[0]['nombre'], function($sheet) use ($results){
+          $excel->sheet(Helpers::setLimitString($results[0]['centro_costo'], 27), function($sheet) use ($results){
             $sheet->fromArray($results);
           });
 
@@ -656,7 +656,7 @@ class ExportController extends Controller
         $timestamp = date('Ymdhis');
         $nameProject = Project::getCenterCost($id_project);
 
-        Excel::create("{$nameProject}_teams_".$timestamp, function($excel) use ($listTeams){
+        Excel::create(Helpers::setLimitString("{$nameProject}_teams_".$timestamp, 27), function($excel) use ($listTeams){
 
           $excel->sheet('Teams del Proyecto', function($sheet) use ($listTeams){
             $sheet->fromArray($listTeams);
@@ -681,7 +681,7 @@ class ExportController extends Controller
           $nameProject = Project::getCenterCost($id_project);
 
           $timestamp = date('Ymdhis');
-          Excel::create("{$nameProject}_hsextras_{$timestamp}", function($excel) use ($listTeams){
+          Excel::create(Helpers::setLimitString("{$nameProject}_hsextras_{$timestamp}", 27), function($excel) use ($listTeams){
 
             foreach ($listTeams as $val) {
 
@@ -716,7 +716,7 @@ class ExportController extends Controller
                 }
               }
 
-              $excel->sheet($name, function($sheet) use ($arrayHs){
+              $excel->sheet(Helpers::setLimitString($name, 27), function($sheet) use ($arrayHs){
                 $sheet->fromArray($arrayHs);
               });
 
@@ -783,9 +783,9 @@ class ExportController extends Controller
         $getCenterCoste = Project::getCenterCost($id_project);
         $timestamp = date('Ymdhis');
 
-        Excel::create("{$getCenterCoste}_seguro_".$timestamp, function($excel) use ($nameProject, $results){
+        Excel::create(Helpers::setLimitString("{$getCenterCoste}_seguro_".$timestamp, 27), function($excel) use ($nameProject, $results){
 
-          $excel->sheet($nameProject->name, function($sheet) use ($nameProject, $results){
+          $excel->sheet(Helpers::setLimitString($nameProject->cost_center, 27), function($sheet) use ($nameProject, $results){
 
             $sheet->setStyle(array(
               'font' => array(
@@ -927,9 +927,9 @@ class ExportController extends Controller
         $nameProject = Project::getCenterCost($projectProvider->id_project);
         $lastName = User::getLastName($provider->id_user);
 
-        Excel::create("{$nameProject}_{$lastName}_hsextras_{$timestamp}", function($excel) use ($list, $team){
+        Excel::create(Helpers::setLimitString("{$nameProject}_{$lastName}_hsextras_{$timestamp}", 27), function($excel) use ($list, $team){
 
-            $excel->sheet($team, function($sheet) use ($list){
+            $excel->sheet(Helpers::setLimitString($team, 27), function($sheet) use ($list){
               $sheet->fromArray(json_decode($list, true));
             });
 
