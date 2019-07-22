@@ -60,7 +60,6 @@
                   <div style="text-align: center;">
                     <!-- List Exports: info_proyecto, personal_teams_proyecto, generacion_seguros_servicios -->
                     <a href="{{ url('/export/project/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Informacion del Proyecto"><i class="material-icons">file_download</i></a>
-                    <a href="{{ url('/export/project/'.$project->id.'/teams') }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Listado del Personal"><i class="material-icons">file_download</i></a>
                     <a href="{{ url('/export/project/'.$project->id.'/horas_extras_teams') }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Horas Extras del Personal"><i class="material-icons">file_download</i></a>
                     <a href="{{ url('/export/seguros_servicios/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Generacion de Seguros"><i class="material-icons">file_download</i></a>
                     <!-- action closed -->
@@ -71,7 +70,6 @@
                     {!! Form::open(['route' => ['projects.destroy', $project->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete', 'style'=> 'text-align: center;']) !!}
                       <!-- List Exports: info_proyecto, personal_teams_proyecto, generacion_seguros_servicios -->
                       <a href="{{ url('/export/project/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Informacion del Proyecto"><i class="material-icons">file_download</i></a>
-                      <a href="{{ url('/export/project/'.$project->id.'/teams') }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Listado del Personal"><i class="material-icons">file_download</i></a>
                       <a href="{{ url('/export/project/'.$project->id.'/horas_extras_teams') }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Horas Extras del Personal"><i class="material-icons">file_download</i></a>
                       <a href="{{ url('/export/seguros_servicios/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Generacion de Seguros"><i class="material-icons">file_download</i></a>
                         <!-- action closed -->
