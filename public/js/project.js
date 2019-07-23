@@ -118,6 +118,8 @@ function setEmptyFormTeam(){
   $("select[name=id_crew_reemplazo]").removeAttr('disabled');
 
   $("#add_crew").text("Agregar Team");
+  $("#is_edit").val("0");
+
 
   // default sueldo bruto show y sueldo neto hidden
   $('input[name="salary_contract_bruto_category_function"]').attr('type', 'text');
@@ -397,8 +399,6 @@ $(document).ready(function(){
 
         } else {
 
-          console.log(id_provider);
-
           // add crew TITULAR to list input request
           if($('.list_crew > #'+id_provider).length == 0){
             $('.list_crew').append(`<input type="hidden" name="list_crew[]" id="${id_provider}" value="" />`);
@@ -431,6 +431,50 @@ $(document).ready(function(){
       if(id_project_provider && id_project_provider.length){
         setCardTeamIsset(id_provider, crewFunctionFrameText, crewCategorySatText, crewDatesText, contractText, activeText, textPuesto);
         continueAddTeam(true);
+
+        // edit by ajax
+        let teamEdit = $('.list_crew > #'+id_provider).val();
+
+        $.ajax({
+          type: 'POST',
+          url: '/sistema/json/edit_team_project',
+          data: { data: teamEdit },
+          success: function(data){
+            if(data.status){
+              Swal.fire({
+                title: 'Team editado con exito!',
+                type: 'info',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar'
+              });
+            } else {
+              Swal.fire({
+                title: 'Error al editar Team!',
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar'
+              });
+            }
+          },
+          error: function(xhr, status){
+            console.log('Error: '+xhr);
+            Swal.fire({
+              title: 'Error al editar Team!',
+              type: 'warning',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        });
+
+
+
       } else {
 
         $.ajax({
@@ -666,6 +710,7 @@ $(document).ready(function(){
       if(v.id == id){
         // list field by form
         $("#add_crew").text("Editar Team");
+        $("#is_edit").val("1");
 
         // add id to input
         $("input[name=id_project_provider]").val(v.id);

@@ -12,6 +12,8 @@ use App\ProjectProvider;
 use App\Project;
 use App\WorkersCategory;
 use DateTime;
+use DateInterval;
+use DatePeriod;
 
 class JsonController extends Controller
 {
@@ -309,6 +311,76 @@ class JsonController extends Controller
         return back()->with('message', 'Horas Extras eliminadas con exito!');
 
       } catch(\Exception $e) {
+        Helpers::getCapturError($e);
+      }
+    }
+
+    public function updateTeamProject(Request $request)
+    {
+      try {
+        $crewObj = json_decode($request->get('data'));
+
+        // si es contrato tipo servicio, dates afip nulo
+        if($crewObj->id_contract != '4'){
+          $start_afipParse = explode('/', $crewObj->start_afip);
+          $finish_afipParse = explode('/', $crewObj->finish_afip);
+
+          $start_afip = (isset($start_afipParse[2]) ? $start_afipParse[2].'-'.$start_afipParse[1].'-'.$start_afipParse[0] : $crewObj->start_afip);
+          $finish_afip = (isset($finish_afipParse[2]) ? $finish_afipParse[2].'-'.$finish_afipParse[1].'-'.$finish_afipParse[0] : $crewObj->finish_afip);
+        } else {
+          $start_afip = null;
+          $finish_afip = null;
+        }
+
+        $start_date_contract = explode('/', $crewObj->start_date_contract);
+        $finish_date_contract = explode('/', $crewObj->finish_date_contract);
+
+        $calendar = array();
+        $startDatejson = new DateTime( $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] );
+        $endDatejson = new DateTime( $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] );
+        $endDatejson = $endDatejson->modify( '+1 day' );
+        $interval = new DateInterval('P1D');
+        $daterange = new DatePeriod($startDatejson, $interval ,$endDatejson);
+        foreach($daterange as $date){
+            $calendar[$date->format("Ymd")] = array(
+                            'start' => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00",
+                            'finish' => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00"
+                          );
+        }
+
+        $team = ProjectProvider::find($crewObj->id_project_provider);
+        $team->id_function_frame = $crewObj->id_function_frame;
+        $team->id_category_sat = $crewObj->id_category_sat;
+        $team->id_provider = $crewObj->id_provider;
+        $team->id_contract = $crewObj->id_contract;
+        $team->id_workday = $crewObj->id_workday;
+        $team->salary_workdays = $crewObj->salary_workdays;
+        $team->total_workdays = $crewObj->total_workdays;
+        $team->total_workdays_text = $crewObj->total_workdays_text;
+        $team->salary_contract_category_function = $crewObj->salary_contract_category_function;
+        $team->salary_daily = $crewObj->salary_daily;
+        $team->salary_liquidate = $crewObj->salary_liquidate;
+        $team->salaty_difference = $crewObj->salaty_difference;
+        $team->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
+        $team->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
+        $team->count_workdays_crew = $crewObj->count_workdays_crew;
+        $team->hour_initial = $crewObj->hour_initial;
+        $team->hour_end = $crewObj->hour_end;
+        $team->start_afip = $start_afip;
+        $team->finish_afip = $finish_afip;
+        $team->is_reemplazo = $crewObj->is_reemplazo;
+        $team->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
+        $team->calendar = $calendar;
+        $team->active = $crewObj->active;
+        $team->save();
+
+        if($team){
+          return response()->json(['status' => true ]);
+        } else {
+          return response()->json(['status' => false ]);
+        }
+
+      } catch (\Exception $e) {
         Helpers::getCapturError($e);
       }
     }
