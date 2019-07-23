@@ -484,8 +484,33 @@ class ExportController extends Controller
 
         $listTeams = ProjectProvider::select(
 
-          'users.name as nombre',
           'users.last_name as apellido',
+          'users.name as nombre',
+          'project_providers.id_project as n_proyecto',
+          'project_providers.id_project as nombre_proyecto',
+          'project_providers.id_function_frame as funcion_frame',
+          'project_providers.id_category_sat as categoria_sat',
+          'project_providers.id_contract as tipo_contrato',
+          'project_providers.id_workday as modalidad',
+          'project_providers.count_workdays_crew as cant_jornadas_laborables',
+          'project_providers.salary_workdays as sueldo_jornada',
+          'project_providers.total_workdays as sueldo_mano',
+          'project_providers.total_workdays_text as sueldo_mano_texto',
+          'project_providers.salary_contract_category_function as sueldo_contrato_mensual',
+          'project_providers.salary_daily as sueldo_diario_sat',
+          'project_providers.salary_liquidate as sueldo_liquidar',
+          'project_providers.salaty_difference as sueldo_diferencia',
+          'project_providers.start_date_contract as fecha_alta_contrato',
+          'project_providers.finish_date_contract as fecha_baja_contrato',
+          'project_providers.start_afip as fecha_alta_afip',
+          'project_providers.finish_afip as fecha_baja_afip',
+          'project_providers.is_reemplazo as puesto',
+          'project_providers.id_crew_reemplazo as reemplazo_del_team',
+          'project_providers.hour_initial as hora_inicio',
+          'project_providers.hour_end as hora_final',
+          'project_providers.hour_initial as horas_pactadas',
+          'project_providers.extra_hours as horas_extras',
+          'project_providers.active as activo',
           'users.email',
           'users.gender as genero',
           'users.type_dni as tipo_dni',
@@ -493,16 +518,12 @@ class ExportController extends Controller
           'users.cuit',
           'users.birthdate as fecha_nacimiento',
           'users.civil_status as estado_civil',
-
           'providers.address as direccion',
           'providers.address_number as direccion_numero',
           'providers.piso_depto as direccion_piso_depto',
-
           'users.id_country as pais',
-
           'providers.location as localidad',
           'providers.cp as codigo_postal',
-          'providers.location as localidad',
           'providers.nationality as nacionalidad',
           'providers.id_study as nivel_estudio',
           'providers.social_work as obrasocial_prepaga',
@@ -514,37 +535,18 @@ class ExportController extends Controller
           'providers.bank as banco',
           'providers.type_account as tipo_cuenta',
           'providers.number_account as numero_cuenta',
-          'providers.alias_account as alias',
+          'providers.alias_account as alias'
+          )
 
-          'project_providers.id_function_frame as funcion_frame',
-          'project_providers.id_category_sat as categoria_sat',
-          'project_providers.id_contract as tipo_contrato',
-          'project_providers.id_workday as modalidad',
-          'project_providers.salary_workdays as sueldo_jornada',
-          'project_providers.total_workdays as sueldo_mano',
-          'project_providers.total_workdays_text as sueldo_mano_texto',
-          'project_providers.salary_contract_category_function as sueldo_contrato_mensual',
-          'project_providers.salary_daily as sueldo_diario_sat',
-          'project_providers.salary_liquidate as sueldo_liquidar',
-          'project_providers.salaty_difference as sueldo_diferencia',
-          'project_providers.start_date_contract as fecha_alta_contrato',
-          'project_providers.finish_date_contract as fecha_baja_contrato',
-          'project_providers.count_workdays_crew as cant_jornadas_laborables',
-          'project_providers.start_afip as fecha_alta_afip',
-          'project_providers.finish_afip as fecha_baja_afip',
-          'project_providers.is_reemplazo as puesto',
-          'project_providers.id_crew_reemplazo as reemplazo_del_team',
-          'project_providers.hour_initial as hora_inicio',
-          'project_providers.hour_end as hora_final',
-          'project_providers.hour_initial as horas_pactadas',
-          'project_providers.extra_hours as horas_extras',
-          'project_providers.active as activo')
         ->join('providers', 'project_providers.id_provider', '=', 'providers.id')
         ->join('users', 'providers.id_user', '=', 'users.id')
         ->where('project_providers.id_project', $id_project)
         ->get();
 
       foreach ($listTeams as &$team) {
+
+        $team->n_proyecto = Project::getCenterCost($team->n_proyecto);
+        $team->nombre_proyecto = Project::getName($team->nombre_proyecto);
 
         $team->genero = Helpers::getGenderEs($team->genero);
         $team->fecha_nacimiento = Helpers::getDateParseFormat($team->fecha_nacimiento);
