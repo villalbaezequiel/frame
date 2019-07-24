@@ -696,6 +696,7 @@ class ExportController extends Controller
                                     ->where('project_providers.id_project', $id_project)
                                     ->where('project_providers.id_contract', '4') // 4 = Servicios
                                     ->where('project_providers.active', '1')
+                                    ->orderBy('project_providers.created_at', 'ASC')
                                     ->get();
 
         $count = 1;
@@ -854,6 +855,145 @@ class ExportController extends Controller
             }
 
           });
+
+          $groupDateResults = array();
+
+          foreach($results as $key => $value){
+            $groupDateResults[$value['Fecha_de_Declaracion']][$key] = $value;
+          }
+
+          foreach($groupDateResults as $k => $v){
+
+            $excel->sheet($k, function($sheet) use ($nameProject, $v){
+
+              $sheet->setStyle(array(
+                'font' => array(
+                  'name' => 'Arial',
+                  'size' => 10,
+                  'bold' => false
+                )
+              ));
+
+              $sheet->setBorder('B6:N50', 'thin');
+
+              $sheet->setWidth(array(
+                'A'     =>  15,
+                'B'     =>  35,
+                'C'     =>  25,
+                'D'     =>  25,
+                'E'     =>  25,
+                'F'     =>  25,
+                'G'     =>  25,
+                'H'     =>  25,
+                'I'     =>  25,
+                'J'     =>  25,
+                'K'     =>  25,
+                'L'     =>  25,
+                'M'     =>  25,
+                'N'     =>  25
+              ));
+
+              $sheet->cell('B1', function($cell) {
+                $cell->setValue('Nº de Centro de Costo');
+                $cell->setBorder('thin','thin', 'thin', 'thin');
+              });
+              $sheet->cell('B2', function($cell) {
+                $cell->setValue('Proyecto');
+                $cell->setBorder('thin','thin', 'thin', 'thin');
+              });
+              $sheet->cell('B3', function($cell) {
+                $cell->setValue('Cláusula de No Repetición');
+                $cell->setBorder('thin','thin', 'thin', 'thin');
+              });
+              $sheet->cell('B4', function($cell) {
+                $cell->setValue('Necesidad de Certificado de Cobertura');
+                $cell->setBorder('thin','thin', 'thin', 'thin');
+              });
+
+              $sheet->cell('C1', function($cell) use ($nameProject) {
+                $cell->setValue($nameProject->cost_center);
+                $cell->setBorder('thin','thin', 'thin', 'thin');
+              });
+              $sheet->cell('C2', function($cell) use ($nameProject) {
+                $cell->setValue($nameProject->name);
+                $cell->setBorder('thin','thin', 'thin', 'thin');
+              });
+              $sheet->cell('C3', function($cell) use ($nameProject) {
+                $cell->setValue(Helpers::getActive($nameProject->clausula_no_repe));
+                $cell->setBorder('thin','thin', 'thin', 'thin');
+              });
+              $sheet->cell('C4', function($cell) use ($nameProject) {
+                $cell->setValue(Helpers::getActive($nameProject->certificado_cobertura));
+                $cell->setBorder('thin','thin', 'thin', 'thin');
+              });
+
+              $sheet->cells('B6:B50', function ($cells) {
+                $cells->setFontWeight('bold');
+              });
+
+              $sheet->cells('B6:N6', function ($cells) {
+                $cells->setFontWeight('bold');
+              });
+
+              $sheet->cells('B6:N50', function ($cells) {
+                $cells->setBorder('thin','thin', 'thin', 'thin');
+              });
+
+              $sheet->cells('C6:J50', function ($cells) {
+                $cells->setBackground('#FFFF99');
+                $cells->setFontSize(9);
+              });
+
+              $sheet->cells('N6:N50', function ($cells) {
+                $cells->setBackground('#FFFF99');
+                $cells->setFontSize(9);
+              });
+
+              $sheet->cells('N7:N50', function ($cells) {
+                $cells->setFontColor('#339966');
+              });
+
+              $sheet->cells('K6:M50', function ($cells) {
+                $cells->setBackground('#FFFFFF');
+                $cells->setFontSize(9);
+              });
+
+              $sheet->cells('B6:B50', function($cells) {
+                $cells->setAlignment('center');
+              });
+
+              $sheet->fromArray(json_decode(json_encode($v), true), null, 'B6', true, true);
+
+
+              if($nameProject->clausula_no_repe){
+                $sheet->cell('B52', function($cell) {
+                  $cell->setValue('Cliente/Empresa');
+                  $cell->setBorder('thin','thin', 'thin', 'thin');
+                });
+
+                $sheet->cell('C52', function($cell) {
+                  $cell->setValue('Razon Social');
+                  $cell->setBorder('thin','thin', 'thin', 'thin');
+                });
+
+                $sheet->cell('D52', function($cell) {
+                  $cell->setValue('Cuit');
+                  $cell->setBorder('thin','thin', 'thin', 'thin');
+                });
+
+                $sheet->cell('C53', function($cell) use ($nameProject){
+                  $cell->setValue(Client::getRazonSocial($nameProject->id_client));
+                  $cell->setBorder('thin','thin', 'thin', 'thin');
+                });
+
+                $sheet->cell('D53', function($cell) use ($nameProject){
+                  $cell->setValue(Client::getCuit($nameProject->id_client));
+                  $cell->setBorder('thin','thin', 'thin', 'thin');
+                });
+              }
+
+            });
+          }
 
         })->download();
 
