@@ -115,34 +115,22 @@ class ExportController extends Controller
     public function callSheet($id_project)
     {
       try{
-        $functionsFrame = ProjectProvider::select('id_function_frame')
-                                    ->where('id_project', $id_project)
-                                    ->where('active', '1')
-                                    ->groupBy('id_function_frame')
-                                    ->get();
-
         $listTeam = ProjectProvider::where('id_project', $id_project)
                                   ->where('active', '1')
                                   ->get();
         $results = array();
 
-        foreach($functionsFrame as $frame){
+        foreach($listTeam as $team)
+        {
+            $other_phone = (\App\Provider::getOtherTelephone($team->id_provider) != '' ? ' - '.\App\Provider::getOtherTelephone($team->id_provider) : '');
 
-          $results[$frame->id_function_frame] = array();
-
-          foreach($listTeam as $team){
-            if($team->id_function_frame == $frame->id_function_frame){
-
-              $other_phone = (\App\Provider::getOtherTelephone($team->id_provider) != '' ? ' - '.\App\Provider::getOtherTelephone($team->id_provider) : '');
-
-              array_push($results[$team->id_function_frame], [
-                'rol_desempenar' => WorkersCategory::getName($team->id_category_sat),
-                'nombre_team' => Provider::getNameOrderLastName($team->id_provider),
-                'telefono' => Provider::getTelephone($team->id_provider),
-                'email' => Provider::getEmail($team->id_provider).$other_phone
-              ]);
-            }
-          }
+            array_push($results, [
+              //'funcion_frame' => FrameFunction::getName($team->id_function_frame),
+              'rol_desempenar' => WorkersCategory::getName($team->id_category_sat),
+              'nombre_team' => Provider::getNameOrderLastName($team->id_provider),
+              'telefono' => Provider::getTelephone($team->id_provider).$other_phone,
+              'email' => Provider::getEmail($team->id_provider)
+            ]);
         }
 
         $timestamp = date('Ymdhis');
@@ -150,12 +138,9 @@ class ExportController extends Controller
 
         Excel::create(Helpers::setLimitString("callshet_{$nameProject}_{$timestamp}", 27), function($excel) use ($results){
 
-          foreach ($results as $key => $value) {
-            $nameFF = FrameFunction::getName($key);
-            $excel->sheet(Helpers::setLimitString($nameFF, 27), function($sheet) use ($value){
-              $sheet->fromArray(json_decode( json_encode($value), true));
-            });
-          }
+          $excel->sheet("Lista de Contactos", function($sheet) use ($results){
+            $sheet->fromArray(json_decode( json_encode($results), true));
+          });
 
         })->download();
 
