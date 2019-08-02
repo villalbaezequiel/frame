@@ -63,7 +63,7 @@ class ProjectsJornadasController extends Controller
       foreach ($listTeam as $crew) {
         // name crew
         // posicion frame/sat
-        $crew->name_user = Provider::getNameOrderLastName($crew->id_provider);
+        $crew->name_user = Provider::getNameOrderLastName($crew->id_provider)." (".Helpers::getDateParseFormat($crew->start_date_contract, '/')." - ".Helpers::getDateParseFormat($crew->finish_date_contract, '/').")";
         $crew->function_frame_name = FrameFunction::getName($crew->id_function_frame);
         $crew->function_frame_color = FrameFunction::getColor($crew->id_function_frame);
       }
