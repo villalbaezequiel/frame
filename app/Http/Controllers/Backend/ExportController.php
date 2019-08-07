@@ -485,6 +485,7 @@ class ExportController extends Controller
           'project_providers.salary_daily as sueldo_diario_sat',
           'project_providers.salary_liquidate as sueldo_liquidar',
           'project_providers.salaty_difference as sueldo_diferencia',
+          'project_providers.start_date_contract as fecha_de_declaracion',
           'project_providers.start_date_contract as fecha_alta_contrato',
           'project_providers.finish_date_contract as fecha_baja_contrato',
           'project_providers.start_afip as fecha_alta_afip',
@@ -526,6 +527,7 @@ class ExportController extends Controller
         ->join('providers', 'project_providers.id_provider', '=', 'providers.id')
         ->join('users', 'providers.id_user', '=', 'users.id')
         ->where('project_providers.id_project', $id_project)
+        ->orderBy('project_providers.created_at', 'ASC')
         ->get();
 
       foreach ($listTeams as &$team) {
@@ -548,6 +550,7 @@ class ExportController extends Controller
         $team->categoria_sat = WorkersCategory::getName($team->categoria_sat);
         $team->tipo_contrato = Contract::getName($team->tipo_contrato);
         $team->modalidad = Workday::getName($team->modalidad);
+        $team->fecha_de_declaracion = Helpers::getDateParseFormat($team->fecha_de_declaracion);
         $team->fecha_alta_contrato = Helpers::getDateParseFormat($team->fecha_alta_contrato);
         $team->fecha_baja_contrato = Helpers::getDateParseFormat($team->fecha_baja_contrato);
         $team->fecha_alta_afip =  ($team->fecha_alta_afip != null && $team->fecha_alta_afip != '' ? Helpers::getDateParseFormat($team->fecha_alta_afip) : '');
@@ -586,6 +589,18 @@ class ExportController extends Controller
           $excel->sheet('Lista de Teams', function($sheet) use ($listTeams){
             $sheet->fromArray($listTeams);
           });
+
+          $groupDateResults = array();
+
+          foreach($listTeams as $key => $value){
+            $groupDateResults[$value['fecha_de_declaracion']][$key] = $value;
+          }
+
+          foreach($groupDateResults as $k => $v){
+            $excel->sheet($k, function($sheet) use ($v){
+              $sheet->fromArray(json_decode(json_encode($v), true));
+            });
+          }
 
         })->download();
 
