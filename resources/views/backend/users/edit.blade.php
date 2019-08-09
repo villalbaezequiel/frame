@@ -148,6 +148,29 @@
               </div>
             </div>
 
+            <div class="row">
+              <label class="col-md-2 col-form-label">Permisos Funcional </label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="permissions[]" multiple>
+                    <option value="">Seleccionar</option>
+                    @foreach(\App\RoleUser::getRoles() as $key => $permission)
+                    <option value="{{ $key }}"
+                      <?php
+                        if(json_decode($user->permissions)){
+                          foreach (json_decode($user->permissions) as $userPermission) {
+                            if($userPermission && $userPermission == $key){
+                              echo "selected='selected'";
+                            }
+                          }
+                        } ?>>
+                      {{ $permission }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+
             @if(Auth::user()->id == $user->id)
             <div class="row">
               <label class="col-md-2 col-form-label">Cambiar Contraseña:</label>
@@ -211,3 +234,4 @@ $(document).ready(function(){
 });
 </script>
 @endsection
+

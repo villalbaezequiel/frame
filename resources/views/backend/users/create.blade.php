@@ -142,6 +142,19 @@
               </div>
             </div>
             <div class="row">
+              <label class="col-md-2 col-form-label">Permisos Funcional </label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="permissions[]" multiple>
+                    <option value="">Seleccionar</option>
+                    @foreach(\App\RoleUser::getRoles() as $key => $permission)
+                    <option value="{{ $key }}">{{ $permission }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <label class="col-md-2 col-form-label label-checkbox">Activo</label>
               <div class="col-md-10 checkbox-radios">
                 <div class="form-check form-check-inline">

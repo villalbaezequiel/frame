@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\TeamProject;
 use App\Notifications\SeguroServicios;
+use Illuminate\Support\Facades\Auth;
 use DateTime;
 use DateInterval;
 use DatePeriod;
@@ -17,6 +18,10 @@ use App\ProjectProvider;
 
 class ProjectsController extends Controller
 {
+
+    protected $_permission;
+    protected $permissionApproved = ['1', '2'];
+
     /**
      * Instantiate a new controller instance.
      *
@@ -24,7 +29,22 @@ class ProjectsController extends Controller
      */
     public function __construct()
     {
-      $this->middleware('permission:projects', ['except' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
+      $this->middleware(function ($request, $next) {
+        $cancelPermission = true;
+        $this->_permission = json_decode(Auth::user()->permissions);
+
+        if($this->_permission){
+          foreach($this->permissionApproved as $approved){
+            foreach($this->_permission as $userPermission){
+              if($approved == $userPermission){
+                $cancelPermission = false;
+                return $next($request);
+              }
+            }
+          }
+        }
+
+      });
     }
 
     /**

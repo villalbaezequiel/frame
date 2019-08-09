@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Notifications\NewTeam;
+use Illuminate\Support\Facades\Auth;
 use App\Helpers;
 use App\Provider;
 use App\ProviderAssessment;
@@ -13,6 +14,9 @@ use App\User;
 
 class ProvidersController extends Controller
 {
+    protected $_permission;
+    protected $permissionApproved = ['1', '3'];
+
     /**
      * Instantiate a new controller instance.
      *
@@ -20,7 +24,22 @@ class ProvidersController extends Controller
      */
     public function __construct()
     {
-      $this->middleware('permission:providers', ['except' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
+      $this->middleware(function ($request, $next) {
+        $cancelPermission = true;
+        $this->_permission = json_decode(Auth::user()->permissions);
+
+        if($this->_permission){
+          foreach($this->permissionApproved as $approved){
+            foreach($this->_permission as $userPermission){
+              if($approved == $userPermission){
+                $cancelPermission = false;
+                return $next($request);
+              }
+            }
+          }
+        }
+
+      });
     }
 
     /**

@@ -4,20 +4,39 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Helpers;
 use App\FrameFunction;
 
 class FrameFunctionsController extends Controller
 {
-  /**
-   * Instantiate a new controller instance.
-   *
-   * @return void
-   */
-  public function __construct()
-  {
-    $this->middleware('permission:frame_functions', ['except' => ['index','create', 'store', 'edit', 'update', 'show','destroy']]);
-  }
+    protected $_permission;
+    protected $permissionApproved = ['1', '5'];
+
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+      $this->middleware(function ($request, $next) {
+        $cancelPermission = true;
+        $this->_permission = json_decode(Auth::user()->permissions);
+
+        if($this->_permission){
+          foreach($this->permissionApproved as $approved){
+            foreach($this->_permission as $userPermission){
+              if($approved == $userPermission){
+                $cancelPermission = false;
+                return $next($request);
+              }
+            }
+          }
+        }
+
+      });
+    }
 
   /**
    * Display a listing of the resource.

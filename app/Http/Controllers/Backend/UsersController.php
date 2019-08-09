@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Caffeinated\Shinobi\Models\Role;
+use Illuminate\Support\Facades\Auth;
 use App\Helpers;
 use App\RoleUser;
 use App\Provider;
@@ -13,6 +14,34 @@ use App\User;
 
 class UsersController extends Controller
 {
+    protected $_permission;
+    protected $permissionApproved = ['1', '6'];
+
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+      $this->middleware(function ($request, $next) {
+        $cancelPermission = true;
+        $this->_permission = json_decode(Auth::user()->permissions);
+
+        if($this->_permission){
+          foreach($this->permissionApproved as $approved){
+            foreach($this->_permission as $userPermission){
+              if($approved == $userPermission){
+                $cancelPermission = false;
+                return $next($request);
+              }
+            }
+          }
+        }
+
+      });
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -70,6 +99,7 @@ class UsersController extends Controller
           $user->birthdate = (isset($birthdate[2]) ? $birthdate[2].'-'.$birthdate[1].'-'.$birthdate[0] : $request->get('birthdate'));
           $user->id_country = $request->get('id_country');
           $user->password = Hash::make('frame_'.$request->get('cuit'));
+          $user->permissions = ($request->get('permissions') ? json_encode($request->get('permissions')) : null);
           $user->active = $request->get('active');
           $user->save();
 
@@ -171,6 +201,7 @@ class UsersController extends Controller
           if($request->get('password')){
             $user->password = Hash::make($request->get('password'));
           }
+          $user->permissions = ($request->get('permissions') ? json_encode($request->get('permissions')) : null);
           $user->active = $request->get('active');
           $user->save();
 

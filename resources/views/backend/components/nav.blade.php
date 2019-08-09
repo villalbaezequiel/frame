@@ -27,8 +27,17 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
             <!-- <a class="dropdown-item" href="{{ url('/users').'/'.Auth::user()->id }}">Ver Perfil</a> -->
-            <a class="dropdown-item" href="{{ url('/users').'/'.Auth::user()->id.'/edit' }}">Editar Perfil</a>
-            <div class="dropdown-divider"></div>
+
+            @if(Auth::user()->permissions)
+              @foreach(json_decode(Auth::user()->permissions) as $userPermission)
+                @if($userPermission == "1" || $userPermission == "6")
+                  <a class="dropdown-item" href="{{ url('/users').'/'.Auth::user()->id.'/edit' }}">Editar Perfil</a>
+                  <div class="dropdown-divider"></div>
+                <?php break; ?>
+                @endif
+              @endforeach
+            @endif
+
             <a class="dropdown-item" href="{{ url('/logout') }}">Cerrar Sesión</a>
           </div>
         </li>
