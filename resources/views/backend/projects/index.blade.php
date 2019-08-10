@@ -31,7 +31,7 @@
           <table id="datatables" class="table table-hover table-striped table-bordered nowrap" style="width:100%">
             <thead>
               <tr>
-                <th>Centro de Costo</th>
+                <th>C.de Costo</th>
                 <th>Nombre</th>
                 <th>Tipo de Proyecto</th>
                 <th>Fechas: Inicio - Finalización</th>
