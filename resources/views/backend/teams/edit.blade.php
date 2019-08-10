@@ -93,14 +93,14 @@
               </label>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Fecha de Nacimiento</label>
+              <label class="col-md-2 col-form-label">Fecha de Nacimiento <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
                   @if($user->birthdate)
                     <?php $birthdate = explode('-', \App\Helpers::getDate($user->birthdate)); ?>
-                    <input class="form-control datepicker" type="text" name="birthdate" value="{{ $birthdate[2].'/'.$birthdate[1].'/'.$birthdate[0] }}">
+                    <input class="form-control datepicker" type="text" name="birthdate" value="{{ $birthdate[2].'/'.$birthdate[1].'/'.$birthdate[0] }}" required>
                   @else
-                    <input class="form-control datepicker" type="text" name="birthdate" value="{{ \App\Helpers::getDate($user->birthdate) }}">
+                    <input class="form-control datepicker" type="text" name="birthdate" value="{{ \App\Helpers::getDate($user->birthdate) }}" required>
                   @endif
                 </div>
               </div>

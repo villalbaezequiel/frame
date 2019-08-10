@@ -83,7 +83,7 @@
         Fecha de Nacimiento:
       </span>
     </div>
-    <input class="form-control datepicker" type="text" name="birthdate" value="{{ old('birthdate') }}">
+    <input class="form-control datepicker" type="text" name="birthdate" value="{{ old('birthdate') }}" required>
   </div>
 </div>
 

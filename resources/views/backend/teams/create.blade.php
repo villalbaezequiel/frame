@@ -93,10 +93,10 @@
               </label>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Fecha de Nacimiento</label>
+              <label class="col-md-2 col-form-label">Fecha de Nacimiento <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control datepicker" type="text" name="birthdate" value="{{ old('birthdate') }}">
+                  <input class="form-control datepicker" type="text" name="birthdate" value="{{ old('birthdate') }}" required>
                 </div>
               </div>
             </div>
