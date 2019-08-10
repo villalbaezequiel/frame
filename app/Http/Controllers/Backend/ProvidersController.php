@@ -25,6 +25,11 @@ class ProvidersController extends Controller
     public function __construct()
     {
       $this->middleware(function ($request, $next) {
+
+        if(\Request::route()->getName() == "crew.store"){
+          return $next($request);
+        }
+
         $cancelPermission = true;
         $this->_permission = json_decode(Auth::user()->permissions);
 
