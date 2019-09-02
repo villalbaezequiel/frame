@@ -8,6 +8,7 @@ use App\ProyectCategory;
 use App\Client;
 use App\Provider;
 use App\User;
+use App\CenterCost;
 
 class Project extends Model
 {
@@ -80,7 +81,7 @@ class Project extends Model
       $project = Project::find($id_project);
 
       if($project){
-        return $project->cost_center;
+        return CenterCost::getNumber($project->cost_center);
       }
     }
 }

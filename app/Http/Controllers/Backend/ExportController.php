@@ -460,6 +460,7 @@ class ExportController extends Controller
 
         foreach ($results as &$result) {
           $result['cliente'] = Client::getNick($result['cliente']);
+          $result['centro_costo'] = CenterCost::getNumber($result['centro_costo']);
           $result['tipo_proyecto'] = ProyectCategory::getName($result['tipo_proyecto']);
           $result['referente'] = Project::getReferring($result['referente']);
           $result['fecha_inicio'] = Helpers::getDateParseFormat($result['fecha_inicio']);
@@ -727,7 +728,7 @@ class ExportController extends Controller
 
         Excel::create(Helpers::setLimitString("{$getCenterCoste}_seguro_".$timestamp, 27), function($excel) use ($nameProject, $results){
 
-          $excel->sheet(Helpers::setLimitString($nameProject->cost_center, 27), function($sheet) use ($nameProject, $results){
+          $excel->sheet(Helpers::setLimitString(CenterCost::getNumber($nameProject->cost_center), 27), function($sheet) use ($nameProject, $results){
 
             $sheet->setStyle(array(
               'font' => array(
@@ -774,7 +775,7 @@ class ExportController extends Controller
             });
 
             $sheet->cell('C1', function($cell) use ($nameProject) {
-              $cell->setValue($nameProject->cost_center);
+              $cell->setValue(CenterCost::getNumber($nameProject->cost_center));
               $cell->setBorder('thin','thin', 'thin', 'thin');
             });
             $sheet->cell('C2', function($cell) use ($nameProject) {
@@ -912,7 +913,7 @@ class ExportController extends Controller
               });
 
               $sheet->cell('C1', function($cell) use ($nameProject) {
-                $cell->setValue($nameProject->cost_center);
+                $cell->setValue(CenterCost::getNumber($nameProject->cost_center));
                 $cell->setBorder('thin','thin', 'thin', 'thin');
               });
               $sheet->cell('C2', function($cell) use ($nameProject) {
