@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth']], function () {
   Route::resource('/utilities/proyect_categories', 'Backend\UtilitiesProyectCategoriesController');
   Route::resource('/utilities/studies', 'Backend\UtilitiesStudiesController');
   Route::resource('/utilities/workdays', 'Backend\UtilitiesWorkdaysController');
+  Route::resource('/center_costs', 'Backend\CenterCostsController');
 
   // export
   Route::get('/export/crew_contract/{id_project_provider}', 'Backend\ExportController@crewContract');
