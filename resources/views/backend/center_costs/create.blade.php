@@ -30,7 +30,7 @@
               <label class="col-md-2 col-form-label">Número</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="number" value="{{ old('number') }}" maxlength="125">
+                  <input class="form-control" type="text" name="number" value="{{ old('number') }}" maxlength="125" required>
                 </div>
               </div>
             </div>
@@ -39,7 +39,7 @@
               <label class="col-md-2 col-form-label">Nombre</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="name" value="{{ old('name') }}" maxlength="125">
+                  <input class="form-control" type="text" name="name" value="{{ old('name') }}" maxlength="125" required>
                 </div>
               </div>
             </div>
@@ -48,7 +48,7 @@
               <label class="col-md-2 col-form-label">Cliente</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="client" value="{{ old('client') }}" maxlength="125">
+                  <input class="form-control" type="text" name="client" value="{{ old('client') }}" maxlength="125" required>
                 </div>
               </div>
             </div>
