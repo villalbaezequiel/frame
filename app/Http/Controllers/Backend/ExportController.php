@@ -21,6 +21,7 @@ use App\Client;
 use App\ProyectCategory;
 use App\RoleUser;
 use App\Study;
+use App\CenterCost;
 use DateTime;
 
 class ExportController extends Controller
@@ -1022,6 +1023,42 @@ class ExportController extends Controller
             });
 
         })->download();
+
+      } catch(\Exception $e){
+        Helpers::getCapturError($e);
+      }
+    }
+
+    public function getCenterCosts()
+    {
+      try {
+        $results = CenterCost::select( 'number as numero',
+                                    'name as nombre',
+                                    'client as cliente',
+                                    'assigne as asignado_a_proyecto',
+                                    'active as activo'
+                                    )->get();
+
+        if(count($results)) {
+
+          foreach ($results as &$result) {
+            $result->asignado_a_proyecto = Helpers::getActive($result->asignado_a_proyecto);
+            $result->activo = Helpers::getActive($result->activo);
+          }
+
+          $timestamp = date('Ymdhis');
+
+          Excel::create(Helpers::setLimitString("center_costs_{$timestamp}", 27), function($excel) use ($results){
+
+            $excel->sheet('Centro de Costos', function($sheet) use ($results){
+              $sheet->fromArray($results);
+            });
+
+          })->download();
+
+        } else {
+          return back()->with('message', 'El Listado de Centro de Costos se encuentra vacio!');
+        }
 
       } catch(\Exception $e){
         Helpers::getCapturError($e);
