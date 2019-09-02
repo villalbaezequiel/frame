@@ -15,6 +15,7 @@ use App\Provider;
 use App\Helpers;
 use App\Project;
 use App\ProjectProvider;
+use App\CenterCost;
 
 class ProjectsController extends Controller
 {
@@ -108,6 +109,11 @@ class ProjectsController extends Controller
           $project->is_closed = '0'; // 0 = abierto / 1 = cerrado
           $project->active = '0'; // cuando todos los proveedores que se agregaron aceptan la solicitud del proyecto, automaticamente cambia su estado a activo 1. Y cuando el proyecto finaliza tambien se da de baja el mismo.
           $project->save();
+
+          // update module CenterCost
+          $center_cost = CenterCost::find($request->get('cost_center'));
+          $center_cost->assigne = 1;
+          $center_cost->save();
 
           // add provides Titulares relation Project
           foreach ($list_crew as $crew) {
@@ -357,7 +363,25 @@ class ProjectsController extends Controller
           $project->id_proyect_category = $request->get('id_proyect_category');
           $project->start_date = (isset($start_date[2]) ? $start_date[2].'-'.$start_date[1].'-'.$start_date[0] : $request->get('start_date'));
           $project->finish_date = (isset($finish_date[2]) ? $finish_date[2].'-'.$finish_date[1].'-'.$finish_date[0] : $request->get('finish_date'));
-          $project->cost_center = $request->get('cost_center');
+
+          // update module CenterCost
+          if($project->cost_center != $request->get('cost_center'))
+          {
+            // habilito el anterior centro de costo del proyecto
+            $center_cost_old = CenterCost::find($project->cost_center);
+            $center_cost_old->assigne = 0;
+            $center_cost_old->save();
+
+            // actualizo el nuevo centro de costo para el proyecto
+            $center_cost = CenterCost::find($request->get('cost_center'));
+            $center_cost->assigne = 1;
+            $center_cost->save();
+
+            $project->cost_center = $request->get('cost_center');
+          } else {
+            $project->cost_center = $request->get('cost_center');
+          }
+
           $project->id_team_referring = $request->get('id_team_referring');
           $project->observations = $request->get('observations');
           $project->clausula_no_repe = $request->get('clausula_no_repe');

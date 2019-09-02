@@ -49,7 +49,7 @@
               ?>
 
               <tr class="item-alert-confirm-delete">
-                <td>{{ $project->cost_center }}</td>
+                <td>{{ \App\CenterCost::getNumber($project->cost_center) }}</td>
                 <td>{{ $project->name }}</td>
                 <td>{{ \App\ProyectCategory::getName($project->id_proyect_category) }}</td>
                 <td>{{ $start_date[2].'/'.$start_date[1].'/'.$start_date[0] }} - {{ $finish_date[2].'/'.$finish_date[1].'/'.$finish_date[0] }}</td>

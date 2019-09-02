@@ -87,7 +87,12 @@
                         <span class="input-group-text">
                           Centro de Costo
                         </span>
-                        <input type="text" class="form-control" name="cost_center" value="{{ old('cost_center') }}">
+                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="cost_center" required>
+                          <option value="">Seleccionar</option>
+                          @foreach(\App\CenterCost::getAllNoAssigne() as $center_cost)
+                          <option value="{{ $center_cost->id }}"><?php echo $center_cost->number; ?></option>
+                          @endforeach
+                        </select>
                       </div>
                     </div>
                   </div>

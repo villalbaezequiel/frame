@@ -54,6 +54,15 @@
             </div>
 
             <div class="row">
+                <label class="col-md-2 col-form-label">Asignado a Proyecto</label>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input class="form-control" type="text" value="{{ App\Helpers::getActive($center_cost->assigne) }}" disabled>
+                  </div>
+                </div>
+              </div>
+
+            <div class="row">
               <label class="col-md-2 col-form-label label-checkbox">Activo</label>
               <div class="col-md-10 checkbox-radios">
                 <div class="form-check form-check-inline">
