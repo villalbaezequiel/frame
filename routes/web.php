@@ -94,3 +94,6 @@ Route::group(['middleware' => ['auth']], function () {
   // accept project Team
   Route::get('/team/accept_project/{id_project_provider}', 'Backend\NotificationsController@getAcceptProjectTeam')->name('team_acceptproject.get');
   Route::post('/team/accept_project', 'Backend\NotificationsController@postAcceptProjectTeam')->name('team_acceptproject.post');
+
+  // center cost
+  Route::get('/centro_de_costos', 'Frontend\CenterCostsController@index');
