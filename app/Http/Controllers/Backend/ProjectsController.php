@@ -112,7 +112,7 @@ class ProjectsController extends Controller
 
           // update module CenterCost
           $center_cost = CenterCost::find($request->get('cost_center'));
-          $center_cost->assigne = 1;
+          $center_cost->assigne = '1';
           $center_cost->save();
 
           // add provides Titulares relation Project
@@ -368,13 +368,15 @@ class ProjectsController extends Controller
           if($project->cost_center != $request->get('cost_center'))
           {
             // habilito el anterior centro de costo del proyecto
-            $center_cost_old = CenterCost::find($project->cost_center);
-            $center_cost_old->assigne = 0;
-            $center_cost_old->save();
+            if(CenterCost::find($project->cost_center)){
+              $center_cost_old = CenterCost::find($project->cost_center);
+              $center_cost_old->assigne = '0';
+              $center_cost_old->save();
+            }
 
             // actualizo el nuevo centro de costo para el proyecto
             $center_cost = CenterCost::find($request->get('cost_center'));
-            $center_cost->assigne = 1;
+            $center_cost->assigne = '1';
             $center_cost->save();
 
             $project->cost_center = $request->get('cost_center');

@@ -24,9 +24,11 @@ class CenterCost extends Model
       }
     }
 
-    static public function getAllNoAssigne()
+    static public function getAllNoAssigne($active = '1')
     {
-      $center_costs = CenterCost::where('assigne', 0)->get();
+      $center_costs = CenterCost::where('assigne', '0')
+                                  ->where('active', $active)
+                                  ->get();
 
       return $center_costs;
     }
