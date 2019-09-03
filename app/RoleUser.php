@@ -43,13 +43,12 @@ class RoleUser extends Model
   {
     $listRoles = [
       '1' => 'Super Administrador',
-      '2' => 'Proyectos / Jornadas De Proyectos / Callsheet',
+      '2' => 'Proyectos / Jornadas De Proyectos / Centro de Costos / Callsheet',
       '3' => 'Teams',
       '4' => 'Clientes',
       '5' => 'Categorías Sat / Funciones Frame',
       '6' => 'Usuarios',
-      '7' => 'Utilidades',
-      '8' => 'Centros de Costo'
+      '7' => 'Utilidades'
     ];
     return $listRoles;
   }

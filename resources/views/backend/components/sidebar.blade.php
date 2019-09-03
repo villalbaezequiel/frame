@@ -70,6 +70,12 @@
               </a>
             </li>
             <li class="nav-item nav-check-url ">
+                <a class="nav-link" href="{{ url('/center_costs') }}">
+                  <i class="material-icons">business</i>
+                  <p> Centro de Costos </p>
+                </a>
+              </li>
+            <li class="nav-item nav-check-url ">
               <a class="nav-link" href="{{ url('/callsheet') }}">
                 <i class="material-icons">calendar_view_day</i>
                 <p> CallSheet </p>
