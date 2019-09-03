@@ -1,5 +1,5 @@
 @extends('layouts.auth')
-@section('title', 'Registráte')
+@section('title', 'Centro de Costos')
 
 @section('container')
 <div class="row">
