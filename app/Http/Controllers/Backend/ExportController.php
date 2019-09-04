@@ -1219,7 +1219,7 @@ class ExportController extends Controller
           }
 
           foreach($groupDateResults as $k => $v){
-            $excel->sheet($k, function($sheet) use ($v){
+            $excel->sheet(Helpers::setLimitString(trim($k), 27), function($sheet) use ($v){
               $sheet->fromArray(json_decode(json_encode($v), true));
             });
           }
