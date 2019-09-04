@@ -1066,4 +1066,169 @@ class ExportController extends Controller
       }
     }
 
+    public function allProject()
+    {
+      try {
+        $results = Project::select(
+                              'id_client as cliente',
+                              'name as nombre',
+                              'description as descripcion',
+                              'observations as observacion',
+                              'cost_center as centro_costo',
+                              'id_proyect_category as tipo_proyecto',
+                              'id_team_referring as referente',
+                              'start_date as fecha_inicio',
+                              'finish_date as fecha_finalizacion',
+                              'is_closed as estado',
+                              'active as activo'
+                            )
+                            ->orderBy('projects.cost_center', 'DESC')
+                            ->get()
+                            ->toArray();
+
+        foreach ($results as &$result) {
+          $result['cliente'] = Client::getNick($result['cliente']);
+          $result['centro_costo'] = CenterCost::getNumber($result['centro_costo']);
+          $result['tipo_proyecto'] = ProyectCategory::getName($result['tipo_proyecto']);
+          $result['referente'] = Project::getReferring($result['referente']);
+          $result['fecha_inicio'] = Helpers::getDateParseFormat($result['fecha_inicio']);
+          $result['fecha_finalizacion'] = Helpers::getDateParseFormat($result['fecha_finalizacion']);
+          $result['estado'] = Project::getIsClosed($result['estado']);
+          $result['activo'] = Helpers::getActive($result['activo']);
+        }
+
+        $listTeams = ProjectProvider::select(
+
+          'project_providers.id_project as centro_costo',
+          'users.last_name as apellido',
+          'users.name as nombre',
+          'project_providers.id_function_frame as funcion_frame',
+          'project_providers.id_category_sat as categoria_sat',
+          'project_providers.id_contract as tipo_contrato',
+          'project_providers.id_workday as modalidad',
+          'project_providers.count_workdays_crew as cant_jornadas_laborables',
+          'project_providers.salary_workdays as sueldo_jornada',
+          'project_providers.total_workdays as sueldo_mano',
+          'project_providers.total_workdays_text as sueldo_mano_texto',
+          'project_providers.salary_contract_category_function as sueldo_contrato_mensual',
+          'project_providers.salary_daily as sueldo_diario_sat',
+          'project_providers.salary_liquidate as sueldo_liquidar',
+          'project_providers.salaty_difference as sueldo_diferencia',
+          'project_providers.start_date_contract as fecha_de_declaracion',
+          'project_providers.start_date_contract as fecha_alta_contrato',
+          'project_providers.finish_date_contract as fecha_baja_contrato',
+          'project_providers.start_afip as fecha_alta_afip',
+          'project_providers.finish_afip as fecha_baja_afip',
+          'project_providers.is_reemplazo as puesto',
+          'project_providers.id_crew_reemplazo as reemplazo_del_team',
+          'project_providers.hour_initial as hora_inicio',
+          'project_providers.hour_end as hora_final',
+          'project_providers.hour_initial as horas_pactadas',
+          'project_providers.extra_hours as horas_extras',
+          'project_providers.active as activo',
+          'users.email',
+          'users.gender as genero',
+          'users.type_dni as tipo_dni',
+          'users.dni',
+          'users.cuit',
+          'users.birthdate as fecha_nacimiento',
+          'users.civil_status as estado_civil',
+          'providers.address as direccion',
+          'providers.address_number as direccion_numero',
+          'providers.piso_depto as direccion_piso_depto',
+          'users.id_country as pais',
+          'providers.location as localidad',
+          'providers.cp as codigo_postal',
+          'providers.nationality as nacionalidad',
+          'providers.id_study as nivel_estudio',
+          'providers.social_work as obrasocial_prepaga',
+          'providers.social_work_code as info_obrasocial_prepaga',
+          'providers.telephone as telefono',
+          'providers.other_telephone as otro_telefono',
+          'providers.referring as es_referente',
+          'providers.cbu',
+          'providers.bank as banco',
+          'providers.type_account as tipo_cuenta',
+          'providers.number_account as numero_cuenta',
+          'providers.alias_account as alias'
+          )
+
+        ->join('providers', 'project_providers.id_provider', '=', 'providers.id')
+        ->join('users', 'providers.id_user', '=', 'users.id')
+        ->orderBy('project_providers.id_project', 'DESC')
+        ->get();
+
+      foreach ($listTeams as &$team) {
+
+        $team->centro_costo = Project::getCenterCost($team->centro_costo);
+
+        $team->genero = Helpers::getGenderEs($team->genero);
+        $team->fecha_nacimiento = Helpers::getDateParseFormat($team->fecha_nacimiento);
+        $team->pais = Country::getName($team->pais);
+        $team->nacionalidad = Country::getNacionality($team->nacionalidad);
+        $team->nivel_estudio = Study::getName($team->nivel_estudio);
+        $team->obrasocial_prepaga = Helpers::getActive($team->obrasocial_prepaga);
+        $team->es_referente = Helpers::getActive($team->es_referente);
+        $team->banco = Helpers::getBank($team->banco);
+
+        $team->horas_pactadas = ProjectProvider::getHoursExtras($team->hora_inicio,$team->hora_final);
+
+        $team->funcion_frame = FrameFunction::getName($team->funcion_frame);
+        $team->categoria_sat = WorkersCategory::getName($team->categoria_sat);
+        $team->tipo_contrato = Contract::getName($team->tipo_contrato);
+        $team->modalidad = Workday::getName($team->modalidad);
+        $team->fecha_de_declaracion = Helpers::getDateParseFormat($team->fecha_de_declaracion);
+        $team->fecha_alta_contrato = Helpers::getDateParseFormat($team->fecha_alta_contrato);
+        $team->fecha_baja_contrato = Helpers::getDateParseFormat($team->fecha_baja_contrato);
+        $team->fecha_alta_afip =  ($team->fecha_alta_afip != null && $team->fecha_alta_afip != '' ? Helpers::getDateParseFormat($team->fecha_alta_afip) : '');
+        $team->fecha_baja_afip =  ($team->fecha_baja_afip != null && $team->fecha_baja_afip != '' ? Helpers::getDateParseFormat($team->fecha_baja_afip) : '');
+        $team->puesto = ProjectProvider::getStringPuesto($team->puesto);
+        $team->reemplazo_del_team = ($team->reemplazo_del_team ? Provider::getNameOrderLastName($team->reemplazo_del_team) : '-');
+        $team->activo = Helpers::getActive($team->activo);
+
+
+        $countHsExtra = 0;
+        if(!empty(json_decode($team->horas_extras)) && is_array(json_decode($team->horas_extras)) ){
+          foreach (json_decode($team->horas_extras) as $e) {
+            $hs_extra_initial = substr($e->start, 0, strpos($e->start, '('));
+            $hs_extra_initial_date = new DateTime($hs_extra_initial);
+
+            $hs_extra_finish = substr($e->finish, 0, strpos($e->finish, '('));
+            $hs_extra_finish_date = new DateTime($hs_extra_finish);
+
+            $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
+            $countHsExtra += ($horasTrabajadas - $team->horas_pactadas);
+          }
+        }
+
+        $team->horas_extras = $countHsExtra;
+      }
+
+        $timestamp = date('Ymdhis');
+
+        Excel::create(Helpers::setLimitString("projects_list_".$timestamp, 27), function($excel) use ($results, $listTeams){
+
+          $excel->sheet('Lista de Teams', function($sheet) use ($listTeams){
+            $sheet->fromArray($listTeams);
+          });
+
+          $groupDateResults = array();
+
+          foreach($results as $key => $value){
+            $groupDateResults[$value['centro_costo']][$key] = $value;
+          }
+
+          foreach($groupDateResults as $k => $v){
+            $excel->sheet($k, function($sheet) use ($v){
+              $sheet->fromArray(json_decode(json_encode($v), true));
+            });
+          }
+
+        })->download();
+
+      } catch(\Exception $e) {
+        Helpers::getCapturError($e);
+      }
+    }
+
 }
