@@ -48,7 +48,12 @@
               <label class="col-md-2 col-form-label">Cliente</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="client" value="{{ old('client') }}" maxlength="125" required>
+                    <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="client" required>
+                      <option value="">Seleccionar</option>
+                      @foreach(\App\Client::getAllClients() as $client)
+                      <option value="{{ $client->id }}"><?php if($client->nick){ echo $client->nick; } else { echo $client->razon_social; } ?></option>
+                      @endforeach
+                    </select>
                 </div>
               </div>
             </div>

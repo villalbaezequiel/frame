@@ -11,7 +11,11 @@ class Client extends Model
     {
       $client = Client::find($id);
       if($client){
-        return $client->nick;
+        if($client->nick){
+          return $client->nick;
+        } else {
+          return $client->razon_social;
+        }
       }
     }
 

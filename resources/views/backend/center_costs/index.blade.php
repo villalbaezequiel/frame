@@ -44,7 +44,7 @@
               <tr class="item-alert-confirm-delete">
                 <td>{{ $center_cost->number }}</td>
                 <td>{{ $center_cost->name }}</td>
-                <td>{{ $center_cost->client }}</td>
+                <td>{{ App\Client::getNick($center_cost->client) }}</td>
                 <td>{{ \App\Helpers::getActive($center_cost->active) }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['center_costs.destroy', $center_cost->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}

@@ -27,6 +27,7 @@
                       <th scope="row">{{ $cost->number }}</th>
                       <td>{{ $cost->name }}</td>
                       <td>{{ $cost->client }}</td>
+                      <td>{{ App\Client::getNick($cost->client) }}</td>
                       <td>{{ App\Helpers::getActive($cost->assigne) }}</td>
                       <td>{{ App\Helpers::getActive($cost->active) }}</td>
                     </tr>
