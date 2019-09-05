@@ -134,7 +134,6 @@ class CenterCostsController extends Controller
         $center_cost->number = $request->get('number');
         $center_cost->name = $request->get('name');
         $center_cost->client = $request->get('client');
-        $center_cost->assigne = '0';
         $center_cost->active = $request->get('active');
         $center_cost->save();
 
