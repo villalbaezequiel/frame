@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Notifications\newCenterCost;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers;
+use App\User;
 use App\CenterCost;
 
 class CenterCostsController extends Controller
@@ -81,14 +83,23 @@ class CenterCostsController extends Controller
         $center_cost->save();
 
         // enviar notificicacion por mail cuando se crea un nuevo centro de costo
-        /*
+        if($center_cost){
+          $listUsersNoti = User::getAllCenterCostNotification();
+          foreach ($listUsersNoti as $user) {
 
-        */
+            $data = array(
+              'user' => $user,
+              'center_cost' => $center_cost
+            );
+
+            $user->notify(new newCenterCost($data));
+          }
+        }
 
         return redirect('/center_costs')->with('message', 'Centro de Costo creado con exito!');
 
       } catch(\Exception $e) {
-        Helpers::getCapturError($e);
+        echo $e->getMessage();
       }
     }
 

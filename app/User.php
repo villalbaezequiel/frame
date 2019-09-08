@@ -78,4 +78,17 @@ class User extends Authenticatable
       }
     }
 
+    static function getAllCenterCostNotification()
+    {
+      try {
+        $list = User::where('is_notification', '1')
+                      ->where('section_notification', 'center_cost')
+                      ->where('active', '1')
+                      ->get();
+        return $list;
+      } catch (\Exception $error) {
+
+      }
+    }
+
 }

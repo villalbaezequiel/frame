@@ -634,4 +634,14 @@ class Helpers extends Model
       return $strings;
     }
    }
+
+   static function typesSendNotifications()
+   {
+    $list = [
+      'owner_secure' => 'Responsable de Seguros',
+      'center_cost' => 'Centro de Costos'
+    ];
+
+    return $list;
+   }
 }

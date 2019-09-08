@@ -134,22 +134,9 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Rol Usuario <span class="required-red">*</span></label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="role_user" required>
-                    <option value="">Seleccionar</option>
-                    @foreach($roles as $rol)
-                    <option value="{{ $rol->id }}" <?php if(!empty($role_user) && $rol->id == $role_user->role_id){ echo "selected='selected'"; } ?>>{{ $rol->name }}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
-            </div>
 
             <div class="row">
-              <label class="col-md-2 col-form-label">Permisos Funcional </label>
+              <label class="col-md-2 col-form-label">Rol Usuario</label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="permissions[]" multiple>
@@ -166,6 +153,44 @@
                         } ?>>
                       {{ $permission }}</option>
                     @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <label class="col-md-2 col-form-label">Recibe Notificaciones?</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="is_notification">
+                    <option value="1" <?php if($user->is_notification == '1'){ echo "selected='selected'"; } ?>>Si</option>
+                    <option value="0" <?php if($user->is_notification == '0'){ echo "selected='selected'"; } ?>>No</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <label class="col-md-2 col-form-label">Tipo de Notificación</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="section_notification">
+                    <option value="">Seleccionar</option>
+                    @foreach(\App\Helpers::typesSendNotifications() as $key => $value)
+                      <option value="<?php echo $key; ?>" <?php if($user->section_notification == $key){ echo "selected='selected'"; } ?>> <?php echo $value; ?></option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <label class="col-md-2 col-form-label">Es Visible</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="is_visible" disabled>
+                    <option value="1" <?php if($user->is_visible == '1'){ echo "selected='selected'"; } ?>>Si</option>
+                    <option value="0" <?php if($user->is_visible == '0'){ echo "selected='selected'"; } ?>>No</option>
                   </select>
                 </div>
               </div>

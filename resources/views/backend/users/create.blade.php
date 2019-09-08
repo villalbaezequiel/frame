@@ -129,20 +129,7 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Rol Usuario <span class="required-red">*</span></label>
-              <div class="col-md-7">
-                <div class="form-group">
-                  <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="role_user" required>
-                    <option value="">Seleccionar</option>
-                    @foreach($roles as $rol)
-                    <option value="{{ $rol->id }}" <?php if(old('role_user') == $rol->id){ echo "selected='selected'"; } ?>>{{ $rol->name }}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-md-2 col-form-label">Permisos Funcional </label>
+              <label class="col-md-2 col-form-label">Rol Usuario </label>
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="permissions[]" multiple>
@@ -154,6 +141,33 @@
                 </div>
               </div>
             </div>
+
+            <div class="row">
+              <label class="col-md-2 col-form-label">Recibe Notificaciones?</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="is_notification">
+                    <option value="0" selected="selected">No</option>
+                    <option value="1">Si</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <label class="col-md-2 col-form-label">Tipo de Notificación</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="section_notification">
+                    <option value="">Seleccionar</option>
+                    @foreach(\App\Helpers::typesSendNotifications() as $key => $value)
+                      <option value="<?php echo $key; ?>"> <?php echo $value; ?></option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+
             <div class="row">
               <label class="col-md-2 col-form-label label-checkbox">Activo</label>
               <div class="col-md-10 checkbox-radios">

@@ -100,14 +100,10 @@ class UsersController extends Controller
           $user->id_country = $request->get('id_country');
           $user->password = Hash::make('frame_'.$request->get('cuit'));
           $user->permissions = ($request->get('permissions') ? json_encode($request->get('permissions')) : null);
+          $user->is_notification = $request->get('is_notification');
+          $user->section_notification = $request->get('section_notification');
           $user->active = $request->get('active');
           $user->save();
-
-          // create role user
-          $role_user = new RoleUser;
-          $role_user->role_id = $request->get('role_user');
-          $role_user->user_id = $user->id;
-          $role_user->save();
 
           return redirect("/users")->with('message', 'Usuario Creado con Exito!');
 
@@ -161,8 +157,7 @@ class UsersController extends Controller
     {
       return view('backend.users.edit',[
         'user' => User::find($id),
-        'roles' => Role::all(),
-        'role_user' => RoleUser::getRoleUser($id)
+        'roles' => Role::all()
       ]);
     }
 
@@ -202,21 +197,10 @@ class UsersController extends Controller
             $user->password = Hash::make($request->get('password'));
           }
           $user->permissions = ($request->get('permissions') ? json_encode($request->get('permissions')) : null);
+          $user->is_notification = $request->get('is_notification');
+          $user->section_notification = $request->get('section_notification');
           $user->active = $request->get('active');
           $user->save();
-
-          // update role users
-          if($request->get('role_user_id') == false){
-            $role_user = new RoleUser;
-            $role_user->role_id = $request->get('role_user');
-            $role_user->user_id = $id;
-            $role_user->save();
-          } else {
-            $role_user = RoleUser::find($request->get('role_user_id'));
-            $role_user->role_id = $request->get('role_user');
-            $role_user->user_id = $id;
-            $role_user->save();
-          }
 
           return redirect("/users/$id/edit")->with('message', 'Usuario Editado con Exito!');
 
@@ -258,8 +242,6 @@ class UsersController extends Controller
     public function destroy($id)
     {
       $user = User::find($id);
-        // destroy roles by user
-        $role_user = RoleUser::where('user_id', $id)->delete();
         // if Users is Provider, destroy
         $provider = Provider::where('id_user', $id)->delete();
       $user->delete();
