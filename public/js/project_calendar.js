@@ -144,7 +144,28 @@ $(function() {
           });
 
           $.each(list_crew, function(i, v){
-             $("#crew_hs_extra").append(`<option value="${v.id}">${v.name_user}</option>`);
+
+            let setBackground = false;
+
+            if(v.calendar){
+              $.each(v.calendar, function(c,d){
+                let eventTeamToday = new Date(d.start);
+
+                let dateStartFull = dateStart.getDate()+'-'+dateStart.getMonth()+'-'+dateStart.getFullYear();
+                let eventTeamTodayFull = eventTeamToday.getDate()+'-'+eventTeamToday.getMonth()+'-'+eventTeamToday.getFullYear();
+
+                if(dateStartFull == eventTeamTodayFull){
+                  setBackground = true;
+                }
+              });
+            }
+
+            if(setBackground){
+              $("#crew_hs_extra").append(`<option style="background: #5cb85c; color: #fff;" value="${v.id}">${v.name_user}</option>`);
+            } else {
+              $("#crew_hs_extra").append(`<option value="${v.id}">${v.name_user}</option>`);
+            }
+
           });
 
           $.each(frameJs.getTimeCalendar(), function(i, v){
