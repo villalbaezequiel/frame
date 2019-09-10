@@ -243,6 +243,7 @@ function showGroupTeams(element){
   let showTeams = $(element).data('group');
   let idProvider = $(element).data('idprovider');
 
+  // toggle cards != the cards teams this click
   $.each($('.group-more-team'), function(){
     if($(this).data('idprovider') != idProvider && !$(this).hasClass('group-yes')){
 
@@ -253,6 +254,10 @@ function showGroupTeams(element){
     }
   });
 
+  // scroll top
+  $('body,html').stop(true,true).animate({ scrollTop: $("#module_two").offset().top },1000);
+
+  // toggle cards teams this click
   $('.content-group-'+showTeams).toggleClass('d-flex').toggle('slow');
   $(element).find('span').toggle('slow');
 
