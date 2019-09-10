@@ -244,13 +244,13 @@ function showGroupTeams(element){
   let idProvider = $(element).data('idprovider');
 
   $.each($('.group-more-team'), function(){
-    if($(this).data('idprovider') != idProvider){
+    if($(this).data('idprovider') != idProvider && !$(this).hasClass('group-yes')){
       $(this).toggleClass('d-flex').toggle();
     }
   });
 
   $('.content-group-'+showTeams).toggleClass('d-flex').toggle('slow');
-  $(".toggle-button-group").toggle('slow');
+  $('.content-group-'+showTeams).children('toggle-button-group').toggle('slow');
 
 }
 
@@ -1107,6 +1107,7 @@ $(document).ready(function(){
             });
 
             cards.toggleClass('d-flex');
+            cards.addClass('group-yes');
             cards.addClass('content-group-'+i);
             cards.hide();
           }
