@@ -250,7 +250,7 @@ function showGroupTeams(element){
   });
 
   $('.content-group-'+showTeams).toggleClass('d-flex').toggle('slow');
-  $('.content-group-'+showTeams).children('toggle-button-group').toggle('slow');
+  $(element).find('span').toggle('slow');
 
 }
 
@@ -1116,7 +1116,7 @@ $(document).ready(function(){
     });
 
     $.each(removeDumplicateValue(cardsAppend), function(i, v){
-      $('.list_crew_view').append(`<div class="col-md-4 d-flex">
+      $('.list_crew_view').append(`<div class="col-md-4 d-flex group-more-team">
           <div class="card mb-3">
             <div class="card-header card-section-color">
               Grupo de Team
