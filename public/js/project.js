@@ -224,6 +224,36 @@ function getTemplateHourExtras(){
   return formSwal;
 }
 
+function removeDumplicateValue(myArray)
+{
+  var newArray = [];
+  $.each(myArray, function(key, value) {
+    var exists = false;
+
+    $.each(newArray, function(k, val2) {
+      if(value.id == val2.id){ exists = true };
+    });
+    if(exists == false && value.id != "") { newArray.push(value); }
+  });
+
+  return newArray;
+}
+
+function showGroupTeams(element){
+  let showTeams = $(element).data('group');
+  let idProvider = $(element).data('idprovider');
+
+  $.each($('.group-more-team'), function(){
+    if($(this).data('idprovider') != idProvider){
+      $(this).toggleClass('d-flex').toggle();
+    }
+  });
+
+  $('.content-group-'+showTeams).toggleClass('d-flex').toggle('slow');
+  $(".toggle-button-group").toggle('slow');
+
+}
+
 $(document).ready(function(){
 
   // input validate
@@ -1051,5 +1081,56 @@ $(document).ready(function(){
     // update all select
     $('.selectpicker').selectpicker('refresh');
   });
+
+    //
+    let cardsEq = {};
+    $(".group-more-team").each(function() {
+      if (this.id != '') {
+        cardsEq[this.id] = (cardsEq[this.id] || 0) + 1;
+      }
+    });
+
+    let cardsAppend = [];
+
+    $(".group-more-team").each(function() {
+      let idProvider = $(this).data('idprovider');
+      let cards = $(this);
+
+      for(var i in cardsEq) {
+        if(cardsEq[i] > 1) {
+          if('item_view_'+idProvider == i) {
+
+            cardsAppend.push({
+              "id": i,
+              "idprovider": cards.data('idprovider'),
+              "name": cards.data('name')
+            });
+
+            cards.toggleClass('d-flex');
+            cards.addClass('content-group-'+i);
+            cards.hide();
+          }
+        }
+      }
+    });
+
+    $.each(removeDumplicateValue(cardsAppend), function(i, v){
+      $('.list_crew_view').append(`<div class="col-md-4 d-flex">
+          <div class="card mb-3">
+            <div class="card-header card-section-color">
+              Grupo de Team
+            </div>
+            <div class="card-body align-items-center d-flex justify-content-center">
+              <h4 class="card-title">${v.name}</h4>
+            </div>
+            <div class="card-footer pt-0">
+              <button data-group="${v.id}" data-idprovider="${v.idprovider}" onclick="showGroupTeams(this);" type="button" class="btn btn-link" style="margin: 0 auto;border: 1px solid #ff9800;">
+                <span class="toggle-button-group">Ver Grupo</span>
+                <span class="toggle-button-group" style="display: none;">Ocultar Grupo</span>
+              </button>
+            </div>
+          </div>
+        </div>`);
+    });
 
 });

@@ -480,7 +480,7 @@
                 <h5 class="info-text" id="ancla_list_crew_view" > Lista de Team </h5>
                 <div class="row justify-content-center list_crew_view" style="margin-top: -22px;">
                   @foreach($list_crew as $item_crew)
-                    <div class="col-md-4 d-flex" id="item_view_{{ $item_crew->id_provider }}">
+                    <div class="col-md-4 d-flex group-more-team" data-idprovider="{{ $item_crew->id_provider }}" data-name="{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}" id="item_view_{{ $item_crew->id_provider }}">
                       <div class="card mb-3">
                         <div class="card-header card-section-color edit-text-function_frame">
                           {{ \App\FrameFunction::getName($item_crew->id_function_frame) }}
