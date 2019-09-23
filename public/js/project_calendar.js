@@ -51,6 +51,22 @@ function getOptionTeam()
   return formSwal;
 }
 
+function getDateSelect()
+{
+
+  let formSwal =
+    `<div class="row">
+        <label class="col-sm-5 col-form-label text-right">Fecha (mes/dia/año):</label>
+        <div class="col-sm-5">
+          <div class="form-group">
+            <input type="date" id="hs-extras-button" name="hs-extras-button">
+          </div>
+        </div>
+      </div>`;
+
+  return formSwal;
+}
+
 $(function() {
 
   let listEvents = [];
@@ -382,5 +398,167 @@ $(function() {
     }
 
   });
+
+  $("#add-hs-extras-button").click(function()
+  {
+    swal({
+      title: "Seleccionar Fecha",
+      html: getDateSelect(),
+      showCancelButton: true,
+      confirmButtonText: 'Continuar',
+      confirmButtonClass: "btn btn-success",
+      cancelButtonClass: "btn btn-danger",
+      buttonsStyling: !1,
+    })
+    .then(function(status){
+      if(status.value)
+      {
+
+        if(!$("input[name='hs-extras-button']").val()){
+
+          Swal.fire({
+            title: 'Debes seleccionar una Fecha para avanzar con el Formulario',
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar'
+          });
+
+          return false;
+        }
+
+        let dateStart = new Date($("input[name='hs-extras-button']").val());
+        dateStart.setDate(dateStart.getDate() + 1);
+
+        let dateFinish = new Date($("input[name='hs-extras-button']").val());
+        dateFinish.setDate(dateFinish.getDate() + 1);
+
+        swal({
+          title: "Agregar horas extra",
+          html: getOptionTeam(),
+          showCancelButton: !0,
+          confirmButtonClass: "btn btn-success",
+          cancelButtonClass: "btn btn-danger",
+          buttonsStyling: !1,
+          onBeforeOpen: () => {
+
+            // add 'rol a desempeñar' funciones frame
+            $.ajax({
+              type: 'GET',
+              url: '/sistema/json/get_function_frame',
+              success: function(data){
+                if(data.results){
+                  $.each(data.results, function(i, v){
+                    $("#rol_hs_extra").append(`<option value="${v.id}">${v.name}</option>`);
+                  });
+                }
+              },
+              error: function(xhr, status){
+                console.log('Error: '+xhr);
+              }
+            });
+
+            $.each(list_crew, function(i, v){
+
+              let setBackground = false;
+
+              if(v.calendar){
+                $.each(v.calendar, function(c,d){
+                  let eventTeamToday = new Date(d.start);
+                  let dateStartFull = dateStart.getDate()+'-'+dateStart.getMonth()+'-'+dateStart.getFullYear();
+                  let eventTeamTodayFull = eventTeamToday.getDate()+'-'+eventTeamToday.getMonth()+'-'+eventTeamToday.getFullYear();
+
+                  if(dateStartFull == eventTeamTodayFull){
+                    setBackground = true;
+                  }
+                });
+              }
+
+              if(setBackground){
+                $("#crew_hs_extra").append(`<option style="background: #5cb85c; color: #fff;" value="${v.id}">${v.name_user}</option>`);
+              } else {
+                $("#crew_hs_extra").append(`<option value="${v.id}">${v.name_user}</option>`);
+              }
+
+            });
+
+            $.each(frameJs.getTimeCalendar(), function(i, v){
+              $("#inicio_hs_extra").append(`<option value="${v}">${v}</option>`);
+            });
+
+            $.each(frameJs.getTimeCalendar(), function(i, v){
+              $("#final_hs_extra").append(`<option value="${v}">${v}</option>`);
+            });
+
+            $('.selectpicker').selectpicker('refresh');
+          }
+        })
+        .then(function(data){
+
+          if(data.value){
+            // ajax SAVE horas extras
+
+            let crew = $("#crew_hs_extra").val();
+            let start = $("#inicio_hs_extra").find(':selected').val().split(':');
+            let finish = $("#final_hs_extra").find(':selected').val().split(':');
+            let rol = $("#rol_hs_extra").find(':selected').val();
+
+            if(crew && start && finish){
+
+              dateStart.setHours(parseFloat(start[0]),parseFloat(start[1]),'00');
+              dateFinish.setHours(parseFloat(finish[0]),parseFloat(finish[1]),'00');
+
+              let extraHours = {
+                crew: crew,
+                rol: rol,
+                start: dateStart,
+                finish: dateFinish
+              }
+
+              $.ajax({
+                type: 'POST',
+                url: '/sistema/json/project_providers/extra_hours',
+                data: extraHours,
+                success: function(data){
+
+                  if(data.status)
+                  {
+                    Swal.fire({
+                      title: 'Horas Extras ingresadas con Exito!',
+                      type: 'info',
+                      showCancelButton: false,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Aceptar'
+                    });
+                  }
+                },
+                error: function(xhr, status){
+                  console.log('Error: '+xhr);
+                }
+              });
+
+            } else {
+              Swal.fire({
+                title: 'Para Agregar horas extras a un Team debes completar los datos mencionados en el Formulario! Gracias.',
+                type: 'info',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar'
+              });
+            }
+
+          }
+
+        })
+        .catch(swal.noop)
+
+      }
+
+    });
+  });
+
 
 });

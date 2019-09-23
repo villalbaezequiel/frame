@@ -5,6 +5,8 @@
 @section('content')
 <div class="container-fluid">
 
+  <a id="add-hs-extras-button" href="javascript:void(0)" class="btn btn-primary">Agregar Horas</a>
+
   <div class="header text-center">
     <h3 class="title">{{ $project->name }}</h3>
     <p class="category">{{ $project->description }}</p>
