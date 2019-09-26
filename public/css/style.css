@@ -138,6 +138,15 @@
   .fixed-plugin {
     display: none!important;
   }
+
+  .dropdown-menu.show {
+    left: 1px!important;
+    width: 100%!important;
+  }
+  .dropdown-item {
+    white-space: normal!important;
+  }
+
 }
 
 @media screen and (max-width: 550px) {
