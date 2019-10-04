@@ -67,3 +67,22 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Credenciales
+
+**HOSTING**
+- url: https://mipanel.ferozo.com/login
+- user: c0920350
+- password: pafoDEto78
+
+**SSH**
+- host: 66.97.38.23
+- port: 5328
+- user: root
+- pass: yJAbQ7wx2N4x
+- path: /home/c0920350/
+
+**DB**
+- DB_name: frame_sistema
+- DB_user: u_frame_sistema
+- DB_password: j42jUWjnavMxVHaW
