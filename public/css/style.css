@@ -1,3 +1,19 @@
+html, body {
+  text-transform: uppercase!important;
+}
+
+.sidebar .user .user-info > a, .sidebar .nav p {
+  font-size: 13.5px!important;
+}
+
+.card [class*="card-header-"] .card-text .card-title {
+  font-size: 13.5px !important;
+}
+
+.col-form-label {
+  font-size: 13.5px!important;
+}
+
 .tim-row{
     margin-bottom: 20px;
 }
@@ -17,7 +33,7 @@
     color: #c0c1c2;
     display: block;
     font-weight: 400;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 13px;
     left: 0;
     position: absolute;
@@ -41,7 +57,7 @@
     color: #c0c1c2;
     display: block;
     font-weight: 400;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 15px;
     left: 0;
     margin-left: 20px;
