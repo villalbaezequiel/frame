@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth']], function () {
   Route::resource('/utilities/studies', 'Backend\UtilitiesStudiesController');
   Route::resource('/utilities/workdays', 'Backend\UtilitiesWorkdaysController');
   Route::resource('/center_costs', 'Backend\CenterCostsController');
+  Route::resource('/reports', 'Backend\ReportsController');
 
   // export
   Route::get('/export/crew_contract/{id_project_provider}', 'Backend\ExportController@crewContract');
@@ -86,6 +87,10 @@ Route::group(['middleware' => ['auth']], function () {
   Route::post('/json/project_providers/extra_hours', 'Backend\JsonController@storeExtraHours');
   Route::post('/json/remove_hs_extra', 'Backend\JsonController@postRemoveHsExtra');
   Route::post('/json/edit_team_project', 'Backend\JsonController@updateTeamProject');
+
+
+  // export
+  Route::get('/export/report/{id}', 'Backend\ExportController@exportReport')->name('export_report.show');
 
 
 /* ----- AUTH ----- */

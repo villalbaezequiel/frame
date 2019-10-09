@@ -48,7 +48,8 @@ class RoleUser extends Model
       '4' => 'Clientes',
       '5' => 'Categorías Sat / Funciones Frame',
       '6' => 'Usuarios',
-      '7' => 'Utilidades'
+      '7' => 'Utilidades',
+      '8' => 'Reportes'
     ];
     return $listRoles;
   }

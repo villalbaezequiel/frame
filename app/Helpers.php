@@ -644,4 +644,12 @@ class Helpers extends Model
 
     return $list;
    }
+
+   static function setTransformDateTimestamp($date, $separartor = '/')
+   {
+      $setDate = explode($separartor, $date);
+      $dateTransform = $setDate[2].'-'.$setDate[1].'-'.$setDate[0].' 00:00:00';
+
+      return $dateTransform;
+   }
 }
