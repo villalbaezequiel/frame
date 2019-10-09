@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Helpers;
+use App\Notifications\Report as SendReport;
+use App\User;
 use App\Report;
+use App\CenterCost;
 use App\Project;
+use App\Helpers;
 
 class ReportsController extends Controller
 {
@@ -71,6 +74,8 @@ class ReportsController extends Controller
     public function store(Request $request)
     {
       try {
+        // obtengo el Projecto con el ID de Centro de Costo
+        // id_project = id_centercost
         $project = Project::getProjectByCenterCost($request->get('id_project'));
         $projectId = $project->id;
         $from = Helpers::setTransformDateTimestamp($request->get('from'));
@@ -87,36 +92,37 @@ class ReportsController extends Controller
         $report->count_repeat = 0;
         $report->save();
 
-        if($request->get('action') == 'download')
-        {
-          switch ($type) {
-            case 'information_project':
-              Report::exportProject($projectId, $from, $to);
-              break;
-            case 'extra_hours':
-              Report::exportExtraHours($projectId, $from, $to);
-              break;
-            case 'contract_secure':
-              Report::exportContractSecure($projectId, $from, $to);
-              break;
-            case 'contracts':
-              // exclude contracts type services. ID = 4
-              Report::exportProject($projectId, $from, $to, '4');
-              break;
-            default:
-              Report::exportProject($projectId, $from, $to);
-              break;
-          }
+        if($request->get('action') == 'download'){
+
+          return redirect('/reports')->with([
+            'message' => 'Reporte creado con exito!',
+            'download' => url('/export/report/'.$report->id)
+          ]);
+
         } else {
           // send by mail
+          try {
+
+            $data = [
+              'center_cost' => CenterCost::getNumber($request->get('id_project')),
+              'type_report' => Report::getType($request->get('type')),
+              'from'        => $request->get('from'),
+              'to'          => $request->get('to'),
+              'report_id'   => $report->id
+            ];
+
+            $user = new User;
+            $user->email = $request->get('send_email');
+            $user->notify(new SendReport($data));
+
+            return redirect('/reports')->with('message', 'Reporte creado y enviado con exito!');
+
+          } catch (\Exception $e) {
+            return redirect('/reports')->with('message', 'Reporte creado con exito! Hubo un error en enviar el Reporte por Mail.');
+          }
         }
 
-        return redirect('/reports')->with('message', 'Reporte creado con exito!');
-
       } catch(\Exception $e) {
-        var_dump($e);
-        die();
-
         Helpers::getCapturError($e);
       }
     }

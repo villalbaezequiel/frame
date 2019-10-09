@@ -32,7 +32,7 @@
                 <div class="form-file-upload">
                   <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="id_project" required>
                     @foreach(\App\CenterCost::getAllAssigne() as $centerCost)
-                      <option value="{{ $centerCost->id }}">{{ $centerCost->name }}</option>
+                      <option value="{{ $centerCost->id }}">{{ $centerCost->number }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -86,15 +86,15 @@
               <label class="col-md-2 col-form-label">Email Destinatario</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="send_email">
+                  <input class="form-control" type="email" name="send_email">
                 </div>
               </div>
             </div>
 
-            <div class="row">
-              <div class="col-md-7">
-                <p><i>* El rango de Fechas, <strong>Desde y Hasta</strong>, se tomará en cuenta con el Criterio que fueron Inicializado e Relacionado al Proyecto.</i></p>
-                <p><i>* <strong>'Informacion de Proyecto', 'Contratos Seguros' y 'Contratos Plazo Fijo, Eventual y Tiempo indeterminado':</strong> se agrupará con el Criterio que fueron Inicializado e Relacionado al Proyecto.</i></p>
+            <div class="mt-3" style="background-color: rgba(0,0,0,.05);">
+              <div class="col-md-12 p-3">
+                <p class="text-left"><i>* El rango de Fechas, <strong>Desde y Hasta</strong>, se tomará en cuenta con el Criterio que fueron Inicializado e Relacionado al Proyecto.</i></p>
+                <p class="text-left"><i>* <strong>'Informacion de Proyecto', 'Contratos Seguros' y 'Contratos Plazo Fijo, Eventual y Tiempo indeterminado':</strong> se agrupará con el Criterio que fueron Inicializado e Relacionado al Proyecto.</i></p>
               </div>
             </div>
 

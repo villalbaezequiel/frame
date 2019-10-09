@@ -28,6 +28,7 @@
               </div>
             </div>
           @endif
+
           <table id="datatables" class="table table-hover table-striped table-bordered nowrap" style="width:100%">
             <thead>
               <tr>
@@ -63,6 +64,15 @@
 </div>
 @endsection
 @section('javascript')
+
+@if (session('download'))
+  <input type="hidden" name="file_download" value="{{ session('download') }}">
+  <script>
+    let download = $('input[name=file_download]').val();
+    window.open(download);
+  </script>
+@endif
+
 <script>
 $(document).ready(function(){
   $(".alert-confirm-delete").submit(function(e) {

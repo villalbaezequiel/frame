@@ -283,7 +283,7 @@ class Report extends Model
           })->download();
 
         } else {
-          return back()->with("message", "No se encontraron Horas Extras para los Teams del Proyecto Seleccionado.");
+          return false;
         }
 
       } catch(\Exception $e) {
@@ -351,7 +351,8 @@ class Report extends Model
 
           })->download();
         } else {
-          return back()->with("message", "No se encontraron Horas Extras para los Teams del Proyecto Seleccionado.");
+          // No se encontraron Horas Extras para los Teams del Proyecto Seleccionado.
+          return false;
         }
 
       } catch(\Exception $e) {
@@ -687,7 +688,7 @@ class Report extends Model
 
           })->download();
         } else {
-          return back()->with("message", "No se encontraron Horas Extras para los Teams del Proyecto Seleccionado.");
+          return false;
         }
 
       } catch(\Exception $e) {

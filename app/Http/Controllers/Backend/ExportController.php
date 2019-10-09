@@ -22,6 +22,7 @@ use App\ProyectCategory;
 use App\RoleUser;
 use App\Study;
 use App\CenterCost;
+use App\Report;
 use DateTime;
 
 class ExportController extends Controller
@@ -1225,6 +1226,46 @@ class ExportController extends Controller
           }
 
         })->download();
+
+      } catch(\Exception $e) {
+        Helpers::getCapturError($e);
+      }
+    }
+
+    public function exportReport($id)
+    {
+      try {
+
+        $report = Report::find($id);
+
+        if(!$report){
+          echo "El Reporte a Descargar ya no se encuentra disponible!";
+          return "<script>setTimeout('window.close()',2500);</script>";
+        }
+
+        $report->count_repeat = ($report->count_repeat + 1);
+        $report->save();
+
+        switch ($report->type) {
+          case 'information_project':
+            Report::exportProject($report->id_project, $report->from, $report->to);
+            break;
+          case 'extra_hours':
+            Report::exportExtraHours($report->id_project, $report->from, $report->to);
+            break;
+          case 'contract_secure':
+            Report::exportContractSecure($report->id_project, $report->from, $report->to);
+            break;
+          case 'contracts':
+            // exclude contracts type services. ID = 4
+            Report::exportProject($report->id_project, $report->from, $report->to, '4');
+            break;
+          default:
+            Report::exportProject($report->id_project, $report->from, $report->to);
+            break;
+        }
+
+        return "<script>window.close();</script>";
 
       } catch(\Exception $e) {
         Helpers::getCapturError($e);

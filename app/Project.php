@@ -87,6 +87,7 @@ class Project extends Model
 
     static function getProjectByCenterCost($centerCost)
     {
+      // id center cost
       $project = Project::where('cost_center', $centerCost)->first();
 
       if($project){

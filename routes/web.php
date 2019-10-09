@@ -89,6 +89,10 @@ Route::group(['middleware' => ['auth']], function () {
   Route::post('/json/edit_team_project', 'Backend\JsonController@updateTeamProject');
 
 
+  // export
+  Route::get('/export/report/{id}', 'Backend\ExportController@exportReport')->name('export_report.show');
+
+
 /* ----- AUTH ----- */
   // register crew
   Route::post('/crew/store', 'Backend\ProvidersController@store')->name('crew.store');
