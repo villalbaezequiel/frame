@@ -1,5 +1,20 @@
 html, body {
   text-transform: uppercase!important;
+  font-size: 13.5px!important;
+}
+
+.swal2-popup .swal2-title {
+  text-transform: uppercase!important;
+  font-size: 27px!important;
+}
+
+.swal2-popup .swal2-actions button {
+  text-transform: uppercase!important;
+  font-size: 13.5px!important;
+}
+
+.btn {
+  font-size: 13.5px!important;
 }
 
 .sidebar .user .user-info > a, .sidebar .nav p {
