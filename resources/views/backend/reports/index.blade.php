@@ -48,7 +48,7 @@
                 <td>{{ $report->to }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['reports.destroy', $report->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
-                    {{-- <a href="{{ url('/reports/'.$report->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Repetir Descarga"><i class="material-icons">cloud_download</i></a> --}}
+                    <a href="{{ url('/export/report/'.$report->id) }}" class="btn btn-link btn-warning btn-just-icon edit" title="Descargar"><i class="material-icons">cloud_download</i></a>
                     <button type="submit" class="btn btn-link btn-danger btn-just-icon remove" title="Eliminar"><i class="material-icons">close</i></button>
                   {!! Form::close() !!}
                 </td>
