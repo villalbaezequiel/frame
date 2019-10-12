@@ -645,10 +645,10 @@ class Helpers extends Model
     return $list;
    }
 
-   static function setTransformDateTimestamp($date, $separartor = '/')
+   static function setTransformDateTimestamp($date, $separartor = '/', $hour = '00:00:00')
    {
       $setDate = explode($separartor, $date);
-      $dateTransform = $setDate[2].'-'.$setDate[1].'-'.$setDate[0].' 00:00:00';
+      $dateTransform = $setDate[2].'-'.$setDate[1].'-'.$setDate[0].' '.$hour;
 
       return $dateTransform;
    }

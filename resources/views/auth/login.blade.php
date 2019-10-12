@@ -11,7 +11,7 @@
         <img src="{{ asset('img/logo.svg') }}" />
       </div>
 
-      <div class="card card-login">
+      <div class="card">
         <div class="card-header card-header-primary text-center">
           <h4 class="card-title">Iniciar Sesión</h4>
           <!-- <div class="social-line">

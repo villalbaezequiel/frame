@@ -1239,33 +1239,42 @@ class ExportController extends Controller
         $report = Report::find($id);
 
         if(!$report){
-          echo "El Reporte a Descargar ya no se encuentra disponible!";
-          return "<script>setTimeout('window.close()',2500);</script>";
+          return view('frontend.status', [
+            'message' => 'El Reporte a Descargar ya no se encuentra disponible!'
+          ]);
         }
 
         $report->count_repeat = ($report->count_repeat + 1);
         $report->save();
 
+        $reportDownload = '';
+
         switch ($report->type) {
           case 'information_project':
-            Report::exportProject($report->id_project, $report->from, $report->to);
+            $reportDownload = Report::exportProject($report->id_project, $report->from, $report->to);
             break;
           case 'extra_hours':
-            Report::exportExtraHours($report->id_project, $report->from, $report->to);
+            $reportDownload = Report::exportExtraHours($report->id_project, $report->from, $report->to);
             break;
           case 'contract_secure':
-            Report::exportContractSecure($report->id_project, $report->from, $report->to);
+            $reportDownload = Report::exportContractSecure($report->id_project, $report->from, $report->to);
             break;
           case 'contracts':
             // exclude contracts type services. ID = 4
-            Report::exportProject($report->id_project, $report->from, $report->to, '4');
+            $reportDownload = Report::exportProject($report->id_project, $report->from, $report->to, '4');
             break;
           default:
-            Report::exportProject($report->id_project, $report->from, $report->to);
+            $reportDownload = Report::exportProject($report->id_project, $report->from, $report->to);
             break;
         }
 
-        return "<script>window.close();</script>";
+        if($reportDownload){
+          return $reportDownload;
+        } else {
+          return view('frontend.status', [
+            'message' => 'No encontramos Información para el Reporte a Descargar!'
+          ]);
+        }
 
       } catch(\Exception $e) {
         Helpers::getCapturError($e);
