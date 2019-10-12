@@ -79,7 +79,7 @@ class ReportsController extends Controller
         $project = Project::getProjectByCenterCost($request->get('id_project'));
         $projectId = $project->id;
         $from = Helpers::setTransformDateTimestamp($request->get('from'));
-        $to = Helpers::setTransformDateTimestamp($request->get('to'));
+        $to = Helpers::setTransformDateTimestamp($request->get('to'), '/', '23:59:00');
         $type = $request->get('type');
 
         $report = new Report;
