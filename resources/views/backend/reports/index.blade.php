@@ -34,6 +34,7 @@
               <tr>
                 <th>C. Costo</th>
                 <th>Tipo</th>
+                <th>Mail</th>
                 <th>Desde</th>
                 <th>Hasta</th>
                 <th class="text-right">Acciones</th>
@@ -44,8 +45,9 @@
               <tr class="item-alert-confirm-delete">
                 <td>{{ \App\Project::getCenterCost($report->id_project) }}</td>
                 <td>{{ \App\Report::getType($report->type) }}</td>
-                <td>{{ $report->from }}</td>
-                <td>{{ $report->to }}</td>
+                <td>{{ \App\Report::getSendForMail($report->action) }}</td>
+                <td>{{ \App\Helpers::getDateParseFormat($report->from, '/').' 00:00' }}</td>
+                <td>{{ \App\Helpers::getDateParseFormat($report->to, '/').' 23:59' }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['reports.destroy', $report->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
                     <a href="{{ url('/export/report/'.$report->id) }}" target="_blank" class="btn btn-link btn-warning btn-just-icon edit" title="Descargar"><i class="material-icons">cloud_download</i></a>

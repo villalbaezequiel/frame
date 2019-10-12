@@ -41,6 +41,15 @@ class Report extends Model
       return $list[$key];
     }
 
+    static function getSendForMail($action)
+    {
+      if($action != 'download'){
+        return 'Si';
+      } else {
+        return 'No';
+      }
+    }
+
     static function exportProject($id_project, $from = null, $to = null, $exclude = null)
     {
       try {
