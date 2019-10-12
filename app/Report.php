@@ -351,7 +351,6 @@ class Report extends Model
 
           })->download();
         } else {
-          // No se encontraron Horas Extras para los Teams del Proyecto Seleccionado.
           return false;
         }
 
