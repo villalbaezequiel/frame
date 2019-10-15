@@ -257,11 +257,7 @@
                         <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_workday">
                           <option value="">Seleccionar</option>
                           @foreach(\App\Workday::getAllWorkdays() as $workday)
-                          <option
-                            <?php if($workday->day): ?>
-                            data-day="{{ $workday->day }}"
-                            <?php endif; ?>
-                            value="{{ $workday->id }}">{{ $workday->name }}<?php if($workday->day && $workday->day != 1){ echo " (".$workday->day." dias)";} ?></option>
+                            <option value="{{ $workday->id }}" data-mode="{{ $workday->mode }}">{{ $workday->name }}</option>
                           @endforeach
                         </select>
                       </div>
