@@ -3,6 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 
 class Workday extends Model
 {
@@ -38,6 +41,31 @@ class Workday extends Model
       $list = self::getTypeWorkMode();
 
       return $list[$key];
+    }
+
+    static public function getCalendarWeekends($startDate, $endDate, $hour = '00:00', $excludeLastDay = false)
+    {
+        $start = new DateTime($startDate);
+        $end = new DateTime($endDate);
+        $oneday = new DateInterval("P1D");
+        $days = array();
+
+        foreach(new DatePeriod($start, $oneday, $end->add($oneday)) as $day)
+        {
+          $day_num = $day->format("N"); /* 'N' number days 1 (mon) to 7 (sun) */
+          if($day_num < 6) { /* weekday */
+              $days[$day->format("Y-m-d")] = array(
+                'start' => $day->format("Y-m-d")." ".$hour.":00",
+                'finish' => $day->format("Y-m-d")." ".$hour.":00"
+              );
+          }
+        }
+
+        if($excludeLastDay) {
+          array_pop($days);
+        }
+
+        return $days;
     }
 
 }

@@ -327,6 +327,7 @@ $(document).ready(function(){
     let start_date_contract = $('input[name=start_date_contract]').val(); // required
     let finish_date_contract = $('input[name=finish_date_contract]').val(); // required
     let id_workday = $('select[name=id_workday]').val(); // required
+    let mode_workday = $('select[name=id_workday] option:selected').data('mode');
     let count_workdays_crew = $('input[name=count_workdays_crew]').val(); // required
 
     let hour_initial = $('select[name=hour_initial]').val();
@@ -361,15 +362,12 @@ $(document).ready(function(){
     {
 
       // validate workday mode
-      let modeWorkday = $('select[name=id_workday] option:selected').data('mode');
       let startDateContract = moment(convertDateYYMMDD(start_date_contract));
       let endDateContract = moment(convertDateYYMMDD(finish_date_contract));
 
       let diffDatesContract = endDateContract.diff(startDateContract, 'days');
 
-      console.log(diffDatesContract);
-
-      if(modeWorkday == 'week-5'){
+      if(mode_workday == 'week-5'){
         if(diffDatesContract != 4)
         {
           Swal.fire({
@@ -385,7 +383,7 @@ $(document).ready(function(){
         }
       }
 
-      if(modeWorkday == 'week-7'){
+      if(mode_workday == 'week-7'){
         if(diffDatesContract != 6)
         {
           Swal.fire({
@@ -410,6 +408,7 @@ $(document).ready(function(){
         'start_date_contract': start_date_contract,
         'finish_date_contract': finish_date_contract,
         'id_workday': id_workday,
+        'mode_workday': mode_workday,
         'count_workdays_crew': count_workdays_crew,
         'hour_initial': hour_initial,
         'hour_end': hour_end,
