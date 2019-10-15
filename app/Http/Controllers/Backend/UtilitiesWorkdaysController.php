@@ -46,7 +46,7 @@ class UtilitiesWorkdaysController extends Controller
      public function index()
      {
        return view('backend.workdays.index', [
-         'workdays' => Workday::orderBy('day', 'DESC')->get()
+         'workdays' => Workday::orderBy('id', 'DESC')->get()
        ]);
      }
 
@@ -73,7 +73,7 @@ class UtilitiesWorkdaysController extends Controller
            // New Workday
            $workday = new Workday;
            $workday->name = $request->get('name');
-           $workday->day = $request->get('day');
+           $workday->mode = $request->get('mode');
            $workday->description = $request->get('description');
            $workday->active = $request->get('active');
            $workday->save();
@@ -135,7 +135,7 @@ class UtilitiesWorkdaysController extends Controller
            // Update Workday
            $workday = Workday::find($id);
            $workday->name = $request->get('name');
-           $workday->day = $request->get('day');
+           $workday->mode = $request->get('mode');
            $workday->description = $request->get('description');
            $workday->active = $request->get('active');
            $workday->save();

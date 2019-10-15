@@ -88,6 +88,14 @@ function getTemplateTeam(idTeam, functionFrame, name, categorySat, dates, contra
           </div>`);
 }
 
+
+function convertDateYYMMDD(date, separator = '/', separatorConvert = '-')
+{
+  let parse = date.split(separator);
+
+  return parse[2]+'-'+parse[1]+'-'+parse[0];
+}
+
 function setCardTeamIsset(idCard, function_frame, category_sat, dates, contract, active, puesto){
   $("#item_view_"+idCard+" .edit-text-function_frame").text(function_frame);
   $("#item_view_"+idCard+" .edit-text-category_sat").text(category_sat);
@@ -319,6 +327,7 @@ $(document).ready(function(){
     let start_date_contract = $('input[name=start_date_contract]').val(); // required
     let finish_date_contract = $('input[name=finish_date_contract]').val(); // required
     let id_workday = $('select[name=id_workday]').val(); // required
+    let mode_workday = $('select[name=id_workday] option:selected').data('mode');
     let count_workdays_crew = $('input[name=count_workdays_crew]').val(); // required
 
     let hour_initial = $('select[name=hour_initial]').val();
@@ -352,6 +361,44 @@ $(document).ready(function(){
         salary_daily && salary_liquidate && salaty_difference)
     {
 
+      // validate workday mode
+      let startDateContract = moment(convertDateYYMMDD(start_date_contract));
+      let endDateContract = moment(convertDateYYMMDD(finish_date_contract));
+
+      let diffDatesContract = endDateContract.diff(startDateContract, 'days');
+
+      if(mode_workday == 'week-5'){
+        if(diffDatesContract != 4)
+        {
+          Swal.fire({
+            title: 'Haz seleccionado la Modalidad Semana por 5 dias. Por favor corrija las fechas de Contrato para que coincidan con los Dias mencionados!',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar'
+          });
+
+          return false;
+        }
+      }
+
+      if(mode_workday == 'week-7'){
+        if(diffDatesContract != 6)
+        {
+          Swal.fire({
+            title: 'Haz seleccionado la Modalidad Semana por 7 dias. Por favor corrija las fechas de Contrato para que coincidan con los Dias mencionados!',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar'
+          });
+
+          return false;
+        }
+      }
+
       // object crew
       let crew = {
         'id_function_frame': id_function_frame,
@@ -361,6 +408,7 @@ $(document).ready(function(){
         'start_date_contract': start_date_contract,
         'finish_date_contract': finish_date_contract,
         'id_workday': id_workday,
+        'mode_workday': mode_workday,
         'count_workdays_crew': count_workdays_crew,
         'hour_initial': hour_initial,
         'hour_end': hour_end,

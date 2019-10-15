@@ -35,10 +35,14 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-md-2 col-form-label">Dias</label>
-              <div class="col-md-7">
+              <label class="col-md-2 col-form-label">Modalidad <span class="required-red">*</span></label>
+                <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="number" name="day" value="{{ $workday->day }}" maxlength="125">
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="mode" required>
+                    @foreach(\App\Workday::getTypeWorkMode() as $key => $val)
+                    <option value="{{ $key }}" <?php if($workday->mode == $key){ echo "selected='selected'"; } ?>>{{ $val }}</option>
+                    @endforeach
+                  </select>
                 </div>
               </div>
             </div>

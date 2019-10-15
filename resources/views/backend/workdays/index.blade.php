@@ -32,7 +32,7 @@
             <thead>
               <tr>
                 <th>Nombre</th>
-                <th>Dias</th>
+                <th>Modalidad</th>
                 <th>Activo</th>
                 <th class="text-right">Acciones</th>
               </tr>
@@ -41,7 +41,7 @@
               @foreach($workdays as $workday)
               <tr class="item-alert-confirm-delete">
                 <td>{{ $workday->name }}</td>
-                <td>{{ $workday->day }}</td>
+                <td>{{ \App\Workday::getMode($workday->mode) }}</td>
                 <td>{{ \App\Helpers::getActive($workday->active) }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['workdays.destroy', $workday->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
