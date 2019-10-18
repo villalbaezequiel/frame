@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth']], function () {
   Route::resource('/providers', 'Backend\ProvidersController');
   Route::resource('/workers_categories', 'Backend\WorkersCategoriesController');
   Route::resource('/frame_functions', 'Backend\FrameFunctionsController');
+  Route::resource('/center_costs', 'Backend\CenterCostsController');
   Route::resource('/utilities/contracts', 'Backend\UtilitiesContractsController');
   Route::resource('/utilities/countries', 'Backend\UtilitiesCountriesController');
   Route::resource('/utilities/proyect_categories', 'Backend\UtilitiesProyectCategoriesController');
@@ -44,6 +45,7 @@ Route::group(['middleware' => ['auth']], function () {
   Route::resource('/utilities/workdays', 'Backend\UtilitiesWorkdaysController');
   Route::resource('/center_costs', 'Backend\CenterCostsController');
   Route::resource('/reports', 'Backend\ReportsController');
+  Route::resource('/utilities/holidays', 'Backend\HolidaysController');
 
   // export
   Route::get('/export/crew_contract/{id_project_provider}', 'Backend\ExportController@crewContract');
@@ -57,13 +59,14 @@ Route::group(['middleware' => ['auth']], function () {
   Route::get('/export/project/{id_project}', 'Backend\ExportController@project');
   Route::get('/export/all_project', 'Backend\ExportController@allProject');
   Route::get('/export/project/{id_project}/horas_extras_teams', 'Backend\ExportController@horasExtrasTeams');
-  Route::get('/export/users/', 'Backend\ExportController@getUsers');
-  Route::get('/export/center_costs/', 'Backend\ExportController@getCenterCosts');
-  Route::post('/export/users/', 'Backend\ExportController@postUsers')->name('export.users');
-  Route::post('/export/horas_extras/', 'Backend\ExportController@exportTeamHourExtras')->name('export.horas_extras');
+  Route::get('/export/users', 'Backend\ExportController@getUsers');
+  Route::get('/export/center_costs', 'Backend\ExportController@getCenterCosts');
+  Route::get('/export/holidays', 'Backend\ExportController@getHolidays');
+  Route::post('/export/users', 'Backend\ExportController@postUsers')->name('export.users');
+  Route::post('/export/horas_extras', 'Backend\ExportController@exportTeamHourExtras')->name('export.horas_extras');
 
   // import
-  Route::get('/import/workers_categories/', 'Backend\ImportController@workersCategories');
+  Route::get('/import/workers_categories', 'Backend\ImportController@workersCategories');
   Route::post('/import/workers_categories/store', 'Backend\ImportController@workersCategoriesStore')->name('import.workers_categories.store');
 
   // action is_closed project
