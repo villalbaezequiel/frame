@@ -529,5 +529,21 @@
 </div>
 @endsection
 @section('javascript')
+<script>
+    let holidays = {!! json_encode($holidays,true) !!};
+
+    $('.datepicker').datepicker({
+        beforeShowDay: function (date){
+          let thisDate = jQuery.datepicker.formatDate('yy-mm-dd', date);
+          for(var i=0; i < holidays.length; ++i) {
+              if(holidays[i] == thisDate) {
+                return [true, 'ui-state-highlight ui-state-active'];
+              }
+          }
+
+          return [true];
+        }
+    });
+  </script>
   <script src="{{ asset('/js/project.js') }}"> </script>
 @endsection

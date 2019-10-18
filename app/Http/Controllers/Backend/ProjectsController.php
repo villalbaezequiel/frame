@@ -16,6 +16,7 @@ use App\Helpers;
 use App\Project;
 use App\ProjectProvider;
 use App\CenterCost;
+use App\Holiday;
 
 class ProjectsController extends Controller
 {
@@ -67,7 +68,9 @@ class ProjectsController extends Controller
       */
      public function create()
      {
-       return view('backend.projects.create');
+       return view('backend.projects.create', [
+         'holidays' => Holiday::getAllDate()
+       ]);
      }
 
      /**
@@ -331,7 +334,8 @@ class ProjectsController extends Controller
        $listTeam = ProjectProvider::where('id_project', $id)->get();
        return view('backend.projects.edit', [
          'project' => $project,
-         'list_crew' => $listTeam
+         'list_crew' => $listTeam,
+         'holidays' => Holiday::getAllDate()
        ]);
      }
 

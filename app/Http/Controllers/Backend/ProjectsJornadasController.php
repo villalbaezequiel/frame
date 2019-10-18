@@ -12,6 +12,7 @@ use App\FrameFunction;
 use App\WorkersCategory;
 use App\Project;
 use App\ProjectProvider;
+use App\Holiday;
 
 class ProjectsJornadasController extends Controller
 {
@@ -99,7 +100,8 @@ class ProjectsJornadasController extends Controller
 
       return view('backend.projects_jornadas.show', [
         'project' => $project,
-        'list_crew' => $listTeam
+        'list_crew' => $listTeam,
+        'holidays' => Holiday::where('active', '1')->get()
       ]);
     }
 

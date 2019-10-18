@@ -102,6 +102,20 @@ $(function() {
 
   });
 
+  $.each(holidays, function(i, v) {
+    if(v.date){
+      listEvents.push({
+        class: 'holiday',
+        title: `${v.name}`,
+        start: new Date(v.date),
+        end: new Date(v.date),
+        allDay: 1,
+        backgroundColor: '#777620',
+        color: '#777620'
+      });
+    }
+  });
+
   $calendar = $("#fullCalendarProject"),
   today = new Date,
   y = today.getFullYear(),

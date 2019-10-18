@@ -26,8 +26,9 @@
 @endsection
 @section('javascript')
   <script type="text/javascript">
-    var project = {!! json_encode($project,JSON_FORCE_OBJECT) !!};
-    var list_crew = {!! json_encode($list_crew,JSON_FORCE_OBJECT) !!};
+    let project = {!! json_encode($project,JSON_FORCE_OBJECT) !!};
+    let list_crew = {!! json_encode($list_crew,JSON_FORCE_OBJECT) !!};
+    let holidays = {!! json_encode($holidays,JSON_FORCE_OBJECT) !!};
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/locale/es.js"> </script>
   <script src="{{ asset('/js/project_calendar.js') }}"> </script>
