@@ -540,7 +540,18 @@
                 return [true, 'ui-state-highlight ui-state-active'];
               }
           }
+          return [true];
+        }
+    });
 
+    $('.datepicker_crew').datepicker({
+        beforeShowDay: function (date){
+          let thisDate = jQuery.datepicker.formatDate('yy-mm-dd', date);
+          for(var i=0; i < holidays.length; ++i) {
+              if(holidays[i] == thisDate) {
+                return [true, 'ui-state-highlight ui-state-active'];
+              }
+          }
           return [true];
         }
     });
