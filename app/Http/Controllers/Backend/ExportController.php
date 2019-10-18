@@ -22,6 +22,7 @@ use App\ProyectCategory;
 use App\RoleUser;
 use App\Study;
 use App\CenterCost;
+use App\Holiday;
 use DateTime;
 
 class ExportController extends Controller
@@ -1225,6 +1226,40 @@ class ExportController extends Controller
           }
 
         })->download();
+
+      } catch(\Exception $e) {
+        Helpers::getCapturError($e);
+      }
+    }
+
+    public function getHolidays()
+    {
+      try {
+        $results = Holiday::select(
+                            'name as nombre',
+                            'date as fecha',
+                            'description as descripcion',
+                            'active as activo'
+                          )->get();
+
+        if(count($results)) {
+          foreach ($results as &$result) {
+            $result->fecha = Helpers::getDateParseFormat($result->fecha, '/');
+            $result->activo = Helpers::getActive($result->activo);
+          }
+
+          $timestamp = date('Ymdhis');
+
+          Excel::create(Helpers::setLimitString("feriados_{$timestamp}", 27), function($excel) use ($results){
+
+            $excel->sheet('Feriados Nacionales', function($sheet) use ($results){
+              $sheet->fromArray($results);
+            });
+
+          })->download();
+        } else {
+          return back()->with('message', 'El Listado de Feriados Nacionales se encuentra vacio!');
+        }
 
       } catch(\Exception $e) {
         Helpers::getCapturError($e);

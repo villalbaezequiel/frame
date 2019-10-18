@@ -197,6 +197,12 @@
                     </a>
                   </li>
                   <li class="nav-item nav-check-url ">
+                      <a class="nav-link" href="{{ url('/utilities/holidays') }}">
+                        <span class="sidebar-mini"> FN </span>
+                        <span class="sidebar-normal"> Feriados Nacionales </span>
+                      </a>
+                    </li>
+                  <li class="nav-item nav-check-url ">
                     <a class="nav-link" href="{{ url('/utilities/studies') }}">
                       <span class="sidebar-mini"> NE </span>
                       <span class="sidebar-normal"> Niveles Educativos </span>
