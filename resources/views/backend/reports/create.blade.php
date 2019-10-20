@@ -104,13 +104,6 @@
               </div>
             </div>
 
-            <div class="mt-3" style="background-color: rgba(0,0,0,.05);">
-              <div class="col-md-12 p-3">
-                <p class="text-left"><i>* El rango de Fechas, <strong>Desde y Hasta</strong>, se tomará en cuenta con el Criterio que fueron Inicializado e Relacionado al Proyecto.</i></p>
-                <p class="text-left"><i>* <strong>'Informacion de Proyecto', 'Contratos Seguros' y 'Contratos Plazo Fijo, Eventual y Tiempo indeterminado':</strong> se agrupará con el Criterio que fueron Inicializado e Relacionado al Proyecto.</i></p>
-              </div>
-            </div>
-
           </div>
           <div class="card-footer ml-auto mr-auto">
             <a href="javascript:void(0)" class="back-history btn">Cancelar</a>
