@@ -1252,20 +1252,20 @@ class ExportController extends Controller
 
         switch ($report->type) {
           case 'information_project':
-            $reportDownload = Report::exportProject($report->id_project, $report->from, $report->to);
+            $reportDownload = Report::exportProject($report->id_project, $report->from, $report->to, $report->date_by);
             break;
           case 'extra_hours':
-            $reportDownload = Report::exportExtraHours($report->id_project, $report->from, $report->to);
+            $reportDownload = Report::exportExtraHours($report->id_project, $report->from, $report->to, $report->date_by);
             break;
           case 'contract_secure':
-            $reportDownload = Report::exportContractSecure($report->id_project, $report->from, $report->to);
+            $reportDownload = Report::exportContractSecure($report->id_project, $report->from, $report->to, $report->date_by);
             break;
           case 'contracts':
             // exclude contracts type services. ID = 4
-            $reportDownload = Report::exportProject($report->id_project, $report->from, $report->to, '4');
+            $reportDownload = Report::exportProject($report->id_project, $report->from, $report->to, $report->date_by, '4');
             break;
           default:
-            $reportDownload = Report::exportProject($report->id_project, $report->from, $report->to);
+            $reportDownload = Report::exportProject($report->id_project, $report->from, $report->to, $report->date_by);
             break;
         }
 

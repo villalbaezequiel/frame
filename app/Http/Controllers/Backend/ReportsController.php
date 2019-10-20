@@ -85,6 +85,7 @@ class ReportsController extends Controller
         $report = new Report;
         $report->id_project = $projectId;
         $report->type = $type;
+        $report->date_by = $request->get('date_by');
         $report->from = $from;
         $report->to = $to;
         $report->action = $request->get('action');

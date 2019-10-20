@@ -41,6 +41,23 @@ class Report extends Model
       return $list[$key];
     }
 
+    static function getDatesBy()
+    {
+      $list = [
+        'init_contract' => 'Inicio de Contrato',
+        'end_contract' => 'Fin de Contrato',
+        'init_team_project' => 'Creacion del Team en el Proyecto'
+      ];
+
+      return $list;
+    }
+
+    static function getDateBy($key)
+    {
+      $list = self::getDatesBy();
+      return $list[$key];
+    }
+
     static function getSendForMail($action)
     {
       if($action != 'download'){
@@ -50,9 +67,20 @@ class Report extends Model
       }
     }
 
-    static function exportProject($id_project, $from = null, $to = null, $exclude = null)
+    static function exportProject($id_project, $from, $to, $date_by, $exclude = null)
     {
       try {
+
+        $filterDate = 'created_at';
+
+        if($date_by == 'init_contract'){
+          $filterDate = 'start_date_contract';
+        } elseif($date_by == 'end_contract') {
+          $filterDate = 'finish_date_contract';
+        } elseif($date_by == 'init_team_project') {
+          $filterDate = 'created_at';
+        }
+
         $results = Project::select(
                               'id_client as cliente',
                               'name as nombre',
@@ -143,10 +171,10 @@ class Report extends Model
           ->join('providers', 'project_providers.id_provider', '=', 'providers.id')
           ->join('users', 'providers.id_user', '=', 'users.id')
           ->where('project_providers.id_project', $id_project)
-          ->where('project_providers.created_at', '>=', $from)
-          ->where('project_providers.created_at', '<=', $to)
+          ->where('project_providers.'.$filterDate, '>=', $from)
+          ->where('project_providers.'.$filterDate, '<=', $to)
           ->where('project_providers.id_contract', '!=', $exclude)
-          ->orderBy('project_providers.created_at', 'ASC')
+          ->orderBy('project_providers.'.$filterDate, 'ASC')
           ->get();
 
         } else {
@@ -210,9 +238,9 @@ class Report extends Model
           ->join('providers', 'project_providers.id_provider', '=', 'providers.id')
           ->join('users', 'providers.id_user', '=', 'users.id')
           ->where('project_providers.id_project', $id_project)
-          ->where('project_providers.created_at', '>=', $from)
-          ->where('project_providers.created_at', '<=', $to)
-          ->orderBy('project_providers.created_at', 'ASC')
+          ->where('project_providers.'.$filterDate, '>=', $from)
+          ->where('project_providers.'.$filterDate, '<=', $to)
+          ->orderBy('project_providers.'.$filterDate, 'ASC')
           ->get();
         }
 
@@ -267,7 +295,7 @@ class Report extends Model
 
         if(count($listTeams))
         {
-          Excel::create(Helpers::setLimitString("{$nameProject}_info_".$timestamp, 27), function($excel) use ($results, $listTeams){
+          Excel::create(Helpers::setLimitString("{$nameProject}_info_".$timestamp, 27), function($excel) use ($results, $listTeams, $date_by){
 
             $excel->sheet(Helpers::setLimitString($results[0]['centro_costo'], 27), function($sheet) use ($results){
               $sheet->fromArray($results);
@@ -278,9 +306,18 @@ class Report extends Model
             });
 
             $groupDateResults = array();
+            $filterDate = 'fecha_de_declaracion';
+
+            if($date_by == 'init_contract'){
+              $filterDate = 'fecha_alta_contrato';
+            } elseif($date_by == 'end_contract') {
+              $filterDate = 'fecha_baja_contrato';
+            } elseif($date_by == 'init_team_project') {
+              $filterDate = 'fecha_de_declaracion';
+            }
 
             foreach($listTeams as $key => $value){
-              $groupDateResults[$value['fecha_de_declaracion']][$key] = $value;
+              $groupDateResults[$value[$filterDate]][$key] = $value;
             }
 
             foreach($groupDateResults as $k => $v){
@@ -300,12 +337,28 @@ class Report extends Model
       }
     }
 
-    static function exportExtraHours($id_project, $from = null, $to = null)
+    static function exportExtraHours($id_project, $from, $to, $date_by)
     {
       try {
+
+        $filterDate = 'created_at';
+
+        if($date_by == 'init_contract'){
+
+          $filterDate = 'start_date_contract';
+
+        } elseif($date_by == 'end_contract') {
+
+          $filterDate = 'finish_date_contract';
+
+        } elseif($date_by == 'init_team_project') {
+
+          $filterDate = 'created_at';
+        }
+
         $listTeams = ProjectProvider::select('extra_hours', 'id_provider', 'salary_workdays')
-                                      ->where('project_providers.created_at', '>=', $from)
-                                      ->where('project_providers.created_at', '<=', $to)
+                                      ->where('project_providers.'.$filterDate, '>=', $from)
+                                      ->where('project_providers.'.$filterDate, '<=', $to)
                                       ->where('id_project', $id_project)
                                       ->get();
 
@@ -368,10 +421,20 @@ class Report extends Model
       }
     }
 
-    static function exportContractSecure($id_project, $from = null, $to = null)
+    static function exportContractSecure($id_project, $from, $to, $date_by)
     {
       // listado de teams, que hayan aceptado,
       try {
+
+        $filterDate = 'created_at';
+
+        if($date_by == 'init_contract'){
+          $filterDate = 'start_date_contract';
+        } elseif($date_by == 'end_contract') {
+          $filterDate = 'finish_date_contract';
+        } elseif($date_by == 'init_team_project') {
+          $filterDate = 'created_at';
+        }
 
         $nameProject = Project::find($id_project);
         $results = ProjectProvider::select(
@@ -390,11 +453,11 @@ class Report extends Model
                                     ->join('providers', 'project_providers.id_provider', '=', 'providers.id')
                                     ->join('users', 'providers.id_user', '=', 'users.id')
                                     ->where('project_providers.id_project', $id_project)
-                                    ->where('project_providers.created_at', '>=', $from)
-                                    ->where('project_providers.created_at', '<=', $to)
+                                    ->where('project_providers.'.$filterDate, '>=', $from)
+                                    ->where('project_providers.'.$filterDate, '<=', $to)
                                     ->where('project_providers.id_contract', '4') // 4 = Servicios
                                     ->where('project_providers.active', '1')
-                                    ->orderBy('project_providers.created_at', 'ASC')
+                                    ->orderBy('project_providers.'.$filterDate, 'ASC')
                                     ->get();
 
         if(count($results)){
@@ -423,7 +486,7 @@ class Report extends Model
           $getCenterCoste = Project::getCenterCost($id_project);
           $timestamp = date('Ymdhis');
 
-          Excel::create(Helpers::setLimitString("{$getCenterCoste}_seguro_".$timestamp, 27), function($excel) use ($nameProject, $results){
+          Excel::create(Helpers::setLimitString("{$getCenterCoste}_seguro_".$timestamp, 27), function($excel) use ($nameProject, $results, $date_by){
 
             $excel->sheet(Helpers::setLimitString(CenterCost::getNumber($nameProject->cost_center), 27), function($sheet) use ($nameProject, $results){
 
@@ -557,8 +620,18 @@ class Report extends Model
 
             $groupDateResults = array();
 
+            $filterDate = 'Fecha_de_Declaracion';
+
+            if($date_by == 'init_contract'){
+              $filterDate = 'Vigencia_Desde';
+            } elseif($date_by == 'end_contract') {
+              $filterDate = 'Vigencia_Hasta';
+            } elseif($date_by == 'init_team_project') {
+              $filterDate = 'Fecha_de_Declaracion';
+            }
+
             foreach($results as $key => $value){
-              $groupDateResults[$value['Fecha_de_Declaracion']][$key] = $value;
+              $groupDateResults[$value[$filterDate]][$key] = $value;
             }
 
             foreach($groupDateResults as $k => $v){
