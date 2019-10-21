@@ -196,7 +196,7 @@ $(function() {
           // add 'rol a desempeñar' funciones frame
           $.ajax({
             type: 'GET',
-            url: '/json/get_function_frame',
+            url: '/sistema/json/get_function_frame',
             success: function(data){
               if(data.results){
                 $.each(data.results, function(i, v){
@@ -269,7 +269,7 @@ $(function() {
 
             $.ajax({
               type: 'POST',
-              url: '/json/project_providers/extra_hours',
+              url: '/sistema/json/project_providers/extra_hours',
               data: extraHours,
               success: function(data){
 
@@ -393,7 +393,7 @@ $(function() {
 
       //           $.ajax({
       //             type: 'GET',
-      //             url: '/json/project_providers/jornada_crew',
+      //             url: '/sistema/json/project_providers/jornada_crew',
       //             data: jornadaTeam,
       //             success: function(data){
 
@@ -496,7 +496,7 @@ $(function() {
             // add 'rol a desempeñar' funciones frame
             $.ajax({
               type: 'GET',
-              url: '/json/get_function_frame',
+              url: '/sistema/json/get_function_frame',
               success: function(data){
                 if(data.results){
                   $.each(data.results, function(i, v){
@@ -568,7 +568,7 @@ $(function() {
 
               $.ajax({
                 type: 'POST',
-                url: '/json/project_providers/extra_hours',
+                url: '/sistema/json/project_providers/extra_hours',
                 data: extraHours,
                 success: function(data){
 
@@ -690,7 +690,7 @@ $(function() {
 
               $.ajax({
                 type: 'POST',
-                url: '/json/project_providers/absence',
+                url: '/sistema/json/project_providers/absence',
                 data: dateAbsence,
                 success: function(data){
 
