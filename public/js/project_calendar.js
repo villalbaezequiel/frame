@@ -51,6 +51,44 @@ function getOptionTeam()
   return formSwal;
 }
 
+function getAbsenceTeam()
+{
+
+  let formSwal =
+    `<div class="row">
+      <label class="col-sm-4 col-form-label text-right">Team:</label>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <select class="form-control selectpicker" data-style="btn btn-link" id="crew_absence" name="crew_absence[]" multiple required>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label class="col-sm-4 col-form-label text-right">Asunto:</label>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <select class="form-control selectpicker" data-style="btn btn-link" id="crew_subject_absence" name="crew_subject_absence" required>
+            <option value="razones_personales">Razones personales</option>
+            <option value="enfermedad">Enfermedad</option>
+            <option value="sin_aviso">Sin aviso</option>
+            <option value="vacaciones">Vacaciones</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label class="col-sm-4 col-form-label text-right">Nota:</label>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <textarea class="form-control" id="crew_description_absence" name="crew_description_absence" maxlength="100"></textarea>
+        </div>
+      </div>
+    </div>`;
+
+  return formSwal;
+}
+
 function getDateSelect()
 {
 
@@ -59,12 +97,24 @@ function getDateSelect()
         <label class="col-sm-5 col-form-label text-right">Fecha (mes/dia/año):</label>
         <div class="col-sm-5">
           <div class="form-group">
-            <input type="date" id="hs-extras-button" name="hs-extras-button">
+            <input type="date" id="date-workdays-input" name="date-workdays-input">
           </div>
         </div>
       </div>`;
 
   return formSwal;
+}
+
+function getAlertInfo(message)
+{
+  Swal.fire({
+    title: message,
+    type: 'info',
+    showCancelButton: false,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Aceptar'
+  });
 }
 
 $(function() {
@@ -146,7 +196,7 @@ $(function() {
           // add 'rol a desempeñar' funciones frame
           $.ajax({
             type: 'GET',
-            url: '/sistema/json/get_function_frame',
+            url: '/json/get_function_frame',
             success: function(data){
               if(data.results){
                 $.each(data.results, function(i, v){
@@ -219,7 +269,7 @@ $(function() {
 
             $.ajax({
               type: 'POST',
-              url: '/sistema/json/project_providers/extra_hours',
+              url: '/json/project_providers/extra_hours',
               data: extraHours,
               success: function(data){
 
@@ -343,7 +393,7 @@ $(function() {
 
       //           $.ajax({
       //             type: 'GET',
-      //             url: '/sistema/json/project_providers/jornada_crew',
+      //             url: '/json/project_providers/jornada_crew',
       //             data: jornadaTeam,
       //             success: function(data){
 
@@ -414,7 +464,7 @@ $(function() {
       if(status.value)
       {
 
-        if(!$("input[name='hs-extras-button']").val()){
+        if(!$("input[name='date-workdays-input']").val()){
 
           Swal.fire({
             title: 'Debes seleccionar una Fecha para avanzar con el Formulario',
@@ -428,10 +478,10 @@ $(function() {
           return false;
         }
 
-        let dateStart = new Date($("input[name='hs-extras-button']").val());
+        let dateStart = new Date($("input[name='date-workdays-input']").val());
         dateStart.setDate(dateStart.getDate() + 1);
 
-        let dateFinish = new Date($("input[name='hs-extras-button']").val());
+        let dateFinish = new Date($("input[name='date-workdays-input']").val());
         dateFinish.setDate(dateFinish.getDate() + 1);
 
         swal({
@@ -446,7 +496,7 @@ $(function() {
             // add 'rol a desempeñar' funciones frame
             $.ajax({
               type: 'GET',
-              url: '/sistema/json/get_function_frame',
+              url: '/json/get_function_frame',
               success: function(data){
                 if(data.results){
                   $.each(data.results, function(i, v){
@@ -518,7 +568,7 @@ $(function() {
 
               $.ajax({
                 type: 'POST',
-                url: '/sistema/json/project_providers/extra_hours',
+                url: '/json/project_providers/extra_hours',
                 data: extraHours,
                 success: function(data){
 
@@ -560,5 +610,113 @@ $(function() {
     });
   });
 
+  $("#add-absence-button").click(function()
+  {
+    swal({
+      title: "Seleccionar Fecha",
+      html: getDateSelect(),
+      showCancelButton: true,
+      confirmButtonText: 'Continuar',
+      confirmButtonClass: "btn btn-success",
+      cancelButtonClass: "btn btn-danger",
+      buttonsStyling: !1,
+    })
+    .then(function(status){
+      if(status.value)
+      {
+
+        if(!$("input[name='date-workdays-input']").val())
+        {
+          getAlertInfo("Debes seleccionar una Fecha para avanzar con el Formulario");
+          return false;
+        }
+
+        let dateStart = new Date($("input[name='date-workdays-input']").val());
+        dateStart.setDate(dateStart.getDate() + 1);
+
+        swal({
+          title: "Agregar Ausencia",
+          html: getAbsenceTeam(),
+          showCancelButton: !0,
+          confirmButtonClass: "btn btn-success",
+          cancelButtonClass: "btn btn-danger",
+          buttonsStyling: !1,
+          onBeforeOpen: () => {
+
+            $.each(list_crew, function(i, v){
+
+              let setBackground = false;
+
+              if(v.calendar){
+                $.each(v.calendar, function(c,d){
+                  let eventTeamToday = new Date(d.start);
+                  let dateStartFull = dateStart.getDate()+'-'+dateStart.getMonth()+'-'+dateStart.getFullYear();
+                  let eventTeamTodayFull = eventTeamToday.getDate()+'-'+eventTeamToday.getMonth()+'-'+eventTeamToday.getFullYear();
+
+                  if(dateStartFull == eventTeamTodayFull){
+                    setBackground = true;
+                  }
+                });
+              }
+
+              if(setBackground){
+                $("#crew_absence").append(`<option style="background: #5cb85c; color: #fff;" value="${v.id}">${v.name_user}</option>`);
+              } else {
+                $("#crew_absence").append(`<option value="${v.id}">${v.name_user}</option>`);
+              }
+
+            });
+
+            $('.selectpicker').selectpicker('refresh');
+          }
+        })
+        .then(function(data){
+
+          if(data.value){
+            // ajax SAVE horas extras
+
+            let crew = $("#crew_absence").val();
+            let note = $("#crew_description_absence").val();
+            let subject = $("#crew_subject_absence").find(':selected').val();
+
+            if(crew)
+            {
+              let dateAbsence = {
+                crew: crew,
+                date: dateStart,
+                subject: subject,
+                note: note
+              }
+
+              $.ajax({
+                type: 'POST',
+                url: '/json/project_providers/absence',
+                data: dateAbsence,
+                success: function(data){
+
+                  if(data.status)
+                  {
+                    getAlertInfo("Ausencia ingresada con Exito!");
+                  }
+                },
+                error: function(xhr, status){
+                  getAlertInfo("Se ha generado un Error al ingresar Ausencia!");
+                  console.log('Error: '+xhr);
+                }
+              });
+
+            } else {
+              getAlertInfo("Para Agregar Ausencia a un Team debes completar los datos mencionados en el Formulario! Gracias.");
+            }
+
+          }
+
+        })
+        .catch(swal.noop)
+
+      }
+
+    });
+  });
 
 });

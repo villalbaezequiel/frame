@@ -11,6 +11,7 @@ class ProjectProvider extends Model
 
   protected $casts = [
     'extra_hours' => 'array',
+    'absence' => 'array',
     'calendar' => 'array'
   ];
 

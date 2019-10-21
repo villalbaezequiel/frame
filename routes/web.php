@@ -84,6 +84,7 @@ Route::group(['middleware' => ['auth']], function () {
 
   // post
   Route::post('/json/project_providers/extra_hours', 'Backend\JsonController@storeExtraHours');
+  Route::post('/json/project_providers/absence', 'Backend\JsonController@storeAbsence');
   Route::post('/json/remove_hs_extra', 'Backend\JsonController@postRemoveHsExtra');
   Route::post('/json/edit_team_project', 'Backend\JsonController@updateTeamProject');
 

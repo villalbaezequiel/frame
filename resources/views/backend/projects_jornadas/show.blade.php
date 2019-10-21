@@ -6,6 +6,7 @@
 <div class="container-fluid">
 
   <a id="add-hs-extras-button" href="javascript:void(0)" class="btn btn-primary">Agregar Horas</a>
+  <a id="add-absence-button" href="javascript:void(0)" class="btn btn-primary">Agregar Ausencia</a>
 
   <div class="header text-center">
     <h3 class="title">{{ $project->name }}</h3>

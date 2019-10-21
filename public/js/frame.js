@@ -166,7 +166,7 @@ $(document).ready(function(){
 
       $.ajax({
         type: 'GET',
-        url: '/sistema/json/'+$(this).val()+'/functions_frame',
+        url: '/json/'+$(this).val()+'/functions_frame',
         dataType: 'json',
         success: function(data){
           // append result for select -> option
@@ -202,7 +202,7 @@ $(document).ready(function(){
 
       $.ajax({
         type: 'GET',
-        url: '/sistema/json/'+id_frame_function+'/categories_sat',
+        url: '/json/'+id_frame_function+'/categories_sat',
         dataType: 'json',
         success: function(data){
           // append result for select -> option
@@ -236,7 +236,7 @@ $(document).ready(function(){
 
       $.ajax({
         type: 'GET',
-        url: '/sistema/json/'+id_frame_function+'/crew',
+        url: '/json/'+id_frame_function+'/crew',
         dataType: 'json',
         success: function(data){
           // append result for select -> option
@@ -294,7 +294,7 @@ $(document).ready(function(){
 
       $.ajax({
         type: 'GET',
-        url: '/sistema/json/category_sat_salary/'+$(this).data('id'),
+        url: '/json/category_sat_salary/'+$(this).data('id'),
         dataType: 'json',
         success: function(data){
           var results = data.data;

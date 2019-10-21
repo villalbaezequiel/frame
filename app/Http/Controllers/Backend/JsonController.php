@@ -385,4 +385,36 @@ class JsonController extends Controller
       }
     }
 
+    /*
+    * parameter:
+    * return
+    * Logica:
+    */
+    public function storeAbsence(Request $request)
+    {
+      $message;
+      try {
+
+        foreach($request->get('crew') as $team)
+        {
+          $projectProvider = ProjectProvider::find($team);
+          $dateAbsences = $projectProvider->absence;
+
+          $dateAbsences[] = array(
+                            'date' => $request->get('date'),
+                            'subject' => $request->get('subject'),
+                            'note' => $request->get('note')
+                          );
+
+          $projectProvider->absence = $dateAbsences;
+          $projectProvider->save();
+        }
+
+        return \Response::json( array('status' => true) );
+
+      } catch(\Exception $e) {
+        Helpers::getCapturError($e);
+      }
+    }
+
 }
