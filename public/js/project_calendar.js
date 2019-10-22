@@ -91,14 +91,12 @@ function getActionSelect()
 {
   let formSwal =
     `<div class="row">
-      <label class="col-sm-5 col-form-label text-right">Seleccionar:</label>
-      <div class="col-sm-5">
-        <div class="form-group">
-          <select class="form-control selectpicker" data-style="btn btn-link" id="select_action" name="select_action" required>
-            <option value="hs_extras">Horas Extras</option>
-            <option value="absence">Ausencia</option>
-          </select>
-        </div>
+      <label class="col-sm-4 col-form-label text-right">Seleccionar:</label>
+      <div class="col-sm-8">
+        <select class="form-control selectpicker" data-style="btn btn-link" id="select_action" name="select_action" required>
+          <option value="hs_extras">Horas Extras</option>
+          <option value="absence">Ausencia</option>
+        </select>
       </div>
     </div>`;
 
