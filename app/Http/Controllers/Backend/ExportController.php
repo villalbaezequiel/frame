@@ -617,23 +617,25 @@ class ExportController extends Controller
     {
       try {
         $listTeams = ProjectProvider::select('extra_hours', 'id_provider', 'salary_workdays')
+                                      ->where('extra_hours', '!=', null)
                                       ->where('id_project', $id_project)
                                       ->get();
 
-        if(count($listTeams)){
-
+        if(count($listTeams))
+        {
           $nameProject = Project::getCenterCost($id_project);
 
           $timestamp = date('Ymdhis');
           Excel::create(Helpers::setLimitString("{$nameProject}_hsextras_{$timestamp}", 27), function($excel) use ($listTeams){
 
-            foreach ($listTeams as $val) {
-
+            foreach ($listTeams as $val)
+            {
               $horasExtras = $val->extra_hours;
               $name = Provider::getNameOrderLastName($val->id_provider);
               $arrayHs = array();
 
-              if(!empty($horasExtras)){
+              if(!empty($horasExtras))
+              {
                 foreach ($horasExtras as $hs_extra) {
 
                   $hs_extra_initial = substr($hs_extra['start'], 0, strpos($hs_extra['start'], '('));
@@ -658,12 +660,11 @@ class ExportController extends Controller
                                 "valor_total" => "$" . round(($valorHora * $horasExtras), 2)
                               );
                 }
+
+                $excel->sheet(Helpers::setLimitString($name, 27), function($sheet) use ($arrayHs){
+                  $sheet->fromArray($arrayHs);
+                });
               }
-
-              $excel->sheet(Helpers::setLimitString($name, 27), function($sheet) use ($arrayHs){
-                $sheet->fromArray($arrayHs);
-              });
-
             }
 
           })->download();
@@ -1309,6 +1310,57 @@ class ExportController extends Controller
           })->download();
         } else {
           return back()->with('message', 'El Listado de Feriados Nacionales se encuentra vacio!');
+        }
+
+      } catch(\Exception $e) {
+        Helpers::getCapturError($e);
+      }
+    }
+
+    public function absencesTeams($id_project)
+    {
+      try {
+        $listTeams = ProjectProvider::select('absence', 'id_provider')
+                                      ->where('absence', '!=', null)
+                                      ->where('id_project', $id_project)
+                                      ->get();
+
+        if(count($listTeams))
+        {
+          $nameProject = Project::getCenterCost($id_project);
+
+          $timestamp = date('Ymdhis');
+          Excel::create(Helpers::setLimitString("{$nameProject}_ausencias_{$timestamp}", 27), function($excel) use ($listTeams){
+
+            foreach ($listTeams as $val)
+            {
+              $absences = $val->absence;
+              $name = Provider::getNameOrderLastName($val->id_provider);
+              $arrayAbsences = array();
+
+              if(!empty($absences))
+              {
+                foreach ($absences as $absence) {
+
+                  $date = substr($absence['date'], 0, strpos($absence['date'], '('));
+                  $dateParse = new DateTime($date);
+
+                  $arrayAbsences[] = array(
+                              "fecha" => Helpers::getDay($dateParse->format('w')).' '.$dateParse->format('d/m/Y'),
+                              "asunto" => ProjectProvider::getSubjectAbsence($absence['subject']),
+                              "nota" => $absence['note']
+                            );
+                }
+
+                $excel->sheet(Helpers::setLimitString($name, 27), function($sheet) use ($arrayAbsences){
+                  $sheet->fromArray($arrayAbsences);
+                });
+              }
+            }
+
+          })->download();
+        } else {
+          return back()->with("message", "No se encontraron Ausencias para los Teams del Proyecto Seleccionado.");
         }
 
       } catch(\Exception $e) {

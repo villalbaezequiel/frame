@@ -59,6 +59,7 @@ Route::group(['middleware' => ['auth']], function () {
   Route::get('/export/project/{id_project}', 'Backend\ExportController@project');
   Route::get('/export/all_project', 'Backend\ExportController@allProject');
   Route::get('/export/project/{id_project}/horas_extras_teams', 'Backend\ExportController@horasExtrasTeams');
+  Route::get('/export/project/{id_project}/absences_teams', 'Backend\ExportController@absencesTeams');
   Route::get('/export/users', 'Backend\ExportController@getUsers');
   Route::get('/export/center_costs', 'Backend\ExportController@getCenterCosts');
   Route::get('/export/holidays', 'Backend\ExportController@getHolidays');
@@ -88,6 +89,7 @@ Route::group(['middleware' => ['auth']], function () {
 
   // post
   Route::post('/json/project_providers/extra_hours', 'Backend\JsonController@storeExtraHours');
+  Route::post('/json/project_providers/absence', 'Backend\JsonController@storeAbsence');
   Route::post('/json/remove_hs_extra', 'Backend\JsonController@postRemoveHsExtra');
   Route::post('/json/edit_team_project', 'Backend\JsonController@updateTeamProject');
 

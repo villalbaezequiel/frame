@@ -11,6 +11,7 @@ class ProjectProvider extends Model
 
   protected $casts = [
     'extra_hours' => 'array',
+    'absence' => 'array',
     'calendar' => 'array'
   ];
 
@@ -76,4 +77,24 @@ class ProjectProvider extends Model
     $hourEnd = new DateTime('2019-06-01 '.$finish.':00');
     return $hourInitial->diff($hourEnd)->h.'.'.$hourInitial->diff($hourEnd)->i;
   }
+
+  static public function getSubjectAbsences()
+  {
+    $list = [
+      "razones_personales" => "Razones personales",
+      "enfermedad" => "Enfermedad",
+      "sin_aviso" => "Sin aviso",
+      "vacaciones" => "Vacaciones"
+    ];
+
+    return $list;
+  }
+
+  static public function getSubjectAbsence($key)
+  {
+    $list = self::getSubjectAbsences();
+
+    return $list[$key];
+  }
+
 }
