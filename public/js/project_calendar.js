@@ -190,7 +190,7 @@ function popUpCreateAbsence(dateStart)
 
         $.ajax({
           type: 'POST',
-          url: '/json/project_providers/absence',
+          url: '/sistema/json/project_providers/absence',
           data: dateAbsence,
           success: function(data){
 
@@ -229,7 +229,7 @@ function popUpCreateHsEs(dateStart, dateFinish)
         // add 'rol a desempeñar' funciones frame
         $.ajax({
           type: 'GET',
-          url: '/json/get_function_frame',
+          url: '/sistema/json/get_function_frame',
           success: function(data){
             if(data.results){
               $.each(data.results, function(i, v){
@@ -302,7 +302,7 @@ function popUpCreateHsEs(dateStart, dateFinish)
 
           $.ajax({
             type: 'POST',
-            url: '/json/project_providers/extra_hours',
+            url: '/sistema/json/project_providers/extra_hours',
             data: extraHours,
             success: function(data){
 
@@ -321,30 +321,18 @@ function popUpCreateHsEs(dateStart, dateFinish)
                 // });
 
                 // swal ALERT que las horas extras se cargo con exito
-                Swal.fire({
-                  title: 'Horas Extras ingresadas con Exito!',
-                  type: 'info',
-                  showCancelButton: false,
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Aceptar'
-                });
+                getAlertInfo("Horas Extras ingresadas con Exito!");
+
               }
             },
             error: function(xhr, status){
+              getAlertInfo("Se ha generado un Error al ingresar Horas Extras!");
               console.log('Error: '+xhr);
             }
           });
 
         } else {
-          Swal.fire({
-            title: 'Para Agregar horas extras a un Team debes completar los datos mencionados en el Formulario! Gracias.',
-            type: 'info',
-            showCancelButton: false,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Aceptar'
-          });
+          getAlertInfo("Para Agregar Horas Extras a un Team debes completar los datos mencionados en el Formulario! Gracias.");
         }
 
       }
@@ -396,9 +384,6 @@ $(function() {
 
   $calendar.fullCalendar({
     locale: 'es',
-    // viewRender:function(e,a){
-    //   "month"!=e.name&&$(a).find(".fc-scroller").perfectScrollbar()
-    // },
     header: {
       left: "title",
       center: "month,agendaWeek,agendaDay",
@@ -455,14 +440,7 @@ $(function() {
     eventLimit: !0,
     events: listEvents,
     eventClick: function(crew, element) {
-      Swal.fire({
-        title: crew.title,
-        type: 'info',
-        showCancelButton: false,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Aceptar'
-      });
+      getAlertInfo(crew.title);
     }
 
   });
@@ -482,16 +460,9 @@ $(function() {
       if(status.value)
       {
 
-        if(!$("input[name='date-workdays-input']").val()){
-
-          Swal.fire({
-            title: 'Debes seleccionar una Fecha para avanzar con el Formulario',
-            type: 'info',
-            showCancelButton: false,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Aceptar'
-          });
+        if(!$("input[name='date-workdays-input']").val())
+        {
+          getAlertInfo("Debes seleccionar una Fecha para avanzar con el Formulario");
 
           return false;
         }
