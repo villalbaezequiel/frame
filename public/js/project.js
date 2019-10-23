@@ -977,7 +977,8 @@ $(document).ready(function(){
             crew: crew,
             rol: rol,
             start: dateStart,
-            finish: dateFinish
+            finish: dateFinish,
+            day: dateStart.getDay()
           }
 
           $.ajax({
