@@ -11,6 +11,7 @@ use App\Provider;
 use App\ProjectProvider;
 use App\Project;
 use App\WorkersCategory;
+use App\Workday;
 use DateTime;
 use DateInterval;
 use DatePeriod;
@@ -224,12 +225,22 @@ class JsonController extends Controller
         {
           $projectProvider = ProjectProvider::find($team);
           $newExtraHours = $projectProvider->extra_hours;
+          $workday = Workday::find($projectProvider->id_workday);
+          $agreedHours = 0;
+          // weekday[0] = "Sunday"; // domingo
+          // weekday[6] = "Saturday"; // sabado
 
-          // validar cuantas horas extras realizo.
-          // Dependiendo de las horas de inicio y final de su jornada.
-          $hourInitial =  new DateTime('2019-06-01 '.$projectProvider->hour_initial);
-          $hourEnd = new DateTime('2019-06-01 '.$projectProvider->hour_end);
-          $agreedHours = $hourInitial->diff($hourEnd)->h;
+          if($workday->mode == 'month-5' || $workday->mode == 'week-5'
+            && $request->get('day') == 0 || $request->get('day') == 6)
+          {
+            $agreedHours = 0;
+          } else {
+            // validar cuantas horas extras realizo.
+            // Dependiendo de las horas de inicio y final de su jornada.
+            $hourInitial =  new DateTime('2019-06-01 '.$projectProvider->hour_initial);
+            $hourEnd = new DateTime('2019-06-01 '.$projectProvider->hour_end);
+            $agreedHours = $hourInitial->diff($hourEnd)->h;
+          }
 
           $rolTeam = 0;
           if(!$request->get('rol')){
@@ -334,18 +345,30 @@ class JsonController extends Controller
 
         $start_date_contract = explode('/', $crewObj->start_date_contract);
         $finish_date_contract = explode('/', $crewObj->finish_date_contract);
-
         $calendar = array();
-        $startDatejson = new DateTime( $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] );
-        $endDatejson = new DateTime( $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] );
-        $endDatejson = $endDatejson->modify( '+1 day' );
-        $interval = new DateInterval('P1D');
-        $daterange = new DatePeriod($startDatejson, $interval ,$endDatejson);
-        foreach($daterange as $date){
-            $calendar[$date->format("Ymd")] = array(
-                            'start' => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00",
-                            'finish' => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00"
-                          );
+
+        if($crewObj->mode_workday == 'month-5')
+        {
+          $startDatejson = $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0];
+          $endDatejson = $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0];
+          $dateContractWorkday = Workday::getCalendarWeekends($startDatejson, $endDatejson, $crewObj->hour_initial);
+
+          $calendar = $dateContractWorkday;
+
+        } else {
+
+          $startDatejson = new DateTime( $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] );
+          $endDatejson = new DateTime( $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] );
+          $endDatejson = $endDatejson->modify( '+1 day' );
+          $interval = new DateInterval('P1D');
+          $daterange = new DatePeriod($startDatejson, $interval ,$endDatejson);
+          foreach($daterange as $date){
+              $calendar[$date->format("Ymd")] = array(
+                              'start' => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00",
+                              'finish' => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00"
+                            );
+          }
+
         }
 
         $team = ProjectProvider::find($crewObj->id_project_provider);
