@@ -227,18 +227,23 @@ class JsonController extends Controller
           $newExtraHours = $projectProvider->extra_hours;
           $workday = Workday::find($projectProvider->id_workday);
           $agreedHours = 0;
-          // weekday[0] = "Sunday"; // domingo
-          // weekday[6] = "Saturday"; // sabado
 
-          if($workday->mode == 'month-5' || $workday->mode == 'week-5'
-            && $request->get('day') == 0 || $request->get('day') == 6)
+          // validar cuantas horas extras realizo.
+          // Dependiendo de las horas de inicio y final de su jornada.
+          $hourInitial =  new DateTime('2019-06-01 '.$projectProvider->hour_initial);
+          $hourEnd = new DateTime('2019-06-01 '.$projectProvider->hour_end);
+
+          if($workday->mode == 'month-5' || $workday->mode == 'week-5')
           {
-            $agreedHours = 0;
+            // weekday[0] = "Sunday"; // domingo
+            // weekday[6] = "Saturday"; // sabado
+            if((int) $request->get('day') == 0 || (int) $request->get('day') == 6){
+              $agreedHours = 0;
+            } else {
+              $agreedHours = $hourInitial->diff($hourEnd)->h;
+            }
+
           } else {
-            // validar cuantas horas extras realizo.
-            // Dependiendo de las horas de inicio y final de su jornada.
-            $hourInitial =  new DateTime('2019-06-01 '.$projectProvider->hour_initial);
-            $hourEnd = new DateTime('2019-06-01 '.$projectProvider->hour_end);
             $agreedHours = $hourInitial->diff($hourEnd)->h;
           }
 

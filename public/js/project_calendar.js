@@ -295,7 +295,8 @@ function popUpCreateHsEs(dateStart, dateFinish)
             crew: crew,
             rol: rol,
             start: dateStart,
-            finish: dateFinish
+            finish: dateFinish,
+            day: dateStart.getDay()
           }
 
           $.ajax({
