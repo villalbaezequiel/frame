@@ -641,17 +641,19 @@ class ExportController extends Controller
                   $hs_extra_finish = substr($hs_extra['finish'], 0, strpos($hs_extra['finish'], '('));
                   $hs_extra_finish_date = new DateTime($hs_extra_finish);
 
+                  $agreed_hours = ($hs_extra['agreed_hours'] ? $hs_extra['agreed_hours'] : 1);
+
                   $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
                   $parseSalary = str_replace(array('.', ','), array('', '.'), $val->salary_workdays);
-                  $horasExtras = ((int) $horasTrabajadas - $hs_extra['agreed_hours']);
-                  $valorHora = ( ($parseSalary / (int) $hs_extra['agreed_hours']) * 1.5 );
+                  $horasExtras = ((int) $horasTrabajadas - $agreed_hours);
+                  $valorHora = ( ($parseSalary / (int) $agreed_hours) * 1.5 );
 
                   $arrayHs[] = array(
                                 "fecha" => Helpers::getDay($hs_extra_initial_date->format('w')).' '.$hs_extra_initial_date->format('d/m/Y'),
                                 "rol" => FrameFunction::getName($hs_extra['rol']),
                                 "inicio" => $hs_extra_initial_date->format('H:i'),
                                 "final" => $hs_extra_finish_date->format('H:i'),
-                                "horas_pactadas" => $hs_extra['agreed_hours'],
+                                "horas_pactadas" => $agreed_hours,
                                 "horas_extras" => $horasExtras,
                                 "valor_hora" => "$" . round($valorHora, 2),
                                 "valor_total" => "$" . round(($valorHora * $horasExtras), 2)
