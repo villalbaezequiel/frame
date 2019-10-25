@@ -1192,11 +1192,12 @@ $(document).ready(function(){
 
               $.each(data.results, function(i,v){
                 let _tokenForm = $("#logic_project input[name=_token]").val();
+                let note = (v.note ? v.note : '-')
 
                 $("#content-absences").append(`<tr>
                                   <td>${getDatePickerFormat(v.date)}</td>
                                   <td>${v.subject}</td>
-                                  <td>${v.note}</td>
+                                  <td>${note}</td>
                                   <td>
                                     <button type="submit" form="${i}" class="btn btn-primary">Eliminar</button>
                                     <form id="${i}" action="/sistema/json/remove_absence" style="display:none;" method="POST">
@@ -1210,7 +1211,7 @@ $(document).ready(function(){
                 dataExport.push({
                   fecha: getDatePickerFormat(v.date, true),
                   asunto: v.subject,
-                  nota: v.note
+                  nota: note
                 });
 
               });
