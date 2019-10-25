@@ -1325,6 +1325,7 @@ class ExportController extends Controller
       try {
         $listTeams = ProjectProvider::select('absence', 'id_provider')
                                       ->where('absence', '!=', null)
+                                      ->where('absence', '!=', '[]')
                                       ->where('id_project', $id_project)
                                       ->get();
 
