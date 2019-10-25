@@ -311,7 +311,8 @@ class JsonController extends Controller
       }
     }
 
-    public function postRemoveHsExtra(Request $request){
+    public function postRemoveHsExtra(Request $request)
+    {
       try {
 
         $projectProvider = ProjectProvider::find($request->get('id'));
@@ -325,6 +326,27 @@ class JsonController extends Controller
         $projectProvider->save();
 
         return back()->with('message', 'Horas Extras eliminadas con exito!');
+
+      } catch(\Exception $e) {
+        Helpers::getCapturError($e);
+      }
+    }
+
+    public function postRemoveAbsence(Request $request)
+    {
+      try {
+
+        $projectProvider = ProjectProvider::find($request->get('id'));
+
+        $absences = json_decode(json_encode($projectProvider->absence), true);
+        if($absences[$request->get('key')]){
+          unset($absences[$request->get('key')]);
+        }
+
+        $projectProvider->absence = $absences;
+        $projectProvider->save();
+
+        return back()->with('message', 'Ausencia eliminada con exito!');
 
       } catch(\Exception $e) {
         Helpers::getCapturError($e);

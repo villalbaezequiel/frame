@@ -72,7 +72,9 @@ class ProjectProvidersController extends Controller
      */
     public function edit($id)
     {
-        //
+      $team = ProjectProvider::find($id);
+
+      return response()->json(['results' => $team->absence]);
     }
 
     /**

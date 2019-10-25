@@ -1036,6 +1036,31 @@ class ExportController extends Controller
       }
     }
 
+    public function exportTeamAbsences(Request $request)
+    {
+      try {
+        $team = $request->get('name_team');
+        $list = $request->get('absences');
+        $projectProvider = ProjectProvider::find($request->get('id_project_provider'));
+        $provider = Provider::find($projectProvider->id_provider);
+
+        $timestamp = date('mdhis');
+        $nameProject = Project::getCenterCost($projectProvider->id_project);
+        $lastName = User::getLastName($provider->id_user);
+
+        Excel::create(Helpers::setLimitString("{$nameProject}_{$lastName}_ausencias_{$timestamp}", 27), function($excel) use ($list, $team){
+
+            $excel->sheet(Helpers::setLimitString($team, 27), function($sheet) use ($list){
+              $sheet->fromArray(json_decode($list, true));
+            });
+
+        })->download();
+
+      } catch(\Exception $e){
+        Helpers::getCapturError($e);
+      }
+    }
+
     public function getCenterCosts()
     {
       try {
