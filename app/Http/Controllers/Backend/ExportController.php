@@ -618,6 +618,7 @@ class ExportController extends Controller
       try {
         $listTeams = ProjectProvider::select('extra_hours', 'id_provider', 'salary_workdays')
                                       ->where('extra_hours', '!=', null)
+                                      ->where('extra_hours', '!=', '[]')
                                       ->where('id_project', $id_project)
                                       ->get();
 

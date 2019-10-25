@@ -1055,8 +1055,8 @@ $(document).ready(function(){
           return rhours+'.'+minutes;
         }
 
-        if(data.results){
-
+        if(data.results && data.results.length > 0)
+        {
           swal({
             title: `${nameTeam} : Horas Extras`,
             html: getTemplateHourExtras(),
@@ -1116,6 +1116,15 @@ $(document).ready(function(){
 
             }
           });
+        } else {
+          Swal.fire({
+            title: 'NO se encontraron Horas Extras!',
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar'
+          });
         }
       },
       error: function(xhr, status){
@@ -1126,8 +1135,7 @@ $(document).ready(function(){
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'Aceptar'
-        })
-        console.log('Error: '+xhr);
+        });
       }
     });
   });
