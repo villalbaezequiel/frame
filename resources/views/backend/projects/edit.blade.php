@@ -272,11 +272,7 @@
                         <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_workday">
                           <option value="">Seleccionar</option>
                           @foreach(\App\Workday::getAllWorkdays() as $workday)
-                          <option
-                            <?php if($workday->day): ?>
-                            data-day="{{ $workday->day }}"
-                            <?php endif; ?>
-                            value="{{ $workday->id }}">{{ $workday->name }}<?php if($workday->day && $workday->day != 1){ echo " (".$workday->day." dias)";} ?></option>
+                          <option value="{{ $workday->id }}" data-mode="{{ $workday->mode }}">{{ $workday->name }}</option>
                           @endforeach
                         </select>
                       </div>
@@ -496,9 +492,10 @@
                         <div class="card-footer card-footer-project pt-0">
                           <a href="{{ url('/export/crew_contract/'.$item_crew->id) }}" target="_blank" class="btn btn-link btn-warning btn-just-icon edit" title="Descargar Contrato"><i class="material-icons">assignment</i></a>
                           <a href="{{ url('/export/release/'.$item_crew->id) }}" target="_blank" class="btn btn-link btn-warning btn-just-icon edit" title="Descargar Release"><i class="material-icons">assignment</i></a>
-                          <a data-url="javascript:void(0)" class="btn btn-link btn-warning btn-just-icon edit show-hour-extras" data-id="{{ $item_crew->id }}" data-nameteam="{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}" title="Ver Horas Extras"><i class="material-icons">calendar_today</i></a>
+                          <a data-url="javascript:void(0)" class="btn btn-link btn-warning btn-just-icon edit show-hour-extras" data-id="{{ $item_crew->id }}" data-nameteam="{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}" title="Ver/Editar Horas Extras"><i class="material-icons">calendar_today</i></a>
+                          <a data-url="javascript:void(0)" class="btn btn-link btn-warning btn-just-icon edit show-absences" data-id="{{ $item_crew->id }}" data-nameteam="{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}" title="Ver/Editar Ausencias"><i class="material-icons">calendar_today</i></a>
                           @if($item_crew->active == '1' || $item_crew->active == 1)
-                            <a href="javascript:void(0)" class="btn btn-link btn-warning btn-just-icon edit add-hour-extras" data-id="{{ $item_crew->id }}" data-nameteam="{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}" title="Agregar Horas Extras"><i class="material-icons">calendar_today</i></a>
+                            {{-- <a href="javascript:void(0)" class="btn btn-link btn-warning btn-just-icon edit add-hour-extras" data-id="{{ $item_crew->id }}" data-nameteam="{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}" title="Agregar Horas Extras"><i class="material-icons">calendar_today</i></a> --}}
                           @endif
                           <a href="javascript:void(0)" class="btn btn-link btn-warning btn-just-icon edit project-team-edit" data-id="{{ $item_crew->id }}" data-nameteam="{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}" data-category="{{ \App\WorkersCategory::getName($item_crew->id_category_sat) }}" title="Ver / Editar"><i class="material-icons">dvr</i></a>
                           <button type="button" class="btn btn-link btn-danger btn-just-icon remove alert-confirm-delete-button" title="Eliminar" data-id="{{ $item_crew->id }}" data-idprovider="{{ $item_crew->id_provider }}"><i class="material-icons">close</i></button>
@@ -597,6 +594,31 @@
 @section('javascript')
   <script>
     var listTeams = {!! json_encode($list_crew,JSON_FORCE_OBJECT) !!};
+    let holidays = {!! json_encode($holidays,true) !!};
+
+    $('.datepicker').datepicker({
+        beforeShowDay: function (date){
+          let thisDate = jQuery.datepicker.formatDate('yy-mm-dd', date);
+          for(var i=0; i < holidays.length; ++i) {
+              if(holidays[i] == thisDate) {
+                return [true, 'ui-state-highlight ui-state-active'];
+              }
+          }
+          return [true];
+        }
+    });
+
+    $('.datepicker_crew').datepicker({
+        beforeShowDay: function (date){
+          let thisDate = jQuery.datepicker.formatDate('yy-mm-dd', date);
+          for(var i=0; i < holidays.length; ++i) {
+              if(holidays[i] == thisDate) {
+                return [true, 'ui-state-highlight ui-state-active'];
+              }
+          }
+          return [true];
+        }
+    });
   </script>
   <script src="{{ asset('/js/project.js') }}"> </script>
 @endsection

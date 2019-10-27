@@ -33,4 +33,12 @@ class CenterCost extends Model
       return $center_costs;
     }
 
+    static public function getAllAssigne($active = '1')
+    {
+      $center_costs = CenterCost::where('assigne', '1')
+                                  ->where('active', $active)
+                                  ->get();
+
+      return $center_costs;
+    }
 }

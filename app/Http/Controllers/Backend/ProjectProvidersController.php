@@ -55,9 +55,10 @@ class ProjectProvidersController extends Controller
       $extraHours = $team->extra_hours;
 
       // hay que agregar campo horas segun team
-
-      foreach($extraHours as &$val) {
-        $val['rol'] = FrameFunction::getName($val['rol']);
+      if(!empty($extraHours)){
+        foreach($extraHours as &$val) {
+          $val['rol'] = FrameFunction::getName($val['rol']);
+        }
       }
 
       return response()->json(['results' => $extraHours, 'salary' => $team->salary_workdays]);
@@ -71,7 +72,9 @@ class ProjectProvidersController extends Controller
      */
     public function edit($id)
     {
-        //
+      $team = ProjectProvider::find($id);
+
+      return response()->json(['results' => $team->absence]);
     }
 
     /**

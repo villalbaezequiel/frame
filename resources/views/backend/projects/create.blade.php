@@ -257,11 +257,7 @@
                         <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_workday">
                           <option value="">Seleccionar</option>
                           @foreach(\App\Workday::getAllWorkdays() as $workday)
-                          <option
-                            <?php if($workday->day): ?>
-                            data-day="{{ $workday->day }}"
-                            <?php endif; ?>
-                            value="{{ $workday->id }}">{{ $workday->name }}<?php if($workday->day && $workday->day != 1){ echo " (".$workday->day." dias)";} ?></option>
+                            <option value="{{ $workday->id }}" data-mode="{{ $workday->mode }}">{{ $workday->name }}</option>
                           @endforeach
                         </select>
                       </div>
@@ -529,5 +525,32 @@
 </div>
 @endsection
 @section('javascript')
+<script>
+    let holidays = {!! json_encode($holidays,true) !!};
+
+    $('.datepicker').datepicker({
+        beforeShowDay: function (date){
+          let thisDate = jQuery.datepicker.formatDate('yy-mm-dd', date);
+          for(var i=0; i < holidays.length; ++i) {
+              if(holidays[i] == thisDate) {
+                return [true, 'ui-state-highlight ui-state-active'];
+              }
+          }
+          return [true];
+        }
+    });
+
+    $('.datepicker_crew').datepicker({
+        beforeShowDay: function (date){
+          let thisDate = jQuery.datepicker.formatDate('yy-mm-dd', date);
+          for(var i=0; i < holidays.length; ++i) {
+              if(holidays[i] == thisDate) {
+                return [true, 'ui-state-highlight ui-state-active'];
+              }
+          }
+          return [true];
+        }
+    });
+  </script>
   <script src="{{ asset('/js/project.js') }}"> </script>
 @endsection

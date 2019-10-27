@@ -22,6 +22,8 @@ use App\ProyectCategory;
 use App\RoleUser;
 use App\Study;
 use App\CenterCost;
+use App\Report;
+use App\Holiday;
 use DateTime;
 
 class ExportController extends Controller
@@ -487,7 +489,7 @@ class ExportController extends Controller
           'project_providers.salary_daily as sueldo_diario_sat',
           'project_providers.salary_liquidate as sueldo_liquidar',
           'project_providers.salaty_difference as sueldo_diferencia',
-          'project_providers.start_date_contract as fecha_de_declaracion',
+          'project_providers.created_at as fecha_de_declaracion',
           'project_providers.start_date_contract as fecha_alta_contrato',
           'project_providers.finish_date_contract as fecha_baja_contrato',
           'project_providers.start_afip as fecha_alta_afip',
@@ -615,23 +617,26 @@ class ExportController extends Controller
     {
       try {
         $listTeams = ProjectProvider::select('extra_hours', 'id_provider', 'salary_workdays')
+                                      ->where('extra_hours', '!=', null)
+                                      ->where('extra_hours', '!=', '[]')
                                       ->where('id_project', $id_project)
                                       ->get();
 
-        if(count($listTeams)){
-
+        if(count($listTeams))
+        {
           $nameProject = Project::getCenterCost($id_project);
 
           $timestamp = date('Ymdhis');
           Excel::create(Helpers::setLimitString("{$nameProject}_hsextras_{$timestamp}", 27), function($excel) use ($listTeams){
 
-            foreach ($listTeams as $val) {
-
+            foreach ($listTeams as $val)
+            {
               $horasExtras = $val->extra_hours;
               $name = Provider::getNameOrderLastName($val->id_provider);
               $arrayHs = array();
 
-              if(!empty($horasExtras)){
+              if(!empty($horasExtras))
+              {
                 foreach ($horasExtras as $hs_extra) {
 
                   $hs_extra_initial = substr($hs_extra['start'], 0, strpos($hs_extra['start'], '('));
@@ -640,28 +645,29 @@ class ExportController extends Controller
                   $hs_extra_finish = substr($hs_extra['finish'], 0, strpos($hs_extra['finish'], '('));
                   $hs_extra_finish_date = new DateTime($hs_extra_finish);
 
+                  $agreed_hours = ($hs_extra['agreed_hours'] ? $hs_extra['agreed_hours'] : 1);
+
                   $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
                   $parseSalary = str_replace(array('.', ','), array('', '.'), $val->salary_workdays);
-                  $horasExtras = ((int) $horasTrabajadas - $hs_extra['agreed_hours']);
-                  $valorHora = ( ($parseSalary / (int) $hs_extra['agreed_hours']) * 1.5 );
+                  $horasExtras = ((int) $horasTrabajadas - $agreed_hours);
+                  $valorHora = ( ($parseSalary / (int) $agreed_hours) * 1.5 );
 
                   $arrayHs[] = array(
                                 "fecha" => Helpers::getDay($hs_extra_initial_date->format('w')).' '.$hs_extra_initial_date->format('d/m/Y'),
                                 "rol" => FrameFunction::getName($hs_extra['rol']),
                                 "inicio" => $hs_extra_initial_date->format('H:i'),
                                 "final" => $hs_extra_finish_date->format('H:i'),
-                                "horas_pactadas" => $hs_extra['agreed_hours'],
+                                "horas_pactadas" => $agreed_hours,
                                 "horas_extras" => $horasExtras,
                                 "valor_hora" => "$" . round($valorHora, 2),
                                 "valor_total" => "$" . round(($valorHora * $horasExtras), 2)
                               );
                 }
+
+                $excel->sheet(Helpers::setLimitString($name, 27), function($sheet) use ($arrayHs){
+                  $sheet->fromArray($arrayHs);
+                });
               }
-
-              $excel->sheet(Helpers::setLimitString($name, 27), function($sheet) use ($arrayHs){
-                $sheet->fromArray($arrayHs);
-              });
-
             }
 
           })->download();
@@ -1030,6 +1036,31 @@ class ExportController extends Controller
       }
     }
 
+    public function exportTeamAbsences(Request $request)
+    {
+      try {
+        $team = $request->get('name_team');
+        $list = $request->get('absences');
+        $projectProvider = ProjectProvider::find($request->get('id_project_provider'));
+        $provider = Provider::find($projectProvider->id_provider);
+
+        $timestamp = date('mdhis');
+        $nameProject = Project::getCenterCost($projectProvider->id_project);
+        $lastName = User::getLastName($provider->id_user);
+
+        Excel::create(Helpers::setLimitString("{$nameProject}_{$lastName}_ausencias_{$timestamp}", 27), function($excel) use ($list, $team){
+
+            $excel->sheet(Helpers::setLimitString($team, 27), function($sheet) use ($list){
+              $sheet->fromArray(json_decode($list, true));
+            });
+
+        })->download();
+
+      } catch(\Exception $e){
+        Helpers::getCapturError($e);
+      }
+    }
+
     public function getCenterCosts()
     {
       try {
@@ -1114,7 +1145,7 @@ class ExportController extends Controller
           'project_providers.salary_daily as sueldo_diario_sat',
           'project_providers.salary_liquidate as sueldo_liquidar',
           'project_providers.salaty_difference as sueldo_diferencia',
-          'project_providers.start_date_contract as fecha_de_declaracion',
+          'project_providers.created_at as fecha_de_declaracion',
           'project_providers.start_date_contract as fecha_alta_contrato',
           'project_providers.finish_date_contract as fecha_baja_contrato',
           'project_providers.start_afip as fecha_alta_afip',
@@ -1225,6 +1256,141 @@ class ExportController extends Controller
           }
 
         })->download();
+
+      } catch(\Exception $e) {
+        Helpers::getCapturError($e);
+      }
+    }
+
+    public function exportReport($id)
+    {
+      try {
+
+        $report = Report::find($id);
+
+        if(!$report){
+          return view('frontend.status', [
+            'message' => 'El Reporte a Descargar ya no se encuentra disponible!'
+          ]);
+        }
+
+        $report->count_repeat = ($report->count_repeat + 1);
+        $report->save();
+
+        $reportDownload = '';
+
+        switch ($report->type) {
+          case 'information_project':
+            $reportDownload = Report::exportProject($report->id_project, $report->from, $report->to, $report->date_by);
+            break;
+          case 'extra_hours':
+            $reportDownload = Report::exportExtraHours($report->id_project, $report->from, $report->to, $report->date_by);
+            break;
+          case 'contract_secure':
+            $reportDownload = Report::exportContractSecure($report->id_project, $report->from, $report->to, $report->date_by);
+            break;
+          case 'contracts':
+            // exclude contracts type services. ID = 4
+            $reportDownload = Report::exportProject($report->id_project, $report->from, $report->to, $report->date_by, '4');
+            break;
+          default:
+            $reportDownload = Report::exportProject($report->id_project, $report->from, $report->to, $report->date_by);
+            break;
+        }
+
+        if($reportDownload){
+          return $reportDownload;
+        } else {
+          return view('frontend.status', [
+            'message' => 'No encontramos Información para el Reporte a Descargar!'
+          ]);
+        }
+
+      } catch(\Exception $e) {
+        Helpers::getCapturError($e);
+      }
+    }
+
+    public function getHolidays()
+    {
+      try {
+        $results = Holiday::select(
+                            'name as nombre',
+                            'date as fecha',
+                            'description as descripcion',
+                            'active as activo'
+                          )->get();
+
+        if(count($results)) {
+          foreach ($results as &$result) {
+            $result->fecha = Helpers::getDateParseFormat($result->fecha, '/');
+            $result->activo = Helpers::getActive($result->activo);
+          }
+
+          $timestamp = date('Ymdhis');
+
+          Excel::create(Helpers::setLimitString("feriados_{$timestamp}", 27), function($excel) use ($results){
+
+            $excel->sheet('Feriados Nacionales', function($sheet) use ($results){
+              $sheet->fromArray($results);
+            });
+
+          })->download();
+        } else {
+          return back()->with('message', 'El Listado de Feriados Nacionales se encuentra vacio!');
+        }
+
+      } catch(\Exception $e) {
+        Helpers::getCapturError($e);
+      }
+    }
+
+    public function absencesTeams($id_project)
+    {
+      try {
+        $listTeams = ProjectProvider::select('absence', 'id_provider')
+                                      ->where('absence', '!=', null)
+                                      ->where('absence', '!=', '[]')
+                                      ->where('id_project', $id_project)
+                                      ->get();
+
+        if(count($listTeams))
+        {
+          $nameProject = Project::getCenterCost($id_project);
+
+          $timestamp = date('Ymdhis');
+          Excel::create(Helpers::setLimitString("{$nameProject}_ausencias_{$timestamp}", 27), function($excel) use ($listTeams){
+
+            foreach ($listTeams as $val)
+            {
+              $absences = $val->absence;
+              $name = Provider::getNameOrderLastName($val->id_provider);
+              $arrayAbsences = array();
+
+              if(!empty($absences))
+              {
+                foreach ($absences as $absence) {
+
+                  $date = substr($absence['date'], 0, strpos($absence['date'], '('));
+                  $dateParse = new DateTime($date);
+
+                  $arrayAbsences[] = array(
+                              "fecha" => Helpers::getDay($dateParse->format('w')).' '.$dateParse->format('d/m/Y'),
+                              "asunto" => ProjectProvider::getSubjectAbsence($absence['subject']),
+                              "nota" => $absence['note']
+                            );
+                }
+
+                $excel->sheet(Helpers::setLimitString($name, 27), function($sheet) use ($arrayAbsences){
+                  $sheet->fromArray($arrayAbsences);
+                });
+              }
+            }
+
+          })->download();
+        } else {
+          return back()->with("message", "No se encontraron Ausencias para los Teams del Proyecto Seleccionado.");
+        }
 
       } catch(\Exception $e) {
         Helpers::getCapturError($e);

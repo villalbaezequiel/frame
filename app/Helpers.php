@@ -72,6 +72,19 @@ class Helpers extends Model
       }
     }
 
+    static public function setDateFormatTimestamp($date, $explodeString = '/', $hour = '00:00:00')
+    {
+      $substrDate = substr($date, 0, 10);
+      $separartor = '-';
+      $format = explode($explodeString, $substrDate);
+
+      if($format[2]){
+        return $format[2].$separartor.$format[1].$separartor.$format[0]." ".$hour;
+      } else {
+        return "1990".$separartor."01".$separartor."01"." ".$hour;
+      }
+    }
+
     static public function getFormatSalary($salary)
     {
       $signo_peso = str_replace(array("$"), array(""), $salary);
@@ -643,5 +656,13 @@ class Helpers extends Model
     ];
 
     return $list;
+   }
+
+   static function setTransformDateTimestamp($date, $separartor = '/', $hour = '00:00:00')
+   {
+      $setDate = explode($separartor, $date);
+      $dateTransform = $setDate[2].'-'.$setDate[1].'-'.$setDate[0].' '.$hour;
+
+      return $dateTransform;
    }
 }

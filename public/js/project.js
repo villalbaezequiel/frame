@@ -88,6 +88,14 @@ function getTemplateTeam(idTeam, functionFrame, name, categorySat, dates, contra
           </div>`);
 }
 
+
+function convertDateYYMMDD(date, separator = '/', separatorConvert = '-')
+{
+  let parse = date.split(separator);
+
+  return parse[2]+'-'+parse[1]+'-'+parse[0];
+}
+
 function setCardTeamIsset(idCard, function_frame, category_sat, dates, contract, active, puesto){
   $("#item_view_"+idCard+" .edit-text-function_frame").text(function_frame);
   $("#item_view_"+idCard+" .edit-text-category_sat").text(category_sat);
@@ -224,6 +232,34 @@ function getTemplateHourExtras(){
   return formSwal;
 }
 
+function getTemplateAbsences(){
+  let formSwal = `<div class="table-responsive"><table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Asunto</th>
+                            <th>Nota</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="content-absences">
+                     </tbody>
+                  </table></div>
+                  <div class="row">
+                    <div class="col-md-12">
+                    <form id="form_absences" action="/sistema/export/absences" target="_blank" method="post">
+                    <input type="hidden" name="_token" value="">
+                        <input type="hidden" name="name_team" value="">
+                        <input type="hidden" name="absences" value="">
+                        <input type="hidden" name="id_project_provider" value="">
+                        <input type="submit" class="btn btn-primary" value="Exportar Ausencias">
+                      </form>
+                    </div>
+                  </div>`;
+
+  return formSwal;
+}
+
 function removeDumplicateValue(myArray)
 {
   var newArray = [];
@@ -319,6 +355,7 @@ $(document).ready(function(){
     let start_date_contract = $('input[name=start_date_contract]').val(); // required
     let finish_date_contract = $('input[name=finish_date_contract]').val(); // required
     let id_workday = $('select[name=id_workday]').val(); // required
+    let mode_workday = $('select[name=id_workday] option:selected').data('mode');
     let count_workdays_crew = $('input[name=count_workdays_crew]').val(); // required
 
     let hour_initial = $('select[name=hour_initial]').val();
@@ -352,6 +389,44 @@ $(document).ready(function(){
         salary_daily && salary_liquidate && salaty_difference)
     {
 
+      // validate workday mode
+      let startDateContract = moment(convertDateYYMMDD(start_date_contract));
+      let endDateContract = moment(convertDateYYMMDD(finish_date_contract));
+
+      let diffDatesContract = endDateContract.diff(startDateContract, 'days');
+
+      if(mode_workday == 'week-5'){
+        if(diffDatesContract != 4)
+        {
+          Swal.fire({
+            title: 'Haz seleccionado la Modalidad Semana por 5 dias. Por favor corrija las fechas de Contrato para que coincidan con los Dias mencionados!',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar'
+          });
+
+          return false;
+        }
+      }
+
+      if(mode_workday == 'week-7'){
+        if(diffDatesContract != 6)
+        {
+          Swal.fire({
+            title: 'Haz seleccionado la Modalidad Semana por 7 dias. Por favor corrija las fechas de Contrato para que coincidan con los Dias mencionados!',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar'
+          });
+
+          return false;
+        }
+      }
+
       // object crew
       let crew = {
         'id_function_frame': id_function_frame,
@@ -361,6 +436,7 @@ $(document).ready(function(){
         'start_date_contract': start_date_contract,
         'finish_date_contract': finish_date_contract,
         'id_workday': id_workday,
+        'mode_workday': mode_workday,
         'count_workdays_crew': count_workdays_crew,
         'hour_initial': hour_initial,
         'hour_end': hour_end,
@@ -929,7 +1005,8 @@ $(document).ready(function(){
             crew: crew,
             rol: rol,
             start: dateStart,
-            finish: dateFinish
+            finish: dateFinish,
+            day: dateStart.getDay()
           }
 
           $.ajax({
@@ -1006,8 +1083,8 @@ $(document).ready(function(){
           return rhours+'.'+minutes;
         }
 
-        if(data.results){
-
+        if(data.results && data.results.length > 0)
+        {
           swal({
             title: `${nameTeam} : Horas Extras`,
             html: getTemplateHourExtras(),
@@ -1067,6 +1144,15 @@ $(document).ready(function(){
 
             }
           });
+        } else {
+          Swal.fire({
+            title: 'NO se encontraron Horas Extras!',
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar'
+          });
         }
       },
       error: function(xhr, status){
@@ -1077,8 +1163,86 @@ $(document).ready(function(){
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'Aceptar'
-        })
-        console.log('Error: '+xhr);
+        });
+      }
+    });
+  });
+
+  $(".show-absences").click(function(){
+
+    let id = $(this).data('id');
+    let nameTeam = $(this).data('nameteam');
+    $.ajax({
+      type: 'GET',
+      url: '/sistema/project_providers/'+id+'/edit',
+      success: function(data){
+
+        if(data.results && data.results.length > 0)
+        {
+          swal({
+            title: `${nameTeam} : Ausencias`,
+            html: getTemplateAbsences(),
+            confirmButtonClass: "btn btn-success",
+            showCancelButton: false,
+            customClass: 'swal-wide',
+            buttonsStyling: !1,
+            onBeforeOpen: () => {
+
+              let dataExport = [];
+
+              $.each(data.results, function(i,v){
+                let _tokenForm = $("#logic_project input[name=_token]").val();
+                let note = (v.note ? v.note : '-')
+
+                $("#content-absences").append(`<tr>
+                                  <td>${getDatePickerFormat(v.date)}</td>
+                                  <td>${v.subject}</td>
+                                  <td>${note}</td>
+                                  <td>
+                                    <button type="submit" form="${i}" class="btn btn-primary">Eliminar</button>
+                                    <form id="${i}" action="/sistema/json/remove_absence" style="display:none;" method="POST">
+                                      <input type="hidden" name="_token" value="${_tokenForm}">
+                                      <input type="hidden" value="${i}" name="key" />
+                                      <input type="hidden" value="${id}" name="id" />
+                                    </form>
+                                  </td>
+                              </tr>`);
+
+                dataExport.push({
+                  fecha: getDatePickerFormat(v.date, true),
+                  asunto: v.subject,
+                  nota: note
+                });
+
+              });
+
+              $("#form_absences input[name=_token]").val($("#logic_project input[name=_token]").val());
+              $("#form_absences input[name=name_team]").val(nameTeam);
+              $("#form_absences input[name=id_project_provider]").val(id);
+              $("#form_absences input[name=absences]").val(JSON.stringify(dataExport));
+
+            }
+          });
+        } else {
+          Swal.fire({
+            title: 'NO se encontraron Ausencias!',
+            type: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar'
+          });
+        }
+      },
+      error: function(xhr, status){
+        Swal.fire({
+          title: 'NO se encontraron Ausencias!',
+          type: 'info',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Aceptar'
+        });
       }
     });
   });

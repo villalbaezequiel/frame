@@ -84,4 +84,14 @@ class Project extends Model
         return CenterCost::getNumber($project->cost_center);
       }
     }
+
+    static function getProjectByCenterCost($centerCost)
+    {
+      // id center cost
+      $project = Project::where('cost_center', $centerCost)->first();
+
+      if($project){
+        return $project;
+      }
+    }
 }

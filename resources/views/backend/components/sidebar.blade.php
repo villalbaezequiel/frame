@@ -136,6 +136,20 @@
 
       @if(Auth::user()->permissions)
         @foreach(json_decode(Auth::user()->permissions) as $userPermission)
+          @if($userPermission == "1" || $userPermission == "8")
+            <li class="nav-item nav-check-url ">
+              <a class="nav-link" href="{{ url('/reports') }}">
+                <i class="material-icons">reports</i>
+                <p> Reportes </p>
+              </a>
+            </li>
+            <?php break; ?>
+          @endif
+        @endforeach
+      @endif
+
+      @if(Auth::user()->permissions)
+        @foreach(json_decode(Auth::user()->permissions) as $userPermission)
           @if($userPermission == "1" || $userPermission == "6")
             <li class="nav-item nav-check-url ">
               <a class="nav-link none-alert" data-toggle="collapse" href="#users-nav-menu">
@@ -196,6 +210,12 @@
                       <span class="sidebar-normal"> Jornadas de Trabajos </span>
                     </a>
                   </li>
+                  <li class="nav-item nav-check-url ">
+                      <a class="nav-link" href="{{ url('/utilities/holidays') }}">
+                        <span class="sidebar-mini"> FN </span>
+                        <span class="sidebar-normal"> Feriados Nacionales </span>
+                      </a>
+                    </li>
                   <li class="nav-item nav-check-url ">
                     <a class="nav-link" href="{{ url('/utilities/studies') }}">
                       <span class="sidebar-mini"> NE </span>

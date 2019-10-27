@@ -12,7 +12,7 @@
         <img src="{{ asset('img/logo.svg') }}" />
       </div>
 
-      <div class="card card-login">
+      <div class="card">
         <div class="card-header card-header-primary text-center">
           <h4 class="card-title">Restablecer contraseña</h4>
         </div>
