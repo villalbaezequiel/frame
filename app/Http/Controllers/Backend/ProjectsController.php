@@ -690,8 +690,6 @@ class ProjectsController extends Controller
           return redirect('/projects')->with('message', 'Proyecto editado con exito!');
 
        } catch(\Exception $e) {
-
-        dd($e);
         Helpers::getCapturError($e);
        }
      }
