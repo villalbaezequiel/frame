@@ -694,8 +694,12 @@ class ExportController extends Controller
 
                                     'project_providers.id_category_sat as Actividad_Declarada',
                                     'project_providers.created_at as Fecha_de_Declaracion',
-                                    'project_providers.start_date_contract as Vigencia_Desde',
-                                    'project_providers.finish_date_contract as Vigencia_Hasta',
+                                    'project_providers.start_date_secure_contract as Vigencia_Desde',
+                                    'project_providers.end_date_secure_contract as Vigencia_Hasta',
+
+                                    'project_providers.start_date_contract as start_contract',
+                                    'project_providers.finish_date_contract as end_contract',
+
                                     'project_providers.count_workdays_crew as Cantidad_de_Dias',
                                     'project_providers.salary_daily as Referencia_Prima_Diaria'
                                     )
@@ -710,21 +714,27 @@ class ExportController extends Controller
         $count = 1;
         foreach ($results as &$team)
         {
-          $fechaEmision = Carbon::parse($team->Vigencia_Desde);
-          $fechaExpiracion = Carbon::parse($team->Vigencia_Hasta);
+          $vigenciaFrom = ($team->Vigencia_Desde ? $team->Vigencia_Desde : $team->start_contract);
+          $vigenciaTo = ($team->Vigencia_Hasta ? $team->Vigencia_Hasta : $team->end_contract);
+
+          $fechaEmision = Carbon::parse($vigenciaFrom);
+          $fechaExpiracion = Carbon::parse($vigenciaTo);
 
           $team->N° = $count;
           $team->Nombre_Apellido = User::getFullName($team->Nombre_Apellido);
           $team->Fecha_Nac = Helpers::getDateParseFormat($team->Fecha_Nac);
           $team->Actividad_Declarada = WorkersCategory::getName($team->Actividad_Declarada, false);
           $team->Fecha_de_Declaracion = Helpers::getDateParseFormat($team->Fecha_de_Declaracion);
-          $team->Vigencia_Desde = Helpers::getDateParseFormat($team->Vigencia_Desde);
-          $team->Vigencia_Hasta = Helpers::getDateParseFormat($team->Vigencia_Hasta);
+          $team->Vigencia_Desde = Helpers::getDateParseFormat($vigenciaFrom);
+          $team->Vigencia_Hasta = Helpers::getDateParseFormat($vigenciaTo);
           $team->Cantidad_de_Dias = $fechaExpiracion->diffInDays($fechaEmision);
           $team->Referencia_Prima_Diaria = '';
           $team->Costo_por_dia_sin_IVA = '';
           $team->Costo_por_dia_con_IVA = '';
           $team->Movimiento = 'Alta';
+
+          unset($team->start_contract);
+          unset($team->end_contract);
 
           $count++;
         }
