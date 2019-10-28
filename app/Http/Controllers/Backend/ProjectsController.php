@@ -95,9 +95,6 @@ class ProjectsController extends Controller
             return redirect('/projects/create')->with('message', 'Error al Crear Proyecto. Debe Agregar al menos un Team!');
           }
 
-          $start_date = explode('/', $request->get('start_date'));
-          $finish_date = explode('/', $request->get('finish_date'));
-
           $project = new Project;
           $project->id_client = $request->get('id_client');
           $project->name = $request->get('name');
@@ -106,8 +103,8 @@ class ProjectsController extends Controller
           $project->cost_center = $request->get('cost_center');
           $project->id_proyect_category = $request->get('id_proyect_category');
           $project->id_team_referring = $request->get('id_team_referring');
-          $project->start_date = (isset($start_date[2]) ? $start_date[2].'-'.$start_date[1].'-'.$start_date[0] : $request->get('start_date'));
-          $project->finish_date = (isset($finish_date[2]) ? $finish_date[2].'-'.$finish_date[1].'-'.$finish_date[0] : $request->get('finish_date'));
+          $project->start_date = Helpers::getDateParseFormat($request->get('start_date'));
+          $project->finish_date = Helpers::getDateParseFormat($request->get('finish_date'));
           $project->clausula_no_repe = $request->get('clausula_no_repe');
           $project->certificado_cobertura = $request->get('certificado_cobertura');
           $project->is_closed = '0'; // 0 = abierto / 1 = cerrado
@@ -124,34 +121,26 @@ class ProjectsController extends Controller
             $crewObj = json_decode($crew);
 
             // si es contrato tipo servicio, dates afip nulo
-            if($crewObj->id_contract != '4'){
-              $start_afipParse = explode('/', $crewObj->start_afip);
-              $finish_afipParse = explode('/', $crewObj->finish_afip);
-
-              $start_afip = (isset($start_afipParse[2]) ? $start_afipParse[2].'-'.$start_afipParse[1].'-'.$start_afipParse[0] : $crewObj->start_afip);
-              $finish_afip = (isset($finish_afipParse[2]) ? $finish_afipParse[2].'-'.$finish_afipParse[1].'-'.$finish_afipParse[0] : $crewObj->finish_afip);
+            if($crewObj->id_contract != '4')
+            {
+              $start_afip = Helpers::getDateParseFormat($crewObj->start_afip);
+              $finish_afip = Helpers::getDateParseFormat($crewObj->finish_afip);
             } else {
               $start_afip = null;
               $finish_afip = null;
             }
 
-            $start_date_contract = explode('/', $crewObj->start_date_contract);
-            $finish_date_contract = explode('/', $crewObj->finish_date_contract);
+            $start_date_contract = Helpers::getDateParseFormat($crewObj->start_date_contract);
+            $finish_date_contract = Helpers::getDateParseFormat($crewObj->finish_date_contract);
             $calendar = array();
 
             if($crewObj->mode_workday == 'month-5')
             {
-
-              $startDatejson = $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0];
-              $endDatejson = $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0];
-              $dateContractWorkday = Workday::getCalendarWeekends($startDatejson, $endDatejson, $crewObj->hour_initial);
-
-              $calendar = $dateContractWorkday;
-
+              $calendar = Workday::getCalendarWeekends($start_date_contract, $finish_date_contract, $crewObj->hour_initial);
             } else {
 
-              $startDatejson = new DateTime( $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] );
-              $endDatejson = new DateTime( $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] );
+              $startDatejson = new DateTime($start_date_contract);
+              $endDatejson = new DateTime($finish_date_contract);
               $endDatejson = $endDatejson->modify( '+1 day' );
               $interval = new DateInterval('P1D');
               $daterange = new DatePeriod($startDatejson, $interval ,$endDatejson);
@@ -178,8 +167,8 @@ class ProjectsController extends Controller
             $team->salary_daily = $crewObj->salary_daily;
             $team->salary_liquidate = $crewObj->salary_liquidate;
             $team->salaty_difference = $crewObj->salaty_difference;
-            $team->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
-            $team->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
+            $team->start_date_contract = $start_date_contract;
+            $team->finish_date_contract = $finish_date_contract;
             $team->count_workdays_crew = $crewObj->count_workdays_crew;
             $team->hour_initial = $crewObj->hour_initial;
             $team->hour_end = $crewObj->hour_end;
@@ -212,34 +201,25 @@ class ProjectsController extends Controller
               $crewObj = json_decode($crew);
 
               // si es contrato tipo servicio, dates afip nulo
-              if($crewObj->id_contract != '4'){
-                $start_afipParse = explode('/', $crewObj->start_afip);
-                $finish_afipParse = explode('/', $crewObj->finish_afip);
-
-                $start_afip = (isset($start_afipParse[2]) ? $start_afipParse[2].'-'.$start_afipParse[1].'-'.$start_afipParse[0] : $crewObj->start_afip);
-                $finish_afip = (isset($finish_afipParse[2]) ? $finish_afipParse[2].'-'.$finish_afipParse[1].'-'.$finish_afipParse[0] : $crewObj->finish_afip);
+              if($crewObj->id_contract != '4')
+              {
+                $start_afip = Helpers::getDateParseFormat($crewObj->start_afip);
+                $finish_afip = Helpers::getDateParseFormat($crewObj->finish_afip);
               } else {
                 $start_afip = null;
                 $finish_afip = null;
               }
 
-              $start_date_contract = explode('/', $crewObj->start_date_contract);
-              $finish_date_contract = explode('/', $crewObj->finish_date_contract);
+              $start_date_contract = Helpers::getDateParseFormat($crewObj->start_date_contract);
+              $finish_date_contract = Helpers::getDateParseFormat($crewObj->finish_date_contract);
               $calendar = array();
 
               if($crewObj->mode_workday == 'month-5')
               {
-
-                $startDatejson = $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0];
-                $endDatejson = $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0];
-                $dateContractWorkday = Workday::getCalendarWeekends($startDatejson, $endDatejson, $crewObj->hour_initial);
-
-                $calendar = $dateContractWorkday;
-
+                $calendar = Workday::getCalendarWeekends($start_date_contract, $finish_date_contract, $crewObj->hour_initial);
               } else {
-
-                $startDatejson = new DateTime( $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] );
-                $endDatejson = new DateTime( $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] );
+                $startDatejson = new DateTime($start_date_contract);
+                $endDatejson = new DateTime($finish_date_contract);
                 $endDatejson = $endDatejson->modify( '+1 day' );
                 $interval = new DateInterval('P1D');
                 $daterange = new DatePeriod($startDatejson, $interval ,$endDatejson);
@@ -266,8 +246,8 @@ class ProjectsController extends Controller
               $team->salary_daily = $crewObj->salary_daily;
               $team->salary_liquidate = $crewObj->salary_liquidate;
               $team->salaty_difference = $crewObj->salaty_difference;
-              $team->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
-              $team->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
+              $team->start_date_contract = $start_date_contract;
+              $team->finish_date_contract = $finish_date_contract;
               $team->count_workdays_crew = $crewObj->count_workdays_crew;
               $team->hour_initial = $crewObj->hour_initial;
               $team->hour_end = $crewObj->hour_end;
@@ -384,16 +364,13 @@ class ProjectsController extends Controller
           $list_crew = $request->get('list_crew');
           $list_crew_secundario = $request->get('list_crew_secundario');
 
-          $start_date = explode('/', $request->get('start_date'));
-          $finish_date = explode('/', $request->get('finish_date'));
-
           $project = Project::find($id);
           $project->id_client = $request->get('id_client');
           $project->name = $request->get('name');
           $project->description = $request->get('description');
           $project->id_proyect_category = $request->get('id_proyect_category');
-          $project->start_date = (isset($start_date[2]) ? $start_date[2].'-'.$start_date[1].'-'.$start_date[0] : $request->get('start_date'));
-          $project->finish_date = (isset($finish_date[2]) ? $finish_date[2].'-'.$finish_date[1].'-'.$finish_date[0] : $request->get('finish_date'));
+          $project->start_date = Helpers::getDateParseFormat($request->get('start_date'));
+          $project->finish_date = Helpers::getDateParseFormat($request->get('finish_date'));
 
           // update module CenterCost
           if($project->cost_center != $request->get('cost_center'))
@@ -427,34 +404,25 @@ class ProjectsController extends Controller
               $crewObj = json_decode($crew);
 
               // si es contrato tipo servicio, dates afip nulo
-              if($crewObj->id_contract != '4'){
-                $start_afipParse = explode('/', $crewObj->start_afip);
-                $finish_afipParse = explode('/', $crewObj->finish_afip);
-
-                $start_afip = (isset($start_afipParse[2]) ? $start_afipParse[2].'-'.$start_afipParse[1].'-'.$start_afipParse[0] : $crewObj->start_afip);
-                $finish_afip = (isset($finish_afipParse[2]) ? $finish_afipParse[2].'-'.$finish_afipParse[1].'-'.$finish_afipParse[0] : $crewObj->finish_afip);
+              if($crewObj->id_contract != '4')
+              {
+                $start_afip = Helpers::getDateParseFormat($crewObj->start_afip);
+                $finish_afip = Helpers::getDateParseFormat($crewObj->finish_afip);
               } else {
                 $start_afip = null;
                 $finish_afip = null;
               }
 
-              $start_date_contract = explode('/', $crewObj->start_date_contract);
-              $finish_date_contract = explode('/', $crewObj->finish_date_contract);
+              $start_date_contract = Helpers::getDateParseFormat($crewObj->start_date_contract);
+              $finish_date_contract = Helpers::getDateParseFormat($crewObj->finish_date_contract);
               $calendar = array();
 
               if($crewObj->mode_workday == 'month-5')
               {
-
-                $startDatejson = $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0];
-                $endDatejson = $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0];
-                $dateContractWorkday = Workday::getCalendarWeekends($startDatejson, $endDatejson, $crewObj->hour_initial);
-
-                $calendar = $dateContractWorkday;
-
+                $calendar = Workday::getCalendarWeekends($start_date_contract, $finish_date_contract, $crewObj->hour_initial);
               } else {
-
-                $startDatejson = new DateTime( $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] );
-                $endDatejson = new DateTime( $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] );
+                $startDatejson = new DateTime($start_date_contract);
+                $endDatejson = new DateTime($finish_date_contract);
                 $endDatejson = $endDatejson->modify( '+1 day' );
                 $interval = new DateInterval('P1D');
                 $daterange = new DatePeriod($startDatejson, $interval ,$endDatejson);
@@ -482,8 +450,8 @@ class ProjectsController extends Controller
                 $team->salary_daily = $crewObj->salary_daily;
                 $team->salary_liquidate = $crewObj->salary_liquidate;
                 $team->salaty_difference = $crewObj->salaty_difference;
-                $team->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
-                $team->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
+                $team->start_date_contract = $start_date_contract;
+                $team->finish_date_contract = $finish_date_contract;
                 $team->count_workdays_crew = $crewObj->count_workdays_crew;
                 $team->hour_initial = $crewObj->hour_initial;
                 $team->hour_end = $crewObj->hour_end;
@@ -509,8 +477,8 @@ class ProjectsController extends Controller
                 $team->salary_daily = $crewObj->salary_daily;
                 $team->salary_liquidate = $crewObj->salary_liquidate;
                 $team->salaty_difference = $crewObj->salaty_difference;
-                $team->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
-                $team->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
+                $team->start_date_contract = $start_date_contract;
+                $team->finish_date_contract = $finish_date_contract;
                 $team->count_workdays_crew = $crewObj->count_workdays_crew;
                 $team->hour_initial = $crewObj->hour_initial;
                 $team->hour_end = $crewObj->hour_end;
@@ -544,34 +512,25 @@ class ProjectsController extends Controller
               $crewObj = json_decode($crew);
 
               // si es contrato tipo servicio, dates afip nulo
-              if($crewObj->id_contract != '4'){
-                $start_afipParse = explode('/', $crewObj->start_afip);
-                $finish_afipParse = explode('/', $crewObj->finish_afip);
-
-                $start_afip = (isset($start_afipParse[2]) ? $start_afipParse[2].'-'.$start_afipParse[1].'-'.$start_afipParse[0] : $crewObj->start_afip);
-                $finish_afip = (isset($finish_afipParse[2]) ? $finish_afipParse[2].'-'.$finish_afipParse[1].'-'.$finish_afipParse[0] : $crewObj->finish_afip);
+              if($crewObj->id_contract != '4')
+              {
+                $start_afip = Helpers::getDateParseFormat($crewObj->start_afip);
+                $finish_afip = Helpers::getDateParseFormat($crewObj->finish_afip);
               } else {
                 $start_afip = null;
                 $finish_afip = null;
               }
 
-              $start_date_contract = explode('/', $crewObj->start_date_contract);
-              $finish_date_contract = explode('/', $crewObj->finish_date_contract);
+              $start_date_contract = Helpers::getDateParseFormat($crewObj->start_date_contract);
+              $finish_date_contract = Helpers::getDateParseFormat($crewObj->finish_date_contract);
               $calendar = array();
 
               if($crewObj->mode_workday == 'month-5')
               {
-
-                $startDatejson = $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0];
-                $endDatejson = $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0];
-                $dateContractWorkday = Workday::getCalendarWeekends($startDatejson, $endDatejson, $crewObj->hour_initial);
-
-                $calendar = $dateContractWorkday;
-
+                $calendar = Workday::getCalendarWeekends($start_date_contract, $finish_date_contract, $crewObj->hour_initial);
               } else {
-
-                $startDatejson = new DateTime( $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] );
-                $endDatejson = new DateTime( $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] );
+                $startDatejson = new DateTime($start_date_contract);
+                $endDatejson = new DateTime($finish_date_contract);
                 $endDatejson = $endDatejson->modify( '+1 day' );
                 $interval = new DateInterval('P1D');
                 $daterange = new DatePeriod($startDatejson, $interval ,$endDatejson);
@@ -599,8 +558,8 @@ class ProjectsController extends Controller
                 $team->salary_daily = $crewObj->salary_daily;
                 $team->salary_liquidate = $crewObj->salary_liquidate;
                 $team->salaty_difference = $crewObj->salaty_difference;
-                $team->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
-                $team->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
+                $team->start_date_contract = $start_date_contract;
+                $team->finish_date_contract = $finish_date_contract;
                 $team->count_workdays_crew = $crewObj->count_workdays_crew;
                 $team->hour_initial = $crewObj->hour_initial;
                 $team->hour_end = $crewObj->hour_end;
@@ -626,8 +585,8 @@ class ProjectsController extends Controller
                 $team->salary_daily = $crewObj->salary_daily;
                 $team->salary_liquidate = $crewObj->salary_liquidate;
                 $team->salaty_difference = $crewObj->salaty_difference;
-                $team->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
-                $team->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
+                $team->start_date_contract = $start_date_contract;
+                $team->finish_date_contract = $finish_date_contract;
                 $team->count_workdays_crew = $crewObj->count_workdays_crew;
                 $team->hour_initial = $crewObj->hour_initial;
                 $team->hour_end = $crewObj->hour_end;

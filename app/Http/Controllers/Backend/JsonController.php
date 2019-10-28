@@ -360,32 +360,23 @@ class JsonController extends Controller
 
         // si es contrato tipo servicio, dates afip nulo
         if($crewObj->id_contract != '4'){
-          $start_afipParse = explode('/', $crewObj->start_afip);
-          $finish_afipParse = explode('/', $crewObj->finish_afip);
-
-          $start_afip = (isset($start_afipParse[2]) ? $start_afipParse[2].'-'.$start_afipParse[1].'-'.$start_afipParse[0] : $crewObj->start_afip);
-          $finish_afip = (isset($finish_afipParse[2]) ? $finish_afipParse[2].'-'.$finish_afipParse[1].'-'.$finish_afipParse[0] : $crewObj->finish_afip);
+          $start_afip = Helpers::getDateParseFormat($crewObj->start_afip);
+          $finish_afip = Helpers::getDateParseFormat($crewObj->finish_afip);
         } else {
           $start_afip = null;
           $finish_afip = null;
         }
 
-        $start_date_contract = explode('/', $crewObj->start_date_contract);
-        $finish_date_contract = explode('/', $crewObj->finish_date_contract);
+        $start_date_contract = Helpers::getDateParseFormat($crewObj->start_date_contract);
+        $finish_date_contract = Helpers::getDateParseFormat($crewObj->finish_date_contract);
         $calendar = array();
 
         if($crewObj->mode_workday == 'month-5')
         {
-          $startDatejson = $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0];
-          $endDatejson = $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0];
-          $dateContractWorkday = Workday::getCalendarWeekends($startDatejson, $endDatejson, $crewObj->hour_initial);
-
-          $calendar = $dateContractWorkday;
-
+          $calendar = Workday::getCalendarWeekends($start_date_contract, $finish_date_contract, $crewObj->hour_initial);
         } else {
-
-          $startDatejson = new DateTime( $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] );
-          $endDatejson = new DateTime( $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] );
+          $startDatejson = new DateTime($start_date_contract);
+          $endDatejson = new DateTime($finish_date_contract);
           $endDatejson = $endDatejson->modify( '+1 day' );
           $interval = new DateInterval('P1D');
           $daterange = new DatePeriod($startDatejson, $interval ,$endDatejson);
@@ -411,8 +402,8 @@ class JsonController extends Controller
         $team->salary_daily = $crewObj->salary_daily;
         $team->salary_liquidate = $crewObj->salary_liquidate;
         $team->salaty_difference = $crewObj->salaty_difference;
-        $team->start_date_contract = (isset($start_date_contract[2]) ? $start_date_contract[2].'-'.$start_date_contract[1].'-'.$start_date_contract[0] : $crewObj->start_date_contract);
-        $team->finish_date_contract = (isset($finish_date_contract[2]) ? $finish_date_contract[2].'-'.$finish_date_contract[1].'-'.$finish_date_contract[0] : $crewObj->finish_date_contract);
+        $team->start_date_contract = $start_date_contract;
+        $team->finish_date_contract = $finish_date_contract;
         $team->count_workdays_crew = $crewObj->count_workdays_crew;
         $team->hour_initial = $crewObj->hour_initial;
         $team->hour_end = $crewObj->hour_end;
