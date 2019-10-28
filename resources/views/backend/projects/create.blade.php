@@ -321,6 +321,28 @@
                     </div>
                   </div>
 
+                  <div class="col-md-6 fields-secure" style="display: none">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Fecha de Alta SEGURO:
+                        </span>
+                        <input class="form-control datepicker" type="text" name="start_date_secure_contract">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 fields-secure" style="display: none">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          Fecha de Baja SEGURO:
+                        </span>
+                        <input class="form-control datepicker" type="text" name="end_date_secure_contract">
+                      </div>
+                    </div>
+                  </div>
+
                   <div class="col-md-6">
                     <div class="form-group">
                       <div class="input-group-prepend">

@@ -103,8 +103,8 @@ class ProjectsController extends Controller
           $project->cost_center = $request->get('cost_center');
           $project->id_proyect_category = $request->get('id_proyect_category');
           $project->id_team_referring = $request->get('id_team_referring');
-          $project->start_date = Helpers::getDateParseFormat($request->get('start_date'));
-          $project->finish_date = Helpers::getDateParseFormat($request->get('finish_date'));
+          $project->start_date = Project::getDateParseFormat($request->get('start_date'));
+          $project->finish_date = Project::getDateParseFormat($request->get('finish_date'));
           $project->clausula_no_repe = $request->get('clausula_no_repe');
           $project->certificado_cobertura = $request->get('certificado_cobertura');
           $project->is_closed = '0'; // 0 = abierto / 1 = cerrado
@@ -123,15 +123,21 @@ class ProjectsController extends Controller
             // si es contrato tipo servicio, dates afip nulo
             if($crewObj->id_contract != '4')
             {
-              $start_afip = Helpers::getDateParseFormat($crewObj->start_afip);
-              $finish_afip = Helpers::getDateParseFormat($crewObj->finish_afip);
+              $start_afip = Project::getDateParseFormat($crewObj->start_afip);
+              $finish_afip = Project::getDateParseFormat($crewObj->finish_afip);
+
+              $start_date_secure_contract = null;
+              $end_date_secure_contract = null;
             } else {
               $start_afip = null;
               $finish_afip = null;
+
+              $start_date_secure_contract = Project::getDateParseFormat($crewObj->start_date_secure_contract);
+              $end_date_secure_contract = Project::getDateParseFormat($crewObj->end_date_secure_contract);
             }
 
-            $start_date_contract = Helpers::getDateParseFormat($crewObj->start_date_contract);
-            $finish_date_contract = Helpers::getDateParseFormat($crewObj->finish_date_contract);
+            $start_date_contract = Project::getDateParseFormat($crewObj->start_date_contract);
+            $finish_date_contract = Project::getDateParseFormat($crewObj->finish_date_contract);
             $calendar = array();
 
             if($crewObj->mode_workday == 'month-5')
@@ -174,6 +180,8 @@ class ProjectsController extends Controller
             $team->hour_end = $crewObj->hour_end;
             $team->start_afip = $start_afip;
             $team->finish_afip = $finish_afip;
+            $team->start_date_secure_contract = $start_date_secure_contract;
+            $team->end_date_secure_contract = $end_date_secure_contract;
             $team->is_reemplazo = $crewObj->is_reemplazo;
             $team->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
             $team->calendar = $calendar;
@@ -203,15 +211,21 @@ class ProjectsController extends Controller
               // si es contrato tipo servicio, dates afip nulo
               if($crewObj->id_contract != '4')
               {
-                $start_afip = Helpers::getDateParseFormat($crewObj->start_afip);
-                $finish_afip = Helpers::getDateParseFormat($crewObj->finish_afip);
+                $start_afip = Project::getDateParseFormat($crewObj->start_afip);
+                $finish_afip = Project::getDateParseFormat($crewObj->finish_afip);
+
+                $start_date_secure_contract = null;
+                $end_date_secure_contract = null;
               } else {
                 $start_afip = null;
                 $finish_afip = null;
+
+                $start_date_secure_contract = Project::getDateParseFormat($crewObj->start_date_secure_contract);
+                $end_date_secure_contract = Project::getDateParseFormat($crewObj->end_date_secure_contract);
               }
 
-              $start_date_contract = Helpers::getDateParseFormat($crewObj->start_date_contract);
-              $finish_date_contract = Helpers::getDateParseFormat($crewObj->finish_date_contract);
+              $start_date_contract = Project::getDateParseFormat($crewObj->start_date_contract);
+              $finish_date_contract = Project::getDateParseFormat($crewObj->finish_date_contract);
               $calendar = array();
 
               if($crewObj->mode_workday == 'month-5')
@@ -253,6 +267,8 @@ class ProjectsController extends Controller
               $team->hour_end = $crewObj->hour_end;
               $team->start_afip = $start_afip;
               $team->finish_afip = $finish_afip;
+              $team->start_date_secure_contract = $start_date_secure_contract;
+              $team->end_date_secure_contract = $end_date_secure_contract;
               $team->is_reemplazo = $crewObj->is_reemplazo;
               $team->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
               $team->calendar = $calendar;
@@ -369,8 +385,8 @@ class ProjectsController extends Controller
           $project->name = $request->get('name');
           $project->description = $request->get('description');
           $project->id_proyect_category = $request->get('id_proyect_category');
-          $project->start_date = Helpers::getDateParseFormat($request->get('start_date'));
-          $project->finish_date = Helpers::getDateParseFormat($request->get('finish_date'));
+          $project->start_date = Project::getDateParseFormat($request->get('start_date'));
+          $project->finish_date = Project::getDateParseFormat($request->get('finish_date'));
 
           // update module CenterCost
           if($project->cost_center != $request->get('cost_center'))
@@ -406,15 +422,21 @@ class ProjectsController extends Controller
               // si es contrato tipo servicio, dates afip nulo
               if($crewObj->id_contract != '4')
               {
-                $start_afip = Helpers::getDateParseFormat($crewObj->start_afip);
-                $finish_afip = Helpers::getDateParseFormat($crewObj->finish_afip);
+                $start_afip = Project::getDateParseFormat($crewObj->start_afip);
+                $finish_afip = Project::getDateParseFormat($crewObj->finish_afip);
+
+                $start_date_secure_contract = null;
+                $end_date_secure_contract = null;
               } else {
                 $start_afip = null;
                 $finish_afip = null;
+
+                $start_date_secure_contract = Project::getDateParseFormat($crewObj->start_date_secure_contract);
+                $end_date_secure_contract = Project::getDateParseFormat($crewObj->end_date_secure_contract);
               }
 
-              $start_date_contract = Helpers::getDateParseFormat($crewObj->start_date_contract);
-              $finish_date_contract = Helpers::getDateParseFormat($crewObj->finish_date_contract);
+              $start_date_contract = Project::getDateParseFormat($crewObj->start_date_contract);
+              $finish_date_contract = Project::getDateParseFormat($crewObj->finish_date_contract);
               $calendar = array();
 
               if($crewObj->mode_workday == 'month-5')
@@ -457,6 +479,8 @@ class ProjectsController extends Controller
                 $team->hour_end = $crewObj->hour_end;
                 $team->start_afip = $start_afip;
                 $team->finish_afip = $finish_afip;
+                $team->start_date_secure_contract = $start_date_secure_contract;
+                $team->end_date_secure_contract = $end_date_secure_contract;
                 $team->is_reemplazo = $crewObj->is_reemplazo;
                 $team->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
                 $team->calendar = $calendar;
@@ -484,6 +508,8 @@ class ProjectsController extends Controller
                 $team->hour_end = $crewObj->hour_end;
                 $team->start_afip = $start_afip;
                 $team->finish_afip = $finish_afip;
+                $team->start_date_secure_contract = $start_date_secure_contract;
+                $team->end_date_secure_contract = $end_date_secure_contract;
                 $team->is_reemplazo = $crewObj->is_reemplazo;
                 $team->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
                 $team->calendar = $calendar;
@@ -514,15 +540,21 @@ class ProjectsController extends Controller
               // si es contrato tipo servicio, dates afip nulo
               if($crewObj->id_contract != '4')
               {
-                $start_afip = Helpers::getDateParseFormat($crewObj->start_afip);
-                $finish_afip = Helpers::getDateParseFormat($crewObj->finish_afip);
+                $start_afip = Project::getDateParseFormat($crewObj->start_afip);
+                $finish_afip = Project::getDateParseFormat($crewObj->finish_afip);
+
+                $start_date_secure_contract = null;
+                $end_date_secure_contract = null;
               } else {
                 $start_afip = null;
                 $finish_afip = null;
+
+                $start_date_secure_contract = Project::getDateParseFormat($crewObj->start_date_secure_contract);
+                $end_date_secure_contract = Project::getDateParseFormat($crewObj->end_date_secure_contract);
               }
 
-              $start_date_contract = Helpers::getDateParseFormat($crewObj->start_date_contract);
-              $finish_date_contract = Helpers::getDateParseFormat($crewObj->finish_date_contract);
+              $start_date_contract = Project::getDateParseFormat($crewObj->start_date_contract);
+              $finish_date_contract = Project::getDateParseFormat($crewObj->finish_date_contract);
               $calendar = array();
 
               if($crewObj->mode_workday == 'month-5')
@@ -565,6 +597,8 @@ class ProjectsController extends Controller
                 $team->hour_end = $crewObj->hour_end;
                 $team->start_afip = $start_afip;
                 $team->finish_afip = $finish_afip;
+                $team->start_date_secure_contract = $start_date_secure_contract;
+                $team->end_date_secure_contract = $end_date_secure_contract;
                 $team->is_reemplazo = $crewObj->is_reemplazo;
                 $team->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
                 $team->calendar = $calendar;
@@ -592,6 +626,8 @@ class ProjectsController extends Controller
                 $team->hour_end = $crewObj->hour_end;
                 $team->start_afip = $start_afip;
                 $team->finish_afip = $finish_afip;
+                $team->start_date_secure_contract = $start_date_secure_contract;
+                $team->end_date_secure_contract = $end_date_secure_contract;
                 $team->is_reemplazo = $crewObj->is_reemplazo;
                 $team->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
                 $team->calendar = $calendar;
@@ -654,6 +690,8 @@ class ProjectsController extends Controller
           return redirect('/projects')->with('message', 'Proyecto editado con exito!');
 
        } catch(\Exception $e) {
+
+        dd($e);
         Helpers::getCapturError($e);
        }
      }

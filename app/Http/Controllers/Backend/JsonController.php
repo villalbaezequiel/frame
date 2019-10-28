@@ -359,16 +359,23 @@ class JsonController extends Controller
         $crewObj = json_decode($request->get('data'));
 
         // si es contrato tipo servicio, dates afip nulo
-        if($crewObj->id_contract != '4'){
-          $start_afip = Helpers::getDateParseFormat($crewObj->start_afip);
-          $finish_afip = Helpers::getDateParseFormat($crewObj->finish_afip);
+        if($crewObj->id_contract != '4')
+        {
+          $start_afip = Project::getDateParseFormat($crewObj->start_afip);
+          $finish_afip = Project::getDateParseFormat($crewObj->finish_afip);
+
+          $start_date_secure_contract = null;
+          $end_date_secure_contract = null;
         } else {
           $start_afip = null;
           $finish_afip = null;
+
+          $start_date_secure_contract = Project::getDateParseFormat($crewObj->start_date_secure_contract);
+          $end_date_secure_contract = Project::getDateParseFormat($crewObj->end_date_secure_contract);
         }
 
-        $start_date_contract = Helpers::getDateParseFormat($crewObj->start_date_contract);
-        $finish_date_contract = Helpers::getDateParseFormat($crewObj->finish_date_contract);
+        $start_date_contract = Project::getDateParseFormat($crewObj->start_date_contract);
+        $finish_date_contract = Project::getDateParseFormat($crewObj->finish_date_contract);
         $calendar = array();
 
         if($crewObj->mode_workday == 'month-5')
@@ -409,6 +416,8 @@ class JsonController extends Controller
         $team->hour_end = $crewObj->hour_end;
         $team->start_afip = $start_afip;
         $team->finish_afip = $finish_afip;
+        $team->start_date_secure_contract = $start_date_secure_contract;
+        $team->end_date_secure_contract = $end_date_secure_contract;
         $team->is_reemplazo = $crewObj->is_reemplazo;
         $team->id_crew_reemplazo = $crewObj->id_crew_reemplazo;
         $team->calendar = $calendar;
