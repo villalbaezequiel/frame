@@ -76,7 +76,7 @@
               </div>
               <div class="col-md-5">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="dni" value="{{ $user->dni }}" placeholder="Número *" required>
+                  <input class="form-control input-type-number" type="text" name="dni" value="{{ $user->dni }}" placeholder="Número *" required>
                 </div>
               </div>
             </div>
@@ -98,9 +98,9 @@
                 <div class="form-group">
                   @if($user->birthdate)
                     <?php $birthdate = explode('-', \App\Helpers::getDate($user->birthdate)); ?>
-                    <input class="form-control datepicker" type="text" name="birthdate" value="{{ $birthdate[2].'/'.$birthdate[1].'/'.$birthdate[0] }}" required>
+                    <input class="form-control datepicker" style="background-color: white!important;" pattern="^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$" type="text" name="birthdate" value="{{ $birthdate[2].'/'.$birthdate[1].'/'.$birthdate[0] }}" minlength="10" maxlength="10" required readonly>
                   @else
-                    <input class="form-control datepicker" type="text" name="birthdate" value="{{ \App\Helpers::getDate($user->birthdate) }}" required>
+                    <input class="form-control datepicker" style="background-color: white!important;" pattern="^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$" type="text" name="birthdate" value="{{ \App\Helpers::getDate($user->birthdate) }}" minlength="10" maxlength="10" required readonly>
                   @endif
                 </div>
               </div>

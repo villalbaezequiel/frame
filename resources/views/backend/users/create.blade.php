@@ -66,7 +66,7 @@
               <label class="col-md-2 col-form-label">DNI <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="number" name="dni" value="{{ old('dni') }}" maxlength="125" required>
+                  <input class="form-control input-type-number" type="number" name="dni" value="{{ old('dni') }}" minlength="8" maxlength="8" required>
                 </div>
               </div>
             </div>
@@ -74,7 +74,7 @@
               <label class="col-md-2 col-form-label">CUIT <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control" type="number" name="cuit" value="{{ old('cuit') }}" maxlength="125" required>
+                  <input class="form-control input-type-number" type="number" name="cuit" value="{{ old('cuit') }}" maxlength="125" required>
                 </div>
               </div>
               <label class="col-md-3 label-on-right">
@@ -111,7 +111,7 @@
               <label class="col-md-2 col-form-label">Fecha de Nacimiento <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control datepicker" type="text" name="birthdate" required>
+                  <input class="form-control datepicker" style="background-color: white!important;" pattern="^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$" type="text" name="birthdate" value="{{ old('birthdate') }}" minlength="10" maxlength="10" required readonly>
                 </div>
               </div>
             </div>
