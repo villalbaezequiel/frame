@@ -85,10 +85,10 @@ class CallsheetController extends Controller
     public function show($id)
     {
       $project = Project::find($id);
-      $functionsFrame = ProjectProvider::select('id_function_frame')
+      $functionsSat = ProjectProvider::select('id_category_sat')
                                   ->where('id_project', $id)
                                   ->where('active', '1')
-                                  ->groupBy('id_function_frame')
+                                  ->groupBy('id_category_sat')
                                   ->get();
 
       $listTeam = ProjectProvider::where('id_project', $id)
@@ -97,7 +97,7 @@ class CallsheetController extends Controller
 
       return view('backend.callsheet.show', [
         'project' => $project,
-        'functions_frame' => $functionsFrame,
+        'functions_sat' => $functionsSat,
         'list_crew' => $listTeam
       ]);
     }
