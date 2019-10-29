@@ -83,7 +83,7 @@
         Fecha de Nacimiento:
       </span>
     </div>
-    <input class="form-control datepicker" type="text" name="birthdate" value="{{ old('birthdate') }}" required>
+    <input class="form-control datepicker" style="background-color: white!important;" pattern="^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$" type="text" name="birthdate" value="{{ old('birthdate') }}" minlength="10" maxlength="10" required readonly>
   </div>
 </div>
 

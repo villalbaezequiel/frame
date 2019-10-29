@@ -76,7 +76,7 @@
               </div>
               <div class="col-md-5">
                 <div class="form-group">
-                  <input class="form-control" type="text" name="dni" value="{{ old('dni') }}" placeholder="Número *" required>
+                  <input class="form-control input-type-number" type="text" name="dni" value="{{ old('dni') }}" placeholder="Número *" required>
                 </div>
               </div>
             </div>
@@ -96,7 +96,7 @@
               <label class="col-md-2 col-form-label">Fecha de Nacimiento <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <input class="form-control datepicker" type="text" name="birthdate" value="{{ old('birthdate') }}" required>
+                  <input class="form-control datepicker" style="background-color: white!important;" pattern="^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$" type="text" name="birthdate" value="{{ old('birthdate') }}" minlength="10" maxlength="10" required readonly>
                 </div>
               </div>
             </div>
