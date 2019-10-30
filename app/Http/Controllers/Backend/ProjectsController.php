@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\TeamProject;
 use App\Notifications\SeguroServicios;
+use App\Notifications\EntryTeamProject;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
 use DateInterval;
@@ -199,6 +200,20 @@ class ProjectsController extends Controller
 
             if($request->get('notification_team') == "1" || $request->get('notification_team') == 1) {
               $user->notify(new TeamProject($data));
+            }
+
+            // Enviar Mails de Alta de Team
+            $userNovedades = new User;
+            $userNovedades->email = env('MAIL_ALTA_TEAM');
+
+            // Menos tipo de contrato Seguro
+            if($crewObj->id_contract != '4')
+            {
+              $dataNovedades = array(
+                'project' => $project,
+                'project_crew' => $team
+              );
+              $userNovedades->notify(new EntryTeamProject($dataNovedades));
             }
 
           }
@@ -515,6 +530,20 @@ class ProjectsController extends Controller
                 $team->calendar = $calendar;
                 $team->active = $crewObj->active;
                 $team->save();
+
+                // Enviar Mails de Alta de Team
+                $userNovedades = new User;
+                $userNovedades->email = env('MAIL_ALTA_TEAM');
+
+                // Menos tipo de contrato Seguro
+                if($crewObj->id_contract != '4')
+                {
+                  $dataNovedades = array(
+                    'project' => $project,
+                    'project_crew' => $team
+                  );
+                  $userNovedades->notify(new EntryTeamProject($dataNovedades));
+                }
               }
 
               $user = User::find(Provider::getIdUser($team->id_provider));
