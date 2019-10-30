@@ -128,8 +128,8 @@ class ExportController extends Controller
             $other_phone = (\App\Provider::getOtherTelephone($team->id_provider) != '' ? ' - '.\App\Provider::getOtherTelephone($team->id_provider) : '');
 
             array_push($results, [
-              //'funcion_frame' => FrameFunction::getName($team->id_function_frame),
-              'rol_desempenar' => WorkersCategory::getName($team->id_category_sat),
+              //'categoria_sat' => WorkersCategory::getName($team->id_category_sat),
+              'rol_desempenar' => FrameFunction::getName($team->id_function_frame),
               'nombre_team' => Provider::getNameOrderLastName($team->id_provider),
               'telefono' => Provider::getTelephone($team->id_provider).$other_phone,
               'email' => Provider::getEmail($team->id_provider)
