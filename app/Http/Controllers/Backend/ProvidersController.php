@@ -8,9 +8,11 @@ use App\Http\Controllers\Controller;
 use App\Notifications\NewTeam;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers;
-use App\Provider;
 use App\ProviderAssessment;
 use App\User;
+use App\Project;
+use App\ProjectProvider;
+use App\Provider;
 
 class ProvidersController extends Controller
 {
@@ -215,7 +217,37 @@ class ProvidersController extends Controller
       */
      public function show($id)
      {
-         //
+       $projects = ProjectProvider::select('id_project')
+                                ->where('id_provider', $id)
+                                ->groupBy('id_project')
+                                ->get();
+
+      if($projects){
+        foreach ($projects as &$project) {
+          $project->name = Project::getFullName($project->id_project);
+        }
+      }
+
+      $teams = ProjectProvider::select(
+                                  'id',
+                                  'id_provider',
+                                  'id_project',
+                                  'id_function_frame',
+                                  'id_category_sat',
+                                  'start_date_contract',
+                                  'finish_date_contract',
+                                  'id_contract',
+                                  'active'
+                                )->where('id_provider', $id)
+                                ->get();
+
+      return view('backend.teams.show', [
+        'projects' => $projects,
+        'list_crew' => $teams,
+        'team_name' => Provider::getNameOrderLastName($id),
+        'id_provider' => $id
+      ]);
+
      }
 
      /**

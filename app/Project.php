@@ -22,6 +22,16 @@ class Project extends Model
       }
     }
 
+
+    static public function getFullName($id)
+    {
+      $project = Project::find($id);
+
+      if($project){
+        return $project->name . ' / ' . CenterCost::getNumber($project->cost_center);
+      }
+    }
+
     static public function getModalidad($id_project)
     {
       $project = Project::find($id_project);
