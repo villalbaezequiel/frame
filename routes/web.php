@@ -48,7 +48,7 @@ Route::group(['middleware' => ['auth']], function () {
   Route::resource('/utilities/holidays', 'Backend\HolidaysController');
 
   // export
-  Route::get('/export/crew_contract/{id_project_provider}', 'Backend\ExportController@crewContract');
+  Route::get('/export/crew_contract/{id_project_provider}', 'Backend\ExportController@crewContract')->name('export.crew_contract');
   Route::get('/export/release/{id_project_provider}', 'Backend\ExportController@crewRelease');
   Route::get('/export/seguros_servicios/{id_project}', 'Backend\ExportController@seguroServicios');
   Route::get('/export/callsheet/{id_project}', 'Backend\ExportController@callSheet');

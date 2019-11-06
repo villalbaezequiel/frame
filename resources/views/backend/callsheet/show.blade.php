@@ -15,7 +15,7 @@
   <div class="row">
     <div class="col-md-12 ml-auto mr-auto">
 
-      @if(!count($functions_frame))
+      @if(!count($functions_sat))
         <div class="toolbar">
           <div class="alert alert-warning alert-dismissible fade show" role="alert">
             No se encontraron Teams para el Proyecto Seleccionado.
@@ -26,8 +26,8 @@
         </div>
       @endif
 
-      @foreach($functions_frame as $frame)
-      <h4 class="col-md-12 btn btn-primary">{{ \App\FrameFunction::getName($frame->id_function_frame) }}</h4>
+      @foreach($functions_sat as $funcSat)
+      <h4 class="col-md-12 btn btn-primary">{{ \App\WorkersCategory::getName($funcSat->id_category_sat) }}</h4>
       <div class="table-responsive-md">
         <table class="table table-hover">
           <thead class="thead-dark">
@@ -40,12 +40,12 @@
           </thead>
           <tbody>
             @foreach($list_crew as $crew)
-              @if($crew->id_function_frame == $frame->id_function_frame)
+              @if($crew->id_category_sat == $funcSat->id_category_sat)
 
               <?php $other_phone = (\App\Provider::getOtherTelephone($crew->id_provider) != '' ? ' - '.\App\Provider::getOtherTelephone($crew->id_provider) : ''); ?>
 
                 <tr>
-                  <td>{{ \App\WorkersCategory::getName($crew->id_category_sat) }}</td>
+                  <td>{{ \App\FrameFunction::getName($crew->id_function_frame) }}</td>
                   <td>{{ \App\Provider::getNameOrderLastName($crew->id_provider) }}</td>
                   <td>{{ \App\Provider::getTelephone($crew->id_provider).$other_phone }}</td>
                   <td>{{ \App\Provider::getEmail($crew->id_provider) }}</td>

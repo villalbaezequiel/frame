@@ -47,8 +47,15 @@ function getContractProject(value)
   if(value == 4 || value == '4'){
     $('.field-afip').hide();
     $('.field-afip input').val('');
+
+    // show dates secure contract
+    $('.fields-secure').show();
   } else {
     $('.field-afip').show();
+
+    // hide dates secure contract
+    $('.fields-secure').hide();
+    $('.fields-secure input').val('');
   }
 }
 
@@ -362,6 +369,8 @@ $(document).ready(function(){
     let hour_end = $('select[name=hour_end]').val();
     let start_afip = $('input[name=start_afip]').val();
     let finish_afip = $('input[name=finish_afip]').val();
+    let start_date_secure_contract = $('input[name=start_date_secure_contract]').val();
+    let end_date_secure_contract = $('input[name=end_date_secure_contract]').val();
 
     let salary_workdays = $('input[name=salary_workdays]').val(); // required
     let total_workdays = $('input[name=total_workdays]').val(); // required
@@ -442,6 +451,8 @@ $(document).ready(function(){
         'hour_end': hour_end,
         'start_afip': start_afip,
         'finish_afip': finish_afip,
+        'start_date_secure_contract': start_date_secure_contract,
+        'end_date_secure_contract': end_date_secure_contract,
         'salary_workdays': salary_workdays,
         'total_workdays': total_workdays,
         'total_workdays_text': total_workdays_text,
@@ -895,6 +906,20 @@ $(document).ready(function(){
 
         // finish_afip
         $('input[name=finish_afip]').val(getDatePickerFormat(v.finish_afip));
+
+        // start_date_secure_contract
+        if(v.start_date_secure_contract){
+          $('input[name=start_date_secure_contract]').val(getDatePickerFormat(v.start_date_secure_contract));
+        } else {
+          $('input[name=start_date_secure_contract]').val(getDatePickerFormat(v.start_date_contract));
+        }
+
+        // end_date_secure_contract
+        if(v.end_date_secure_contract){
+          $('input[name=end_date_secure_contract]').val(getDatePickerFormat(v.end_date_secure_contract));
+        } else {
+          $('input[name=end_date_secure_contract]').val(getDatePickerFormat(v.finish_date_contract));
+        }
 
         // salary_workdays
         $('input[name="salary_workdays"]').val(v.salary_workdays);

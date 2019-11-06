@@ -128,8 +128,8 @@ class ExportController extends Controller
             $other_phone = (\App\Provider::getOtherTelephone($team->id_provider) != '' ? ' - '.\App\Provider::getOtherTelephone($team->id_provider) : '');
 
             array_push($results, [
-              //'funcion_frame' => FrameFunction::getName($team->id_function_frame),
-              'rol_desempenar' => WorkersCategory::getName($team->id_category_sat),
+              //'categoria_sat' => WorkersCategory::getName($team->id_category_sat),
+              'rol_desempenar' => FrameFunction::getName($team->id_function_frame),
               'nombre_team' => Provider::getNameOrderLastName($team->id_provider),
               'telefono' => Provider::getTelephone($team->id_provider).$other_phone,
               'email' => Provider::getEmail($team->id_provider)
@@ -694,8 +694,12 @@ class ExportController extends Controller
 
                                     'project_providers.id_category_sat as Actividad_Declarada',
                                     'project_providers.created_at as Fecha_de_Declaracion',
-                                    'project_providers.start_date_contract as Vigencia_Desde',
-                                    'project_providers.finish_date_contract as Vigencia_Hasta',
+                                    'project_providers.start_date_secure_contract as Vigencia_Desde',
+                                    'project_providers.end_date_secure_contract as Vigencia_Hasta',
+
+                                    'project_providers.start_date_contract as start_contract',
+                                    'project_providers.finish_date_contract as end_contract',
+
                                     'project_providers.count_workdays_crew as Cantidad_de_Dias',
                                     'project_providers.salary_daily as Referencia_Prima_Diaria'
                                     )
@@ -707,172 +711,42 @@ class ExportController extends Controller
                                     ->orderBy('project_providers.created_at', 'ASC')
                                     ->get();
 
-        $count = 1;
-        foreach ($results as &$team)
+        if(count($results))
         {
-          $fechaEmision = Carbon::parse($team->Vigencia_Desde);
-          $fechaExpiracion = Carbon::parse($team->Vigencia_Hasta);
+          $count = 1;
+          foreach ($results as &$team)
+          {
+            $vigenciaFrom = ($team->Vigencia_Desde ? $team->Vigencia_Desde : $team->start_contract);
+            $vigenciaTo = ($team->Vigencia_Hasta ? $team->Vigencia_Hasta : $team->end_contract);
 
-          $team->N° = $count;
-          $team->Nombre_Apellido = User::getFullName($team->Nombre_Apellido);
-          $team->Fecha_Nac = Helpers::getDateParseFormat($team->Fecha_Nac);
-          $team->Actividad_Declarada = WorkersCategory::getName($team->Actividad_Declarada, false);
-          $team->Fecha_de_Declaracion = Helpers::getDateParseFormat($team->Fecha_de_Declaracion);
-          $team->Vigencia_Desde = Helpers::getDateParseFormat($team->Vigencia_Desde);
-          $team->Vigencia_Hasta = Helpers::getDateParseFormat($team->Vigencia_Hasta);
-          $team->Cantidad_de_Dias = $fechaExpiracion->diffInDays($fechaEmision);
-          $team->Referencia_Prima_Diaria = '';
-          $team->Costo_por_dia_sin_IVA = '';
-          $team->Costo_por_dia_con_IVA = '';
-          $team->Movimiento = 'Alta';
+            $fechaEmision = Carbon::parse($vigenciaFrom);
+            $fechaExpiracion = Carbon::parse($vigenciaTo);
 
-          $count++;
-        }
+            $team->N° = $count;
+            $team->Nombre_Apellido = User::getFullName($team->Nombre_Apellido);
+            $team->Fecha_Nac = Helpers::getDateParseFormat($team->Fecha_Nac);
+            $team->Actividad_Declarada = WorkersCategory::getName($team->Actividad_Declarada, false);
+            $team->Fecha_de_Declaracion = Helpers::getDateParseFormat($team->Fecha_de_Declaracion);
+            $team->Vigencia_Desde = Helpers::getDateParseFormat($vigenciaFrom);
+            $team->Vigencia_Hasta = Helpers::getDateParseFormat($vigenciaTo);
+            $team->Cantidad_de_Dias = $fechaExpiracion->diffInDays($fechaEmision);
+            $team->Referencia_Prima_Diaria = '';
+            $team->Costo_por_dia_sin_IVA = '';
+            $team->Costo_por_dia_con_IVA = '';
+            $team->Movimiento = 'Alta';
 
-        $getCenterCoste = Project::getCenterCost($id_project);
-        $timestamp = date('Ymdhis');
+            unset($team->start_contract);
+            unset($team->end_contract);
 
-        Excel::create(Helpers::setLimitString("{$getCenterCoste}_seguro_".$timestamp, 27), function($excel) use ($nameProject, $results){
-
-          $excel->sheet(Helpers::setLimitString(CenterCost::getNumber($nameProject->cost_center), 27), function($sheet) use ($nameProject, $results){
-
-            $sheet->setStyle(array(
-              'font' => array(
-                'name' => 'Arial',
-                'size' => 10,
-                'bold' => false
-              )
-            ));
-
-            $sheet->setBorder('B6:N50', 'thin');
-
-            $sheet->setWidth(array(
-              'A'     =>  15,
-              'B'     =>  35,
-              'C'     =>  25,
-              'D'     =>  25,
-              'E'     =>  25,
-              'F'     =>  25,
-              'G'     =>  25,
-              'H'     =>  25,
-              'I'     =>  25,
-              'J'     =>  25,
-              'K'     =>  25,
-              'L'     =>  25,
-              'M'     =>  25,
-              'N'     =>  25
-            ));
-
-            $sheet->cell('B1', function($cell) {
-              $cell->setValue('Nº de Centro de Costo');
-              $cell->setBorder('thin','thin', 'thin', 'thin');
-            });
-            $sheet->cell('B2', function($cell) {
-              $cell->setValue('Proyecto');
-              $cell->setBorder('thin','thin', 'thin', 'thin');
-            });
-            $sheet->cell('B3', function($cell) {
-              $cell->setValue('Cláusula de No Repetición');
-              $cell->setBorder('thin','thin', 'thin', 'thin');
-            });
-            $sheet->cell('B4', function($cell) {
-              $cell->setValue('Necesidad de Certificado de Cobertura');
-              $cell->setBorder('thin','thin', 'thin', 'thin');
-            });
-
-            $sheet->cell('C1', function($cell) use ($nameProject) {
-              $cell->setValue(CenterCost::getNumber($nameProject->cost_center));
-              $cell->setBorder('thin','thin', 'thin', 'thin');
-            });
-            $sheet->cell('C2', function($cell) use ($nameProject) {
-              $cell->setValue($nameProject->name);
-              $cell->setBorder('thin','thin', 'thin', 'thin');
-            });
-            $sheet->cell('C3', function($cell) use ($nameProject) {
-              $cell->setValue(Helpers::getActive($nameProject->clausula_no_repe));
-              $cell->setBorder('thin','thin', 'thin', 'thin');
-            });
-            $sheet->cell('C4', function($cell) use ($nameProject) {
-              $cell->setValue(Helpers::getActive($nameProject->certificado_cobertura));
-              $cell->setBorder('thin','thin', 'thin', 'thin');
-            });
-
-            $sheet->cells('B6:B50', function ($cells) {
-              $cells->setFontWeight('bold');
-            });
-
-            $sheet->cells('B6:N6', function ($cells) {
-              $cells->setFontWeight('bold');
-            });
-
-            $sheet->cells('B6:N50', function ($cells) {
-              $cells->setBorder('thin','thin', 'thin', 'thin');
-            });
-
-            $sheet->cells('C6:J50', function ($cells) {
-              $cells->setBackground('#FFFF99');
-              $cells->setFontSize(9);
-            });
-
-            $sheet->cells('N6:N50', function ($cells) {
-              $cells->setBackground('#FFFF99');
-              $cells->setFontSize(9);
-            });
-
-            $sheet->cells('N7:N50', function ($cells) {
-              $cells->setFontColor('#339966');
-            });
-
-            $sheet->cells('K6:M50', function ($cells) {
-              $cells->setBackground('#FFFFFF');
-              $cells->setFontSize(9);
-            });
-
-            $sheet->cells('B6:B50', function($cells) {
-              $cells->setAlignment('center');
-            });
-
-            $sheet->fromArray($results, null, 'B6', true, true);
-
-
-            if($nameProject->clausula_no_repe){
-              $sheet->cell('B52', function($cell) {
-                $cell->setValue('Cliente/Empresa');
-                $cell->setBorder('thin','thin', 'thin', 'thin');
-              });
-
-              $sheet->cell('C52', function($cell) {
-                $cell->setValue('Razon Social');
-                $cell->setBorder('thin','thin', 'thin', 'thin');
-              });
-
-              $sheet->cell('D52', function($cell) {
-                $cell->setValue('Cuit');
-                $cell->setBorder('thin','thin', 'thin', 'thin');
-              });
-
-              $sheet->cell('C53', function($cell) use ($nameProject){
-                $cell->setValue(Client::getRazonSocial($nameProject->id_client));
-                $cell->setBorder('thin','thin', 'thin', 'thin');
-              });
-
-              $sheet->cell('D53', function($cell) use ($nameProject){
-                $cell->setValue(Client::getCuit($nameProject->id_client));
-                $cell->setBorder('thin','thin', 'thin', 'thin');
-              });
-            }
-
-          });
-
-          $groupDateResults = array();
-
-          foreach($results as $key => $value){
-            $groupDateResults[$value['Fecha_de_Declaracion']][$key] = $value;
+            $count++;
           }
 
-          foreach($groupDateResults as $k => $v){
+          $getCenterCoste = Project::getCenterCost($id_project);
+          $timestamp = date('Ymdhis');
 
-            $excel->sheet($k, function($sheet) use ($nameProject, $v){
+          Excel::create(Helpers::setLimitString("{$getCenterCoste}_seguro_".$timestamp, 27), function($excel) use ($nameProject, $results){
+
+            $excel->sheet(Helpers::setLimitString(CenterCost::getNumber($nameProject->cost_center), 27), function($sheet) use ($nameProject, $results){
 
               $sheet->setStyle(array(
                 'font' => array(
@@ -970,7 +844,7 @@ class ExportController extends Controller
                 $cells->setAlignment('center');
               });
 
-              $sheet->fromArray(json_decode(json_encode($v), true), null, 'B6', true, true);
+              $sheet->fromArray($results, null, 'B6', true, true);
 
 
               if($nameProject->clausula_no_repe){
@@ -1001,10 +875,151 @@ class ExportController extends Controller
               }
 
             });
-          }
 
-        })->download();
+            $groupDateResults = array();
 
+            foreach($results as $key => $value){
+              $groupDateResults[$value['Fecha_de_Declaracion']][$key] = $value;
+            }
+
+            foreach($groupDateResults as $k => $v){
+
+              $excel->sheet($k, function($sheet) use ($nameProject, $v){
+
+                $sheet->setStyle(array(
+                  'font' => array(
+                    'name' => 'Arial',
+                    'size' => 10,
+                    'bold' => false
+                  )
+                ));
+
+                $sheet->setBorder('B6:N50', 'thin');
+
+                $sheet->setWidth(array(
+                  'A'     =>  15,
+                  'B'     =>  35,
+                  'C'     =>  25,
+                  'D'     =>  25,
+                  'E'     =>  25,
+                  'F'     =>  25,
+                  'G'     =>  25,
+                  'H'     =>  25,
+                  'I'     =>  25,
+                  'J'     =>  25,
+                  'K'     =>  25,
+                  'L'     =>  25,
+                  'M'     =>  25,
+                  'N'     =>  25
+                ));
+
+                $sheet->cell('B1', function($cell) {
+                  $cell->setValue('Nº de Centro de Costo');
+                  $cell->setBorder('thin','thin', 'thin', 'thin');
+                });
+                $sheet->cell('B2', function($cell) {
+                  $cell->setValue('Proyecto');
+                  $cell->setBorder('thin','thin', 'thin', 'thin');
+                });
+                $sheet->cell('B3', function($cell) {
+                  $cell->setValue('Cláusula de No Repetición');
+                  $cell->setBorder('thin','thin', 'thin', 'thin');
+                });
+                $sheet->cell('B4', function($cell) {
+                  $cell->setValue('Necesidad de Certificado de Cobertura');
+                  $cell->setBorder('thin','thin', 'thin', 'thin');
+                });
+
+                $sheet->cell('C1', function($cell) use ($nameProject) {
+                  $cell->setValue(CenterCost::getNumber($nameProject->cost_center));
+                  $cell->setBorder('thin','thin', 'thin', 'thin');
+                });
+                $sheet->cell('C2', function($cell) use ($nameProject) {
+                  $cell->setValue($nameProject->name);
+                  $cell->setBorder('thin','thin', 'thin', 'thin');
+                });
+                $sheet->cell('C3', function($cell) use ($nameProject) {
+                  $cell->setValue(Helpers::getActive($nameProject->clausula_no_repe));
+                  $cell->setBorder('thin','thin', 'thin', 'thin');
+                });
+                $sheet->cell('C4', function($cell) use ($nameProject) {
+                  $cell->setValue(Helpers::getActive($nameProject->certificado_cobertura));
+                  $cell->setBorder('thin','thin', 'thin', 'thin');
+                });
+
+                $sheet->cells('B6:B50', function ($cells) {
+                  $cells->setFontWeight('bold');
+                });
+
+                $sheet->cells('B6:N6', function ($cells) {
+                  $cells->setFontWeight('bold');
+                });
+
+                $sheet->cells('B6:N50', function ($cells) {
+                  $cells->setBorder('thin','thin', 'thin', 'thin');
+                });
+
+                $sheet->cells('C6:J50', function ($cells) {
+                  $cells->setBackground('#FFFF99');
+                  $cells->setFontSize(9);
+                });
+
+                $sheet->cells('N6:N50', function ($cells) {
+                  $cells->setBackground('#FFFF99');
+                  $cells->setFontSize(9);
+                });
+
+                $sheet->cells('N7:N50', function ($cells) {
+                  $cells->setFontColor('#339966');
+                });
+
+                $sheet->cells('K6:M50', function ($cells) {
+                  $cells->setBackground('#FFFFFF');
+                  $cells->setFontSize(9);
+                });
+
+                $sheet->cells('B6:B50', function($cells) {
+                  $cells->setAlignment('center');
+                });
+
+                $sheet->fromArray(json_decode(json_encode($v), true), null, 'B6', true, true);
+
+
+                if($nameProject->clausula_no_repe){
+                  $sheet->cell('B52', function($cell) {
+                    $cell->setValue('Cliente/Empresa');
+                    $cell->setBorder('thin','thin', 'thin', 'thin');
+                  });
+
+                  $sheet->cell('C52', function($cell) {
+                    $cell->setValue('Razon Social');
+                    $cell->setBorder('thin','thin', 'thin', 'thin');
+                  });
+
+                  $sheet->cell('D52', function($cell) {
+                    $cell->setValue('Cuit');
+                    $cell->setBorder('thin','thin', 'thin', 'thin');
+                  });
+
+                  $sheet->cell('C53', function($cell) use ($nameProject){
+                    $cell->setValue(Client::getRazonSocial($nameProject->id_client));
+                    $cell->setBorder('thin','thin', 'thin', 'thin');
+                  });
+
+                  $sheet->cell('D53', function($cell) use ($nameProject){
+                    $cell->setValue(Client::getCuit($nameProject->id_client));
+                    $cell->setBorder('thin','thin', 'thin', 'thin');
+                  });
+                }
+
+              });
+            }
+
+          })->download();
+
+        } else {
+          return back()->with('message', 'El Listado de Generacion de Seguros se encuentra vacio!');
+        }
 
       } catch(\Exception $e) {
         Helpers::getCapturError($e);
