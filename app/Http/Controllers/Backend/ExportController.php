@@ -1420,6 +1420,10 @@ class ExportController extends Controller
                                 ->groupBy('id_project')
                                 ->get();
 
+        if(!count($projects)) {
+          return redirect ('/providers')->with('message', 'No se encontro Historial de Proyectos para Descargar!');
+        }
+
         $teams = ProjectProvider::select(
                                   'id',
                                   'id_provider',
