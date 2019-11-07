@@ -7,11 +7,18 @@ use Illuminate\Support\Facades\DB;
 
 class ProviderAssessment extends Model
 {
-    //
-
     static public function getCountByProvider($id)
     {
       $countValue = ProviderAssessment::select('value')->where('id_provider', $id)->get()->toArray();
       return array_sum(array_column($countValue, 'value'));
+    }
+
+    static public function getAssessmentPorcentaje($value, $total = 5)
+    {
+      if($value > 0){
+        return (($value / $total) * 100);
+      } else {
+        return 0;
+      }
     }
 }
