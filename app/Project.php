@@ -28,7 +28,7 @@ class Project extends Model
       $project = Project::find($id);
 
       if($project){
-        return $project->name . ' / ' . CenterCost::getNumber($project->cost_center);
+        return CenterCost::getNumber($project->cost_center). ' / ' .$project->name;
       }
     }
 

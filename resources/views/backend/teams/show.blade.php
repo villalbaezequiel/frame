@@ -26,7 +26,7 @@
         @else
 
           @foreach($projects as $project)
-            <h4 class="col-md-12 btn btn-primary">{{ $project->name }}</h4>
+            <h4 class="col-md-12 btn btn-primary" style="overflow: auto;">{{ $project->name }}</h4>
 
             <div class="row justify-content-center">
               @foreach($list_crew as $item_crew)
