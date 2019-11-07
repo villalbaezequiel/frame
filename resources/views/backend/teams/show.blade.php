@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', "Teams / Historial de Proyectos")
+@section('title', "Teams / Historial Proyectos")
 
 @section('content')
 <div class="container-fluid">
