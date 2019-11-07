@@ -1412,4 +1412,66 @@ class ExportController extends Controller
       }
     }
 
+    public function historyTeamProjects($id_team)
+    {
+      try{
+        $projects = ProjectProvider::select('id_project')
+                                ->where('id_provider', $id_team)
+                                ->groupBy('id_project')
+                                ->get();
+
+        if(!count($projects)) {
+          return redirect ('/providers')->with('message', 'No se encontro Historial de Proyectos para Descargar!');
+        }
+
+        $teams = ProjectProvider::select(
+                                  'id',
+                                  'id_provider',
+                                  'id_project',
+                                  'id_function_frame',
+                                  'id_category_sat',
+                                  'start_date_contract',
+                                  'finish_date_contract',
+                                  'id_contract',
+                                  'active'
+                                )->where('id_provider', $id_team)
+                                ->get();
+
+        $timestamp = date('Ymdhis');
+
+        Excel::create(Helpers::setLimitString("historial_{$id_team}_{$timestamp}", 27), function($excel) use ($projects, $teams){
+
+          foreach ($projects as $project)
+          {
+            $excel->sheet(Helpers::setLimitString(Project::getCenterCost($project->id_project)), function($sheet) use ($project, $teams){
+
+              $results = array();
+              foreach($teams as $team)
+              {
+                if($team->id_project == $project->id_project)
+                {
+                  array_push($results, [
+                    'nombre' => Provider::getNameOrderLastName($team->id_provider),
+                    'funcion_frame' => FrameFunction::getName($team->id_function_frame),
+                    'funcion_sat' => WorkersCategory::getName($team->id_category_sat),
+                    'alta_contrato' => Helpers::getDateParseFormat($team->start_date_contract, '/'),
+                    'baja_contrato' =>  Helpers::getDateParseFormat($team->finish_date_contract, '/'),
+                    'tipo_contrato' => Contract::getName($team->id_contract),
+                    'estado' => ProjectProvider::getActive($team->active),
+                    'puesto' => ProjectProvider::getPuesto($team->id)
+                  ]);
+                }
+              }
+
+              $sheet->fromArray(json_decode( json_encode($results), true));
+            });
+          }
+
+        })->download();
+
+      } catch(\Exception $e) {
+        Helpers::getCapturError($e);
+      }
+    }
+
 }
