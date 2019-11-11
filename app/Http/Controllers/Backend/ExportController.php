@@ -1029,20 +1029,34 @@ class ExportController extends Controller
     public function exportTeamHourExtras(Request $request)
     {
       try {
-        $team = $request->get('name_team');
+        $nameTeam = $request->get('name_team');
         $list = $request->get('hs_extras');
         $projectProvider = ProjectProvider::find($request->get('id_project_provider'));
         $provider = Provider::find($projectProvider->id_provider);
+
+        $team = array( (object) [
+            'nombre' => Provider::getNameOrderLastName($projectProvider->id_provider),
+            'funcion_frame' => FrameFunction::getName($projectProvider->id_function_frame),
+            'funcion_sat' => WorkersCategory::getName($projectProvider->id_category_sat),
+            'alta_contrato' => Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'),
+            'baja_contrato' =>  Helpers::getDateParseFormat($projectProvider->finish_date_contract, '/'),
+            'tipo_contrato' => Contract::getName($projectProvider->id_contract),
+            'estado' => ProjectProvider::getActive($projectProvider->active),
+            'puesto' => ProjectProvider::getPuesto($projectProvider->id)
+        ]);
 
         $timestamp = date('mdhis');
         $nameProject = Project::getCenterCost($projectProvider->id_project);
         $lastName = User::getLastName($provider->id_user);
 
-        Excel::create(Helpers::setLimitString("{$nameProject}_{$lastName}_hsextras_{$timestamp}", 27), function($excel) use ($list, $team){
-
-            $excel->sheet(Helpers::setLimitString($team, 27), function($sheet) use ($list){
-              $sheet->fromArray(json_decode($list, true));
-            });
+        Excel::create(Helpers::setLimitString("{$nameProject}_{$lastName}_hsextras_{$timestamp}", 27), function($excel) use ($team, $nameTeam, $list)
+        {
+          $excel->sheet(Helpers::setLimitString($nameTeam, 27), function($sheet) use ($team){
+            $sheet->fromArray(json_decode(json_encode($team), true));
+          });
+          $excel->sheet(Helpers::setLimitString("Horas Extras", 27), function($sheet) use ($list){
+            $sheet->fromArray(json_decode($list, true));
+          });
 
         })->download();
 
@@ -1054,20 +1068,34 @@ class ExportController extends Controller
     public function exportTeamAbsences(Request $request)
     {
       try {
-        $team = $request->get('name_team');
+        $nameTeam = $request->get('name_team');
         $list = $request->get('absences');
         $projectProvider = ProjectProvider::find($request->get('id_project_provider'));
         $provider = Provider::find($projectProvider->id_provider);
+
+        $team = array( (object) [
+          'nombre' => Provider::getNameOrderLastName($projectProvider->id_provider),
+          'funcion_frame' => FrameFunction::getName($projectProvider->id_function_frame),
+          'funcion_sat' => WorkersCategory::getName($projectProvider->id_category_sat),
+          'alta_contrato' => Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'),
+          'baja_contrato' =>  Helpers::getDateParseFormat($projectProvider->finish_date_contract, '/'),
+          'tipo_contrato' => Contract::getName($projectProvider->id_contract),
+          'estado' => ProjectProvider::getActive($projectProvider->active),
+          'puesto' => ProjectProvider::getPuesto($projectProvider->id)
+        ]);
 
         $timestamp = date('mdhis');
         $nameProject = Project::getCenterCost($projectProvider->id_project);
         $lastName = User::getLastName($provider->id_user);
 
-        Excel::create(Helpers::setLimitString("{$nameProject}_{$lastName}_ausencias_{$timestamp}", 27), function($excel) use ($list, $team){
-
-            $excel->sheet(Helpers::setLimitString($team, 27), function($sheet) use ($list){
-              $sheet->fromArray(json_decode($list, true));
-            });
+        Excel::create(Helpers::setLimitString("{$nameProject}_{$lastName}_ausencias_{$timestamp}", 27), function($excel) use ($team, $list, $nameTeam)
+        {
+          $excel->sheet(Helpers::setLimitString($nameTeam, 27), function($sheet) use ($team){
+            $sheet->fromArray(json_decode(json_encode($team), true));
+          });
+          $excel->sheet(Helpers::setLimitString("Ausencias", 27), function($sheet) use ($list){
+            $sheet->fromArray(json_decode($list, true));
+          });
 
         })->download();
 
