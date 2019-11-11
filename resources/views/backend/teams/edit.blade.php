@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', "Team / Editar")
+@section('title', "Teams / Editar")
 
 @section('content')
 <div class="container-fluid">
@@ -424,29 +424,40 @@
               </label>
             </div>
             <div class="row">
-              <div class="col-md-10 ml-auto mr-auto">
+              <div class="col-md-10 ml-auto mr-auto table-responsive-md">
                 <table class="table col-md-10" style="margin: 0 auto;">
                   <thead>
                     <tr>
                       <th><strong>Proyecto</strong></th>
                       <th><strong>Descripción</strong></th>
                       <th><strong>Puntaje</strong></th>
+                      <th><strong>Promedio</strong></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <?php $countValorations = 0; ?>
+                    <?php
+                      $countValorations = 0;
+                      $countPorcentajes = 0;
+                      $countAssessments = 0;
+                    ?>
                     @foreach($provider_assessments as $assessment)
                       <tr>
                         <td>{{ \App\Project::getName($assessment->id_project) }}</td>
                         <td>{{ $assessment->description }}</td>
                         <td>{{ $assessment->value }}</td>
+                        <td>{{ \App\ProviderAssessment::getAssessmentPorcentaje($assessment->value).'%' }}</td>
                       </tr>
-                      <?php $countValorations += $assessment->value; ?>
+                      <?php
+                        $countValorations += $assessment->value;
+                        $countPorcentajes += \App\ProviderAssessment::getAssessmentPorcentaje($assessment->value);
+                        $countAssessments++;
+                      ?>
                     @endforeach
                       <tr>
                         <td style="color: #9c27b0;"><strong>TOTAL</strong></td>
                         <td></td>
                         <td style="color: #9c27b0;"><strong>{{ $countValorations }}</strong></td>
+                        <td style="color: #9c27b0;"><strong>{{ \App\ProviderAssessment::getAssessmentPorcentaje($countPorcentajes, ($countAssessments * 100) ).'%' }}</strong></td>
                       </tr>
                   </tbody>
                 </table>

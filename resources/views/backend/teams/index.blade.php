@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', "Team")
+@section('title', "Teams")
 
 @section('content')
 <div class="container-fluid">
@@ -39,7 +39,6 @@
               <tr>
                 <th>Nombre</th>
                 <th>Puesto FRAME</th>
-                <th>Valoración</th>
                 <th class="text-right">Acciones</th>
               </tr>
             </thead>
@@ -54,9 +53,9 @@
                       @endif
                     @endforeach
                 </td>
-                <td>{{ \App\ProviderAssessment::getCountByProvider($provider->id) }}</td>
                 <td class="text-right">
                   {!! Form::open(['route' => ['providers.destroy', $provider->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
+                    <a href="{{ url('/providers/'.$provider->id) }}" class="btn btn-link btn-warning btn-just-icon edit" title="Historial de Proyectos"><i class="material-icons">calendar_today</i></a>
                     <a href="{{ url('/providers/'.$provider->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
                     <button type="submit" class="btn btn-link btn-danger btn-just-icon remove" title="Eliminar"><i class="material-icons">close</i></button>
                   {!! Form::close() !!}
