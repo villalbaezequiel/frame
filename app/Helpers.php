@@ -641,7 +641,7 @@ class Helpers extends Model
    static function setLimitString($strings, $limit = 25)
    {
     if (strlen($strings) > $limit) {
-      $str = substr($strings, 0, $limit) . '...';
+      $str = substr( str_replace(' ', '_', $strings), 0, $limit) . '...';
       return $str;
     } else {
       return $strings;
