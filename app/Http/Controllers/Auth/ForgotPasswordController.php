@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use App\User;
-use App\RoleUser;
 
 class ForgotPasswordController extends Controller
 {
@@ -38,20 +37,19 @@ class ForgotPasswordController extends Controller
     {
       $user = User::where('email', $request->get('email'))->first();
 
-      if($user){
-        $rol = RoleUser::where('user_id', $user->id)->first();
-        if($rol){
-          if($rol->role_id == 1){
-            $this->validateEmail($request);
-            $response = $this->broker()->sendResetLink(
-              $request->only('email')
-            );
-            return $response == Password::RESET_LINK_SENT
-                        ? $this->sendResetLinkResponse($request, $response)
-                        : $this->sendResetLinkFailedResponse($request, $response);
-          }
+      if($user)
+      {
+        if($user->permissions)
+        {
+          $this->validateEmail($request);
+          $response = $this->broker()->sendResetLink(
+            $request->only('email')
+          );
+          return $response == Password::RESET_LINK_SENT
+                      ? $this->sendResetLinkResponse($request, $response)
+                      : $this->sendResetLinkFailedResponse($request, $response);
         } else {
-          return redirect('/login');
+          return redirect('/login')->with('message', '¡No tienes Permisos para Recuperar Contraseña!') ;
         }
       } else {
         $this->validateEmail($request);

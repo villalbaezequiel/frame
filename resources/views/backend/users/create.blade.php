@@ -133,7 +133,6 @@
               <div class="col-md-7">
                 <div class="form-group">
                   <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="permissions[]" multiple>
-                    <option value="">Seleccionar</option>
                     @foreach(\App\RoleUser::getRoles() as $key => $permission)
                     <option value="{{ $key }}">{{ $permission }}</option>
                     @endforeach
