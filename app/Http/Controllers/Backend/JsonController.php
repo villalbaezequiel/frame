@@ -12,6 +12,7 @@ use App\ProjectProvider;
 use App\Project;
 use App\WorkersCategory;
 use App\Workday;
+use App\Holiday;
 use DateTime;
 use DateInterval;
 use DatePeriod;
@@ -240,7 +241,14 @@ class JsonController extends Controller
             if((int) $request->get('day') == 0 || (int) $request->get('day') == 6){
               $agreedHours = 0;
             } else {
-              $agreedHours = $hourInitial->diff($hourEnd)->h;
+              $holiday = Holiday::getIssetHolidayByTimestamp($request->get('day_validation'));
+
+              if($holiday){
+                $agreedHours = 0;
+              } else {
+                $agreedHours = $hourInitial->diff($hourEnd)->h;
+              }
+
             }
 
           } else {

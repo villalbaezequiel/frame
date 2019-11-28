@@ -283,7 +283,13 @@ class Report extends Model
               $hs_extra_finish_date = new DateTime($hs_extra_finish);
 
               $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
-              $countHsExtra += ($horasTrabajadas - $team->horas_pactadas);
+
+              if($e->agreed_hours == 0){
+                $countHsExtra += $horasTrabajadas;
+              } else {
+                $countHsExtra += ($horasTrabajadas - $team->horas_pactadas);
+              }
+
             }
           }
 
@@ -443,7 +449,13 @@ class Report extends Model
               $hs_extra_finish_date = new DateTime($hs_extra_finish);
 
               $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
-              $countHsExtra += ($horasTrabajadas - $team->horas_pactadas);
+
+              if($e->agreed_hours == 0){
+                $countHsExtra += $horasTrabajadas;
+              } else {
+                $countHsExtra += ($horasTrabajadas - $team->horas_pactadas);
+              }
+
             }
           }
 
@@ -483,12 +495,18 @@ class Report extends Model
                   $hs_extra_finish = substr($hs_extra['finish'], 0, strpos($hs_extra['finish'], '('));
                   $hs_extra_finish_date = new DateTime($hs_extra_finish);
 
-                  $agreed_hours = ($hs_extra['agreed_hours'] ? $hs_extra['agreed_hours'] : 1);
+                  $agreed_hours = (int)$hs_extra['agreed_hours'];
 
                   $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
                   $parseSalary = str_replace(array('.', ','), array('', '.'), $val->salary_workdays);
-                  $horasExtras = ((int) $horasTrabajadas - $agreed_hours);
-                  $valorHora = ( ($parseSalary / (int) $agreed_hours) * 1.5 );
+
+                  if($agreed_hours == 0){
+                    $horasExtras = (int)$horasTrabajadas;
+                  } else {
+                    $horasExtras = ($horasTrabajadas - $agreed_hours);
+                  }
+
+                  // $valorHora = ( ($parseSalary / (int) $agreed_hours) * 1.5 );
 
                   $fromParse = new DateTime($from);
                   $toParse = new DateTime($to);
@@ -502,8 +520,8 @@ class Report extends Model
                         "final" => $hs_extra_finish_date->format('H:i'),
                         "horas_pactadas" => $agreed_hours,
                         "horas_extras" => $horasExtras,
-                        "valor_hora" => "$" . round($valorHora, 2),
-                        "valor_total" => "$" . round(($valorHora * $horasExtras), 2)
+                        // "valor_hora" => "$" . round($valorHora, 2),
+                        // "valor_total" => "$" . round(($valorHora * $horasExtras), 2)
                       );
                   }
 

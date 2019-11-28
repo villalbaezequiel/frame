@@ -296,7 +296,8 @@ function popUpCreateHsEs(dateStart, dateFinish)
             rol: rol,
             start: dateStart,
             finish: dateFinish,
-            day: dateStart.getDay()
+            day: dateStart.getDay(),
+            day_validation: dateStart.getFullYear()+'-'+( dateStart.getMonth() + 1 )+'-'+dateStart.getDate()+' 00:00:00'
           }
 
           $.ajax({
