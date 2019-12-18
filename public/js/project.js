@@ -1108,7 +1108,7 @@ $(document).ready(function(){
           return rhours+'.'+minutes;
         }
 
-        if(data.results && data.results.length > 0)
+        if(data.results)
         {
           swal({
             title: `${nameTeam} : Horas Extras`,
@@ -1202,7 +1202,7 @@ $(document).ready(function(){
       url: '/sistema/project_providers/'+id+'/edit',
       success: function(data){
 
-        if(data.results && data.results.length > 0)
+        if(data.results)
         {
           swal({
             title: `${nameTeam} : Ausencias`,
