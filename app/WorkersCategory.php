@@ -56,4 +56,15 @@ class WorkersCategory extends Model
         return "Sin Número asociado.";
       }
     }
+
+    static public function getIdByName($name)
+    {
+      $workersCategory = WorkersCategory::where('name', $name)->first();
+
+      if($workersCategory){
+        return $workersCategory->id;
+      } else {
+        return;
+      }
+    }
 }

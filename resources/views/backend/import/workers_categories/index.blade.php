@@ -5,7 +5,7 @@
 @section('content')
 <div class="container-fluid">
 
-  <a href="{{ asset('/docs/workers_categories/import.xlsx') }}" class="btn btn-primary none-alert">Descargar Estructura para Importar</a>
+  <a href='{{ url("/export/workers_categories") }}' class="btn btn-primary none-alert">Descargar Lista para Actualizar y/o Agregar</a>
 
   <div class="row">
     <div class="col-md-12">
