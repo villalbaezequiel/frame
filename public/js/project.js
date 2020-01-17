@@ -1087,12 +1087,10 @@ $(document).ready(function(){
         }
 
         function calculateHsExtras(n, pactadas) {
-          var num = n;
-          var hours = (num / 60);
-          var rhours = Math.floor(hours);
-          var minutes = (hours - rhours) * 60;
-          var rminutes = Math.round(minutes);
-
+          let hours = n;
+          let rhours = Math.floor(hours);
+          let minutes = (hours - rhours) * 60;
+          let rminutes = Math.round(minutes);
           let total = ((rhours+'.'+rminutes) - pactadas).toString();
 
           return total.substr(0,4);
@@ -1106,6 +1104,12 @@ $(document).ready(function(){
           var rminutes = Math.round(minutes);
 
           return rhours+'.'+minutes;
+        }
+
+        function diff_hours(dt2, dt1) {
+          let diff =(dt2 - dt1) / 1000;
+          diff /= (60 * 60);
+          return Math.abs(diff);    
         }
 
         if(data.results)
@@ -1122,11 +1126,17 @@ $(document).ready(function(){
               let dataExport = [];
 
               $.each(data.results, function(i,v){
-                var start = new Date(v.start);
-                var finish = new Date(v.finish);
-                var countHour = ((finish - start) / 60000);
-                var price = ( (parseFloat(data.salary.replace(".", "").replace(",", ".")) / v.agreed_hours) );
-                var valorHoraHsExtra = Math.round(parseFloat((price * 1.5)) * 100) / 100;
+
+                let start = new Date(v.start);
+                let finish = new Date(v.finish);
+                
+                if(!finish.getHours()) {
+                  finish.setDate(finish.getDate() + 1);
+                }
+                
+                let countHour = diff_hours(finish.getTime(), start.getTime());
+                let price = ( (parseFloat(data.salary.replace(".", "").replace(",", ".")) / v.agreed_hours) );
+                let valorHoraHsExtra = Math.round(parseFloat((price * 1.5)) * 100) / 100;
                 let _tokenForm = $("#logic_project input[name=_token]").val();
 
                 $("#content-hour-extras").append(`<tr>
@@ -1135,7 +1145,7 @@ $(document).ready(function(){
                                   <td>${parseDate(start.getHours())}:${parseDate(start.getMinutes())}</td>
                                   <td>${parseDate(finish.getHours())}:${parseDate(finish.getMinutes())}</td>
                                   <td>${v.agreed_hours}</td>
-                                  <td>${calculateHsExtras(countHour, v.agreed_hours)}</td>
+                                  <td>${(countHour - v.agreed_hours)}</td>
                                   <td>` +"$"+ `${valorHoraHsExtra.toFixed(2)}</td>
                                   <td>
                                     <button type="submit" form="${i}" class="btn btn-primary">Eliminar</button>
@@ -1155,7 +1165,7 @@ $(document).ready(function(){
                   inicio: parseDate(start.getHours())+':'+parseDate(start.getMinutes()),
                   final: parseDate(finish.getHours())+':'+parseDate(finish.getMinutes()),
                   horas_pactadas: v.agreed_hours,
-                  horas_extras: calculateHsExtras(countHour, v.agreed_hours),
+                  horas_extras: (countHour - v.agreed_hours),
                   valor_hora: "$" + valorHoraHsExtra.toFixed(2),
                   valor_total: "$" + valorTotalHoraHsExtra.toFixed(2)
                 });

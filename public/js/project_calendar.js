@@ -1,17 +1,7 @@
 function getFormHsEsTeam()
 {
   let formSwal =
-    `<div class="row hidden">
-    <label class="col-sm-5 col-form-label text-right">Rol a Desempeñar:</label>
-    <div class="col-sm-5">
-      <div class="form-group">
-        <select class="form-control" data-style="btn btn-link" id="rol_hs_extra" name="rol_hs_extra" required>
-          <option value="0" selected="selected"></option>
-        </select>
-      </div>
-    </div>
-  </div>
-    <div class="row">
+    `<div class="row">
       <label class="col-sm-5 col-form-label text-right">Team:</label>
       <div class="col-sm-5">
         <div class="form-group">
@@ -224,22 +214,6 @@ function popUpCreateHsEs(dateStart, dateFinish)
       buttonsStyling: !1,
       onBeforeOpen: () => {
 
-        // add 'rol a desempeñar' funciones frame
-        $.ajax({
-          type: 'GET',
-          url: '/sistema/json/get_function_frame',
-          success: function(data){
-            if(data.results){
-              $.each(data.results, function(i, v){
-                $("#rol_hs_extra").append(`<option value="${v.id}">${v.name}</option>`);
-              });
-            }
-          },
-          error: function(xhr, status){
-            console.log('Error: '+xhr);
-          }
-        });
-
         $.each(list_crew, function(i, v){
 
           let setBackground = false;
@@ -284,7 +258,6 @@ function popUpCreateHsEs(dateStart, dateFinish)
         let crew = $("#crew_hs_extra").val();
         let start = $("#inicio_hs_extra").find(':selected').val().split(':');
         let finish = $("#final_hs_extra").find(':selected').val().split(':');
-        let rol = $("#rol_hs_extra").find(':selected').val();
 
         if(crew && start && finish){
 
@@ -293,7 +266,6 @@ function popUpCreateHsEs(dateStart, dateFinish)
 
           let extraHours = {
             crew: crew,
-            rol: rol,
             start: dateStart,
             finish: dateFinish,
             day: dateStart.getDay(),

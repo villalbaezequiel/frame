@@ -224,10 +224,11 @@ class JsonController extends Controller
         $names = array();
         foreach($request->get('crew') as $team)
         {
-          $projectProvider = ProjectProvider::find($team);
-          $newExtraHours = $projectProvider->extra_hours;
-          $workday = Workday::find($projectProvider->id_workday);
-          $agreedHours = 0;
+          $projectProvider  = ProjectProvider::find($team);
+          $newExtraHours    = $projectProvider->extra_hours;
+          $workday          = Workday::find($projectProvider->id_workday);
+          $agreedHours      = 0;
+          $rolTeam          = $projectProvider->id_function_frame;
 
           // validar cuantas horas extras realizo.
           // Dependiendo de las horas de inicio y final de su jornada.
@@ -253,13 +254,6 @@ class JsonController extends Controller
 
           } else {
             $agreedHours = $hourInitial->diff($hourEnd)->h;
-          }
-
-          $rolTeam = 0;
-          if(!$request->get('rol')){
-            $rolTeam = $projectProvider->id_function_frame;
-          } else {
-            $rolTeam = $request->get('rol');
           }
 
           $newExtraHours[] = array(
