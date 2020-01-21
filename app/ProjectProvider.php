@@ -73,9 +73,10 @@ class ProjectProvider extends Model
 
   static public function getHoursExtrasExport($init, $finish)
   {
-    $hourInitial =  new DateTime('2019-06-01 '.$init.':00');
-    $hourEnd = new DateTime('2019-06-01 '.$finish.':00');
-    return $hourInitial->diff($hourEnd)->h.'.'.$hourInitial->diff($hourEnd)->i;
+    $diffHour = $init->diff($finish);
+    $minConvert = ($diffHour->i == 30 ? 50 : 00);
+
+    return $diffHour->h.'.'.$minConvert;
   }
 
   static public function getSubjectAbsences()

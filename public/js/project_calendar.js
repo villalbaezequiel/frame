@@ -261,6 +261,12 @@ function popUpCreateHsEs(dateStart, dateFinish)
 
         if(crew && start && finish){
 
+          // if hour finish eq to 00, date +1
+          if(finish[0] == '00')
+          {
+            dateFinish.setDate(dateFinish.getDate() + 1);
+          }
+
           dateStart.setHours(parseFloat(start[0]),parseFloat(start[1]),'00');
           dateFinish.setHours(parseFloat(finish[0]),parseFloat(finish[1]),'00');
 

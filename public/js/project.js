@@ -1130,10 +1130,6 @@ $(document).ready(function(){
                 let start = new Date(v.start);
                 let finish = new Date(v.finish);
                 
-                if(!finish.getHours()) {
-                  finish.setDate(finish.getDate() + 1);
-                }
-                
                 let countHour = diff_hours(finish.getTime(), start.getTime());
                 let price = ( (parseFloat(data.salary.replace(".", "").replace(",", ".")) / v.agreed_hours) );
                 let valorHoraHsExtra = Math.round(parseFloat((price * 1.5)) * 100) / 100;

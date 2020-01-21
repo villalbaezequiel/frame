@@ -140,11 +140,21 @@ $(document).ready(function(){
       var startDay = $("input[name=start_date]").datepicker('getDate');
       var endDay = $("input[name=finish_date]").datepicker('getDate');
 
-      if (startDay && endDay) {
+      if (startDay.length > 0 && endDay.length > 0) {
         days = Math.floor((endDay.getTime() - startDay.getTime()) / 86400000); // ms per day
       }
 
       $("input[name=days]").val((days+1));
+
+      if($(this).parent('.validate-year'))
+      {
+        let years = new Date(new Date() - new Date($(this).val())).getFullYear() - 1970;
+
+        if(years < 18) {
+            $(this).val('');
+            alert("Tienes que ser mayor a 18 años");
+        };
+      }
     }
   });
 

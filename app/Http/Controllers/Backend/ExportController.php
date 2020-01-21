@@ -573,7 +573,7 @@ class ExportController extends Controller
             $hs_extra_finish = substr($e->finish, 0, strpos($e->finish, '('));
             $hs_extra_finish_date = new DateTime($hs_extra_finish);
 
-            $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
+            $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date, $hs_extra_finish_date);
 
             if($e->agreed_hours == 0){
               $countHsExtra += $horasTrabajadas;
@@ -723,7 +723,7 @@ class ExportController extends Controller
               $hs_extra_finish = substr($e->finish, 0, strpos($e->finish, '('));
               $hs_extra_finish_date = new DateTime($hs_extra_finish);
 
-              $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
+              $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date, $hs_extra_finish_date);
 
               if($e->agreed_hours == 0){
                 $countHsExtra += $horasTrabajadas;
@@ -773,11 +773,11 @@ class ExportController extends Controller
 
                   $agreed_hours = (int)$hs_extra['agreed_hours'];
 
-                  $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
+                  $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date, $hs_extra_finish_date);
                   $parseSalary = str_replace(array('.', ','), array('', '.'), $val->salary_workdays);
 
                   if($agreed_hours == 0){
-                    $horasExtras = (int)$horasTrabajadas;
+                    $horasExtras = $horasTrabajadas;
                   } else {
                     $horasExtras = ($horasTrabajadas - $agreed_hours);
                   }
@@ -1267,7 +1267,7 @@ class ExportController extends Controller
               $hs_extra_finish = substr($e->finish, 0, strpos($e->finish, '('));
               $hs_extra_finish_date = new DateTime($hs_extra_finish);
 
-              $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
+              $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date, $hs_extra_finish_date);
 
               if($e->agreed_hours == 0){
                 $countHsExtra += $horasTrabajadas;
@@ -1558,7 +1558,7 @@ class ExportController extends Controller
         $team->centro_costo = Project::getCenterCost($team->centro_costo);
 
         $team->genero = Helpers::getGenderEs($team->genero);
-        $team->fecha_nacimiento = Helpers::getDateParseFormat($team->fecha_nacimiento);
+        $team->fecha_nacimiento = ($team->fecha_nacimiento != null && $team->fecha_nacimiento != '' ? Helpers::getDateParseFormat($team->fecha_nacimiento) : '');
         $team->pais = Country::getName($team->pais);
         $team->nacionalidad = Country::getNacionality($team->nacionalidad);
         $team->nivel_estudio = Study::getName($team->nivel_estudio);
@@ -1575,15 +1575,15 @@ class ExportController extends Controller
         $team->fecha_de_declaracion = Helpers::getDateParseFormat($team->fecha_de_declaracion);
         $team->fecha_alta_contrato = Helpers::getDateParseFormat($team->fecha_alta_contrato);
         $team->fecha_baja_contrato = Helpers::getDateParseFormat($team->fecha_baja_contrato);
-        $team->fecha_alta_afip =  ($team->fecha_alta_afip != null && $team->fecha_alta_afip != '' ? Helpers::getDateParseFormat($team->fecha_alta_afip) : '');
-        $team->fecha_baja_afip =  ($team->fecha_baja_afip != null && $team->fecha_baja_afip != '' ? Helpers::getDateParseFormat($team->fecha_baja_afip) : '');
+        $team->fecha_alta_afip = ($team->fecha_alta_afip != null && $team->fecha_alta_afip != '' ? Helpers::getDateParseFormat($team->fecha_alta_afip) : '');
+        $team->fecha_baja_afip = ($team->fecha_baja_afip != null && $team->fecha_baja_afip != '' ? Helpers::getDateParseFormat($team->fecha_baja_afip) : '');
         $team->puesto = ProjectProvider::getStringPuesto($team->puesto);
         $team->reemplazo_del_team = ($team->reemplazo_del_team ? Provider::getNameOrderLastName($team->reemplazo_del_team) : '-');
         $team->activo = Helpers::getActive($team->activo);
 
 
         $countHsExtra = 0;
-        if(!empty(json_decode($team->horas_extras)) && is_array(json_decode($team->horas_extras)) ){
+        if(!empty(json_decode($team->horas_extras))){
           foreach (json_decode($team->horas_extras) as $e) {
             $hs_extra_initial = substr($e->start, 0, strpos($e->start, '('));
             $hs_extra_initial_date = new DateTime($hs_extra_initial);
@@ -1591,7 +1591,7 @@ class ExportController extends Controller
             $hs_extra_finish = substr($e->finish, 0, strpos($e->finish, '('));
             $hs_extra_finish_date = new DateTime($hs_extra_finish);
 
-            $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
+            $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date, $hs_extra_finish_date);
 
             if($e->agreed_hours == 0){
               $countHsExtra += $horasTrabajadas;
