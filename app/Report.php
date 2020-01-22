@@ -282,7 +282,7 @@ class Report extends Model
               $hs_extra_finish = substr($e->finish, 0, strpos($e->finish, '('));
               $hs_extra_finish_date = new DateTime($hs_extra_finish);
 
-              $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
+              $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date, $hs_extra_finish_date);
 
               if($e->agreed_hours == 0){
                 $countHsExtra += $horasTrabajadas;
@@ -448,7 +448,7 @@ class Report extends Model
               $hs_extra_finish = substr($e->finish, 0, strpos($e->finish, '('));
               $hs_extra_finish_date = new DateTime($hs_extra_finish);
 
-              $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
+              $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date, $hs_extra_finish_date);
 
               if($e->agreed_hours == 0){
                 $countHsExtra += $horasTrabajadas;
@@ -497,7 +497,7 @@ class Report extends Model
 
                   $agreed_hours = (int)$hs_extra['agreed_hours'];
 
-                  $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date->format('H:i'), $hs_extra_finish_date->format('H:i'));
+                  $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date, $hs_extra_finish_date);
                   $parseSalary = str_replace(array('.', ','), array('', '.'), $val->salary_workdays);
 
                   if($agreed_hours == 0){
