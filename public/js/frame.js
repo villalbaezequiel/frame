@@ -146,7 +146,7 @@ $(document).ready(function(){
 
       $("input[name=days]").val((days+1));
 
-      if($(this).parent('.validate-year'))
+      if($(this).hasClass('validate-year'))
       {
         let years = new Date(new Date() - new Date($(this).val())).getFullYear() - 1970;
 
