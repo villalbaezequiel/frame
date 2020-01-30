@@ -787,6 +787,7 @@ class ExportController extends Controller
                   $valorHora              = ExtraHours::calculateExHs($hs_extra_initial_date, $salaryBrutoCategorySat, $workday);
 
                   $arrayHs[] = array(
+                                "team"          => $name,
                                 "fecha"         => Helpers::getDay($hs_extra_initial_date->format('w')).' '.$hs_extra_initial_date->format('d/m/Y'),
                                 "rol"           => FrameFunction::getName($hs_extra['rol']),
                                 "inicio"        => $hs_extra_initial_date->format('H:i'),

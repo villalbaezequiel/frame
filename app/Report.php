@@ -515,6 +515,7 @@ class Report extends Model
                   if(!empty($horasExtras) && $hs_extra_initial_date >= $fromParse && $hs_extra_finish_date <= $toParse)
                   {
                       $arrayHs[] = array(
+                        "team"          => $name,
                         "fecha"         => Helpers::getDay($hs_extra_initial_date->format('w')).' '.$hs_extra_initial_date->format('d/m/Y'),
                         "rol"           => FrameFunction::getName($hs_extra['rol']),
                         "inicio"        => $hs_extra_initial_date->format('H:i'),
