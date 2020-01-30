@@ -28,6 +28,18 @@ class ExtraHours extends Model
         }
     }
 
+    static public function isHundred($day, float $salary, $isJornada = false)
+    {
+        try {
+            $checkHoliday = Holiday::getIssetHolidayByTimestamp($day->format('Y-m-d 00:00:00'));
+
+            return($checkHoliday || Helpers::isWeekend($day->format('w')));
+ 
+        } catch (\Exception $e) {
+            Helpers::getCapturError($e);
+        }
+    }
+
     /* las horas al 100% son:
         * sábados, domingos y feriados. 
     */

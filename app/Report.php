@@ -508,6 +508,7 @@ class Report extends Model
                   $salaryBrutoCategorySat = (float) str_replace(array('$', '.', ','), array('', '', '.'), WorkersCategory::getSueldoBruto($val->id_category_sat));
                   $workday                = Workday::isJornada($val->id_workday);
                   $valorHora              = ExtraHours::calculateExHs($hs_extra_initial_date, $salaryBrutoCategorySat, $workday);
+                  $isHundred              = ExtraHours::isHundred($hs_extra_initial_date, $salaryBrutoCategorySat, $workday);
 
                   $fromParse = new DateTime($from);
                   $toParse = new DateTime($to);
@@ -515,15 +516,16 @@ class Report extends Model
                   if(!empty($horasExtras) && $hs_extra_initial_date >= $fromParse && $hs_extra_finish_date <= $toParse)
                   {
                       $arrayHs[] = array(
-                        "team"          => $name,
-                        "fecha"         => Helpers::getDay($hs_extra_initial_date->format('w')).' '.$hs_extra_initial_date->format('d/m/Y'),
-                        "rol"           => FrameFunction::getName($hs_extra['rol']),
-                        "inicio"        => $hs_extra_initial_date->format('H:i'),
-                        "final"         => $hs_extra_finish_date->format('H:i'),
-                        "horas_pactadas"=> $agreed_hours,
-                        "horas_extras"  => $horasExtras,
-                        "valor_hora"    => $valorHora,
-                        "valor_total"   => ($valorHora * $horasExtras)
+                        "team"              => $name,
+                        "fecha"             => Helpers::getDay($hs_extra_initial_date->format('w')).' '.$hs_extra_initial_date->format('d/m/Y'),
+                        "rol"               => FrameFunction::getName($hs_extra['rol']),
+                        "inicio"            => $hs_extra_initial_date->format('H:i'),
+                        "final"             => $hs_extra_finish_date->format('H:i'),
+                        "horas_pactadas"    => $agreed_hours,
+                        "horas_extras_100"  => ($isHundred ? $horasExtras : 0),
+                        "horas_extras_50"   => (!$isHundred ? $horasExtras : 0),
+                        "valor_hora"        => $valorHora,
+                        "valor_total"       => ($valorHora * $horasExtras)
                       );
                   }
 
