@@ -24,6 +24,7 @@ use App\Study;
 use App\CenterCost;
 use App\Report;
 use App\Holiday;
+use App\ExtraHours;
 use DateTime;
 
 class ExportController extends Controller
@@ -737,7 +738,7 @@ class ExportController extends Controller
           $team->horas_extras = $countHsExtra;
         }
 
-        $listTeams = ProjectProvider::select('extra_hours', 'id_provider', 'salary_workdays', 'created_at')
+        $listTeams = ProjectProvider::select('extra_hours', 'id_provider', 'id_category_sat', 'id_workday', 'created_at')
                                       ->where('extra_hours', '!=', null)
                                       ->where('extra_hours', '!=', '[]')
                                       ->where('id_project', $id_project)
@@ -765,16 +766,15 @@ class ExportController extends Controller
               {
                 foreach ($horasExtras as $hs_extra) {
 
-                  $hs_extra_initial = substr($hs_extra['start'], 0, strpos($hs_extra['start'], '('));
-                  $hs_extra_initial_date = new DateTime($hs_extra_initial);
+                  $hs_extra_initial       = substr($hs_extra['start'], 0, strpos($hs_extra['start'], '('));
+                  $hs_extra_initial_date  = new DateTime($hs_extra_initial);
 
-                  $hs_extra_finish = substr($hs_extra['finish'], 0, strpos($hs_extra['finish'], '('));
+                  $hs_extra_finish      = substr($hs_extra['finish'], 0, strpos($hs_extra['finish'], '('));
                   $hs_extra_finish_date = new DateTime($hs_extra_finish);
 
-                  $agreed_hours = (int)$hs_extra['agreed_hours'];
-
-                  $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date, $hs_extra_finish_date);
-                  $parseSalary = str_replace(array('.', ','), array('', '.'), $val->salary_workdays);
+                  $agreed_hours     = (float) $hs_extra['agreed_hours'];
+                  $horasTrabajadas  = (float) ProjectProvider::getHoursExtrasExport($hs_extra_initial_date, $hs_extra_finish_date);
+                  $parseSalary      = str_replace(array('.', ','), array('', '.'), $val->salary_workdays);
 
                   if($agreed_hours == 0){
                     $horasExtras = $horasTrabajadas;
@@ -782,17 +782,19 @@ class ExportController extends Controller
                     $horasExtras = ($horasTrabajadas - $agreed_hours);
                   }
 
-                  // $valorHora = ( ($parseSalary / (int) $agreed_hours) * 1.5 );
+                  $salaryBrutoCategorySat = (float) str_replace(array('$', '.', ','), array('', '', '.'), WorkersCategory::getSueldoBruto($val->id_category_sat));
+                  $workday                = Workday::isJornada($val->id_workday);
+                  $valorHora              = ExtraHours::calculateExHs($hs_extra_initial_date, $salaryBrutoCategorySat, $workday);
 
                   $arrayHs[] = array(
-                                "fecha" => Helpers::getDay($hs_extra_initial_date->format('w')).' '.$hs_extra_initial_date->format('d/m/Y'),
-                                "rol" => FrameFunction::getName($hs_extra['rol']),
-                                "inicio" => $hs_extra_initial_date->format('H:i'),
-                                "final" => $hs_extra_finish_date->format('H:i'),
-                                "horas_pactadas" => $agreed_hours,
-                                "horas_extras" => $horasExtras,
-                                // "valor_hora" => "$" . round($valorHora, 2),
-                                // "valor_total" => "$" . round(($valorHora * $horasExtras), 2)
+                                "fecha"         => Helpers::getDay($hs_extra_initial_date->format('w')).' '.$hs_extra_initial_date->format('d/m/Y'),
+                                "rol"           => FrameFunction::getName($hs_extra['rol']),
+                                "inicio"        => $hs_extra_initial_date->format('H:i'),
+                                "final"         => $hs_extra_finish_date->format('H:i'),
+                                "horas_pactadas"=> $agreed_hours,
+                                "horas_extras"  => $horasExtras,
+                                "valor_hora"    => $valorHora,
+                                "valor_total"   => ($valorHora * $horasExtras)
                               );
                 }
 

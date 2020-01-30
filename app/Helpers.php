@@ -668,7 +668,7 @@ class Helpers extends Model
 
    static function isWeekend($day)
    {
-      return ($day && ($day == 0 || $day == 6));
+      return ($day == 0 || $day == 6);
    }
 
 }

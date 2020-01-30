@@ -19,7 +19,7 @@ class ExtraHours extends Model
             $checkHoliday = Holiday::getIssetHolidayByTimestamp($day->format('Y-m-d 00:00:00'));
 
             if($checkHoliday || Helpers::isWeekend($day->format('w'))) {
-                return 100;
+                return round(self::calculateHundred($salary, $isJornada), 2);
             } else {
                 return round(self::calculateFifty($salary, $isJornada), 2);
             }            
