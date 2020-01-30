@@ -22,16 +22,11 @@ class Holiday extends Model
 
   static public function getIssetHolidayByTimestamp($date)
   {
-    try {
-      $holidays = Holiday::select('date')
-                    ->where('date', $date)
-                    ->where('active', '1')
-                    ->first();
+    $holidays = Holiday::select('date')
+                  ->where('date', $date)
+                  ->where('active', '1')
+                  ->first();
 
-      return $holidays;
-
-    } catch (\Exception $e) {
-      //throw $th;
-    }
+    return $holidays;
   }
 }

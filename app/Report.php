@@ -18,6 +18,7 @@ use App\Client;
 use App\ProyectCategory;
 use App\Study;
 use App\CenterCost;
+use App\ExtraHours;
 use DateTime;
 
 class Report extends Model
@@ -462,7 +463,7 @@ class Report extends Model
           $team->horas_extras = $countHsExtra;
         }
 
-        $listTeams = ProjectProvider::select('extra_hours', 'id_provider', 'salary_workdays')
+        $listTeams = ProjectProvider::select('extra_hours', 'id_provider', 'id_category_sat', 'id_workday')
                                       ->where('extra_hours', '!=', null)
                                       ->where('extra_hours', '!=', '[]')
                                       ->where('id_project', $id_project)
@@ -495,23 +496,25 @@ class Report extends Model
                   $hs_extra_finish = substr($hs_extra['finish'], 0, strpos($hs_extra['finish'], '('));
                   $hs_extra_finish_date = new DateTime($hs_extra_finish);
 
-                  $agreed_hours = (int)$hs_extra['agreed_hours'];
+                  $agreed_hours = (float) $hs_extra['agreed_hours'];
 
-                  $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date, $hs_extra_finish_date);
-                  $parseSalary = str_replace(array('.', ','), array('', '.'), $val->salary_workdays);
+                  $horasTrabajadas = (float) ProjectProvider::getHoursExtrasExport($hs_extra_initial_date, $hs_extra_finish_date);
 
                   if($agreed_hours == 0){
-                    $horasExtras = (int)$horasTrabajadas;
+                    $horasExtras = $horasTrabajadas;
                   } else {
                     $horasExtras = ($horasTrabajadas - $agreed_hours);
                   }
 
-                  // $valorHora = ( ($parseSalary / (int) $agreed_hours) * 1.5 );
+                  $salaryBrutoCategorySat = (float) str_replace(array('$', '.', ','), array('', '', '.'), WorkersCategory::getSueldoBruto($val->id_category_sat));
+                  
+                  $workday = Workday::isJornada($val->id_workday);
+                  $valorHora = ExtraHours::calculateExHs($hs_extra_initial_date, $salaryBrutoCategorySat, $workday);
 
                   $fromParse = new DateTime($from);
                   $toParse = new DateTime($to);
 
-                  if($hs_extra_initial_date >= $fromParse && $hs_extra_finish_date <= $toParse)
+                  if(!empty($horasExtras) && $hs_extra_initial_date >= $fromParse && $hs_extra_finish_date <= $toParse)
                   {
                       $arrayHs[] = array(
                         "fecha" => Helpers::getDay($hs_extra_initial_date->format('w')).' '.$hs_extra_initial_date->format('d/m/Y'),
@@ -520,8 +523,8 @@ class Report extends Model
                         "final" => $hs_extra_finish_date->format('H:i'),
                         "horas_pactadas" => $agreed_hours,
                         "horas_extras" => $horasExtras,
-                        // "valor_hora" => "$" . round($valorHora, 2),
-                        // "valor_total" => "$" . round(($valorHora * $horasExtras), 2)
+                        "valor_hora" => $valorHora,
+                        "valor_total" => ($valorHora * $horasExtras)
                       );
                   }
 

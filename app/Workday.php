@@ -68,4 +68,9 @@ class Workday extends Model
         return $days;
     }
 
+    static public function isJornada($id_workday)
+    {
+      return ($id_workday == 3);
+    }
+
 }

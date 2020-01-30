@@ -665,4 +665,10 @@ class Helpers extends Model
 
       return $dateTransform;
    }
+
+   static function isWeekend($day)
+   {
+      return ($day && ($day == 0 || $day == 6));
+   }
+
 }
