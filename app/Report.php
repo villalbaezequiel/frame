@@ -344,10 +344,9 @@ class Report extends Model
       }
     }
 
-    static function exportExtraHours($id_project, $from, $to, $date_by)
+    static function exportExtraHours($id_project, $from = null, $to = null)
     {
       try {
-        // Fix a realizar: solo mostrar las Lista de Team segun las fechas de las horas extras recibidas (to, from)
         $listTeamsAll = ProjectProvider::select(
           'users.last_name as apellido',
           'users.name as nombre',
@@ -463,10 +462,11 @@ class Report extends Model
           $team->horas_extras = $countHsExtra;
         }
 
-        $listTeams = ProjectProvider::select('extra_hours', 'id_provider', 'id_category_sat', 'id_workday')
+        $listTeams = ProjectProvider::select('extra_hours', 'id_provider', 'id_category_sat', 'id_workday', 'created_at')
                                       ->where('extra_hours', '!=', null)
                                       ->where('extra_hours', '!=', '[]')
                                       ->where('id_project', $id_project)
+                                      ->orderBy('created_at', 'ASC')
                                       ->get();
 
         if(count($listTeams)){
@@ -488,7 +488,8 @@ class Report extends Model
 
               if(!empty($horasExtras))
               {
-                foreach ($horasExtras as $hs_extra) {
+                foreach ($horasExtras as $hs_extra)
+                {
 
                   $hs_extra_initial       = substr($hs_extra['start'], 0, strpos($hs_extra['start'], '('));
                   $hs_extra_initial_date  = new DateTime($hs_extra_initial);
@@ -510,27 +511,42 @@ class Report extends Model
                   $valorHora              = ExtraHours::calculateExHs($hs_extra_initial_date, $salaryBrutoCategorySat, $workday);
                   $isHundred              = ExtraHours::isHundred($hs_extra_initial_date, $salaryBrutoCategorySat, $workday);
 
-                  $fromParse = new DateTime($from);
-                  $toParse = new DateTime($to);
-
-                  if(!empty($horasExtras) && $hs_extra_initial_date >= $fromParse && $hs_extra_finish_date <= $toParse)
+                  if($from && $to)
                   {
-                      $arrayHs[] = array(
-                        "team"              => $name,
-                        "fecha"             => Helpers::getDay($hs_extra_initial_date->format('w')).' '.$hs_extra_initial_date->format('d/m/Y'),
-                        "rol"               => FrameFunction::getName($hs_extra['rol']),
-                        "inicio"            => $hs_extra_initial_date->format('H:i'),
-                        "final"             => $hs_extra_finish_date->format('H:i'),
-                        "horas_pactadas"    => $agreed_hours,
-                        "horas_extras_100"  => ($isHundred ? $horasExtras : 0),
-                        "horas_extras_50"   => (!$isHundred ? $horasExtras : 0),
-                        "valor_estimado_hora" => $valorHora,
-                        "valor_estimado_total"=> ($valorHora * $horasExtras)
-                      );
-                  }
+                    $fromParse = new DateTime($from);
+                    $toParse = new DateTime($to);
 
+                    if($hs_extra_initial_date >= $fromParse && $hs_extra_finish_date <= $toParse)
+                    {
+                        $arrayHs[] = array(
+                          "team"              => $name,
+                          "fecha"             => Helpers::getDay($hs_extra_initial_date->format('w')).' '.$hs_extra_initial_date->format('d/m/Y'),
+                          "rol"               => FrameFunction::getName($hs_extra['rol']),
+                          "inicio"            => $hs_extra_initial_date->format('H:i'),
+                          "final"             => $hs_extra_finish_date->format('H:i'),
+                          "horas_pactadas"    => $agreed_hours,
+                          "horas_extras_100"  => ($isHundred ? $horasExtras : 0),
+                          "horas_extras_50"   => (!$isHundred ? $horasExtras : 0),
+                          "valor_estimado_hora" => $valorHora,
+                          "valor_estimado_total"=> ($valorHora * $horasExtras)
+                        );
+                    }
+                  } else {
+                        $arrayHs[] = array(
+                          "team"              => $name,
+                          "fecha"             => Helpers::getDay($hs_extra_initial_date->format('w')).' '.$hs_extra_initial_date->format('d/m/Y'),
+                          "rol"               => FrameFunction::getName($hs_extra['rol']),
+                          "inicio"            => $hs_extra_initial_date->format('H:i'),
+                          "final"             => $hs_extra_finish_date->format('H:i'),
+                          "horas_pactadas"    => $agreed_hours,
+                          "horas_extras_100"  => ($isHundred ? $horasExtras : 0),
+                          "horas_extras_50"   => (!$isHundred ? $horasExtras : 0),
+                          "valor_estimado_hora" => $valorHora,
+                          "valor_estimado_total"=> ($valorHora * $horasExtras)
+                        );
+                  }
                 }
-              }
+            }
 
               if(!empty($arrayHs))
               {
