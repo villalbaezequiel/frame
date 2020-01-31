@@ -796,8 +796,8 @@ class ExportController extends Controller
                                 "horas_pactadas"    => $agreed_hours,
                                 "horas_extras_100"  => ($isHundred ? $horasExtras : 0),
                                 "horas_extras_50"   => (!$isHundred ? $horasExtras : 0),
-                                "valor_hora"        => $valorHora,
-                                "valor_total"       => ($valorHora * $horasExtras)
+                                "valor_estimado_hora" => $valorHora,
+                                "valor_estimado_total"=> ($valorHora * $horasExtras)
                               );
                 }
 
