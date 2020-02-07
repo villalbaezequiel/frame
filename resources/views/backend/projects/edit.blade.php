@@ -7,6 +7,8 @@
   <div class="col-md-12 col-12 mr-auto ml-auto">
 
     <a href='{{ url("/export/project/$project->id") }}' class="btn btn-primary none-alert" target="_blank">Descargar Proyecto</a>
+    <a href='{{ url("/export/project/$project->id") }}/horas_extras_teams' class="btn btn-primary none-alert" target="_blank">Descargar Horas Extras</a>
+    <a href='{{ url("/export/project/$project->id") }}/absences_teams' class="btn btn-primary none-alert" target="_blank">Descargar Ausencias</a>
 
     @if (session('message'))
       <div class="toolbar">

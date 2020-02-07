@@ -63,8 +63,7 @@
                   <div style="text-align: center;">
                     <!-- List Exports: info_proyecto, personal_teams_proyecto, generacion_seguros_servicios -->
                     <a href="{{ url('/export/project/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Informacion del Proyecto"><i class="material-icons">file_download</i></a>
-                    <a href="{{ url('/export/project/'.$project->id.'/horas_extras_teams') }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Horas Extras del Personal"><i class="material-icons">file_download</i></a>
-                    <a href="{{ url('/export/project/'.$project->id.'/absences_teams') }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Ausencias del Personal"><i class="material-icons">file_download</i></a>
+                    <a href="{{ url('/export/project/'.$project->id.'/hs_ex_absences_teams') }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Ausencias y Horas Extras del Personal"><i class="material-icons">file_download</i></a>
                     <a href="{{ url('/export/seguros_servicios/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Generacion de Seguros"><i class="material-icons">file_download</i></a>
                     <!-- action closed -->
                     <a href="{{ url('/projects_is_closed/'.$project->id.'/0') }}" class="btn btn-link btn-success btn-just-icon remove" title="Abrir Proyecto"><i class="material-icons">lock_open</i></a>
@@ -74,8 +73,7 @@
                     {!! Form::open(['route' => ['projects.destroy', $project->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete', 'style'=> 'text-align: center;']) !!}
                       <!-- List Exports: info_proyecto, personal_teams_proyecto, generacion_seguros_servicios -->
                       <a href="{{ url('/export/project/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Informacion del Proyecto"><i class="material-icons">file_download</i></a>
-                      <a href="{{ url('/export/project/'.$project->id.'/horas_extras_teams') }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Horas Extras del Personal"><i class="material-icons">file_download</i></a>
-                      <a href="{{ url('/export/project/'.$project->id.'/absences_teams') }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Ausencias del Personal"><i class="material-icons">file_download</i></a>
+                      <a href="{{ url('/export/project/'.$project->id.'/hs_ex_absences_teams') }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Ausencias y Horas Extras del Personal"><i class="material-icons">file_download</i></a>
                       <a href="{{ url('/export/seguros_servicios/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Generacion de Seguros"><i class="material-icons">file_download</i></a>
                         <!-- action closed -->
                       <a href="{{ url('/projects_is_closed/'.$project->id.'/1') }}" class="btn btn-link btn-danger btn-just-icon remove" title="Cerrar Proyecto"><i class="material-icons">lock_outline</i></a>

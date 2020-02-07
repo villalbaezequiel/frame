@@ -410,74 +410,24 @@ class Report extends Model
         ->orderBy('project_providers.created_at', 'ASC')
         ->get();
 
-        foreach($listTeamsAll as &$team)
-        {
-          $team->n_proyecto = Project::getCenterCost($team->n_proyecto);
-          $team->nombre_proyecto = Project::getName($team->nombre_proyecto);
+        $listDataTeamsExHs  = self::generateDataTeams($listTeamsAll, 'ex_hs');
 
-          $team->genero = Helpers::getGenderEs($team->genero);
-          $team->fecha_nacimiento = Helpers::getDateParseFormat($team->fecha_nacimiento);
-          $team->pais = Country::getName($team->pais);
-          $team->nacionalidad = Country::getNacionality($team->nacionalidad);
-          $team->nivel_estudio = Study::getName($team->nivel_estudio);
-          $team->obrasocial_prepaga = Helpers::getActive($team->obrasocial_prepaga);
-          $team->es_referente = Helpers::getActive($team->es_referente);
-          $team->banco = Helpers::getBank($team->banco);
-
-          $team->horas_pactadas = ProjectProvider::getHoursExtras($team->hora_inicio,$team->hora_final);
-
-          $team->funcion_frame = FrameFunction::getName($team->funcion_frame);
-          $team->categoria_sat = WorkersCategory::getName($team->categoria_sat);
-          $team->tipo_contrato = Contract::getName($team->tipo_contrato);
-          $team->modalidad = Workday::getName($team->modalidad);
-          $team->fecha_de_declaracion = Helpers::getDateParseFormat($team->fecha_de_declaracion);
-          $team->fecha_alta_contrato = Helpers::getDateParseFormat($team->fecha_alta_contrato);
-          $team->fecha_baja_contrato = Helpers::getDateParseFormat($team->fecha_baja_contrato);
-          $team->fecha_alta_afip =  ($team->fecha_alta_afip != null && $team->fecha_alta_afip != '' ? Helpers::getDateParseFormat($team->fecha_alta_afip) : '');
-          $team->fecha_baja_afip =  ($team->fecha_baja_afip != null && $team->fecha_baja_afip != '' ? Helpers::getDateParseFormat($team->fecha_baja_afip) : '');
-          $team->puesto = ProjectProvider::getStringPuesto($team->puesto);
-          $team->reemplazo_del_team = ($team->reemplazo_del_team ? Provider::getNameOrderLastName($team->reemplazo_del_team) : '-');
-          $team->activo = Helpers::getActive($team->activo);
-
-          $countHsExtra = 0;
-          if(!empty(json_decode($team->horas_extras))){
-            foreach (json_decode($team->horas_extras) as $e) {
-              $hs_extra_initial = substr($e->start, 0, strpos($e->start, '('));
-              $hs_extra_initial_date = new DateTime($hs_extra_initial);
-
-              $hs_extra_finish = substr($e->finish, 0, strpos($e->finish, '('));
-              $hs_extra_finish_date = new DateTime($hs_extra_finish);
-
-              $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date, $hs_extra_finish_date);
-
-              if($e->agreed_hours == 0){
-                $countHsExtra += $horasTrabajadas;
-              } else {
-                $countHsExtra += ($horasTrabajadas - $team->horas_pactadas);
-              }
-
-            }
-          }
-
-          $team->horas_extras = $countHsExtra;
-        }
-
-        $listTeams = ProjectProvider::select('extra_hours', 'id_provider', 'id_category_sat', 'id_workday', 'created_at')
+        $listTeams          = ProjectProvider::select('extra_hours', 'id_provider', 'id_category_sat', 'id_workday', 'created_at')
                                       ->where('extra_hours', '!=', null)
                                       ->where('extra_hours', '!=', '[]')
                                       ->where('id_project', $id_project)
                                       ->orderBy('created_at', 'ASC')
                                       ->get();
 
-        if(count($listTeams)){
+        if(count($listTeams)) {
 
           $nameProject = Project::getCenterCost($id_project);
 
           $timestamp = date('Ymdhis');
-          Excel::create(Helpers::setLimitString("{$nameProject}_hsextras_{$timestamp}", 27), function($excel) use ($listTeamsAll, $listTeams, $from, $to){
+          Excel::create(Helpers::setLimitString("{$nameProject}_hsextras_{$timestamp}", 27), function($excel) use ($listDataTeamsExHs, $listTeams, $from, $to){
 
-            $excel->sheet('Lista de Teams', function($sheet) use ($listTeamsAll){
-              $sheet->fromArray($listTeamsAll);
+            $excel->sheet('Lista de Teams', function($sheet) use ($listDataTeamsExHs){
+              $sheet->fromArray($listDataTeamsExHs);
             });
 
             foreach ($listTeams as $val)
@@ -555,6 +505,146 @@ class Report extends Model
                 });
               }
 
+            }
+
+          })->download();
+        } else {
+          return false;
+        }
+
+      } catch(\Exception $e) {
+        Helpers::getCapturError($e);
+      }
+    }
+
+    static function exportAbsences($id_project, $from = null, $to = null)
+    {
+      try {
+        $listTeamsAll = ProjectProvider::select(
+          'users.last_name as apellido',
+          'users.name as nombre',
+          'project_providers.id_project as n_proyecto',
+          'project_providers.id_project as nombre_proyecto',
+          'project_providers.id_function_frame as funcion_frame',
+          'project_providers.id_category_sat as categoria_sat',
+          'project_providers.id_contract as tipo_contrato',
+          'project_providers.id_workday as modalidad',
+          'project_providers.count_workdays_crew as cant_jornadas_laborables',
+          'project_providers.salary_workdays as sueldo_jornada',
+          'project_providers.total_workdays as sueldo_mano',
+          'project_providers.total_workdays_text as sueldo_mano_texto',
+          'project_providers.salary_contract_category_function as sueldo_contrato_mensual',
+          'project_providers.salary_daily as sueldo_diario_sat',
+          'project_providers.salary_liquidate as sueldo_liquidar',
+          'project_providers.salaty_difference as sueldo_diferencia',
+          'project_providers.created_at as fecha_de_declaracion',
+          'project_providers.start_date_contract as fecha_alta_contrato',
+          'project_providers.finish_date_contract as fecha_baja_contrato',
+          'project_providers.start_afip as fecha_alta_afip',
+          'project_providers.finish_afip as fecha_baja_afip',
+          'project_providers.is_reemplazo as puesto',
+          'project_providers.id_crew_reemplazo as reemplazo_del_team',
+          'project_providers.hour_initial as hora_inicio',
+          'project_providers.hour_end as hora_final',
+          'project_providers.hour_initial as horas_pactadas',
+          'project_providers.active as activo',
+          'users.email',
+          'users.gender as genero',
+          'users.type_dni as tipo_dni',
+          'users.dni',
+          'users.cuit',
+          'users.birthdate as fecha_nacimiento',
+          'users.civil_status as estado_civil',
+          'providers.address as direccion',
+          'providers.address_number as direccion_numero',
+          'providers.piso_depto as direccion_piso_depto',
+          'users.id_country as pais',
+          'providers.location as localidad',
+          'providers.cp as codigo_postal',
+          'providers.nationality as nacionalidad',
+          'providers.id_study as nivel_estudio',
+          'providers.social_work as obrasocial_prepaga',
+          'providers.social_work_code as info_obrasocial_prepaga',
+          'providers.telephone as telefono',
+          'providers.other_telephone as otro_telefono',
+          'providers.referring as es_referente',
+          'providers.cbu',
+          'providers.bank as banco',
+          'providers.type_account as tipo_cuenta',
+          'providers.number_account as numero_cuenta',
+          'providers.alias_account as alias'
+        )
+        ->join('providers', 'project_providers.id_provider', '=', 'providers.id')
+        ->join('users', 'providers.id_user', '=', 'users.id')
+        ->where('project_providers.absence', '!=', null)
+        ->where('project_providers.absence', '!=', '[]')
+        ->where('project_providers.id_project', $id_project)
+        ->orderBy('project_providers.created_at', 'ASC')
+        ->get();
+
+        $listDataTeamsAbsences  = self::generateDataTeams($listTeamsAll);
+
+        $listTeams              = ProjectProvider::select('absence', 'id_provider', 'created_at')
+                                      ->where('absence', '!=', null)
+                                      ->where('absence', '!=', '[]')
+                                      ->where('id_project', $id_project)
+                                      ->orderBy('created_at', 'ASC')
+                                      ->get();
+
+        if(count($listTeams)){
+          $nameProject = Project::getCenterCost($id_project);
+
+          $timestamp = date('Ymdhis');
+          Excel::create(Helpers::setLimitString("{$nameProject}_ausencias_{$timestamp}", 27), function($excel) use ($listDataTeamsAbsences, $listTeams, $from, $to)
+          {
+            $excel->sheet('Lista de Teams', function($sheet) use ($listDataTeamsAbsences){
+              $sheet->fromArray($listDataTeamsAbsences);
+            });
+
+            foreach ($listTeams as $val)
+            {
+              $absences = $val->absence;
+              $name = Provider::getNameOrderLastName($val->id_provider);
+              $arrayAbsences = array();
+
+              if(!empty($absences))
+              {
+                foreach ($absences as $absence) {
+
+                  $date = substr($absence['date'], 0, strpos($absence['date'], '('));
+                  $dateParse = new DateTime($date);
+
+                  if($from && $to)
+                  {
+                    $fromParse = new DateTime($from);
+                    $toParse = new DateTime($to);
+
+                    if($dateParse >= $fromParse && $dateParse <= $toParse)
+                    {
+                      $arrayAbsences[] = array(
+                        "fecha" => Helpers::getDay($dateParse->format('w')).' '.$dateParse->format('d/m/Y'),
+                        "asunto" => ProjectProvider::getSubjectAbsence($absence['subject']),
+                        "nota" => $absence['note']
+                      );
+                    }
+                  } else {
+                      $arrayAbsences[] = array(
+                        "fecha" => Helpers::getDay($dateParse->format('w')).' '.$dateParse->format('d/m/Y'),
+                        "asunto" => ProjectProvider::getSubjectAbsence($absence['subject']),
+                        "nota" => $absence['note']
+                      );
+                  }
+
+                }
+
+                if(!empty($arrayAbsences))
+                {
+                  $excel->sheet(Helpers::setLimitString($name, 27), function($sheet) use ($arrayAbsences){
+                    $sheet->fromArray($arrayAbsences);
+                  });
+                }
+                
+              }
             }
 
           })->download();
@@ -930,6 +1020,361 @@ class Report extends Model
 
       } catch(\Exception $e) {
         Helpers::getCapturError($e);
+      }
+    }
+
+    static function exportExtraHoursAbsences($id_project, $from = null, $to = null)
+    {
+      try {
+        $listTeamsAll = ProjectProvider::select(
+          'users.last_name as apellido',
+          'users.name as nombre',
+          'project_providers.id_project as n_proyecto',
+          'project_providers.id_project as nombre_proyecto',
+          'project_providers.id_function_frame as funcion_frame',
+          'project_providers.id_category_sat as categoria_sat',
+          'project_providers.id_contract as tipo_contrato',
+          'project_providers.id_workday as modalidad',
+          'project_providers.count_workdays_crew as cant_jornadas_laborables',
+          'project_providers.salary_workdays as sueldo_jornada',
+          'project_providers.total_workdays as sueldo_mano',
+          'project_providers.total_workdays_text as sueldo_mano_texto',
+          'project_providers.salary_contract_category_function as sueldo_contrato_mensual',
+          'project_providers.salary_daily as sueldo_diario_sat',
+          'project_providers.salary_liquidate as sueldo_liquidar',
+          'project_providers.salaty_difference as sueldo_diferencia',
+          'project_providers.created_at as fecha_de_declaracion',
+          'project_providers.start_date_contract as fecha_alta_contrato',
+          'project_providers.finish_date_contract as fecha_baja_contrato',
+          'project_providers.start_afip as fecha_alta_afip',
+          'project_providers.finish_afip as fecha_baja_afip',
+          'project_providers.is_reemplazo as puesto',
+          'project_providers.id_crew_reemplazo as reemplazo_del_team',
+          'project_providers.hour_initial as hora_inicio',
+          'project_providers.hour_end as hora_final',
+          'project_providers.hour_initial as horas_pactadas',
+          'project_providers.extra_hours as horas_extras', // unset in abesences
+          'project_providers.active as activo',
+          'users.email',
+          'users.gender as genero',
+          'users.type_dni as tipo_dni',
+          'users.dni',
+          'users.cuit',
+          'users.birthdate as fecha_nacimiento',
+          'users.civil_status as estado_civil',
+          'providers.address as direccion',
+          'providers.address_number as direccion_numero',
+          'providers.piso_depto as direccion_piso_depto',
+          'users.id_country as pais',
+          'providers.location as localidad',
+          'providers.cp as codigo_postal',
+          'providers.nationality as nacionalidad',
+          'providers.id_study as nivel_estudio',
+          'providers.social_work as obrasocial_prepaga',
+          'providers.social_work_code as info_obrasocial_prepaga',
+          'providers.telephone as telefono',
+          'providers.other_telephone as otro_telefono',
+          'providers.referring as es_referente',
+          'providers.cbu',
+          'providers.bank as banco',
+          'providers.type_account as tipo_cuenta',
+          'providers.number_account as numero_cuenta',
+          'providers.alias_account as alias'
+        )
+        ->join('providers', 'project_providers.id_provider', '=', 'providers.id')
+        ->join('users', 'providers.id_user', '=', 'users.id');
+
+        $listQueryTeamsExHs     = $listTeamsAll->where('project_providers.extra_hours', '!=', null)
+                                      ->where('project_providers.extra_hours', '!=', '[]')
+                                      ->where('project_providers.id_project', $id_project)
+                                      ->orderBy('project_providers.created_at', 'ASC')
+                                      ->get();
+
+        $listQueryTeamsAbsences = $listTeamsAll->where('project_providers.absence', '!=', null)
+                                      ->where('project_providers.absence', '!=', '[]')
+                                      ->where('project_providers.id_project', $id_project)
+                                      ->orderBy('project_providers.created_at', 'ASC')
+                                      ->get();
+
+        $listDataTeamsExHs      = self::generateDataTeams($listQueryTeamsExHs, 'ex_hs');
+        $listDataTeamsAbsences  = self::generateDataTeams($listQueryTeamsAbsences);
+
+        $listTeamsExHs          = ProjectProvider::select('extra_hours', 'id_provider', 'id_category_sat', 'id_workday', 'created_at')
+                                      ->where('extra_hours', '!=', null)
+                                      ->where('extra_hours', '!=', '[]')
+                                      ->where('id_project', $id_project)
+                                      ->orderBy('created_at', 'ASC')
+                                      ->get();
+
+        $listTeamsAbsences      = ProjectProvider::select('absence', 'id_provider', 'created_at')
+                                      ->where('absence', '!=', null)
+                                      ->where('absence', '!=', '[]')
+                                      ->where('id_project', $id_project)
+                                      ->orderBy('created_at', 'ASC')
+                                      ->get();
+
+        if(count($listTeamsExHs) || count($listTeamsAbsences)) {
+
+          $nameProject = Project::getCenterCost($id_project);
+
+          $timestamp = date('Ymdhis');
+          Excel::create(Helpers::setLimitString("{$nameProject}_exhs_ausencias_{$timestamp}", 27), function($excel) use ($listDataTeamsExHs, $listDataTeamsAbsences, $listTeamsExHs, $listTeamsAbsences, $from, $to){
+
+            $excel->sheet('Lista_Teams_HsEx', function($sheet) use ($listDataTeamsExHs){
+              $sheet->fromArray($listDataTeamsExHs);
+            });
+
+            $excel->sheet('Lista_Teams_Ausencias', function($sheet) use ($listDataTeamsAbsences){
+              $sheet->fromArray($listDataTeamsAbsences);
+            });
+
+            if($listTeamsAbsences && count($listTeamsAbsences))
+            {
+              $collectionTeamsAbsences = array();
+
+              foreach ($listTeamsAbsences as $val)
+              {
+                $absences = $val->absence;
+                $name = Provider::getNameOrderLastName($val->id_provider);
+                $arrayAbsences = array();
+
+                if(!empty($absences))
+                {
+                  foreach ($absences as $absence) {
+
+                    $date = substr($absence['date'], 0, strpos($absence['date'], '('));
+                    $dateParse = new DateTime($date);
+
+                    if($from && $to)
+                    {
+                      $fromParse = new DateTime($from);
+                      $toParse = new DateTime($to);
+
+                      if($dateParse >= $fromParse && $dateParse <= $toParse)
+                      {
+                        $arrayAbsences[] = array(
+                          "fecha" => Helpers::getDay($dateParse->format('w')).' '.$dateParse->format('d/m/Y'),
+                          "asunto" => ProjectProvider::getSubjectAbsence($absence['subject']),
+                          "nota" => $absence['note']
+                        );
+                      }
+                    } else {
+                        $arrayAbsences[] = array(
+                          "fecha" => Helpers::getDay($dateParse->format('w')).' '.$dateParse->format('d/m/Y'),
+                          "asunto" => ProjectProvider::getSubjectAbsence($absence['subject']),
+                          "nota" => $absence['note']
+                        );
+                    }
+
+                  }
+
+                  if(!empty($arrayAbsences))
+                  {
+                    $collectionTeamsAbsences[$name.' Ausencias'] = $arrayAbsences; 
+                  }
+                  
+                }
+              }
+
+            }
+
+            if($listTeamsExHs && count($listTeamsExHs))
+            {
+              $collectionTeamsExHs = array();
+
+              foreach ($listTeamsExHs as $val)
+              {
+                $horasExtras = $val->extra_hours;
+                $name = Provider::getNameOrderLastName($val->id_provider);
+                $arrayHs = array();
+
+                if(!empty($horasExtras))
+                {
+                  foreach ($horasExtras as $hs_extra)
+                  {
+
+                    $hs_extra_initial       = substr($hs_extra['start'], 0, strpos($hs_extra['start'], '('));
+                    $hs_extra_initial_date  = new DateTime($hs_extra_initial);
+
+                    $hs_extra_finish      = substr($hs_extra['finish'], 0, strpos($hs_extra['finish'], '('));
+                    $hs_extra_finish_date = new DateTime($hs_extra_finish);
+
+                    $agreed_hours     = (float) $hs_extra['agreed_hours'];
+                    $horasTrabajadas  = (float) ProjectProvider::getHoursExtrasExport($hs_extra_initial_date, $hs_extra_finish_date);
+
+                    if($agreed_hours == 0){
+                      $horasExtras = $horasTrabajadas;
+                    } else {
+                      $horasExtras = ($horasTrabajadas - $agreed_hours);
+                    }
+
+                    $salaryBrutoCategorySat = (float) str_replace(array('$', '.', ','), array('', '', '.'), WorkersCategory::getSueldoBruto($val->id_category_sat));
+                    $workday                = Workday::isJornada($val->id_workday);
+                    $valorHora              = ExtraHours::calculateExHs($hs_extra_initial_date, $salaryBrutoCategorySat, $workday);
+                    $isHundred              = ExtraHours::isHundred($hs_extra_initial_date, $salaryBrutoCategorySat, $workday);
+
+                    if($from && $to)
+                    {
+                      $fromParse = new DateTime($from);
+                      $toParse = new DateTime($to);
+
+                      if($hs_extra_initial_date >= $fromParse && $hs_extra_finish_date <= $toParse)
+                      {
+                          $arrayHs[] = array(
+                            "team"              => $name,
+                            "fecha"             => Helpers::getDay($hs_extra_initial_date->format('w')).' '.$hs_extra_initial_date->format('d/m/Y'),
+                            "rol"               => FrameFunction::getName($hs_extra['rol']),
+                            "inicio"            => $hs_extra_initial_date->format('H:i'),
+                            "final"             => $hs_extra_finish_date->format('H:i'),
+                            "horas_pactadas"    => $agreed_hours,
+                            "horas_extras_100"  => ($isHundred ? $horasExtras : 0),
+                            "horas_extras_50"   => (!$isHundred ? $horasExtras : 0),
+                            "valor_estimado_hora" => $valorHora,
+                            "valor_estimado_total"=> ($valorHora * $horasExtras)
+                          );
+                      }
+                    } else {
+                          $arrayHs[] = array(
+                            "team"              => $name,
+                            "fecha"             => Helpers::getDay($hs_extra_initial_date->format('w')).' '.$hs_extra_initial_date->format('d/m/Y'),
+                            "rol"               => FrameFunction::getName($hs_extra['rol']),
+                            "inicio"            => $hs_extra_initial_date->format('H:i'),
+                            "final"             => $hs_extra_finish_date->format('H:i'),
+                            "horas_pactadas"    => $agreed_hours,
+                            "horas_extras_100"  => ($isHundred ? $horasExtras : 0),
+                            "horas_extras_50"   => (!$isHundred ? $horasExtras : 0),
+                            "valor_estimado_hora" => $valorHora,
+                            "valor_estimado_total"=> ($valorHora * $horasExtras)
+                          );
+                    }
+                  }
+                }
+
+                if(!empty($arrayHs))
+                {
+                  $collectionTeamsExHs[$name.' HsEx'] = $arrayHs;
+                }
+
+              }
+
+            }
+
+            if($collectionTeamsAbsences && $collectionTeamsExHs)
+            {
+              $collectionSheets = array_merge($collectionTeamsAbsences, $collectionTeamsExHs);
+              ksort($collectionSheets);
+
+              foreach ($collectionSheets as $name => $value)
+              {
+                $excel->sheet(Helpers::setLimitString($name, 27), function($sheet) use ($value){
+                  $sheet->fromArray($value);
+                });
+              }
+
+            } else if($collectionTeamsAbsences && !$collectionTeamsExHs) {
+              
+              ksort($collectionTeamsAbsences);
+
+              foreach ($collectionTeamsAbsences as $name => $value)
+              {
+                $excel->sheet(Helpers::setLimitString($name, 27), function($sheet) use ($value){
+                  $sheet->fromArray($value);
+                });
+              }
+
+            } else if($collectionTeamsExHs && !$collectionTeamsAbsences) {
+
+              ksort($collectionTeamsExHs);
+
+              foreach ($collectionTeamsExHs as $name => $value)
+              {
+                $excel->sheet(Helpers::setLimitString($name, 27), function($sheet) use ($value){
+                  $sheet->fromArray($value);
+                });
+              }
+
+            }
+
+          })->download();
+        } else {
+          return false;
+        }
+
+      } catch(\Exception $e) {
+        Helpers::getCapturError($e);
+      }
+    }
+
+    static function generateDataTeams($list, $concept = null)
+    {
+      try {
+        $listTeams = $list;
+        
+        if(count($listTeams))
+        {
+          foreach($listTeams as &$team)
+          {
+            $team->n_proyecto = Project::getCenterCost($team->n_proyecto);
+            $team->nombre_proyecto = Project::getName($team->nombre_proyecto);
+
+            $team->genero = Helpers::getGenderEs($team->genero);
+            $team->fecha_nacimiento = Helpers::getDateParseFormat($team->fecha_nacimiento);
+            $team->pais = Country::getName($team->pais);
+            $team->nacionalidad = Country::getNacionality($team->nacionalidad);
+            $team->nivel_estudio = Study::getName($team->nivel_estudio);
+            $team->obrasocial_prepaga = Helpers::getActive($team->obrasocial_prepaga);
+            $team->es_referente = Helpers::getActive($team->es_referente);
+            $team->banco = Helpers::getBank($team->banco);
+
+            $team->horas_pactadas = ProjectProvider::getHoursExtras($team->hora_inicio,$team->hora_final);
+
+            $team->funcion_frame = FrameFunction::getName($team->funcion_frame);
+            $team->categoria_sat = WorkersCategory::getName($team->categoria_sat);
+            $team->tipo_contrato = Contract::getName($team->tipo_contrato);
+            $team->modalidad = Workday::getName($team->modalidad);
+            $team->fecha_de_declaracion = Helpers::getDateParseFormat($team->fecha_de_declaracion);
+            $team->fecha_alta_contrato = Helpers::getDateParseFormat($team->fecha_alta_contrato);
+            $team->fecha_baja_contrato = Helpers::getDateParseFormat($team->fecha_baja_contrato);
+            $team->fecha_alta_afip =  ($team->fecha_alta_afip != null && $team->fecha_alta_afip != '' ? Helpers::getDateParseFormat($team->fecha_alta_afip) : '');
+            $team->fecha_baja_afip =  ($team->fecha_baja_afip != null && $team->fecha_baja_afip != '' ? Helpers::getDateParseFormat($team->fecha_baja_afip) : '');
+            $team->puesto = ProjectProvider::getStringPuesto($team->puesto);
+            $team->reemplazo_del_team = ($team->reemplazo_del_team ? Provider::getNameOrderLastName($team->reemplazo_del_team) : '-');
+            $team->activo = Helpers::getActive($team->activo);
+
+            if($concept == 'ex_hs')
+            {
+              $countHsExtra = 0;
+
+              if(!empty(json_decode($team->horas_extras))){
+                foreach (json_decode($team->horas_extras) as $e) {
+                  $hs_extra_initial = substr($e->start, 0, strpos($e->start, '('));
+                  $hs_extra_initial_date = new DateTime($hs_extra_initial);
+
+                  $hs_extra_finish = substr($e->finish, 0, strpos($e->finish, '('));
+                  $hs_extra_finish_date = new DateTime($hs_extra_finish);
+
+                  $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date, $hs_extra_finish_date);
+
+                  if($e->agreed_hours == 0){
+                    $countHsExtra += $horasTrabajadas;
+                  } else {
+                    $countHsExtra += ($horasTrabajadas - $team->horas_pactadas);
+                  }
+
+                }
+              }
+
+              $team->horas_extras = $countHsExtra;
+            } else {
+              unset($team->horas_extras);
+            }
+
+          }
+        }
+
+        return $listTeams;
+      } catch (\Exceprion $e) {
+        //throw $th;
       }
     }
 

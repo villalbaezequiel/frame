@@ -56,10 +56,13 @@ Route::group(['middleware' => ['auth']], function () {
   Route::get('/export/workers_categories', 'Backend\ExportController@workersCategories');
   Route::get('/export/frame_functions', 'Backend\ExportController@frameFunctions');
   Route::get('/export/frame_functions_relation_sat', 'Backend\ExportController@frameFunctionsByWorkersCategories');
-  Route::get('/export/project/{id_project}', 'Backend\ExportController@project');
   Route::get('/export/all_project', 'Backend\ExportController@allProject');
+  
+  Route::get('/export/project/{id_project}', 'Backend\ExportController@project');
+  Route::get('/export/project/{id_project}/hs_ex_absences_teams', 'Backend\ExportController@horasExtrasAusenciasTeams');
   Route::get('/export/project/{id_project}/horas_extras_teams', 'Backend\ExportController@horasExtrasTeams');
   Route::get('/export/project/{id_project}/absences_teams', 'Backend\ExportController@absencesTeams');
+
   Route::get('/export/users', 'Backend\ExportController@getUsers');
   Route::get('/export/center_costs', 'Backend\ExportController@getCenterCosts');
   Route::get('/export/holidays', 'Backend\ExportController@getHolidays');
