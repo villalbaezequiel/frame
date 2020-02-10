@@ -11,7 +11,7 @@ use App\FrameFunction;
 class FrameFunctionsController extends Controller
 {
     protected $_permission;
-    protected $permissionApproved = ['1', '5'];
+    protected $permissionApproved = ['1', '5', '13'];
 
     /**
      * Instantiate a new controller instance.

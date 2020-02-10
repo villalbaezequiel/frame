@@ -11,7 +11,7 @@ use App\WorkersCategory;
 class WorkersCategoriesController extends Controller
 {
     protected $_permission;
-    protected $permissionApproved = ['1', '5'];
+    protected $permissionApproved = ['1', '5', '12'];
 
     /**
      * Instantiate a new controller instance.

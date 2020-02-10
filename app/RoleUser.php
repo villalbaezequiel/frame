@@ -42,14 +42,21 @@ class RoleUser extends Model
   static public function getRoles()
   {
     $listRoles = [
-      '1' => 'Super Administrador',
-      '2' => 'Proyectos / Jornadas De Proyectos / Centro de Costos / Callsheet',
-      '3' => 'Teams',
-      '4' => 'Clientes',
-      '5' => 'Categorías Sat / Funciones Frame',
-      '6' => 'Usuarios',
-      '7' => 'Utilidades',
-      '8' => 'Reportes'
+      '1'   => 'Super Administrador',
+      '2'   => 'Proyectos',
+      '3'   => 'Teams',
+      '4'   => 'Clientes',
+      '5'   => 'Categorías Sat / Funciones Frame',
+      '6'   => 'Usuarios',
+      '7'   => 'Utilidades',
+      '8'   => 'Reportes',
+      '9'   => 'Jornadas De Proyectos',
+      '10'  => 'Centro de Costos',
+      '11'  => 'Callsheet',
+      '12'  => 'Categorías Sat',
+      '13'  => 'Funciones Frame',
+      '14'  => 'Proyectos / Jornadas De Proyectos',
+      '15'  => 'Proyectos / Jornadas De Proyectos / Callsheet'
     ];
     return $listRoles;
   }

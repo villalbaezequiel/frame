@@ -13,7 +13,7 @@ use App\CenterCost;
 class CenterCostsController extends Controller
 {
   protected $_permission;
-  protected $permissionApproved = ['1', '2'];
+  protected $permissionApproved = ['1', '10'];
 
   /**
    * Instantiate a new controller instance.

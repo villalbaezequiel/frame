@@ -16,7 +16,7 @@ use App\ProjectProvider;
 class CallsheetController extends Controller
 {
     protected $_permission;
-    protected $permissionApproved = ['1', '2'];
+    protected $permissionApproved = ['1', '11', '15'];
 
     /**
      * Instantiate a new controller instance.

@@ -17,7 +17,7 @@ use App\Holiday;
 class ProjectsJornadasController extends Controller
 {
     protected $_permission;
-    protected $permissionApproved = ['1', '2'];
+    protected $permissionApproved = ['1', '9', '14', '15'];
 
     /**
      * Instantiate a new controller instance.
