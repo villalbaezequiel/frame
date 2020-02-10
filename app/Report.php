@@ -1120,13 +1120,17 @@ class Report extends Model
           $timestamp = date('Ymdhis');
           Excel::create(Helpers::setLimitString("{$nameProject}_exhs_ausencias_{$timestamp}", 27), function($excel) use ($listDataTeamsExHs, $listDataTeamsAbsences, $listTeamsExHs, $listTeamsAbsences, $from, $to){
 
-            $excel->sheet('Lista_Teams_HsEx', function($sheet) use ($listDataTeamsExHs){
-              $sheet->fromArray($listDataTeamsExHs);
-            });
+            if(count($listDataTeamsExHs)) {
+              $excel->sheet('Lista_Teams_HsEx', function($sheet) use ($listDataTeamsExHs){
+                $sheet->fromArray($listDataTeamsExHs);
+              });
+            }
 
-            $excel->sheet('Lista_Teams_Ausencias', function($sheet) use ($listDataTeamsAbsences){
-              $sheet->fromArray($listDataTeamsAbsences);
-            });
+            if(count($listDataTeamsAbsences)) {
+              $excel->sheet('Lista_Teams_Ausencias', function($sheet) use ($listDataTeamsAbsences){
+                $sheet->fromArray($listDataTeamsAbsences);
+              });
+            }
 
             if($listTeamsAbsences && count($listTeamsAbsences))
             {
@@ -1259,7 +1263,7 @@ class Report extends Model
 
             }
 
-            if($collectionTeamsAbsences && $collectionTeamsExHs)
+            if(isset($collectionTeamsAbsences) && isset($collectionTeamsExHs))
             {
               $collectionSheets = array_merge($collectionTeamsAbsences, $collectionTeamsExHs);
               ksort($collectionSheets);
@@ -1271,7 +1275,7 @@ class Report extends Model
                 });
               }
 
-            } else if($collectionTeamsAbsences && !$collectionTeamsExHs) {
+            } else if(isset($collectionTeamsAbsences) && !isset($collectionTeamsExHs)) {
               
               ksort($collectionTeamsAbsences);
 
@@ -1282,7 +1286,7 @@ class Report extends Model
                 });
               }
 
-            } else if($collectionTeamsExHs && !$collectionTeamsAbsences) {
+            } else if(isset($collectionTeamsExHs) && !isset($collectionTeamsAbsences)) {
 
               ksort($collectionTeamsExHs);
 
