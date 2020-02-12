@@ -328,18 +328,20 @@ class ProjectsController extends Controller
                                             ->where('id_contract', '4') // 4 = Servicios
                                             ->count();
 
-            if($checkServices > 0){
-              // send mail al Profesional que ve la generacion de seguros
-              if(!empty(env('MAIL_PERSONAL_SEGUROS_SERVICIOS'))){
-                $personalSeguro = User::where('email', env('MAIL_PERSONAL_SEGUROS_SERVICIOS'))->first();
+            if($checkServices > 0)  {
+              // send mail a los Profesionales que VE la generacion de seguros
+              $listUsersNoti = User::getAllOwnerSecureNotification();
+              foreach ($listUsersNoti as $user) {
 
                 $data = array(
-                  'user' => $personalSeguro,
+                  'user' => $user,
                   'project' => $projectCheck
                 );
-                $personalSeguro->notify(new SeguroServicios($data));
+
+                $user->notify(new SeguroServicios($data));
               }
             }
+            
           }
 
           return redirect('/projects')->with('message', 'Proyecto creado con exito!');
@@ -702,18 +704,20 @@ class ProjectsController extends Controller
                                             ->where('id_contract', '4') // 4 = Servicios
                                             ->count();
 
-            if($checkServices > 0){
-              // send mail al Profesional que ve la generacion de seguros
-              if(!empty(env('MAIL_PERSONAL_SEGUROS_SERVICIOS'))){
-                $personalSeguro = User::where('email', env('MAIL_PERSONAL_SEGUROS_SERVICIOS'))->first();
+            if($checkServices > 0)  {
+              // send mail a los Profesionales que VE la generacion de seguros
+              $listUsersNoti = User::getAllOwnerSecureNotification();
+              foreach ($listUsersNoti as $user) {
 
                 $data = array(
-                  'user' => $personalSeguro,
+                  'user' => $user,
                   'project' => $projectCheck
                 );
-                $personalSeguro->notify(new SeguroServicios($data));
+
+                $user->notify(new SeguroServicios($data));
               }
             }
+
           }
 
           return redirect('/projects')->with('message', 'Proyecto editado con exito!');

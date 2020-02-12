@@ -157,7 +157,7 @@
               <label class="col-md-2 col-form-label">Tipo de Notificación</label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="section_notification">
+                  <select class="form-control selectpicker" data-live-search="true" data-style="btn btn-link" name="section_notification[]" multiple>
                     <option value="">Seleccionar</option>
                     @foreach(\App\Helpers::typesSendNotifications() as $key => $value)
                       <option value="<?php echo $key; ?>"> <?php echo $value; ?></option>

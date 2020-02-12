@@ -81,8 +81,21 @@ class User extends Authenticatable
     static function getAllCenterCostNotification()
     {
       try {
-        $list = User::where('is_notification', '1')
-                      ->where('section_notification', 'center_cost')
+        $list = User::where('section_notification', 'like', '%"center_cost"%')
+                      ->where('is_notification', '1')
+                      ->where('active', '1')
+                      ->get();
+        return $list;
+      } catch (\Exception $error) {
+
+      }
+    }
+
+    static function getAllOwnerSecureNotification()
+    {
+      try {
+        $list = User::where('section_notification', 'like', '%"owner_secure"%')
+                      ->where('is_notification', '1')
                       ->where('active', '1')
                       ->get();
         return $list;

@@ -101,7 +101,7 @@ class UsersController extends Controller
           $user->password = Hash::make('frame_'.$request->get('cuit'));
           $user->permissions = ($request->get('permissions') ? json_encode($request->get('permissions')) : null);
           $user->is_notification = $request->get('is_notification');
-          $user->section_notification = $request->get('section_notification');
+          $user->section_notification = ($request->get('section_notification') ? json_encode($request->get('section_notification')) : null);
           $user->active = $request->get('active');
           $user->save();
 
@@ -198,7 +198,7 @@ class UsersController extends Controller
           }
           $user->permissions = ($request->get('permissions') ? json_encode($request->get('permissions')) : null);
           $user->is_notification = $request->get('is_notification');
-          $user->section_notification = $request->get('section_notification');
+          $user->section_notification = ($request->get('section_notification') ? json_encode($request->get('section_notification')) : null);
           $user->active = $request->get('active');
           $user->save();
 
