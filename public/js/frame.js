@@ -614,8 +614,6 @@ let frameJs = {
     },
 
     setDisabled: (row) => {
-
-      console.log(row);
       $(row).prop('disabled', true);
     }
 

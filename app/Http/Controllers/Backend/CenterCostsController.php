@@ -73,11 +73,17 @@ class CenterCostsController extends Controller
       $message;
       try {
 
+        // verify center_cost
+        if(CenterCost::issetCenterCost($request->get('number'))) {
+          return back()->with('message', 'El Número de Centro de Costo ya existe. Intente con otro Número!');
+        }
+
         // New Center Cost
         $center_cost = new CenterCost;
         $center_cost->number = $request->get('number');
         $center_cost->name = $request->get('name');
         $center_cost->client = $request->get('client');
+        $center_cost->referente = ($request->get('referente') ? json_encode($request->get('referente')) : null);
         $center_cost->assigne = '0';
         $center_cost->active = $request->get('active');
         $center_cost->save();
@@ -140,11 +146,17 @@ class CenterCostsController extends Controller
       $message;
       try {
 
-        // New Center Cost
+        // verify center_cost
+        if(CenterCost::issetCenterCost($request->get('number'), $id)) {
+          return back()->with('message', 'El Número de Centro de Costo ya existe. Intente con otro Número!');
+        }
+
+        // Update Center Cost
         $center_cost = CenterCost::find($id);
         $center_cost->number = $request->get('number');
         $center_cost->name = $request->get('name');
         $center_cost->client = $request->get('client');
+        $center_cost->referente = ($request->get('referente') ? json_encode($request->get('referente')) : null);
         $center_cost->active = $request->get('active');
         $center_cost->save();
 

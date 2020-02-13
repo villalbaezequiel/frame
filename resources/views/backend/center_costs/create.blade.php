@@ -59,6 +59,20 @@
             </div>
 
             <div class="row">
+              <label class="col-md-2 col-form-label">Referente/s</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                    <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="referente[]" multiple>
+                      <option value="">Seleccionar</option>
+                      @foreach(\App\Provider::getAllProvidersReferring() as $provider)
+                      <option value="{{ $provider->id }}">{{ $provider->last_name.' '.$provider->name }}</option>
+                      @endforeach
+                    </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
               <label class="col-md-2 col-form-label label-checkbox">Activo</label>
               <div class="col-md-10 checkbox-radios">
                 <div class="form-check form-check-inline">
@@ -83,7 +97,7 @@
           </div>
           <div class="card-footer ml-auto mr-auto">
             <a href="javascript:void(0)" class="back-history btn">Cancelar</a>
-            <input type="submit" class="btn btn-primary" value="Guardar" />
+            <input type="submit" class="btn btn-primary" value="Guardar" onclick="javascript:this.form.submit();this.disabled= true;" />
           </div>
         </div>
         {!! Form::close() !!}

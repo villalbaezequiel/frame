@@ -41,4 +41,14 @@ class CenterCost extends Model
 
       return $center_costs;
     }
+
+    static public function issetCenterCost($number, $id = null) 
+    {
+      if($id) {
+        $center_costs = CenterCost::where('number', $number)->where('id', '!=', $id)->first();
+      } else {
+        $center_costs = CenterCost::where('number', $number)->first();
+      }
+      return ($center_costs ? true : false);
+    }
 }
