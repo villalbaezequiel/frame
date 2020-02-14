@@ -66,6 +66,17 @@ function getFormAbsenceTeam()
       </div>
     </div>
     <div class="row">
+      <label class="col-sm-4 col-form-label text-right">Franco Compensatorio</label>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <select class="form-control selectpicker" data-style="btn btn-link" id="crew_franco_compensatorio_absence" name="crew_franco_compensatorio_absence" required>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
       <label class="col-sm-4 col-form-label text-right">Nota:</label>
       <div class="col-sm-6">
         <div class="form-group">
@@ -161,11 +172,11 @@ function popUpCreateAbsence(dateStart)
   .then(function(data){
 
     if(data.value){
-      // ajax SAVE horas extras
 
       let crew = $("#crew_absence").val();
       let note = $("#crew_description_absence").val();
       let subject = $("#crew_subject_absence").find(':selected').val();
+      let francoCompensatorio = $("#crew_franco_compensatorio_absence").find(':selected').val();
 
       if(crew)
       {
@@ -173,6 +184,7 @@ function popUpCreateAbsence(dateStart)
           crew: crew,
           date: dateStart,
           subject: subject,
+          franco_compensatorio: francoCompensatorio,
           note: note
         }
 

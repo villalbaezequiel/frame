@@ -624,14 +624,16 @@ class Report extends Model
                       $arrayAbsences[] = array(
                         "fecha" => Helpers::getDay($dateParse->format('w')).' '.$dateParse->format('d/m/Y'),
                         "asunto" => ProjectProvider::getSubjectAbsence($absence['subject']),
-                        "nota" => $absence['note']
+                        "nota" => $absence['note'],
+                        "franco_compensatorio" => (isset($absence['franco_compensatorio']) ? Helpers::getActive($absence['franco_compensatorio']) : '')
                       );
                     }
                   } else {
                       $arrayAbsences[] = array(
                         "fecha" => Helpers::getDay($dateParse->format('w')).' '.$dateParse->format('d/m/Y'),
                         "asunto" => ProjectProvider::getSubjectAbsence($absence['subject']),
-                        "nota" => $absence['note']
+                        "nota" => $absence['note'],
+                        "franco_compensatorio" => (isset($absence['franco_compensatorio']) ? Helpers::getActive($absence['franco_compensatorio']) : '')
                       );
                   }
 
@@ -1084,13 +1086,16 @@ class Report extends Model
         ->join('providers', 'project_providers.id_provider', '=', 'providers.id')
         ->join('users', 'providers.id_user', '=', 'users.id');
 
-        $listQueryTeamsExHs     = $listTeamsAll->where('project_providers.extra_hours', '!=', null)
+        $listTeamsAllExHs     = clone $listTeamsAll;
+        $listTeamsAllAbsences = clone $listTeamsAll;
+
+        $listQueryTeamsExHs     = $listTeamsAllExHs->where('project_providers.extra_hours', '!=', null)
                                       ->where('project_providers.extra_hours', '!=', '[]')
                                       ->where('project_providers.id_project', $id_project)
                                       ->orderBy('project_providers.created_at', 'ASC')
                                       ->get();
 
-        $listQueryTeamsAbsences = $listTeamsAll->where('project_providers.absence', '!=', null)
+        $listQueryTeamsAbsences = $listTeamsAllAbsences->where('project_providers.absence', '!=', null)
                                       ->where('project_providers.absence', '!=', '[]')
                                       ->where('project_providers.id_project', $id_project)
                                       ->orderBy('project_providers.created_at', 'ASC')
@@ -1159,14 +1164,16 @@ class Report extends Model
                         $arrayAbsences[] = array(
                           "fecha" => Helpers::getDay($dateParse->format('w')).' '.$dateParse->format('d/m/Y'),
                           "asunto" => ProjectProvider::getSubjectAbsence($absence['subject']),
-                          "nota" => $absence['note']
+                          "nota" => $absence['note'],
+                          "franco_compensatorio" => ($absence['franco_compensatorio'] ? Helpers::getActive($absence['franco_compensatorio']) : '')
                         );
                       }
                     } else {
                         $arrayAbsences[] = array(
                           "fecha" => Helpers::getDay($dateParse->format('w')).' '.$dateParse->format('d/m/Y'),
                           "asunto" => ProjectProvider::getSubjectAbsence($absence['subject']),
-                          "nota" => $absence['note']
+                          "nota" => $absence['note'],
+                          "franco_compensatorio" => (isset($absence['franco_compensatorio']) ? Helpers::getActive($absence['franco_compensatorio']) : '')
                         );
                     }
 

@@ -455,6 +455,7 @@ class JsonController extends Controller
           $dateAbsences[] = array(
                             'date' => $request->get('date'),
                             'subject' => $request->get('subject'),
+                            'franco_compensatorio' => $request->get('franco_compensatorio'),
                             'note' => $request->get('note')
                           );
 
