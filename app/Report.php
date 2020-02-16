@@ -28,7 +28,7 @@ class Report extends Model
     {
       $list = [
         'information_project' => 'Información de Proyecto',
-        'extra_hours' => 'Horas Extras',
+        'extra_hours' => 'Horas Extras y Ausencias',
         'contract_secure' => 'Contratos Seguros',
         'contracts' => 'Contratos Plazo Fijo, Eventual y Tiempo indeterminado'
       ];

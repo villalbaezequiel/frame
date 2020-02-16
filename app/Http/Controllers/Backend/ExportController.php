@@ -1523,7 +1523,7 @@ class ExportController extends Controller
             $reportDownload = Report::exportProject($report->id_project, $report->from, $report->to, $report->date_by);
             break;
           case 'extra_hours':
-            $reportDownload = Report::exportExtraHours($report->id_project, $report->from, $report->to);
+            $reportDownload = Report::exportExtraHoursAbsences($report->id_project, $report->from, $report->to);
             break;
           case 'contract_secure':
             $reportDownload = Report::exportContractSecure($report->id_project, $report->from, $report->to, $report->date_by);
