@@ -42,43 +42,18 @@ class LoginController extends Controller
 
     protected function credentials(Request $request)
     {
-      $user = User::where('email', $request->email)->first();
+      $user         = User::where('email', $request->email)->first();
+      $permissions  = json_decode($user->permissions);
 
-      if($user){
-
-        $rol = RoleUser::where('user_id', $user->id)->first();
-
-        if($rol){
-          if($rol->role_id == 1){
-            return [
-              'email' => $request->email,
-              'password' => $request->password,
-              'active' => '1',
-            ];
-          } else {
-            return [
-              'email' => $request->email,
-              'password' => $request->password,
-              'is_crew' => '0',
-              'active' => '1',
-            ];
-          }
-        } else {
-          return [
-            'email' => $request->email,
-            'password' => $request->password,
-            'is_crew' => '0',
-            'active' => '1',
-          ];
-        }
-
-      } else {
+      if($permissions && count($permissions)) {
         return [
           'email' => $request->email,
           'password' => $request->password,
-          'is_crew' => '0',
-          'active' => '1',
-        ];
+          'is_crew' => $user->is_crew,
+          'active' => $user->active
+        ];  
+      } else {
+        return redirect('/logout');
       }
 
     }

@@ -61,4 +61,32 @@ class RoleUser extends Model
     return $listRoles;
   }
 
+  static public function getRolesRedirectUrl($key_rol)
+  {
+    if($key_rol == "1" || $key_rol == "2" || $key_rol == "14" || $key_rol == "15") {
+      return "/projects";
+    } elseif($key_rol == "3") {
+      return "/providers";
+    } elseif($key_rol == "4") {
+      return "/clients";
+    } elseif($key_rol == "12" || $key_rol == "5") {
+      return "/workers_categories";
+    } elseif($key_rol == "13" || $key_rol == "5") {
+      return "/frame_functions";
+    } elseif($key_rol == "6") {
+      return "/users";
+    } elseif($key_rol == "7") {
+      return "/utilities/contracts";
+    } elseif($key_rol == "8") {
+      return "/reports";
+    } elseif($key_rol == "9") {
+      return "/projects_jornadas";
+    } elseif($key_rol == "10") {
+      return "/center_costs";
+    } elseif($key_rol == "11") {
+      return "/callsheet";
+    }
+ 
+  }
+
 }

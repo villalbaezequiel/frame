@@ -17,12 +17,26 @@ Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 // Home Example
 Route::get('/home', function(){
-  return redirect('/');
+    // logic permissions
+    if(Auth::user())
+    {
+      $user         = \Illuminate\Support\Facades\Auth::user()->permissions;
+      $permissions  = json_decode($user);
+
+      if($permissions && count($permissions)) {
+        return redirect(\App\RoleUser::getRolesRedirectUrl($permissions[0]));
+      } else {
+        return redirect('/logout');
+      }
+    } else {
+      return redirect('/login');
+    }
+
 })->name('home');
 
 // redirect temporally
 Route::get('/', function(){
-  return redirect('/projects');
+  return redirect('/home');
 });
 
 Route::group(['middleware' => ['auth']], function () {
@@ -43,7 +57,6 @@ Route::group(['middleware' => ['auth']], function () {
   Route::resource('/utilities/proyect_categories', 'Backend\UtilitiesProyectCategoriesController');
   Route::resource('/utilities/studies', 'Backend\UtilitiesStudiesController');
   Route::resource('/utilities/workdays', 'Backend\UtilitiesWorkdaysController');
-  Route::resource('/center_costs', 'Backend\CenterCostsController');
   Route::resource('/reports', 'Backend\ReportsController');
   Route::resource('/utilities/holidays', 'Backend\HolidaysController');
 

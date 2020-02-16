@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers;
-use App\RoleUser;
 use App\Provider;
 use App\User;
 
@@ -63,7 +61,6 @@ class UsersController extends Controller
     public function create()
     {
       return view('backend.users.create', [
-        'roles' => Role::all()
       ]);
     }
 
@@ -156,8 +153,7 @@ class UsersController extends Controller
     public function edit($id)
     {
       return view('backend.users.edit',[
-        'user' => User::find($id),
-        'roles' => Role::all()
+        'user' => User::find($id)
       ]);
     }
 
