@@ -98,4 +98,11 @@ class ProjectProvider extends Model
     return $list[$key];
   }
 
+  static public function hasReemplazo($id_team)
+  { 
+    $teamReemplazo = ProjectProvider::where('id_crew_reemplazo', $id_team)->first();
+
+    return (count($teamReemplazo));
+  }
+
 }

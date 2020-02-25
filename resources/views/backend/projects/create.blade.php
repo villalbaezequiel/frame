@@ -446,8 +446,8 @@
                           Estado de Invitacion al Proyecto:
                         </span>
                         <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="active">
-                          <option value="0">Pendiente</option>
                           <option value="1">Aceptado</option>
+                          <option value="0">Pendiente</option>
                           <option value="2">Rechazado</option>
                         </select>
                       </div>

@@ -73,7 +73,7 @@ function getDatePickerFormat(value, day = false){
 
 }
 
-function getTemplateTeam(idTeam, functionFrame, name, categorySat, dates, contract, statu, position, action)
+function getTemplateTeam(idTeam, functionFrame, name, categorySat, dates, contract, statu, position, action, total_workdays)
 {
   return (`<div class="col-md-4 d-flex" id="item_view_${idTeam}">
             <div class="card mb-3">
@@ -85,6 +85,7 @@ function getTemplateTeam(idTeam, functionFrame, name, categorySat, dates, contra
                 <p class="card-text mb-2">${categorySat}</p>
                 <p class="card-text mb-2">Fechas: ${dates}</p>
                 <p class="card-text mb-2">Contrato: ${contract}</p>
+                <p class="card-text mb-2">Sueldo en Mano: ${total_workdays}</p>
                 <p class="card-text mb-2">Estado: ${statu}</p>
                 <p class="card-text mb-2">Puesto: ${position}</p>
               </div>
@@ -103,11 +104,12 @@ function convertDateYYMMDD(date, separator = '/', separatorConvert = '-')
   return parse[2]+'-'+parse[1]+'-'+parse[0];
 }
 
-function setCardTeamIsset(idCard, function_frame, category_sat, dates, contract, active, puesto){
+function setCardTeamIsset(idCard, function_frame, category_sat, dates, contract, active, puesto, total_workdays){
   $("#item_view_"+idCard+" .edit-text-function_frame").text(function_frame);
   $("#item_view_"+idCard+" .edit-text-category_sat").text(category_sat);
   $("#item_view_"+idCard+" .edit-text-dates").text(`Fechas: ${dates}`);
   $("#item_view_"+idCard+" .edit-text-contract").text(`Contrato: ${contract}`);
+  $("#item_view_"+idCard+" .edit-text-total_workdays").text(`Sueldo en Mano: ${total_workdays}`);
   $("#item_view_"+idCard+" .edit-text-active").text(`Estado: ${active}`);
   $("#item_view_"+idCard+" .edit-text-puesto").text(`Puesto: ${puesto}`);
 }
@@ -542,7 +544,7 @@ $(document).ready(function(){
           let onClickRemoveTeam = "$('#'+$(this).data('itemremove')).remove();$('#'+$(this).data('idcrew')).remove();";
 
           // add html list crew view
-          $('.list_crew_view').append(getTemplateTeam(id_provider,crewFunctionFrameText, crewNameText, crewCategorySatText, crewDatesText, contractText, activeText, textPuesto, onClickRemoveTeam));
+          $('.list_crew_view').append(getTemplateTeam(id_provider,crewFunctionFrameText, crewNameText, crewCategorySatText, crewDatesText, contractText, activeText, textPuesto, onClickRemoveTeam, '$'+total_workdays));
         }
         // una vez que haya aunque sea 1 CREW en la lista de Empleados, se habilita los INPUT de SUPLENTES
         // y AGREGO a la lista de "Reemplazo del Team" los crew agregados
@@ -555,7 +557,7 @@ $(document).ready(function(){
       }
 
       if(id_project_provider && id_project_provider.length){
-        setCardTeamIsset(id_provider, crewFunctionFrameText, crewCategorySatText, crewDatesText, contractText, activeText, textPuesto);
+        setCardTeamIsset(id_provider, crewFunctionFrameText, crewCategorySatText, crewDatesText, contractText, activeText, textPuesto, '$'+total_workdays);
         continueAddTeam(true);
 
         // edit by ajax
@@ -1338,4 +1340,12 @@ $(document).ready(function(){
         </div>`);
     });
 
+    // search cards from projects
+    $("#search_input_card").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $(".list_crew_view .col-md-4").filter(function () {
+        $(this).find('.mb-3').toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+    
 });

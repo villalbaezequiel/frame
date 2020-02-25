@@ -456,11 +456,14 @@
                         </span>
                         <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_crew_reemplazo">
                           <option value="0">Seleccionar</option>
-                          @foreach($list_crew as $item_crew)
-                            @if($item_crew->is_reemplazo == "1")
-                            <option value="{{ $item_crew->id_provider }}">{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}</option>
-                            @endif
-                          @endforeach
+                          @if(count($list_crew) > 0)
+                            @foreach($list_crew as $item_crew)
+                              <!-- 1: titular -->
+                              @if($item_crew->is_reemplazo == "1")
+                              <option value="{{ $item_crew->id_provider }}" <?php if(\App\ProjectProvider::hasReemplazo($item_crew->id_provider)){ echo "style='background: #5cb85c; color: #fff;'"; } ?> >{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}</option>
+                              @endif
+                            @endforeach
+                          @endif
                         </select>
                       </div>
                     </div>
@@ -473,8 +476,8 @@
                             Estado de Invitacion al Proyecto:
                           </span>
                           <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="active">
-                            <option value="0">Pendiente</option>
                             <option value="1">Aceptado</option>
+                            <option value="0">Pendiente</option>
                             <option value="2">Rechazado</option>
                           </select>
                         </div>
@@ -498,18 +501,27 @@
               </div>
 
                 <h5 class="info-text" id="ancla_list_crew_view" > Lista de Team </h5>
+
+                <div class="form-group">
+                  <div class="col-md-6">
+                    <input type="search" placeholder="Buscar Team" id="search_input_card" class="form-control" />
+                  </div>
+                  <div class="col-md-6"></div>
+                </div>
+
                 <div class="row justify-content-center list_crew_view" style="margin-top: -22px;">
                   @foreach($list_crew as $item_crew)
-                    <div class="col-md-4 d-flex group-more-team" data-idprovider="{{ $item_crew->id_provider }}" data-name="{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}" id="item_view_{{ $item_crew->id_provider }}">
+                    <div class="col-md-4 d-flex group-more-team" data-hasreemplazo="{{ \App\ProjectProvider::hasReemplazo($item_crew->id_provider) }}"  data-idprovider="{{ $item_crew->id_provider }}" data-name="{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}" id="item_view_{{ $item_crew->id_provider }}">
                       <div class="card mb-3">
                         <div class="card-header card-section-color edit-text-function_frame">
                           {{ \App\FrameFunction::getName($item_crew->id_function_frame) }}
                         </div>
-                        <div class="card-body">
+                        <div class="card-body"> 
                           <h4 class="card-title">{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}</h4>
                           <p class="card-text mb-2 edit-text-category_sat">{{ \App\WorkersCategory::getName($item_crew->id_category_sat) }}</p>
                           <p class="card-text mb-2 edit-text-dates">Fechas: {{ \App\Helpers::getDateParseFormat($item_crew->start_date_contract, '/') }} a {{ \App\Helpers::getDateParseFormat($item_crew->finish_date_contract, '/') }}</p>
                           <p class="card-text mb-2 edit-text-contract">Contrato: {{ \App\Contract::getName($item_crew->id_contract) }}</p>
+                          <p class="card-text mb-2 edit-text-contract">Sueldo en Mano: ${{ $item_crew->total_workdays }}</p>
                           <p class="card-text mb-2 edit-text-active">Estado: {{ \App\ProjectProvider::getActive($item_crew->active) }}</p>
                           <p class="card-text mb-2 edit-text-puesto">Puesto: {{ \App\ProjectProvider::getPuesto($item_crew->id) }}</p>
                         </div>
