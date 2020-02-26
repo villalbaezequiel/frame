@@ -102,7 +102,7 @@ class ProjectProvider extends Model
   { 
     $teamReemplazo = ProjectProvider::where('id_crew_reemplazo', $id_team)->first();
 
-    return (count($teamReemplazo));
+    return (!empty($teamReemplazo));
   }
 
 }
