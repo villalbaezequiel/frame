@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Notifications\TeamProject;
 use App\Notifications\SeguroServicios;
 use App\Notifications\EntryTeamProject;
+use App\Notifications\ProducerOrdersAcepted;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
 use DateInterval;
@@ -24,7 +25,7 @@ class ProjectsController extends Controller
 {
 
     protected $_permission;
-    protected $permissionApproved = ['1', '2', '14', '15'];
+    protected $permissionApproved = ['1', '2', '14', '15', '16'];
 
     /**
      * Instantiate a new controller instance.
@@ -58,8 +59,19 @@ class ProjectsController extends Controller
      */
      public function index()
      {
+        $listPermissions = User::getListPermissionsFromUser(Auth::user());
+
+        if(in_array("16", $listPermissions))
+        {
+          $listProjects = Project::where('is_producer_order', '1')
+                                ->where('iduser_producer_order', Auth::user()->id)
+                                ->orderBy('id', 'DESC')
+                                ->get();
+        } else {
+          $listProjects = Project::orderBy('id', 'DESC')->get();
+        }
         return view('backend.projects.index', [
-          'projects' => Project::orderBy('id', 'DESC')->get()
+          'projects' => $listProjects
         ]);
      }
 
@@ -96,6 +108,9 @@ class ProjectsController extends Controller
             return redirect('/projects/create')->with('message', 'Error al Crear Proyecto. Debe Agregar al menos un Team!');
           }
 
+          // verificar si es un User rol Pedidos/Productor
+          $listPermissions = User::getListPermissionsFromUser(Auth::user());
+
           $project = new Project;
           $project->id_client = $request->get('id_client');
           $project->name = $request->get('name');
@@ -106,8 +121,16 @@ class ProjectsController extends Controller
           $project->id_team_referring = $request->get('id_team_referring');
           $project->start_date = Project::getDateParseFormat($request->get('start_date'));
           $project->finish_date = Project::getDateParseFormat($request->get('finish_date'));
-          $project->clausula_no_repe = $request->get('clausula_no_repe');
-          $project->certificado_cobertura = $request->get('certificado_cobertura');
+          $project->clausula_no_repe = ($request->get('clausula_no_repe') ? $request->get('clausula_no_repe') : "0");
+          $project->certificado_cobertura = ($request->get('certificado_cobertura') ? $request->get('certificado_cobertura') : "0");
+
+          if(in_array("16", $listPermissions))
+          {
+            $project->is_producer_order     = "1";
+            $project->iduser_producer_order = Auth::user()->id;
+            $project->status_producer_order = "0";
+          }
+
           $project->is_closed = '0'; // 0 = abierto / 1 = cerrado
           $project->active = '0'; // cuando todos los proveedores que se agregaron aceptan la solicitud del proyecto, automaticamente cambia su estado a activo 1. Y cuando el proyecto finaliza tambien se da de baja el mismo.
           $project->save();
@@ -429,7 +452,24 @@ class ProjectsController extends Controller
           $project->observations = $request->get('observations');
           $project->clausula_no_repe = $request->get('clausula_no_repe');
           $project->certificado_cobertura = $request->get('certificado_cobertura');
+          $project->status_producer_order = ($request->get('status_producer_order') ? $request->get('status_producer_order') : "0");
           $project->save();
+
+          // enviar notificacion al user rol pedido que han aceptado su proyecto
+          if($request->get('status_producer_order') && $request->get('status_producer_order') == "1")
+          {
+            $userProducerOrders = User::find($project->iduser_producer_order);
+
+            if($userProducerOrders)
+            {
+              $data = array(
+                'user' => $userProducerOrders,
+                'cost_center' => CenterCost::getNumber($project->cost_center)
+              );
+              
+              $userProducerOrders->notify(new ProducerOrdersAcepted($data));
+            }
+          }
 
           // add provides relation Project
           if(!empty($list_crew)){

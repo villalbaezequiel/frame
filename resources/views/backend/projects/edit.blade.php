@@ -596,6 +596,57 @@
                 </div>
               </div>
 
+              <h5 class="info-text"> Sistema de Pedidos </h5>
+              <div class="row justify-content-center">
+                
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text no-wrap">
+                        Es pedido:
+                      </span>
+                      <select class="selectpicker" data-style="select-with-transition" readonly>
+                        <option value="0">{{ \App\Helpers::getActive($project->is_producer_order) }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                @if((int) $project->is_producer_order)  
+
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text no-wrap">
+                          Creador del Pedido:
+                        </span>
+                        <select class="selectpicker" data-style="select-with-transition" readonly>
+                          <option value="0">{{ \App\User::getFullName($project->iduser_producer_order) }}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text no-wrap">
+                          Estado del pedido:
+                        </span>
+                        <select class="selectpicker" data-style="select-with-transition" name="status_producer_order">
+                          <option value="0" <?php if((int) $project->status_producer_order == 0) { echo "selected"; } ?> >Stand By</option>
+                          <option value="1" <?php if((int) $project->status_producer_order == 1) { echo "selected"; } ?>>Aceptar</option>
+                          <option value="2" <?php if((int) $project->status_producer_order == 2) { echo "selected"; } ?>>Rechazar</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                @endif
+
+              </div>
+
+
               </div>
 
             </div>

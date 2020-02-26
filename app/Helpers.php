@@ -652,7 +652,8 @@ class Helpers extends Model
    {
     $list = [
       'owner_secure' => 'Responsable de Seguros',
-      'center_cost' => 'Centro de Costos'
+      'center_cost' => 'Centro de Costos',
+      'producer_orders' => 'Sistema de Pedidos/Productores'
     ];
 
     return $list;

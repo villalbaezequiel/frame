@@ -3,10 +3,17 @@
 @section('title', "Proyectos")
 
 @section('content')
+
+<?php 
+  $listPermissions = \App\User::getListPermissionsFromUser(Auth::user());
+?>
+
 <div class="container-fluid">
 
-  <a href="{{ url('/projects/create') }}" class="btn btn-primary">Nuevo Proyecto</a>
-  <a href='{{ url("/export/all_project") }}' class="btn btn-primary">Descargar Lista</a>
+    <a href="{{ url('/projects/create') }}" class="btn btn-primary">Nuevo Proyecto</a>
+  @if(!in_array("16", $listPermissions))
+    <a href='{{ url("/export/all_project") }}' class="btn btn-primary">Descargar Lista</a>
+  @endif
 
   <div class="row">
     <div class="col-md-12">
@@ -36,9 +43,15 @@
                 <th>Nombre</th>
                 <th>Tipo de Proyecto</th>
                 <th>Fechas: Inicio - Finalización</th>
-                <th>Estado</th>
-                <th>Activo</th>
-                <th class="text-center">Acciones</th>
+              
+                @if(!in_array("16", $listPermissions))
+                  <th>Estado</th>
+                  <th>Activo</th>
+                  <th class="text-center">Acciones</th>
+                @else
+                  <th>Estado del Pedido</th>
+                @endif
+
               </tr>
             </thead>
             <tbody>
@@ -54,36 +67,41 @@
                 <td>{{ $project->name }}</td>
                 <td>{{ \App\ProyectCategory::getName($project->id_proyect_category) }}</td>
                 <td>{{ $start_date[2].'/'.$start_date[1].'/'.$start_date[0] }} - {{ $finish_date[2].'/'.$finish_date[1].'/'.$finish_date[0] }}</td>
-                <td>{{ \App\Project::getIsClosed($project->is_closed) }}</td>
-                <td>{{ \App\Helpers::getActive($project->active) }}</td>
-                <td class="text-right">
 
-                  @if($project->is_closed)
+                @if(!in_array("16", $listPermissions))
+                  <td>{{ \App\Project::getIsClosed($project->is_closed) }}</td>
+                  <td>{{ \App\Helpers::getActive($project->active) }}</td>
+                  <td class="text-right">
+                    @if($project->is_closed)
 
-                  <div style="text-align: center;">
-                    <!-- List Exports: info_proyecto, personal_teams_proyecto, generacion_seguros_servicios -->
-                    <a href="{{ url('/export/project/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Informacion del Proyecto"><i class="material-icons">file_download</i></a>
-                    <a href="{{ url('/export/project/'.$project->id.'/hs_ex_absences_teams') }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Ausencias y Horas Extras del Personal"><i class="material-icons">file_download</i></a>
-                    <a href="{{ url('/export/seguros_servicios/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Generacion de Seguros"><i class="material-icons">file_download</i></a>
-                    <!-- action closed -->
-                    <a href="{{ url('/projects_is_closed/'.$project->id.'/0') }}" class="btn btn-link btn-success btn-just-icon remove" title="Abrir Proyecto"><i class="material-icons">lock_open</i></a>
-                  </div>
-                  @else
-
-                    {!! Form::open(['route' => ['projects.destroy', $project->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete', 'style'=> 'text-align: center;']) !!}
+                    <div style="text-align: center;">
                       <!-- List Exports: info_proyecto, personal_teams_proyecto, generacion_seguros_servicios -->
                       <a href="{{ url('/export/project/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Informacion del Proyecto"><i class="material-icons">file_download</i></a>
                       <a href="{{ url('/export/project/'.$project->id.'/hs_ex_absences_teams') }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Ausencias y Horas Extras del Personal"><i class="material-icons">file_download</i></a>
                       <a href="{{ url('/export/seguros_servicios/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Generacion de Seguros"><i class="material-icons">file_download</i></a>
-                        <!-- action closed -->
-                      <a href="{{ url('/projects_is_closed/'.$project->id.'/1') }}" class="btn btn-link btn-danger btn-just-icon remove" title="Cerrar Proyecto"><i class="material-icons">lock_outline</i></a>
-                      <!-- CRUD PROJECT -->
-                      <a href="{{ url('/projects/'.$project->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
-                      <button type="submit" class="btn btn-link btn-danger btn-just-icon remove" title="Eliminar"><i class="material-icons">close</i></button>
-                    {!! Form::close() !!}
+                      <!-- action closed -->
+                      <a href="{{ url('/projects_is_closed/'.$project->id.'/0') }}" class="btn btn-link btn-success btn-just-icon remove" title="Abrir Proyecto"><i class="material-icons">lock_open</i></a>
+                    </div>
+                    @else
 
-                  @endif
-                </td>
+                      {!! Form::open(['route' => ['projects.destroy', $project->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete', 'style'=> 'text-align: center;']) !!}
+                        <!-- List Exports: info_proyecto, personal_teams_proyecto, generacion_seguros_servicios -->
+                        <a href="{{ url('/export/project/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Informacion del Proyecto"><i class="material-icons">file_download</i></a>
+                        <a href="{{ url('/export/project/'.$project->id.'/hs_ex_absences_teams') }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Ausencias y Horas Extras del Personal"><i class="material-icons">file_download</i></a>
+                        <a href="{{ url('/export/seguros_servicios/'.$project->id) }}" class="btn btn-link btn-success btn-just-icon" title="Descargar Generacion de Seguros"><i class="material-icons">file_download</i></a>
+                          <!-- action closed -->
+                        <a href="{{ url('/projects_is_closed/'.$project->id.'/1') }}" class="btn btn-link btn-danger btn-just-icon remove" title="Cerrar Proyecto"><i class="material-icons">lock_outline</i></a>
+                        <!-- CRUD PROJECT -->
+                        <a href="{{ url('/projects/'.$project->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
+                        <button type="submit" class="btn btn-link btn-danger btn-just-icon remove" title="Eliminar"><i class="material-icons">close</i></button>
+                      {!! Form::close() !!}
+
+                    @endif
+                  </td>
+                @else
+                  <td>{{ \App\Project::getStatusProducerOrders($project->status_producer_order) }}</td>
+                @endif
+                
               </tr>
               @endforeach
             </tbody>

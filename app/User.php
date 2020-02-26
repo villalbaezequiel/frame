@@ -104,4 +104,30 @@ class User extends Authenticatable
       }
     }
 
+    static function getAllProducerOrdersNotification()
+    {
+      try {
+        $list = User::where('section_notification', 'like', '%"producer_orders"%')
+                      ->where('is_notification', '1')
+                      ->where('active', '1')
+                      ->get();
+        return $list;
+      } catch (\Exception $error) {
+
+      }
+    }
+
+    static function getListPermissionsFromUser($user)
+    {
+      $listPermissions = array();
+  
+      if($user->permissions) {
+        foreach(json_decode($user->permissions) as $userPermission) {
+          array_push($listPermissions, $userPermission);
+        }
+      }
+
+      return $listPermissions;
+    }
+
 }

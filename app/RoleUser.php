@@ -56,7 +56,8 @@ class RoleUser extends Model
       '12'  => 'Categorías Sat',
       '13'  => 'Funciones Frame',
       '14'  => 'Proyectos / Jornadas De Proyectos',
-      '15'  => 'Proyectos / Jornadas De Proyectos / Callsheet'
+      '15'  => 'Proyectos / Jornadas De Proyectos / Callsheet',
+      '16'  => 'Pedidos'
     ];
     return $listRoles;
   }
@@ -85,8 +86,10 @@ class RoleUser extends Model
       return "/center_costs";
     } elseif($key_rol == "11") {
       return "/callsheet";
+    } elseif($key_rol == "16") {
+      return "/projects";
     }
- 
+  
   }
 
 }

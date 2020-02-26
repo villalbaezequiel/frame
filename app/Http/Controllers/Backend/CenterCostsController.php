@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\newCenterCost;
+use App\Notifications\ProducerOrders;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers;
 use App\User;
@@ -13,7 +14,7 @@ use App\CenterCost;
 class CenterCostsController extends Controller
 {
   protected $_permission;
-  protected $permissionApproved = ['1', '10'];
+  protected $permissionApproved = ['1', '10', '16'];
 
   /**
    * Instantiate a new controller instance.
@@ -47,8 +48,20 @@ class CenterCostsController extends Controller
      */
     public function index()
     {
+
+      $listPermissions = User::getListPermissionsFromUser(Auth::user());
+
+      if(in_array("16", $listPermissions))
+      {
+        $listCC = CenterCost::where('push_rol_producer_orders', '1')
+                              ->orderBy('id', 'DESC')
+                              ->get();
+      } else {
+        $listCC = CenterCost::orderBy('id', 'DESC')->get();
+      }
+
       return view('backend.center_costs.index', [
-        'center_costs' => CenterCost::orderBy('id', 'DESC')->get()
+        'center_costs' => $listCC
       ]);
     }
 
@@ -84,9 +97,22 @@ class CenterCostsController extends Controller
         $center_cost->name = $request->get('name');
         $center_cost->client = $request->get('client');
         $center_cost->referente = ($request->get('referente') ? json_encode($request->get('referente')) : null);
-        $center_cost->assigne = '0';
+        $center_cost->push_rol_producer_orders = $request->get('push_rol_producer_orders');
         $center_cost->active = $request->get('active');
         $center_cost->save();
+
+        if((int) $center_cost->push_rol_producer_orders == 1 && (int) $center_cost->assigne == 0) 
+        {
+          $listUsersProducerOrdersNoti = User::getAllProducerOrdersNotification();
+          foreach ($listUsersProducerOrdersNoti as $user) {
+
+            $data = array(
+              'user' => $user
+            );
+
+            $user->notify(new ProducerOrders($data));
+          }
+        }
 
         // enviar notificicacion por mail cuando se crea un nuevo centro de costo
         if($center_cost){
@@ -157,8 +183,22 @@ class CenterCostsController extends Controller
         $center_cost->name = $request->get('name');
         $center_cost->client = $request->get('client');
         $center_cost->referente = ($request->get('referente') ? json_encode($request->get('referente')) : null);
+        $center_cost->push_rol_producer_orders = $request->get('push_rol_producer_orders');
         $center_cost->active = $request->get('active');
         $center_cost->save();
+
+        if((int) $center_cost->push_rol_producer_orders == 1 && (int) $center_cost->assigne == 0) 
+        {
+          $listUsersProducerOrdersNoti = User::getAllProducerOrdersNotification();
+          foreach ($listUsersProducerOrdersNoti as $user) {
+
+            $data = array(
+              'user' => $user
+            );
+
+            $user->notify(new ProducerOrders($data));
+          }
+        }
 
         return redirect('/center_costs')->with('message', 'Centro de Costo editado con exito!');
 
