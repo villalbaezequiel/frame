@@ -3,10 +3,17 @@
 @section('title', "Centro de Costos")
 
 @section('content')
+
+<?php 
+  $listPermissions = \App\User::getListPermissionsFromUser(Auth::user());
+?>
+
 <div class="container-fluid">
 
-  <a href="{{ url('/center_costs/create') }}" class="btn btn-primary">Nuevo Centro de Costo</a>
-  <a href='{{ url("/export/center_costs") }}' class="btn btn-primary">Descargar Lista</a>
+  @if(!in_array("16", $listPermissions))
+    <a href="{{ url('/center_costs/create') }}" class="btn btn-primary">Nuevo Centro de Costo</a>
+    <a href='{{ url("/export/center_costs") }}' class="btn btn-primary">Descargar Lista</a>
+  @endif
 
   <div class="row">
     <div class="col-md-12">
@@ -35,8 +42,13 @@
                 <th>Número</th>
                 <th>Nombre</th>
                 <th>Cliente</th>
-                <th>Activo</th>
-                <th class="text-right">Acciones</th>
+                @if(!in_array("16", $listPermissions))
+                  <th>Activo</th>
+                  <th class="text-right">Acciones</th>
+                @else
+                  <th>Disponible</th>
+                @endif
+                
               </tr>
             </thead>
             <tbody>
@@ -45,13 +57,19 @@
                 <td>{{ $center_cost->number }}</td>
                 <td>{{ $center_cost->name }}</td>
                 <td>{{ App\Client::getNick($center_cost->client) }}</td>
-                <td>{{ \App\Helpers::getActive($center_cost->active) }}</td>
-                <td class="text-right">
-                  {!! Form::open(['route' => ['center_costs.destroy', $center_cost->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
-                    <a href="{{ url('/center_costs/'.$center_cost->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
-                    <button type="submit" class="btn btn-link btn-danger btn-just-icon remove" title="Eliminar"><i class="material-icons">close</i></button>
-                  {!! Form::close() !!}
-                </td>
+
+                @if(!in_array("16", $listPermissions))
+                  <td>{{ \App\Helpers::getActive($center_cost->active) }}</td>
+                  <td class="text-right">
+                    {!! Form::open(['route' => ['center_costs.destroy', $center_cost->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete']) !!}
+                      <a href="{{ url('/center_costs/'.$center_cost->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
+                      <button type="submit" class="btn btn-link btn-danger btn-just-icon remove" title="Eliminar"><i class="material-icons">close</i></button>
+                    {!! Form::close() !!}
+                  </td>
+                @else
+                  <td><?php if((int)$center_cost->assigne == 1){ echo "No"; } else { echo "Si"; } ?></td>
+                @endif
+
               </tr>
               @endforeach
             </tbody>

@@ -3,6 +3,11 @@
 @section('title', "Proyectos / Nuevo")
 
 @section('content')
+
+<?php 
+  $listPermissions = \App\User::getListPermissionsFromUser(Auth::user());
+?>
+
 <div class="container-fluid">
   <div class="col-md-12 col-12 mr-auto ml-auto">
 
@@ -471,55 +476,57 @@
                 <!-- append list crew  -->
                 <div class="list_crew"> </div>
 
-                <h5 class="info-text"> Generacion de Seguros - Contratos tipos Servicios </h5>
-                <div class="row justify-content-center">
+                @if(!in_array("16", $listPermissions))
+                  <h5 class="info-text"> Generacion de Seguros - Contratos tipos Servicios </h5>
+                  <div class="row justify-content-center">
 
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text no-wrap">
-                          Cláusula de No Repetición
-                        </span>
-                        <select class="selectpicker" data-style="select-with-transition" name="clausula_no_repe">
-                          <option value="0">No</option>
-                          <option value="1">Si</option>
-                        </select>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text no-wrap">
+                            Cláusula de No Repetición
+                          </span>
+                          <select class="selectpicker" data-style="select-with-transition" name="clausula_no_repe">
+                            <option value="0">No</option>
+                            <option value="1">Si</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text no-wrap">
+                            Necesidad de Certificado de Cobertura
+                          </span>
+                          <select class="selectpicker" data-style="select-with-transition" name="certificado_cobertura">
+                            <option value="0">No</option>
+                            <option value="1">Si</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <h5 class="info-text"> Configurar Notificaciones </h5>
+                  <div class="row justify-content-center">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text no-wrap">
+                            Enviar Notificaciones a los Teams:
+                          </span>
+                          <select class="selectpicker" data-style="select-with-transition" name="notification_team">
+                            <option value="0" selected>No</option>
+                            <option value="1">Si</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
                   </div>
-
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text no-wrap">
-                          Necesidad de Certificado de Cobertura
-                        </span>
-                        <select class="selectpicker" data-style="select-with-transition" name="certificado_cobertura">
-                          <option value="0">No</option>
-                          <option value="1">Si</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-
-                <h5 class="info-text"> Configurar Notificaciones </h5>
-                <div class="row justify-content-center">
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text no-wrap">
-                          Enviar Notificaciones a los Teams:
-                        </span>
-                        <select class="selectpicker" data-style="select-with-transition" name="notification_team">
-                          <option value="0" selected>No</option>
-                          <option value="1">Si</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                @endif
 
               </div>
 

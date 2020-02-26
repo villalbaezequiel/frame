@@ -1,11 +1,5 @@
 <?php 
-  $listPermissions = array();
-  
-  if(Auth::user()->permissions) {
-    foreach(json_decode(Auth::user()->permissions) as $userPermission) {
-       array_push($listPermissions, $userPermission);
-    }
-  }
+  $listPermissions = \App\User::getListPermissionsFromUser(Auth::user());
 ?>
 
 <div class="sidebar" data-color="purple" data-background-color="black" data-image="{{ asset('img/login.jpg') }}">
@@ -59,7 +53,7 @@
     </div>
     <ul class="nav">
 
-      @if(in_array("1", $listPermissions) || in_array("2", $listPermissions) || in_array("14", $listPermissions) || in_array("15", $listPermissions))
+      @if(in_array("1", $listPermissions) || in_array("2", $listPermissions) || in_array("14", $listPermissions) || in_array("15", $listPermissions) || in_array("16", $listPermissions))
         <li class="nav-item nav-check-url ">
           <a class="nav-link" href="{{ url('/projects') }}">
             <i class="material-icons">list_alt</i>
@@ -77,7 +71,7 @@
         </li>
       @endif
 
-      @if(in_array("1", $listPermissions) || in_array("10", $listPermissions))
+      @if(in_array("1", $listPermissions) || in_array("10", $listPermissions) || in_array("16", $listPermissions))
         <li class="nav-item nav-check-url ">
           <a class="nav-link" href="{{ url('/center_costs') }}">
             <i class="material-icons">business</i>

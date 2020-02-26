@@ -86,6 +86,18 @@ class Project extends Model
       }
     }
 
+    static function getStatusProducerOrders($status)
+    {
+      if($status == "0"){
+        return "Stand By";
+      } elseif($status == "1") {
+        return "Aceptado";
+      } elseif($status == "2") {
+        return "Rechazado";
+      }
+    }
+
+
     static function getCenterCost($id_project)
     {
       $project = Project::find($id_project);

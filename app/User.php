@@ -117,4 +117,17 @@ class User extends Authenticatable
       }
     }
 
+    static function getListPermissionsFromUser($user)
+    {
+      $listPermissions = array();
+  
+      if($user->permissions) {
+        foreach(json_decode($user->permissions) as $userPermission) {
+          array_push($listPermissions, $userPermission);
+        }
+      }
+
+      return $listPermissions;
+    }
+
 }

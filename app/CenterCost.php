@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class CenterCost extends Model
 {
@@ -26,10 +28,15 @@ class CenterCost extends Model
 
     static public function getAllNoAssigne($active = '1')
     {
-      $center_costs = CenterCost::where('assigne', '0')
-                                  ->where('active', $active)
-                                  ->get();
+      $listPermissions = User::getListPermissionsFromUser(Auth::user());
 
+      if(in_array("16", $listPermissions))
+      {
+        $center_costs = CenterCost::where('push_rol_producer_orders', '1')->where('assigne', '0')->get();
+      } else {
+        $center_costs = CenterCost::where('assigne', '0')->where('active', $active)->get();
+      }
+      
       return $center_costs;
     }
 

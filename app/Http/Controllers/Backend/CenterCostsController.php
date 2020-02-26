@@ -14,7 +14,7 @@ use App\CenterCost;
 class CenterCostsController extends Controller
 {
   protected $_permission;
-  protected $permissionApproved = ['1', '10'];
+  protected $permissionApproved = ['1', '10', '16'];
 
   /**
    * Instantiate a new controller instance.
@@ -48,8 +48,20 @@ class CenterCostsController extends Controller
      */
     public function index()
     {
+
+      $listPermissions = User::getListPermissionsFromUser(Auth::user());
+
+      if(in_array("16", $listPermissions))
+      {
+        $listCC = CenterCost::where('push_rol_producer_orders', '1')
+                              ->orderBy('id', 'DESC')
+                              ->get();
+      } else {
+        $listCC = CenterCost::orderBy('id', 'DESC')->get();
+      }
+
       return view('backend.center_costs.index', [
-        'center_costs' => CenterCost::orderBy('id', 'DESC')->get()
+        'center_costs' => $listCC
       ]);
     }
 
