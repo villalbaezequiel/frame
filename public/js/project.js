@@ -377,6 +377,7 @@ $(document).ready(function(){
     let salary_workdays = $('input[name=salary_workdays]').val(); // required
     let total_workdays = $('input[name=total_workdays]').val(); // required
     let total_workdays_text = $('input[name=total_workdays_text]').val(); // required
+    let salary_contract_bruto_category_function = $('input[name=salary_contract_bruto_category_function]').val(); // required
     let salary_contract_category_function = $('input[name=salary_contract_category_function]').val(); // required
     let salary_daily = $('input[name=salary_daily]').val(); // required
     let salary_liquidate = $('input[name=salary_liquidate]').val(); // required
@@ -458,6 +459,7 @@ $(document).ready(function(){
         'salary_workdays': salary_workdays,
         'total_workdays': total_workdays,
         'total_workdays_text': total_workdays_text,
+        'salary_contract_bruto_category_function': salary_contract_bruto_category_function,
         'salary_contract_category_function': salary_contract_category_function,
         'salary_daily': salary_daily,
         'salary_liquidate': salary_liquidate,
@@ -672,22 +674,37 @@ $(document).ready(function(){
   });
 
   // automatic calculate input
-  $('input[name=total_workdays]').click(function(){
-    if($('input[name=salary_workdays]').val() && $('input[name=count_workdays_crew]').val()){
-
-      var salary_workdays = $('input[name=salary_workdays]').val();
-      var count_workdays_crew = $('input[name=count_workdays_crew]').val();
-      var total_workdays = (parseFloat(salary_workdays.replace(".", "").replace(",", ".")) * parseFloat(count_workdays_crew));
+  $('input[name=total_workdays]').click(function()
+  {
+    if($('input[name=salary_workdays]').val() && $('input[name=count_workdays_crew]').val())
+    {
+      let salary_workdays     = $('input[name=salary_workdays]').val();
+      let count_workdays_crew = $('input[name=count_workdays_crew]').val();
+      let total_workdays      = (parseFloat(salary_workdays.replace(".", "").replace(",", ".")) * parseFloat(count_workdays_crew));
 
       $('input[name=total_workdays]').val(getFormatNumber(total_workdays));
 
-      if($('input[name=salary_contract_category_function]').val()){
+      if($('input[name=salary_contract_category_function]').val())
+      {
+        let days          = $('input[name=days_crew]').val();
+        let mode_workday  = $('select[name=id_workday] option:selected').data('mode');
+        let salary_daily  = 0;
 
-        var salary_contract_category_function = $('input[name=salary_contract_category_function]').val();
-        var salary_contract_category_functionFinish = parseFloat(salary_contract_category_function.replace(".", "").replace(",", "."));
-        var days = $('input[name=days_crew]').val();
-        var salary_daily = (salary_contract_category_functionFinish / 30);
-        var crew_sueldo_diferencia = getFormatNumber( total_workdays -  (salary_daily * parseFloat(count_workdays_crew)) );
+        // sueldo categoria sat neto
+        let salary_contract_category_function             = $('input[name=salary_contract_category_function]').val();
+        let salary_contract_category_functionFinishNeto   = parseFloat(salary_contract_category_function.replace("$", "").replace(".", "").replace(",", "."));
+        // sueldo categoria sat bruto
+        let salary_contract_bruto_category_function       = $('input[name=salary_contract_bruto_category_function]').val();
+        let salary_contract_category_functionFinishBruto  = parseFloat(salary_contract_bruto_category_function.replace("$", "").replace(".", "").replace(",", "."));
+
+        if(mode_workday == 'working-day')
+        {
+          salary_daily = parseFloat((salary_contract_category_functionFinishBruto / 30) * 1.5);
+        } else {
+          salary_daily = parseFloat(salary_contract_category_functionFinishNeto / 30);
+        }
+
+        let crew_sueldo_diferencia = getFormatNumber( total_workdays - (salary_daily * parseFloat(count_workdays_crew)) );
 
         $('input[name=salary_daily]').val(getFormatNumber(salary_daily));
         $('input[name=salary_liquidate]').val(getFormatNumber(parseFloat(days) * salary_daily));

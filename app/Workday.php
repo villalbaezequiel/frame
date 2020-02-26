@@ -27,10 +27,11 @@ class Workday extends Model
     static public function getTypeWorkMode()
     {
       $list = [
-        'month-7' => 'Mes por 7',
-        'month-5' => 'Mes por 5',
-        'week-7' => 'Semana por 7',
-        'week-5' => 'Semana por 5'
+        'working-day' => 'Jornada',
+        'month-7'     => 'Mes por 7',
+        'month-5'     => 'Mes por 5',
+        'week-7'      => 'Semana por 7',
+        'week-5'      => 'Semana por 5'
       ];
 
       return $list;
