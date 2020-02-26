@@ -73,6 +73,18 @@
             </div>
 
             <div class="row">
+              <label class="col-md-2 col-form-label">Pedidos/Productores</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                    <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="push_rol_producer_orders">
+                      <option value="0">No</option>
+                      <option value="1">Si</option>
+                    </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
               <label class="col-md-2 col-form-label label-checkbox">Activo</label>
               <div class="col-md-10 checkbox-radios">
                 <div class="form-check form-check-inline">
@@ -97,7 +109,8 @@
           </div>
           <div class="card-footer ml-auto mr-auto">
             <a href="javascript:void(0)" class="back-history btn">Cancelar</a>
-            <input type="submit" class="btn btn-primary" value="Guardar" onclick="javascript:this.form.submit();this.disabled= true;" />
+            <!-- <input type="submit" class="btn btn-primary" value="Guardar" onclick="javascript:this.form.submit();this.disabled= true;" /> -->
+            <input type="submit" class="btn btn-primary" value="Guardar" />
           </div>
         </div>
         {!! Form::close() !!}
