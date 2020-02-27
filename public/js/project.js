@@ -44,18 +44,23 @@ function getFormatNumber(number)
 function getContractProject(value)
 {
   // id 4 = Servicios
-  if(value == 4 || value == '4'){
-    $('.field-afip').hide();
-    $('.field-afip input').val('');
-
+  if(value == 4 || value == '4')
+  {
+    if($('.field-afip') && $('.field-afip').length > 0) {
+      $('.field-afip').hide();
+      $('.field-afip input').val('');  
+    }
     // show dates secure contract
     $('.fields-secure').show();
-  } else {
-    $('.field-afip').show();
 
+  } else {
+    if($('.field-afip') && $('.field-afip').length > 0) {
+      $('.field-afip').show();
+    }
     // hide dates secure contract
     $('.fields-secure').hide();
     $('.fields-secure input').val('');
+
   }
 }
 

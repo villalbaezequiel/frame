@@ -276,6 +276,7 @@
                     </div>
                   </div>
 
+                  @if(!in_array("16", $listPermissions))
                   <div class="col-md-6 field-afip">
                     <div class="form-group">
                       <div class="input-group-prepend">
@@ -297,6 +298,10 @@
                       </div>
                     </div>
                   </div>
+                  @else
+                    <input type="hidden" name="start_afip">
+                    <input type="hidden" name="finish_afip">
+                  @endif
 
                   <div class="col-md-6 fields-secure" style="display: none">
                     <div class="form-group">
@@ -342,6 +347,7 @@
                     </div>
                   </div>
 
+                  @if(!in_array("16", $listPermissions))
                   <div class="col-md-6">
                     <div class="form-group">
                       <div class="input-group-prepend">
@@ -352,6 +358,9 @@
                       </div>
                     </div>
                   </div>
+                  @else
+                    <input type="hidden" name="total_workdays_text" value="completar-texto">
+                  @endif
 
                   <div class="col-md-6">
                     <div class="form-group">
