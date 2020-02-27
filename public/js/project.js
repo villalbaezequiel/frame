@@ -321,9 +321,6 @@ $(document).ready(function(){
         name: {
           required: true
         },
-        id_client: {
-          required: true
-        },
         id_proyect_category: {
           required: true
         }

@@ -26,6 +26,24 @@ class CenterCost extends Model
       }
     }
 
+    static public function getIdClient($id)
+    {
+      $center_cost = CenterCost::find($id);
+
+      if($center_cost){
+        return $center_cost->client;
+      }
+    }
+
+    static public function getIdReferentes($id)
+    {
+      $center_cost = CenterCost::find($id);
+
+      if($center_cost){
+        return $center_cost->referente;
+      }
+    }
+
     static public function getAllNoAssigne($active = '1')
     {
       $listPermissions = User::getListPermissionsFromUser(Auth::user());

@@ -111,21 +111,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-10">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Cliente<span class="required-red">*</span>
-                        </span>
-                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_client" required>
-                          <option value="">Seleccionar</option>
-                          @foreach(\App\Client::getAllClients() as $client)
-                          <option value="{{ $client->id }}"><?php if($client->nick){ echo $client->nick; } else { echo $client->razon_social; } ?></option>
-                          @endforeach
-                        </select>
-                      </div>
-                    </div>
-                  </div>
+                  
                   <div class="col-md-10">
                     <div class="form-group">
                       <div class="input-group-prepend">
@@ -136,21 +122,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-10">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Referente:
-                        </span>
-                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_team_referring">
-                          <option value="">Seleccionar</option>
-                          @foreach(\App\Provider::getAllProvidersReferring() as $provider)
-                          <option value="{{ $provider->id }}">{{ $provider->last_name.' '.$provider->name }}</option>
-                          @endforeach
-                        </select>
-                      </div>
-                    </div>
-                  </div>
+                  
                   <div class="col-md-10">
                     <div class="form-group">
                       <div class="input-group-prepend">

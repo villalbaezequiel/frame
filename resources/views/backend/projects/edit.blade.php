@@ -146,13 +146,25 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Referente:
+                          Referentes:
                         </span>
-                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_team_referring">
+                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_team_referring[]">
                           <option value="">Seleccionar</option>
-                          @foreach(\App\Provider::getAllProvidersReferring() as $provider)
-                          <option value="{{ $provider->id }}" <?php if($provider->id == $project->id_team_referring){ echo "selected"; } ?>>{{ $provider->last_name.' '.$provider->name }}</option>
-                          @endforeach
+                            @foreach(\App\Provider::getAllProvidersReferring() as $provider)
+                            <option value="{{ $provider->id }}"
+                                <?php
+                                if(is_object($project->id_team_referring))
+                                {
+                                  foreach (json_decode($project->id_team_referring) as $referente)
+                                  {
+                                    if($referente && $referente == $provider->id){ echo "selected='selected'";}
+                                  }
+                                } else {
+                                  if($provider->id == $project->id_team_referring){ echo "selected"; }
+                                } ?>>
+                              {{ $provider->last_name.' '.$provider->name }}
+                            </option>
+                            @endforeach
                         </select>
                       </div>
                     </div>

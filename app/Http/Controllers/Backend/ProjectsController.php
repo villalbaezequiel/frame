@@ -111,17 +111,17 @@ class ProjectsController extends Controller
           // verificar si es un User rol Pedidos/Productor
           $listPermissions = User::getListPermissionsFromUser(Auth::user());
 
-          $project = new Project;
-          $project->id_client = $request->get('id_client');
-          $project->name = $request->get('name');
+          $project              = new Project;
+          $project->id_client   = CenterCost::getIdClient($request->get('cost_center'));
+          $project->name        = $request->get('name');
           $project->description = $request->get('description');
-          $project->observations = $request->get('observations');
+          $project->observations= $request->get('observations');
           $project->cost_center = $request->get('cost_center');
-          $project->id_proyect_category = $request->get('id_proyect_category');
-          $project->id_team_referring = $request->get('id_team_referring');
-          $project->start_date = Project::getDateParseFormat($request->get('start_date'));
-          $project->finish_date = Project::getDateParseFormat($request->get('finish_date'));
-          $project->clausula_no_repe = ($request->get('clausula_no_repe') ? $request->get('clausula_no_repe') : "0");
+          $project->id_proyect_category   = $request->get('id_proyect_category');
+          $project->id_team_referring     = CenterCost::getIdReferentes($request->get('cost_center'));
+          $project->start_date            = Project::getDateParseFormat($request->get('start_date'));
+          $project->finish_date           = Project::getDateParseFormat($request->get('finish_date'));
+          $project->clausula_no_repe      = ($request->get('clausula_no_repe') ? $request->get('clausula_no_repe') : "0");
           $project->certificado_cobertura = ($request->get('certificado_cobertura') ? $request->get('certificado_cobertura') : "0");
 
           if(in_array("16", $listPermissions))
@@ -417,40 +417,38 @@ class ProjectsController extends Controller
            Cuando se crea un Proyecto, los usuarios asociados quedan pendientes.
            Ellos tienen que confirmar la solicitud que pueden SI trabajar en ese Proyecto.
           */
-          $list_crew = $request->get('list_crew');
+          $list_crew            = $request->get('list_crew');
           $list_crew_secundario = $request->get('list_crew_secundario');
 
-          $project = Project::find($id);
-          $project->id_client = $request->get('id_client');
-          $project->name = $request->get('name');
-          $project->description = $request->get('description');
+          $project                      = Project::find($id);
+          $project->id_client           = $request->get('id_client');
+          $project->name                = $request->get('name');
+          $project->description         = $request->get('description');
           $project->id_proyect_category = $request->get('id_proyect_category');
-          $project->start_date = Project::getDateParseFormat($request->get('start_date'));
-          $project->finish_date = Project::getDateParseFormat($request->get('finish_date'));
+          $project->start_date          = Project::getDateParseFormat($request->get('start_date'));
+          $project->finish_date         = Project::getDateParseFormat($request->get('finish_date'));
 
           // update module CenterCost
           if($project->cost_center != $request->get('cost_center'))
           {
             // habilito el anterior centro de costo del proyecto
-            if(CenterCost::find($project->cost_center)){
+            if(CenterCost::find($project->cost_center))
+            {
               $center_cost_old = CenterCost::find($project->cost_center);
               $center_cost_old->assigne = '0';
               $center_cost_old->save();
             }
-
+           
             // actualizo el nuevo centro de costo para el proyecto
             $center_cost = CenterCost::find($request->get('cost_center'));
             $center_cost->assigne = '1';
             $center_cost->save();
-
-            $project->cost_center = $request->get('cost_center');
-          } else {
-            $project->cost_center = $request->get('cost_center');
           }
 
-          $project->id_team_referring = $request->get('id_team_referring');
-          $project->observations = $request->get('observations');
-          $project->clausula_no_repe = $request->get('clausula_no_repe');
+          $project->cost_center           = $request->get('cost_center');
+          $project->id_team_referring     = json_encode($request->get('id_team_referring'));
+          $project->observations          = $request->get('observations');
+          $project->clausula_no_repe      = $request->get('clausula_no_repe');
           $project->certificado_cobertura = $request->get('certificado_cobertura');
           $project->status_producer_order = ($request->get('status_producer_order') ? $request->get('status_producer_order') : "0");
           $project->save();
@@ -463,7 +461,7 @@ class ProjectsController extends Controller
             if($userProducerOrders)
             {
               $data = array(
-                'user' => $userProducerOrders,
+                'user'        => $userProducerOrders,
                 'cost_center' => CenterCost::getNumber($project->cost_center)
               );
               
@@ -479,20 +477,20 @@ class ProjectsController extends Controller
               // si es contrato tipo servicio, dates afip nulo
               if($crewObj->id_contract != '4')
               {
-                $start_afip = Project::getDateParseFormat($crewObj->start_afip);
-                $finish_afip = Project::getDateParseFormat($crewObj->finish_afip);
+                $start_afip   = Project::getDateParseFormat($crewObj->start_afip);
+                $finish_afip  = Project::getDateParseFormat($crewObj->finish_afip);
 
                 $start_date_secure_contract = null;
-                $end_date_secure_contract = null;
+                $end_date_secure_contract   = null;
               } else {
-                $start_afip = null;
+                $start_afip  = null;
                 $finish_afip = null;
 
                 $start_date_secure_contract = Project::getDateParseFormat($crewObj->start_date_secure_contract);
-                $end_date_secure_contract = Project::getDateParseFormat($crewObj->end_date_secure_contract);
+                $end_date_secure_contract   = Project::getDateParseFormat($crewObj->end_date_secure_contract);
               }
 
-              $start_date_contract = Project::getDateParseFormat($crewObj->start_date_contract);
+              $start_date_contract  = Project::getDateParseFormat($crewObj->start_date_contract);
               $finish_date_contract = Project::getDateParseFormat($crewObj->finish_date_contract);
               $calendar = array();
 
@@ -500,15 +498,15 @@ class ProjectsController extends Controller
               {
                 $calendar = Workday::getCalendarWeekends($start_date_contract, $finish_date_contract, $crewObj->hour_initial);
               } else {
-                $startDatejson = new DateTime($start_date_contract);
-                $endDatejson = new DateTime($finish_date_contract);
-                $endDatejson = $endDatejson->modify( '+1 day' );
-                $interval = new DateInterval('P1D');
-                $daterange = new DatePeriod($startDatejson, $interval ,$endDatejson);
+                $startDatejson  = new DateTime($start_date_contract);
+                $endDatejson    = new DateTime($finish_date_contract);
+                $endDatejson    = $endDatejson->modify( '+1 day' );
+                $interval       = new DateInterval('P1D');
+                $daterange      = new DatePeriod($startDatejson, $interval ,$endDatejson);
                 foreach($daterange as $date){
                     $calendar[$date->format("Ymd")] = array(
-                                    'start' => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00",
-                                    'finish' => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00"
+                                    'start'   => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00",
+                                    'finish'  => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00"
                                   );
                 }
 
@@ -581,8 +579,8 @@ class ProjectsController extends Controller
                 if($crewObj->id_contract != '4')
                 {
                   $dataNovedades = array(
-                    'project' => $project,
-                    'project_crew' => $team
+                    'project'     => $project,
+                    'project_crew'=> $team
                   );
                   $userNovedades->notify(new EntryTeamProject($dataNovedades));
                 }
@@ -592,9 +590,9 @@ class ProjectsController extends Controller
 
               // Enviar Mails a los crew notificandolo del proyecto y si acepta trabajar
               $data = array(
-                'project' => $project,
-                'user' => $user,
-                'project_crew' => $team
+                'project'     => $project,
+                'user'        => $user,
+                'project_crew'=> $team
               );
 
               if($request->get('notification_team') == "1" || $request->get('notification_team') == 1) {
@@ -611,20 +609,20 @@ class ProjectsController extends Controller
               // si es contrato tipo servicio, dates afip nulo
               if($crewObj->id_contract != '4')
               {
-                $start_afip = Project::getDateParseFormat($crewObj->start_afip);
-                $finish_afip = Project::getDateParseFormat($crewObj->finish_afip);
+                $start_afip   = Project::getDateParseFormat($crewObj->start_afip);
+                $finish_afip  = Project::getDateParseFormat($crewObj->finish_afip);
 
                 $start_date_secure_contract = null;
-                $end_date_secure_contract = null;
+                $end_date_secure_contract   = null;
               } else {
-                $start_afip = null;
-                $finish_afip = null;
+                $start_afip   = null;
+                $finish_afip  = null;
 
                 $start_date_secure_contract = Project::getDateParseFormat($crewObj->start_date_secure_contract);
-                $end_date_secure_contract = Project::getDateParseFormat($crewObj->end_date_secure_contract);
+                $end_date_secure_contract   = Project::getDateParseFormat($crewObj->end_date_secure_contract);
               }
 
-              $start_date_contract = Project::getDateParseFormat($crewObj->start_date_contract);
+              $start_date_contract  = Project::getDateParseFormat($crewObj->start_date_contract);
               $finish_date_contract = Project::getDateParseFormat($crewObj->finish_date_contract);
               $calendar = array();
 
@@ -632,11 +630,11 @@ class ProjectsController extends Controller
               {
                 $calendar = Workday::getCalendarWeekends($start_date_contract, $finish_date_contract, $crewObj->hour_initial);
               } else {
-                $startDatejson = new DateTime($start_date_contract);
-                $endDatejson = new DateTime($finish_date_contract);
-                $endDatejson = $endDatejson->modify( '+1 day' );
-                $interval = new DateInterval('P1D');
-                $daterange = new DatePeriod($startDatejson, $interval ,$endDatejson);
+                $startDatejson  = new DateTime($start_date_contract);
+                $endDatejson    = new DateTime($finish_date_contract);
+                $endDatejson    = $endDatejson->modify( '+1 day' );
+                $interval       = new DateInterval('P1D');
+                $daterange      = new DatePeriod($startDatejson, $interval ,$endDatejson);
                 foreach($daterange as $date){
                     $calendar[$date->format("Ymd")] = array(
                                     'start' => $date->format("Y-m-d")." ".$crewObj->hour_initial.":00",
