@@ -104,14 +104,26 @@ class User extends Authenticatable
       }
     }
 
-    static function getAllProducerOrdersNotification()
+    static function getAllProducerOrdersNotification($referente)
     {
       try {
-        $list = User::where('section_notification', 'like', '%"producer_orders"%')
-                      ->where('is_notification', '1')
-                      ->where('active', '1')
-                      ->get();
-        return $list;
+        if(json_decode($referente))
+        {
+          $listReferentes = array_map('intval', json_decode($referente));
+        
+          $list = User::select('users.*')
+                        ->join('providers', 'providers.id_user', '=', 'users.id')
+                        ->whereIn('providers.id', $listReferentes)
+                        ->where('users.permissions', 'like', '%"16"%')
+                        ->where('users.section_notification', 'like', '%"producer_orders"%')
+                        ->where('users.is_notification', '1')
+                        ->where('users.active', '1')
+                        ->get();
+          return $list;
+        } else {
+          return;
+        }
+
       } catch (\Exception $error) {
 
       }

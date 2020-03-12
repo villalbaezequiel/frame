@@ -103,14 +103,18 @@ class CenterCostsController extends Controller
 
         if((int) $center_cost->push_rol_producer_orders == 1 && (int) $center_cost->assigne == 0) 
         {
-          $listUsersProducerOrdersNoti = User::getAllProducerOrdersNotification();
-          foreach ($listUsersProducerOrdersNoti as $user) {
+          $listUsersProducerOrdersNoti = User::getAllProducerOrdersNotification($center_cost->referente);
+          
+          if($listUsersProducerOrdersNoti)
+          { 
+            foreach ($listUsersProducerOrdersNoti as $user)
+            {
+              $data = array(
+                'user' => $user
+              );
 
-            $data = array(
-              'user' => $user
-            );
-
-            $user->notify(new ProducerOrders($data));
+              $user->notify(new ProducerOrders($data));
+            }
           }
         }
 
@@ -189,14 +193,18 @@ class CenterCostsController extends Controller
 
         if((int) $center_cost->push_rol_producer_orders == 1 && (int) $center_cost->assigne == 0) 
         {
-          $listUsersProducerOrdersNoti = User::getAllProducerOrdersNotification();
-          foreach ($listUsersProducerOrdersNoti as $user) {
+          $listUsersProducerOrdersNoti = User::getAllProducerOrdersNotification($center_cost->referente);
+          
+          if($listUsersProducerOrdersNoti)
+          {
+            foreach ($listUsersProducerOrdersNoti as $user) {
 
-            $data = array(
-              'user' => $user
-            );
+              $data = array(
+                'user' => $user
+              );
 
-            $user->notify(new ProducerOrders($data));
+              $user->notify(new ProducerOrders($data));
+            }
           }
         }
 
