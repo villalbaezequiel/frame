@@ -46,15 +46,24 @@ class CenterCost extends Model
 
     static public function getAllNoAssigne($active = '1')
     {
-      $listPermissions = User::getListPermissionsFromUser(Auth::user());
-
-      if(in_array("16", $listPermissions))
+      $id_team_referente = User::select('providers.id')
+                              ->join('providers', 'providers.id_user', '=', 'users.id')
+                              ->where('users.id', Auth::user()->id)
+                              ->where('users.permissions', 'like', '%"16"%')
+                              ->where('users.section_notification', 'like', '%"producer_orders"%')
+                              ->where('users.is_notification', '1')
+                              ->where('users.active', $active)
+                              ->first();
+      if($id_team_referente)
       {
-        $center_costs = CenterCost::where('push_rol_producer_orders', '1')->where('assigne', '0')->get();
+        $center_costs = CenterCost::where('push_rol_producer_orders', '1')
+                                    ->where('referente', 'like', "%$id_team_referente->id%")
+                                    ->where('assigne', '0')
+                                    ->get();
       } else {
         $center_costs = CenterCost::where('assigne', '0')->where('active', $active)->get();
       }
-      
+
       return $center_costs;
     }
 

@@ -49,11 +49,18 @@ class CenterCostsController extends Controller
     public function index()
     {
 
-      $listPermissions = User::getListPermissionsFromUser(Auth::user());
-
-      if(in_array("16", $listPermissions))
+      $id_team_referente = User::select('providers.id')
+                              ->join('providers', 'providers.id_user', '=', 'users.id')
+                              ->where('users.id', Auth::user()->id)
+                              ->where('users.permissions', 'like', '%"16"%')
+                              ->where('users.section_notification', 'like', '%"producer_orders"%')
+                              ->where('users.is_notification', '1')
+                              ->where('users.active', '1')
+                              ->first();
+      if($id_team_referente)
       {
         $listCC = CenterCost::where('push_rol_producer_orders', '1')
+                              ->where('referente', 'like', "%$id_team_referente->id%")
                               ->orderBy('id', 'DESC')
                               ->get();
       } else {
