@@ -112,6 +112,15 @@ $(document).ready(function(){
     }
   });
 
+  let todayDatepicker = new Date();
+
+  if($(".datepicker").hasClass('validate-year'))
+  {
+    todayDatepicker = `${todayDatepicker.getDate()}/${todayDatepicker.getMonth()}/${todayDatepicker.getFullYear()-70}`;
+  } else {
+    todayDatepicker = `${todayDatepicker.getDate()}/${todayDatepicker.getMonth()}/${todayDatepicker.getFullYear()}`;
+  }
+
   // jQuery UI -> Datepicker
   $.datepicker.regional['es'] = {
     closeText: 'Cerrar',
@@ -125,6 +134,7 @@ $(document).ready(function(){
     dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
     weekHeader: 'Sm',
     dateFormat: 'dd/mm/yy',
+    defaultDate: todayDatepicker,
     firstDay: 1,
     isRTL: false,
     showMonthAfterYear: false,
@@ -151,8 +161,8 @@ $(document).ready(function(){
         let years = new Date(new Date() - new Date($(this).val())).getFullYear() - 1970;
 
         if(years < 18) {
-            $(this).val('');
-            alert("Tienes que ser mayor a 18 años");
+            // $(this).val('');
+            // alert("Tienes que ser mayor a 18 años");
         };
       }
     }
