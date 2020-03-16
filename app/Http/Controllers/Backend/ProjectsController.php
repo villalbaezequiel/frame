@@ -110,15 +110,14 @@ class ProjectsController extends Controller
 
           // verificar si es un User rol Pedidos/Productor
           $listPermissions = User::getListPermissionsFromUser(Auth::user());
+          $isProducerOrder = false;
 
           $project              = new Project;
-          $project->id_client   = CenterCost::getIdClient($request->get('cost_center'));
-          $project->name        = $request->get('name');
+          $project->name        = ($request->get('name') ? $request->get('name') : CenterCost::getName($request->get('cost_center')));
           $project->description = $request->get('description');
           $project->observations= $request->get('observations');
           $project->cost_center = $request->get('cost_center');
           $project->id_proyect_category   = $request->get('id_proyect_category');
-          $project->id_team_referring     = CenterCost::getIdReferentes($request->get('cost_center'));
           $project->start_date            = Project::getDateParseFormat($request->get('start_date'));
           $project->finish_date           = Project::getDateParseFormat($request->get('finish_date'));
           $project->clausula_no_repe      = ($request->get('clausula_no_repe') ? $request->get('clausula_no_repe') : "0");
@@ -129,6 +128,8 @@ class ProjectsController extends Controller
             $project->is_producer_order     = "1";
             $project->iduser_producer_order = Auth::user()->id;
             $project->status_producer_order = "0";
+
+            $isProducerOrder = true;
           }
 
           $project->is_closed = '0'; // 0 = abierto / 1 = cerrado
@@ -186,7 +187,7 @@ class ProjectsController extends Controller
             $team = new ProjectProvider;
             $team->id_project = $project->id;
             $team->id_function_frame = $crewObj->id_function_frame;
-            $team->id_category_sat = $crewObj->id_category_sat;
+            $team->id_category_sat = ($isProducerOrder ? 0 : $crewObj->id_category_sat);
             $team->id_provider = $crewObj->id_provider;
             $team->id_contract = $crewObj->id_contract;
             $team->id_workday = $crewObj->id_workday;
@@ -369,9 +370,9 @@ class ProjectsController extends Controller
 
           return redirect('/projects')->with('message', 'Proyecto creado con exito!');
 
-       } catch(\Exception $e) {
+      } catch(\Exception $e) {
         Helpers::getCapturError($e);
-       }
+      }
      }
 
      /**
@@ -421,8 +422,7 @@ class ProjectsController extends Controller
           $list_crew_secundario = $request->get('list_crew_secundario');
 
           $project                      = Project::find($id);
-          $project->id_client           = $request->get('id_client');
-          $project->name                = $request->get('name');
+          $project->name                = ($request->get('name') ? $request->get('name') : CenterCost::getName($request->get('cost_center')));
           $project->description         = $request->get('description');
           $project->id_proyect_category = $request->get('id_proyect_category');
           $project->start_date          = Project::getDateParseFormat($request->get('start_date'));
@@ -446,7 +446,6 @@ class ProjectsController extends Controller
           }
 
           $project->cost_center           = $request->get('cost_center');
-          $project->id_team_referring     = json_encode($request->get('id_team_referring'));
           $project->observations          = $request->get('observations');
           $project->clausula_no_repe      = $request->get('clausula_no_repe');
           $project->certificado_cobertura = $request->get('certificado_cobertura');
@@ -774,11 +773,18 @@ class ProjectsController extends Controller
      public function destroy($id)
      {
         $project = Project::find($id);
+
+        //habilito el centro de costo
+        $center_cost = CenterCost::find($project->cost_center);
+        $center_cost->assigne = '0';
+        $center_cost->save();
+
+        // delete project
         $project->delete();
 
-        // eliminar los datos relacionados en ProjectProvider
+        // eliminar los teams del project. From ProjectProvider
         $crewList = ProjectProvider::where('id_project', $id)->get();
-        if($crewList[0]){
+        if(!empty($crewList)){
           foreach ($crewList as $val) {
             $crew = ProjectProvider::find($val->id);
             $crew->delete();

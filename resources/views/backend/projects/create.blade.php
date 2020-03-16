@@ -8,6 +8,12 @@
   $listPermissions = \App\User::getListPermissionsFromUser(Auth::user());
 ?>
 
+@if(!in_array("16", $listPermissions))
+  <?php $styleHidden = ""; ?>
+@else
+  <?php $styleHidden = "style='display: none;'"; ?>
+@endif
+
 <div class="container-fluid">
   <div class="col-md-12 col-12 mr-auto ml-auto">
 
@@ -93,24 +99,30 @@
                           Centro de Costo
                         </span>
                         <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="cost_center" required>
-                          <option value="">Seleccionar</option>
+                          @if(!in_array("16", $listPermissions))
+                            <option value="">Seleccionar</option>
+                          @endif
+
                           @foreach(\App\CenterCost::getAllNoAssigne() as $center_cost)
-                          <option value="{{ $center_cost->id }}"><?php echo $center_cost->number; ?></option>
+                            <option value="{{ $center_cost->id }}"><?php echo $center_cost->number; ?></option>
                           @endforeach
                         </select>
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-10">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Nombre<span class="required-red">*</span>
-                        </span>
-                        <input type="text" class="form-control" name="name" value="{{ old('name') }}" maxlength="125" required>
+
+                  @if(!in_array("16", $listPermissions))
+                    <div class="col-md-10">
+                      <div class="form-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            Nombre<span class="required-red">*</span>
+                          </span>
+                          <input type="text" class="form-control" name="name" value="{{ old('name') }}" maxlength="125" required>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  @endif
                   
                   <div class="col-md-10">
                     <div class="form-group">
@@ -123,21 +135,24 @@
                     </div>
                   </div>
                   
-                  <div class="col-md-10">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Tipo de Proyecto<span class="required-red">*</span>
-                        </span>
-                        <select class="selectpicker ajax_functions_frame_by_type_project" data-live-search="true" data-style="select-with-transition" name="id_proyect_category" required>
-                          <option value="">Seleccionar</option>
-                          @foreach(\App\ProyectCategory::getAllProyectCategories() as $type_project)
-                          <option value="{{ $type_project->id }}">{{ $type_project->name }}</option>
-                          @endforeach
-                        </select>
+                  @if(!in_array("16", $listPermissions))
+                    <div class="col-md-10">
+                      <div class="form-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            Tipo de Proyecto<span class="required-red">*</span>
+                          </span>
+                          <select class="selectpicker ajax_functions_frame_by_type_project" data-live-search="true" data-style="select-with-transition" name="id_proyect_category" required>
+                            @foreach(\App\ProyectCategory::getAllProyectCategories() as $type_project)
+                            <option value="{{ $type_project->id }}">{{ $type_project->name }}</option>
+                            @endforeach
+                          </select>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  @else
+                    <input type="hidden" name="id_proyect_category" value="1" />
+                  @endif
 
                 </div>
               </div>
@@ -159,18 +174,20 @@
                     </div>
                   </div>
 
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Categoría SAT<span class="required-red">*</span>
-                        </span>
-                        <select class="selectpicker get_value_categories_sat event_toggle_category_sat" data-live-search="true" data-style="select-with-transition" name="id_category_sat">
-                          <option value="">Seleccionar</option>
-                        </select>
+                  @if(!in_array("16", $listPermissions))
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            Categoría SAT<span class="required-red">*</span>
+                          </span>
+                          <select class="selectpicker get_value_categories_sat event_toggle_category_sat" data-live-search="true" data-style="select-with-transition" name="id_category_sat">
+                            <option value="">Seleccionar</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  @endif
 
                   <div class="col-md-6">
                     <div class="form-group">
@@ -362,7 +379,7 @@
                     <input type="hidden" name="total_workdays_text" value="completar-texto">
                   @endif
 
-                  <div class="col-md-6">
+                  <div class="col-md-6" <?php echo $styleHidden; ?> >
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text sueldo_contrato_team">
@@ -374,7 +391,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-6">
+                  <div class="col-md-6" <?php echo $styleHidden; ?> >
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
@@ -387,7 +404,7 @@
 
                   <input type="hidden" name="salary_liquidate" maxlength="125" readonly>
 
-                  <div class="col-md-6">
+                  <div class="col-md-6" <?php echo $styleHidden; ?> >
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
@@ -398,7 +415,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-6">
+                  <div class="col-md-6" <?php echo $styleHidden; ?> >
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
@@ -412,7 +429,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-6">
+                  <div class="col-md-6" <?php echo $styleHidden; ?> >
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
@@ -425,7 +442,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-6">
+                  <div class="col-md-6" <?php echo $styleHidden; ?> >
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
@@ -439,11 +456,9 @@
                       </div>
                     </div>
                   </div>
-
+                  
                   <div class="col-md-6">
-                      <div class="form-group">
-
-                    </div>
+                    <div class="form-group"></div>
                   </div>
 
                   <div class="col-md-12 text-center" style="padding: 20px;">
@@ -526,6 +541,10 @@
             </div>
             <div class="clearfix"></div>
           </div>
+          @if(in_array("16", $listPermissions))
+              <input type="hidden" name="is_team_pedido" value="1">
+          @endif
+
         {!! Form::close() !!}
 
       </div>

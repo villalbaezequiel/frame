@@ -172,6 +172,40 @@ $(document).ready(function(){
     }
   });
 
+  // consultar TODAS las FUNCIONES FRAME del "Tipo de Proyecto" por default
+  // DIGITAL PREMIUM = 1
+    $.ajax({
+      type: 'GET',
+      url: '/json/1/functions_frame',
+      dataType: 'json',
+      success: function(data){
+        // append result for select -> option
+        var results = data.data;
+
+        if(results.length >= 1){
+          var getValueFrameFunctions = $('select.get_value_frame_functions');
+          var getValueCategoriesSat = $('select.get_value_categories_sat');
+
+          getValueFrameFunctions.empty();
+          getValueCategoriesSat.empty();
+
+          // insert option
+          getValueFrameFunctions.append("<option value=''>Seleccionar</option>");
+          $.each(results, function(i,v){
+            getValueFrameFunctions.append("<option value='"+v.id+"'>"+v.name+"</option>");
+          });
+
+          $('.selectpicker').selectpicker('refresh');
+        }
+
+      },
+      error: function(xhr, status){
+        console.log('Error: '+xhr);
+      }
+    });
+
+  // SI CAMBIO EL "Tipo de Proyecto" QUE ME TRAIGA LAS FUNCIONES FRAME ASOCIADAS A ESE "Tipo de Proyecto"
+
   $("select.ajax_functions_frame_by_type_project").change(function(){
 
       $.ajax({

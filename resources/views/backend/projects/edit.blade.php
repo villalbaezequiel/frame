@@ -119,22 +119,6 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Cliente: (*)
-                        </span>
-                        <select class="selectpicker" data-style="select-with-transition" data-live-search="true" name="id_client" required>
-                          <option value="">Seleccionar</option>
-                          @foreach(\App\Client::getAllClients() as $client)
-                          <option value="{{ $client->id }}" <?php if($project->id_client == $client->id){ echo "selected"; } ?>><?php if($client->nick){ echo $client->nick; } else { echo $client->razon_social; } ?></option>
-                          @endforeach
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-10">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
                           Descripción:
                         </span>
                         <input type="text" class="form-control" name="description" value="{{ $project->description }}" maxlength="125">
@@ -146,38 +130,9 @@
                     <div class="form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
-                          Referentes:
-                        </span>
-                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_team_referring[]">
-                          <option value="">Seleccionar</option>
-                            @foreach(\App\Provider::getAllProvidersReferring() as $provider)
-                            <option value="{{ $provider->id }}"
-                                <?php
-                                if(is_object($project->id_team_referring))
-                                {
-                                  foreach (json_decode($project->id_team_referring) as $referente)
-                                  {
-                                    if($referente && $referente == $provider->id){ echo "selected='selected'";}
-                                  }
-                                } else {
-                                  if($provider->id == $project->id_team_referring){ echo "selected"; }
-                                } ?>>
-                              {{ $provider->last_name.' '.$provider->name }}
-                            </option>
-                            @endforeach
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-10">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
                           Tipo de Proyecto: (*)
                         </span>
                           <select class="selectpicker ajax_functions_frame_by_type_project" data-live-search="true" data-style="select-with-transition" name="id_proyect_category" required>
-                          <option value="">Seleccionar</option>
                           @foreach(\App\ProyectCategory::getAllProyectCategories() as $type_project)
                           <option value="{{ $type_project->id }}" <?php if($project->id_proyect_category == $type_project->id){ echo "selected"; } ?>>{{ $type_project->name }}</option>
                           @endforeach
@@ -545,7 +500,7 @@
                           @if($item_crew->active == '1' || $item_crew->active == 1)
                             {{-- <a href="javascript:void(0)" class="btn btn-link btn-warning btn-just-icon edit add-hour-extras" data-id="{{ $item_crew->id }}" data-nameteam="{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}" title="Agregar Horas Extras"><i class="material-icons">calendar_today</i></a> --}}
                           @endif
-                          <a href="javascript:void(0)" class="btn btn-link btn-warning btn-just-icon edit project-team-edit" data-id="{{ $item_crew->id }}" data-nameteam="{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}" data-category="{{ \App\WorkersCategory::getName($item_crew->id_category_sat) }}" title="Ver / Editar"><i class="material-icons">dvr</i></a>
+                          <a href="javascript:void(0)" class="btn btn-link btn-warning btn-just-icon edit project-team-edit" data-id="{{ $item_crew->id }}" data-nameteam="{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}" data-idfunctionframe="{{ $item_crew->id_function_frame }}" data-iscategory="{{ $item_crew->id_category_sat }}" data-category="{{ \App\WorkersCategory::getName($item_crew->id_category_sat) }}" title="Ver / Editar"><i class="material-icons">dvr</i></a>
                           <button type="button" class="btn btn-link btn-danger btn-just-icon remove alert-confirm-delete-button" title="Eliminar" data-id="{{ $item_crew->id }}" data-idprovider="{{ $item_crew->id_provider }}"><i class="material-icons">close</i></button>
                         </div>
                       </div>

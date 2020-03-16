@@ -322,12 +322,6 @@ $(document).ready(function(){
         },
         finish_date: {
           required: true
-        },
-        name: {
-          required: true
-        },
-        id_proyect_category: {
-          required: true
         }
   };
   // Initialise the wizard
@@ -355,6 +349,9 @@ $(document).ready(function(){
     $('select[name=hour_initial]').append(`<option value="${v}">${v}</option>`);
     $('select[name=hour_end]').append(`<option value="${v}">${v}</option>`);
   });
+
+  let requiredStatus = false;
+  let isTeamPedido = $("input[name=is_team_pedido]").val();
 
   $("#add_crew").click(function(){
 
@@ -395,14 +392,29 @@ $(document).ready(function(){
     let idTeamSuplente = $("select[name=id_crew_reemplazo]").val();
     let nameTeamSuplente = $("select[name=id_crew_reemplazo]").find(':selected').text();
 
-    if( id_function_frame && id_category_sat && id_provider &&
+    if(isTeamPedido)
+    {
+      if( id_function_frame && id_provider &&
+        id_contract && start_date_contract && finish_date_contract &&
+        id_workday && count_workdays_crew && hour_initial &&
+        hour_end && salary_workdays && total_workdays)
+        {
+          requiredStatus = true;
+        }
+    } else {
+      if( id_function_frame && id_category_sat && id_provider &&
         id_contract && start_date_contract && finish_date_contract &&
         id_workday && count_workdays_crew && hour_initial &&
         hour_end && salary_workdays && total_workdays &&
         total_workdays_text && salary_contract_category_function &&
         salary_daily && salary_liquidate && salaty_difference)
-    {
+        {
+          requiredStatus = true;
+        }
+    }
 
+    if(requiredStatus)
+    {
       // validate workday mode
       let startDateContract = moment(convertDateYYMMDD(start_date_contract));
       let endDateContract = moment(convertDateYYMMDD(finish_date_contract));
@@ -675,55 +687,15 @@ $(document).ready(function(){
 
   });
 
-  // automatic calculate input
-  $('input[name=total_workdays]').click(function()
+  if(isTeamPedido)
   {
-    if($('input[name=salary_workdays]').val() && $('input[name=count_workdays_crew]').val())
-    {
-      let salary_workdays     = $('input[name=salary_workdays]').val();
-      let count_workdays_crew = $('input[name=count_workdays_crew]').val();
-      let total_workdays      = (parseFloat(salary_workdays.replace(".", "").replace(",", ".")) * parseFloat(count_workdays_crew));
-
-      $('input[name=total_workdays]').val(getFormatNumber(total_workdays));
-
-      if($('input[name=salary_contract_category_function]').val())
+    
+    $('input[name=salary_workdays], input[name=count_workdays_crew]').keyup(function() 
+    { 
+      if($('input[name=count_workdays_crew]').val().length == 0 || parseInt($('input[name=count_workdays_crew]').val()) == 0)
       {
-        let days          = $('input[name=days_crew]').val();
-        let mode_workday  = $('select[name=id_workday] option:selected').data('mode');
-        let salary_daily  = 0;
-
-        // sueldo categoria sat neto
-        let salary_contract_category_function             = $('input[name=salary_contract_category_function]').val();
-        let salary_contract_category_functionFinishNeto   = parseFloat(salary_contract_category_function.replace("$", "").replace(".", "").replace(",", "."));
-        // sueldo categoria sat bruto
-        let salary_contract_bruto_category_function       = $('input[name=salary_contract_bruto_category_function]').val();
-        let salary_contract_category_functionFinishBruto  = parseFloat(salary_contract_bruto_category_function.replace("$", "").replace(".", "").replace(",", "."));
-
-        if(mode_workday == 'working-day')
-        {
-          salary_daily = parseFloat((salary_contract_category_functionFinishBruto / 22) * 1.5);
-        } else {
-          salary_daily = parseFloat(salary_contract_category_functionFinishNeto / 30);
-        }
-
-        let crew_sueldo_diferencia = getFormatNumber( total_workdays - (salary_daily * parseFloat(count_workdays_crew)) );
-
-        $('input[name=salary_daily]').val(getFormatNumber(salary_daily));
-        $('input[name=salary_liquidate]').val(getFormatNumber(parseFloat(days) * salary_daily));
-        $('input[name=crew_sueldo_diferencia]').val(crew_sueldo_diferencia);
-
-        // Si crew_sueldo_diferencia es negativo or positivo backgroundColor
-        $('input[name=crew_sueldo_diferencia]').removeAttr('style');
-
-        if(parseFloat( $('input[name=crew_sueldo_diferencia]').val() ) > 0){
-          $('input[name=crew_sueldo_diferencia]').css({backgroundColor: "green", color: "white"});
-        } else {
-          $('input[name=crew_sueldo_diferencia]').css({backgroundColor: "red", color: "white"});
-        }
-
-      } else {
         Swal.fire({
-          title: 'Seleccione una Categoria SAT, para que se autocomplete los campos de Sueldos!',
+          title: 'Ingrese un Valor en Cantidad de Jornadas Laborables y Sueldo Jornada, para que se autocomplete el campo SUELDO EN MANO',
           type: 'warning',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
@@ -732,17 +704,86 @@ $(document).ready(function(){
         });
       }
 
-    } else {
-      Swal.fire({
-        title: 'Ingrese un Valor en Cantidad de Jornadas Laborables y Sueldo Jornada, para que se autocomplete el campo seleccionado!',
-        type: 'warning',
-        showCancelButton: false,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Aceptar'
-      });
-    }
-  });
+      if($('input[name=salary_workdays]').val() && parseInt($('input[name=count_workdays_crew]').val()) > 0)
+      {
+        let salary_workdays     = $('input[name=salary_workdays]').val();
+        let count_workdays_crew = $('input[name=count_workdays_crew]').val();
+        let total_workdays      = (parseFloat(salary_workdays.replace(".", "").replace(",", ".")) * parseFloat(count_workdays_crew));
+      
+        $('input[name=total_workdays]').val(getFormatNumber(total_workdays));
+      }
+    });
+
+  } else {
+    // automatic calculate input
+    $('input[name=total_workdays]').click(function()
+    {
+      if($('input[name=salary_workdays]').val() && $('input[name=count_workdays_crew]').val())
+      {
+        let salary_workdays     = $('input[name=salary_workdays]').val();
+        let count_workdays_crew = $('input[name=count_workdays_crew]').val();
+        let total_workdays      = (parseFloat(salary_workdays.replace(".", "").replace(",", ".")) * parseFloat(count_workdays_crew));
+      
+        $('input[name=total_workdays]').val(getFormatNumber(total_workdays));
+
+        if($('input[name=salary_contract_category_function]').val())
+        {
+          let days          = $('input[name=days_crew]').val();
+          let mode_workday  = $('select[name=id_workday] option:selected').data('mode');
+          let salary_daily  = 0;
+
+          // sueldo categoria sat neto
+          let salary_contract_category_function             = $('input[name=salary_contract_category_function]').val();
+          let salary_contract_category_functionFinishNeto   = parseFloat(salary_contract_category_function.replace("$", "").replace(".", "").replace(",", "."));
+          // sueldo categoria sat bruto
+          let salary_contract_bruto_category_function       = $('input[name=salary_contract_bruto_category_function]').val();
+          let salary_contract_category_functionFinishBruto  = parseFloat(salary_contract_bruto_category_function.replace("$", "").replace(".", "").replace(",", "."));
+
+          if(mode_workday == 'working-day')
+          {
+            salary_daily = parseFloat((salary_contract_category_functionFinishBruto / 22) * 1.5);
+          } else {
+            salary_daily = parseFloat(salary_contract_category_functionFinishNeto / 30);
+          }
+
+          let crew_sueldo_diferencia = getFormatNumber( total_workdays - (salary_daily * parseFloat(count_workdays_crew)) );
+
+          $('input[name=salary_daily]').val(getFormatNumber(salary_daily));
+          $('input[name=salary_liquidate]').val(getFormatNumber(parseFloat(days) * salary_daily));
+          $('input[name=crew_sueldo_diferencia]').val(crew_sueldo_diferencia);
+
+          // Si crew_sueldo_diferencia es negativo or positivo backgroundColor
+          $('input[name=crew_sueldo_diferencia]').removeAttr('style');
+
+          if(parseFloat( $('input[name=crew_sueldo_diferencia]').val() ) > 0){
+            $('input[name=crew_sueldo_diferencia]').css({backgroundColor: "green", color: "white"});
+          } else {
+            $('input[name=crew_sueldo_diferencia]').css({backgroundColor: "red", color: "white"});
+          }
+
+        } else {
+          Swal.fire({
+            title: 'Seleccione una Categoria SAT, para que se autocomplete los campos de Sueldos!',
+            type: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar'
+          });
+        }
+
+      } else {
+        Swal.fire({
+          title: 'Ingrese un Valor en Cantidad de Jornadas Laborables y Sueldo Jornada, para que se autocomplete el campo seleccionado!',
+          type: 'warning',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Aceptar'
+        });
+      }
+    });
+  }
 
   $('input[name=salary_contract_category_function]').click(function(){
     if($('input[name=salary_contract_category_function]').val() == "" ){
@@ -850,8 +891,41 @@ $(document).ready(function(){
     $('body,html').stop(true,true).animate({ scrollTop: $("#module_two").offset().top },1000);
 
     let id = $(this).data('id');
+    let isCategorySat = $(this).data('iscategory');
+    let idFunctionFrame = $(this).data('idfunctionframe');
     let categorySat = $(this).data('category');
     let nameTeam = $(this).data('nameteam');
+
+    if(!isCategorySat)
+    {
+      $.ajax({
+        type: 'GET',
+        url: '/sistema/json/'+idFunctionFrame+'/categories_sat',
+        dataType: 'json',
+        success: function(data){
+          // append result for select -> option
+          var results = data.data;
+
+          if(results.length >= 1){
+            var getValueCategoriesSat = $('select.get_value_categories_sat');
+
+            // empty getValueCategoriesSat
+            getValueCategoriesSat.empty();
+
+            // insert option
+            getValueCategoriesSat.append("<option value=''>Seleccionar</option>");
+            $.each(results, function(i,v){
+              getValueCategoriesSat.append("<option value='"+v.id+"' data-salaryneto='"+v.sueldo_neto+"' data-salarybruto='"+v.sueldo_bruto+"'>"+v.name+" / N* "+v.number_category+"</option>");
+            });
+
+            $('.selectpicker').selectpicker('refresh');
+          }
+        },
+        error: function(xhr, status){
+          console.log('Error: '+xhr);
+        }
+      });
+    }
 
     $.each(listTeams, function(i, v){
       if(v.id == id){
