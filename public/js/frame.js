@@ -130,7 +130,7 @@ $(document).ready(function(){
     showMonthAfterYear: false,
     yearSuffix: '',
     changeYear: true,
-    yearRange: "c-100:c+0",
+    yearRange: "-100:+0",
   };
   $.datepicker.setDefaults($.datepicker.regional['es']);
 
