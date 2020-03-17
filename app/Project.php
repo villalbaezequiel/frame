@@ -52,10 +52,11 @@ class Project extends Model
 
     static public function getCliente($id_project)
     {
-      $project = Project::find($id_project);
+      $project    = Project::find($id_project);
+      $centerCost = CenterCost::getIdClient($project->cost_center);
 
-      if($project){
-        return Client::getNick($project->id_client);
+      if($centerCost){
+        return Client::getNick($centerCost);
       }
     }
 

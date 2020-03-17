@@ -83,7 +83,7 @@ class Report extends Model
         }
 
         $results = Project::select(
-                              'id_client as cliente',
+                              'id as cliente',
                               'name as nombre',
                               'description as descripcion',
                               'observations as observacion',
@@ -101,7 +101,7 @@ class Report extends Model
 
         foreach ($results as &$result)
         {
-          $result['cliente'] = Client::getNick($result['cliente']);
+          $result['cliente'] = Client::getNick(CenterCost::getIdClient($result['centro_costo']));
           $result['centro_costo'] = CenterCost::getNumber($result['centro_costo']);
           $result['tipo_proyecto'] = ProyectCategory::getName($result['tipo_proyecto']);
           $result['referente'] = Project::getReferring($result['referente']);
@@ -853,13 +853,15 @@ class Report extends Model
                   $cell->setBorder('thin','thin', 'thin', 'thin');
                 });
 
-                $sheet->cell('C53', function($cell) use ($nameProject){
-                  $cell->setValue(Client::getRazonSocial($nameProject->id_client));
+                $idClient = CenterCost::getIdClientClient($nameProject->cost_center);
+
+                $sheet->cell('C53', function($cell) use ($idClient){
+                  $cell->setValue(Client::getRazonSocial($idClient));
                   $cell->setBorder('thin','thin', 'thin', 'thin');
                 });
 
-                $sheet->cell('D53', function($cell) use ($nameProject){
-                  $cell->setValue(Client::getCuit($nameProject->id_client));
+                $sheet->cell('D53', function($cell) use ($idClient){
+                  $cell->setValue(Client::getCuit($idClient));
                   $cell->setBorder('thin','thin', 'thin', 'thin');
                 });
               }
@@ -1001,13 +1003,15 @@ class Report extends Model
                     $cell->setBorder('thin','thin', 'thin', 'thin');
                   });
 
-                  $sheet->cell('C53', function($cell) use ($nameProject){
-                    $cell->setValue(Client::getRazonSocial($nameProject->id_client));
+                  $idClient = CenterCost::getIdClientClient($nameProject->cost_center);
+
+                  $sheet->cell('C53', function($cell) use ($idClient){
+                    $cell->setValue(Client::getRazonSocial($idClient));
                     $cell->setBorder('thin','thin', 'thin', 'thin');
                   });
 
-                  $sheet->cell('D53', function($cell) use ($nameProject){
-                    $cell->setValue(Client::getCuit($nameProject->id_client));
+                  $sheet->cell('D53', function($cell) use ($idClient){
+                    $cell->setValue(Client::getCuit($idClient));
                     $cell->setBorder('thin','thin', 'thin', 'thin');
                   });
                 }
