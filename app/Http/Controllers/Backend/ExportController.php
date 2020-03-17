@@ -451,7 +451,7 @@ class ExportController extends Controller
                               'observations as observacion',
                               'cost_center as centro_costo',
                               'id_proyect_category as tipo_proyecto',
-                              'id_team_referring as referente',
+                              // 'id_team_referring as referente',
                               'start_date as fecha_inicio',
                               'finish_date as fecha_finalizacion',
                               'is_closed as estado',
@@ -465,7 +465,7 @@ class ExportController extends Controller
           $result['cliente'] = Client::getNick(CenterCost::getIdClient($result['centro_costo']));
           $result['centro_costo'] = CenterCost::getNumber($result['centro_costo']);
           $result['tipo_proyecto'] = ProyectCategory::getName($result['tipo_proyecto']);
-          $result['referente'] = Project::getReferring($result['referente']);
+          // $result['referente'] = Project::getReferring($result['referente']);
           $result['fecha_inicio'] = Helpers::getDateParseFormat($result['fecha_inicio']);
           $result['fecha_finalizacion'] = Helpers::getDateParseFormat($result['fecha_finalizacion']);
           $result['estado'] = Project::getIsClosed($result['estado']);
@@ -1344,7 +1344,7 @@ class ExportController extends Controller
                               'observations as observacion',
                               'cost_center as centro_costo',
                               'id_proyect_category as tipo_proyecto',
-                              'id_team_referring as referente',
+                              // 'id_team_referring as referente',
                               'start_date as fecha_inicio',
                               'finish_date as fecha_finalizacion',
                               'is_closed as estado',
@@ -1358,7 +1358,7 @@ class ExportController extends Controller
           $result['cliente'] = Client::getNick(CenterCost::getIdClient($result['centro_costo']));
           $result['centro_costo'] = CenterCost::getNumber($result['centro_costo']);
           $result['tipo_proyecto'] = ProyectCategory::getName($result['tipo_proyecto']);
-          $result['referente'] = Project::getReferring($result['referente']);
+          // $result['referente'] = Project::getReferring($result['referente']);
           $result['fecha_inicio'] = Helpers::getDateParseFormat($result['fecha_inicio']);
           $result['fecha_finalizacion'] = Helpers::getDateParseFormat($result['fecha_finalizacion']);
           $result['estado'] = Project::getIsClosed($result['estado']);

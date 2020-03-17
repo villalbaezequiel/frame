@@ -74,7 +74,8 @@ class Project extends Model
       $project = Project::find($id_project);
 
       if($project){
-        return Provider::getNameOrderLastName($project->id_team_referring);
+        //return Provider::getNameOrderLastName($project->id_team_referring);
+        return "Example";
       }
     }
 
