@@ -186,7 +186,7 @@ $(document).ready(function(){
   // DIGITAL PREMIUM = 1
     $.ajax({
       type: 'GET',
-      url: '/json/1/functions_frame',
+      url: '/sistema/json/1/functions_frame',
       dataType: 'json',
       success: function(data){
         // append result for select -> option
