@@ -1650,4 +1650,19 @@ class ExportController extends Controller
       }
     }
 
+    public function reportAllProjects()
+    {
+      try {
+        $generateExportAllProjects = Report::exportAllProjects();
+
+        if($generateExportAllProjects) {
+          return $generateExportAllProjects;
+        } else {
+          return back()->with("message", "No se encontro Informacion para Reporte General de Proyectos.");
+        }
+      } catch(\Exception $e) {
+        Helpers::getCapturError($e);
+      }
+    }
+
 }
