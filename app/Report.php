@@ -622,6 +622,7 @@ class Report extends Model
                     if($dateParse >= $fromParse && $dateParse <= $toParse)
                     {
                       $arrayAbsences[] = array(
+                        "team" => $name,
                         "fecha" => Helpers::getDay($dateParse->format('w')).' '.$dateParse->format('d/m/Y'),
                         "asunto" => ProjectProvider::getSubjectAbsence($absence['subject']),
                         "nota" => $absence['note'],
@@ -630,6 +631,7 @@ class Report extends Model
                     }
                   } else {
                       $arrayAbsences[] = array(
+                        "team" => $name,
                         "fecha" => Helpers::getDay($dateParse->format('w')).' '.$dateParse->format('d/m/Y'),
                         "asunto" => ProjectProvider::getSubjectAbsence($absence['subject']),
                         "nota" => $absence['note'],
@@ -1166,6 +1168,7 @@ class Report extends Model
                       if($dateParse >= $fromParse && $dateParse <= $toParse)
                       {
                         $arrayAbsences[] = array(
+                          "team" => $name,
                           "fecha" => Helpers::getDay($dateParse->format('w')).' '.$dateParse->format('d/m/Y'),
                           "asunto" => ProjectProvider::getSubjectAbsence($absence['subject']),
                           "nota" => $absence['note'],
@@ -1174,6 +1177,7 @@ class Report extends Model
                       }
                     } else {
                         $arrayAbsences[] = array(
+                          "team" => $name,
                           "fecha" => Helpers::getDay($dateParse->format('w')).' '.$dateParse->format('d/m/Y'),
                           "asunto" => ProjectProvider::getSubjectAbsence($absence['subject']),
                           "nota" => $absence['note'],
