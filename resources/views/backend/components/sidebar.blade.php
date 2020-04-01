@@ -32,14 +32,12 @@
                 <span class="sidebar-normal"> Ver Perfil </span>
               </a>
             </li> -->
-            @if(in_array("1", $listPermissions) || in_array("6", $listPermissions))
-              <li class="nav-item nav-check-url">
-                <a class="nav-link" href="{{ url('/users').'/'.Auth::user()->id.'/edit' }}">
-                  <span class="sidebar-mini"> EP </span>
-                  <span class="sidebar-normal"> Editar Perfil </span>
-                </a>
-              </li>
-            @endif
+            <li class="nav-item nav-check-url">
+              <a class="nav-link" href="{{ url('/users').'/'.Auth::user()->id.'/edit' }}">
+                <span class="sidebar-mini"> EP </span>
+                <span class="sidebar-normal"> Editar Perfil </span>
+              </a>
+            </li>
 
             <li class="nav-item">
               <a class="nav-link" href="{{ url('/logout') }}">

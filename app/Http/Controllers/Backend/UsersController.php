@@ -23,8 +23,18 @@ class UsersController extends Controller
     public function __construct()
     {
       $this->middleware(function ($request, $next) {
-        $cancelPermission = true;
-        $this->_permission = json_decode(Auth::user()->permissions);
+        $cancelPermission   = true;
+        $this->_permission  = json_decode(Auth::user()->permissions);
+        
+        if($request->path() == "users/".Auth::user()->id."/edit" && $request->method() == 'GET')
+        {
+          return $next($request);
+        }
+
+        if($request->path() == "users/".Auth::user()->id && $request->method() == 'PUT')
+        {
+          return $next($request);
+        }
 
         if($this->_permission){
           foreach($this->permissionApproved as $approved){
