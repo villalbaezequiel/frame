@@ -205,7 +205,6 @@
               </div>
             </div>
 
-            @if(Auth::user()->id == $user->id)
             <div class="row">
               <label class="col-md-2 col-form-label">Cambiar Contraseña:</label>
               <div class="col-md-7">
@@ -214,7 +213,6 @@
                 </div>
               </div>
             </div>
-            @endif
 
             <div class="row">
               <label class="col-md-2 col-form-label label-checkbox">Activo</label>
