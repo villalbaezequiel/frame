@@ -45,15 +45,21 @@ class LoginController extends Controller
       $user         = User::where('email', $request->email)->first();
       $permissions  = json_decode($user->permissions);
 
-      if($permissions && count($permissions)) {
+      if($permissions && count($permissions))
+      {
         return [
-          'email' => $request->email,
-          'password' => $request->password,
-          'is_crew' => $user->is_crew,
-          'active' => $user->active
-        ];  
+          'email'     => $request->email,
+          'password'  => $request->password,
+          'is_crew'   => $user->is_crew,
+          'active'    => $user->active
+        ];
       } else {
-        return redirect('/logout');
+        return [
+          'email'     => '',
+          'password'  => '',
+          'is_crew'   => 0,
+          'active'    => 0
+        ];
       }
 
     }
