@@ -340,14 +340,21 @@ $(function() {
 
     if(v.calendar){
       $.each(v.calendar, function(c,d){
+
+        let start               = new Date(d.start);
+        let dateValidateHoliday = start.getDate()+'-'+start.getMonth()+'-'+start.getFullYear();
+        /* classNames = este parameter se usa para validar el date IGUAL al feriado. Dado que -
+                      no se puede poner otro name-parameter al object de listEvents -> fullcalendar */
+
         listEvents.push({
           id: `${c}_${v.id}`,
           title: `${v.name_user} (${v.function_frame_name})`,
-          start: new Date(d.start),
+          start: start,
           end: new Date(d.finish),
           allDay: 1,
           backgroundColor: color,
-          color: color
+          color: color,
+          classNames: dateValidateHoliday
         });
       });
     }
@@ -366,12 +373,21 @@ $(function() {
 
   });
 
+
   $.each(holidays, function(i, v) {
     if(v.date){
+
+      let start               = new Date(v.date);
+      let dateValidateHoliday = start.getDate()+'-'+start.getMonth()+'-'+start.getFullYear();
+      // Borra los TEAMS que estan en el FERIADO
+      /* classNames = este parameter se usa para validar el date IGUAL al feriado. Dado que -
+                      no se puede poner otro name-parameter al object de listEvents -> fullcalendar */
+      listEvents  = listEvents.filter(item => item.classNames !== dateValidateHoliday);
+
       listEvents.push({
         class: 'holiday',
         title: `${v.name}`,
-        start: new Date(v.date),
+        start: start,
         end: new Date(v.date),
         allDay: 1,
         backgroundColor: '#777620',
