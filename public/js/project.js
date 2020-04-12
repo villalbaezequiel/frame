@@ -505,9 +505,13 @@ $(document).ready(function(){
         if(checkIsSuplente == "2" && idTeamSuplente != "0"){
 
           // add crew SECUNDARIO to list input request
-          if($('.list_crew > #'+id_provider).length == 0){
-             $('.list_crew').append(`<input type="hidden" name="list_crew_secundario[]" id="${id_provider}" value="" />`);
-             $('.list_crew > #'+id_provider).val(JSON.stringify(crew));
+          if($('.list_crew > #'+id_provider).length == 0)
+          {
+            $('.list_crew').append(`<input type="hidden" name="list_crew_secundario[]" id="${id_provider}" value="" />`);
+            $('.list_crew > #'+id_provider).val(JSON.stringify(crew));
+
+            // backgound color team
+            $("select[name=id_crew_reemplazo] option[value='"+idTeamSuplente+"']").css({background: '#5cb85c', color: '#fff'});
 
           } else {
 
