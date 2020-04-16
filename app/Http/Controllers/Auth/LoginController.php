@@ -43,7 +43,7 @@ class LoginController extends Controller
     protected function credentials(Request $request)
     {
       $user         = User::where('email', $request->email)->first();
-      $permissions  = json_decode($user->permissions);
+      $permissions  = ($user ? json_decode($user->permissions) : null);
 
       if($permissions && count($permissions))
       {
