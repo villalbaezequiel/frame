@@ -46,7 +46,7 @@
               <label class="col-md-2 col-form-label">Tipo de Proyecto <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_proyect_category" required>
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_proyect_category[]" multiple required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\ProyectCategory::getAllProyectCategories('1') as $type_proyect)
                     <option value="{{ $type_proyect->id }}">{{ $type_proyect->name }}</option>

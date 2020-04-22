@@ -46,10 +46,21 @@
               <label class="col-md-2 col-form-label">Tipo de Proyecto <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_proyect_category" required>
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_proyect_category[]" multiple required>
                     <option value="">Seleccionar</option>
                     @foreach(\App\ProyectCategory::getAllProyectCategories('1') as $type_proyect)
-                    <option value="{{ $type_proyect->id }}" <?php if($frameFunction->id_proyect_category == $type_proyect->id){ echo "selected"; } ?>>{{ $type_proyect->name }}</option>
+                      @if(is_array(json_decode($frameFunction->id_proyect_category)))
+                        <option value="{{ $type_proyect->id }}"
+                          <?php 
+                            foreach(json_decode($frameFunction->id_proyect_category) as $key => $val):
+                              if($val == $type_proyect->id):
+                                echo "selected";
+                              endif;
+                            endforeach;
+                          ?>>{{ $type_proyect->name }}</option>
+                      @else
+                       <option value="{{ $type_proyect->id }}" <?php if($frameFunction->id_proyect_category == $type_proyect->id){ echo "selected"; } ?>>{{ $type_proyect->name }}</option>
+                      @endif
                     @endforeach
                   </select>
                 </div>

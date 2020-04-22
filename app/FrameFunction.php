@@ -25,7 +25,14 @@ class FrameFunction extends Model
 
     static public function getAllFrameFunctionByTypeProject($id_proyect_category)
     {
-      return FrameFunction::where('id_proyect_category', $id_proyect_category)->get();
+      $frameFunction = FrameFunction::where('id_proyect_category', 'like', "%$id_proyect_category%")->get();
+      
+      foreach($frameFunction as $value)
+      {
+        $value->id_proyect_category = (int) $id_proyect_category;
+      }
+      
+      return $frameFunction;
     }
 
     static public function getNumberCategoriesSat($id)

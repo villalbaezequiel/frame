@@ -79,9 +79,14 @@ class JsonController extends Controller
     $message;
     try {
 
-      $frameFunction = FrameFunction::where('id_proyect_category', $id_type_project)
+      $frameFunction = FrameFunction::where('id_proyect_category', 'like', "%$id_type_project%")
                             ->where('active', '1')
                             ->get();
+      
+      foreach($frameFunction as $value)
+      {
+        $value->id_proyect_category = (int) $id_type_project;
+      }
 
       return \Response::json(array('data' => $frameFunction));
 
