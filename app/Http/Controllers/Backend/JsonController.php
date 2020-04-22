@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 use App\Helpers;
 use App\FrameFunction;
 use App\Provider;
@@ -13,9 +17,7 @@ use App\Project;
 use App\WorkersCategory;
 use App\Workday;
 use App\Holiday;
-use DateTime;
-use DateInterval;
-use DatePeriod;
+use App\User;
 
 class JsonController extends Controller
 {
@@ -398,9 +400,18 @@ class JsonController extends Controller
 
         }
 
+        // verificar si es un User rol Pedidos/Productor
+        $listPermissions = User::getListPermissionsFromUser(Auth::user());
+        $isProducerOrder = false;
+
+        if(in_array("16", $listPermissions))
+        {
+          $isProducerOrder = true;
+        }
+
         $team = ProjectProvider::find($crewObj->id_project_provider);
         $team->id_function_frame = $crewObj->id_function_frame;
-        $team->id_category_sat = $crewObj->id_category_sat;
+        $team->id_category_sat = ($isProducerOrder ? $team->id_category_sat : $crewObj->id_category_sat);
         $team->id_provider = $crewObj->id_provider;
         $team->id_contract = $crewObj->id_contract;
         $team->id_workday = $crewObj->id_workday;
@@ -433,7 +444,7 @@ class JsonController extends Controller
         }
 
       } catch (\Exception $e) {
-        Helpers::getCapturError($e);
+        return response()->json(['status' => false, 'error' => $e->getMessage()]);
       }
     }
 

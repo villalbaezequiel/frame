@@ -3,12 +3,19 @@
 @section('title', "Proyectos / Editar")
 
 @section('content')
+
+<?php 
+  $listPermissions = \App\User::getListPermissionsFromUser(Auth::user());
+?>
+
 <div class="container-fluid">
   <div class="col-md-12 col-12 mr-auto ml-auto">
 
+  @if(!in_array("16", $listPermissions))
     <a href='{{ url("/export/project/$project->id") }}' class="btn btn-primary none-alert" target="_blank">Descargar Proyecto</a>
     <a href='{{ url("/export/project/$project->id") }}/horas_extras_teams' class="btn btn-primary none-alert" target="_blank">Descargar Horas Extras</a>
     <a href='{{ url("/export/project/$project->id") }}/absences_teams' class="btn btn-primary none-alert" target="_blank">Descargar Ausencias</a>
+  @endif
 
     @if (session('message'))
       <div class="toolbar">
@@ -104,6 +111,7 @@
                     </div>
                   </div>
 
+                  @if(!in_array("16", $listPermissions))
                   <div class="col-md-10">
                     <div class="form-group">
                       <div class="input-group-prepend">
@@ -114,6 +122,7 @@
                       </div>
                     </div>
                   </div>
+                  @endif
 
                   <div class="col-md-10">
                     <div class="form-group">
@@ -126,6 +135,7 @@
                     </div>
                   </div>
 
+                  @if(!in_array("16", $listPermissions))
                   <div class="col-md-10">
                     <div class="form-group">
                       <div class="input-group-prepend">
@@ -140,6 +150,9 @@
                       </div>
                     </div>
                   </div>
+                  @else
+                    <input type="hidden" name="id_proyect_category" value="{{ $project->id_proyect_category }}" />
+                  @endif
 
                 </div>
               </div>
@@ -148,319 +161,13 @@
 
               <div id="content-form-edit-team" class="hidden">
                 <h5 class="info-text"> Team </h5>
-                <div class="row justify-content-center empty-values-finish-add-crew">
+                
+                @if(!in_array("16", $listPermissions))
+                  @include('backend.projects.components.edit.team_admin')
+                @else
+                  @include('backend.projects.components.edit.team_pedido')
+                @endif
 
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Función Frame<span class="required-red">*</span>
-                        </span>
-                        <select class="selectpicker get_value_frame_functions ajax_categories_sat_by_function_frame ajax_crew_by_function_frame" data-live-search="true" data-style="select-with-transition" name="id_function_frame">
-                          <option value="">Seleccionar</option>
-                          @foreach(\App\FrameFunction::getAllFrameFunctionByTypeProject($project->id_proyect_category) as $f_frame)
-                          <option value="{{ $f_frame->id }}">{{ $f_frame->name }}</option>
-                          @endforeach
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Categoría SAT<span class="required-red">*</span>
-                        </span>
-                        <select class="selectpicker get_value_categories_sat event_toggle_category_sat" data-live-search="true" data-style="select-with-transition" name="id_category_sat">
-                          <option value="">Seleccionar</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Team<span class="required-red">*</span>
-                        </span>
-                        <select class="selectpicker get_value_crew" data-live-search="true" data-style="select-with-transition" name="id_provider">
-                          <option value="">Seleccionar</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Tipo de Contrato<span class="required-red">*</span>
-                        </span>
-                          <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_contract" onchange="getContractProject(this.value)">
-                          <option value="">Seleccionar</option>
-                          @foreach(\App\Contract::getAllContracts('1') as $contract)
-                          <option value="{{ $contract->id }}">{{ $contract->name }}</option>
-                          @endforeach
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Fecha de Alta Contrato<span class="required-red">*</span>
-                        </span>
-                        <input class="form-control datepicker_crew" type="text" name="start_date_contract">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Fecha de Baja Contrato<span class="required-red">*</span>
-                        </span>
-                        <input class="form-control datepicker_crew" type="text" name="finish_date_contract">
-                      </div>
-                    </div>
-                  </div>
-
-                  <input type="hidden" name="days_crew" value="" />
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Modalidad<span class="required-red">*</span>
-                        </span>
-                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_workday">
-                          <option value="">Seleccionar</option>
-                          @foreach(\App\Workday::getAllWorkdays() as $workday)
-                          <option value="{{ $workday->id }}" data-mode="{{ $workday->mode }}">{{ $workday->name }}</option>
-                          @endforeach
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Cant. Jornadas Laborables<span class="required-red">*</span>
-                        </span>
-                          <input type="number" class="form-control input-type-number" name="count_workdays_crew" maxlength="125">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Hora de Inicio<span class="required-red" style="margin-right: 4px;">*</span>
-                        </span>
-                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="hour_initial">
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Hora Final<span class="required-red" style="margin-right: 4px;">*</span>
-                        </span>
-                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="hour_end">
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6 field-afip">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Fecha de Alta AFIP:
-                        </span>
-                        <input class="form-control datepicker" type="text" name="start_afip">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6 field-afip">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Fecha de Baja AFIP:
-                        </span>
-                        <input class="form-control datepicker" type="text" name="finish_afip">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6 fields-secure" style="display: none">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Fecha de Alta SEGURO:
-                        </span>
-                        <input class="form-control datepicker" type="text" name="start_date_secure_contract">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6 fields-secure" style="display: none">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Fecha de Baja SEGURO:
-                        </span>
-                        <input class="form-control datepicker" type="text" name="end_date_secure_contract">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Sueldo Jornada<span class="required-red" style="margin-right: 4px;">*</span> $
-                        </span>
-                          <input type="text" class="form-control validate-number-decimal-not-ps" name="salary_workdays" maxlength="125">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Sueldo en mano $
-                        </span>
-                          <input type="text" class="form-control" name="total_workdays" maxlength="125" placeholder="Click aquí para que actualizar los Sueldos" readonly>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Sueldo en mano Texto<span class="required-red">*</span>
-                        </span>
-                        <input type="text" class="form-control" name="total_workdays_text" maxlength="125">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text sueldo_contrato_team">
-                          Sueldo Contrato Bruto
-                        </span>
-                        <input type="text" class="form-control" name="salary_contract_bruto_category_function" maxlength="125" readonly>
-                        <input type="hidden" class="form-control" name="salary_contract_category_function" maxlength="125" readonly>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Sueldo Diario SAT $
-                        </span>
-                          <input type="text" class="form-control" name="salary_daily" maxlength="125" readonly>
-                      </div>
-                    </div>
-                  </div>
-
-                  <input type="hidden" name="id_project_provider" maxlength="125" readonly>
-                  <input type="hidden" name="salary_liquidate" maxlength="125" readonly>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Diferencia $
-                        </span>
-                        <input type="text" class="form-control" name="crew_sueldo_diferencia" maxlength="125" readonly>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Es Reemplazo:
-                        </span>
-                        @if(count($list_crew) > 0)
-                          <select class="selectpicker" data-style="select-with-transition" name="is_reemplazo">
-                        @else
-                          <select class="selectpicker" data-style="select-with-transition" name="is_reemplazo" disabled>
-                        @endif
-                          <option value="1" selected>No</option> <!-- 1 = Titular -->
-                          <option value="2">Si</option> <!-- 1 = Suplente -->
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          Reemplazo del Team:
-                        </span>
-                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_crew_reemplazo">
-                          <option value="0">Seleccionar</option>
-                          @if(count($list_crew) > 0)
-                            @foreach($list_crew as $item_crew)
-                              <!-- 1: titular -->
-                              @if($item_crew->is_reemplazo == "1")
-                              <option value="{{ $item_crew->id_provider }}" <?php if(\App\ProjectProvider::hasReemplazo($item_crew->id_provider)){ echo "style='background: #5cb85c; color: #fff;'"; } ?> >{{ \App\Provider::getNameOrderLastName($item_crew->id_provider) }}</option>
-                              @endif
-                            @endforeach
-                          @endif
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                      <div class="form-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">
-                            Estado de Invitacion al Proyecto:
-                          </span>
-                          <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="active">
-                            <option value="1">Aceptado</option>
-                            <option value="0">Pendiente</option>
-                            <option value="2">Rechazado</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-
-                      </div>
-                    </div>
-                  <div class="col-md-12 text-center" style="padding: 20px;">
-                    <button id="add_crew" type="button" class="btn btn-primary">Agregar Team</button>
-                    <input id="is_edit" type="hidden" value="0" />
-                  </div>
-                </div>
               </div>
 
               <div class="col-md-12 text-center" style="padding: 20px;">
@@ -488,7 +195,7 @@
                           <p class="card-text mb-2 edit-text-category_sat">{{ \App\WorkersCategory::getName($item_crew->id_category_sat) }}</p>
                           <p class="card-text mb-2 edit-text-dates">Fechas: {{ \App\Helpers::getDateParseFormat($item_crew->start_date_contract, '/') }} a {{ \App\Helpers::getDateParseFormat($item_crew->finish_date_contract, '/') }}</p>
                           <p class="card-text mb-2 edit-text-contract">Contrato: {{ \App\Contract::getName($item_crew->id_contract) }}</p>
-                          <p class="card-text mb-2 edit-text-contract">Sueldo en Mano: ${{ $item_crew->total_workdays }}</p>
+                          <p class="card-text mb-2 edit-text-total_workdays">Sueldo en Mano: ${{ $item_crew->total_workdays }}</p>
                           <p class="card-text mb-2 edit-text-active">Estado: {{ \App\ProjectProvider::getActive($item_crew->active) }}</p>
                           <p class="card-text mb-2 edit-text-puesto">Puesto: {{ \App\ProjectProvider::getPuesto($item_crew->id) }}</p>
                         </div>
@@ -511,107 +218,109 @@
                 <!-- append list crew  -->
                 <div class="list_crew"> </div>
 
-              @if(!$project->active)
-                <h5 class="info-text"> Generacion de Seguros - Contratos tipos Servicios </h5>
-                <div class="row justify-content-center">
+                @if(!in_array("16", $listPermissions))
+                  @if(!$project->active)
+                    <h5 class="info-text"> Generacion de Seguros - Contratos tipos Servicios </h5>
+                    <div class="row justify-content-center">
 
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text no-wrap">
-                          Cláusula de No Repetición
-                        </span>
-                        <select class="selectpicker" data-style="select-with-transition" name="clausula_no_repe">
-                          <option value="0" <?php if($project->clausula_no_repe == "0"){ echo "selected"; } ?>>No</option>
-                          <option value="1" <?php if($project->clausula_no_repe == "1"){ echo "selected"; } ?>>Si</option>
-                        </select>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text no-wrap">
+                              Cláusula de No Repetición
+                            </span>
+                            <select class="selectpicker" data-style="select-with-transition" name="clausula_no_repe">
+                              <option value="0" <?php if($project->clausula_no_repe == "0"){ echo "selected"; } ?>>No</option>
+                              <option value="1" <?php if($project->clausula_no_repe == "1"){ echo "selected"; } ?>>Si</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text no-wrap">
+                              Necesidad de Certificado de Cobertura
+                            </span>
+                            <select class="selectpicker" data-style="select-with-transition" name="certificado_cobertura">
+                              <option value="0" <?php if($project->certificado_cobertura == "0"){ echo "selected"; } ?>>No</option>
+                              <option value="1" <?php if($project->certificado_cobertura == "1"){ echo "selected"; } ?>>Si</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  @endif
+
+                  <h5 class="info-text"> Configurar Notificaciones </h5>
+                  <div class="row justify-content-center">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text no-wrap">
+                            Enviar Notificaciones a los Teams:
+                          </span>
+                          <select class="selectpicker" data-style="select-with-transition" name="notification_team">
+                            <option value="0" selected>No</option>
+                            <option value="1">Si</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text no-wrap">
-                          Necesidad de Certificado de Cobertura
-                        </span>
-                        <select class="selectpicker" data-style="select-with-transition" name="certificado_cobertura">
-                          <option value="0" <?php if($project->certificado_cobertura == "0"){ echo "selected"; } ?>>No</option>
-                          <option value="1" <?php if($project->certificado_cobertura == "1"){ echo "selected"; } ?>>Si</option>
-                        </select>
+                  <h5 class="info-text"> Sistema de Pedidos </h5>
+                  <div class="row justify-content-center">
+                    
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text no-wrap">
+                            Es pedido:
+                          </span>
+                          <select class="selectpicker" data-style="select-with-transition" readonly>
+                            <option value="0">{{ \App\Helpers::getActive($project->is_producer_order) }}</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                </div>
-              @endif
+                    @if((int) $project->is_producer_order)  
 
-              <h5 class="info-text"> Configurar Notificaciones </h5>
-              <div class="row justify-content-center">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text no-wrap">
-                        Enviar Notificaciones a los Teams:
-                      </span>
-                      <select class="selectpicker" data-style="select-with-transition" name="notification_team">
-                        <option value="0" selected>No</option>
-                        <option value="1">Si</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <h5 class="info-text"> Sistema de Pedidos </h5>
-              <div class="row justify-content-center">
-                
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text no-wrap">
-                        Es pedido:
-                      </span>
-                      <select class="selectpicker" data-style="select-with-transition" readonly>
-                        <option value="0">{{ \App\Helpers::getActive($project->is_producer_order) }}</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                @if((int) $project->is_producer_order)  
-
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text no-wrap">
-                          Creador del Pedido:
-                        </span>
-                        <select class="selectpicker" data-style="select-with-transition" readonly>
-                          <option value="0">{{ \App\User::getFullName($project->iduser_producer_order) }}</option>
-                        </select>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text no-wrap">
+                              Creador del Pedido:
+                            </span>
+                            <select class="selectpicker" data-style="select-with-transition" readonly>
+                              <option value="0">{{ \App\User::getFullName($project->iduser_producer_order) }}</option>
+                            </select>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
 
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text no-wrap">
-                          Estado del pedido:
-                        </span>
-                        <select class="selectpicker" data-style="select-with-transition" name="status_producer_order">
-                          <option value="0" <?php if((int) $project->status_producer_order == 0) { echo "selected"; } ?> >Stand By</option>
-                          <option value="1" <?php if((int) $project->status_producer_order == 1) { echo "selected"; } ?>>Aceptar</option>
-                          <option value="2" <?php if((int) $project->status_producer_order == 2) { echo "selected"; } ?>>Rechazar</option>
-                        </select>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text no-wrap">
+                              Estado del pedido:
+                            </span>
+                            <select class="selectpicker" data-style="select-with-transition" name="status_producer_order">
+                              <option value="0" <?php if((int) $project->status_producer_order == 0) { echo "selected"; } ?> >Stand By</option>
+                              <option value="1" <?php if((int) $project->status_producer_order == 1) { echo "selected"; } ?>>Aceptar</option>
+                              <option value="2" <?php if((int) $project->status_producer_order == 2) { echo "selected"; } ?>>Rechazar</option>
+                            </select>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
 
+                    @endif
+
+                  </div>
                 @endif
-
-              </div>
 
 
               </div>
@@ -631,6 +340,11 @@
             </div>
             <div class="clearfix"></div>
           </div>
+
+          @if(in_array("16", $listPermissions))
+              <input type="hidden" name="is_team_pedido" value="1">
+          @endif
+          
         {!! Form::close() !!}
 
         <!-- List Form delete to Team -->

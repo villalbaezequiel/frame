@@ -50,6 +50,7 @@
                   <th class="text-center">Acciones</th>
                 @else
                   <th>Estado del Pedido</th>
+                  <th class="text-center">Acciones</th>
                 @endif
 
               </tr>
@@ -100,6 +101,12 @@
                   </td>
                 @else
                   <td>{{ \App\Project::getStatusProducerOrders($project->status_producer_order) }}</td>
+                  <td class="text-right">
+                    {!! Form::open(['route' => ['projects.destroy', $project->id], 'method' => 'DELETE', 'class'=> 'alert-confirm-delete', 'style'=> 'text-align: center;']) !!}
+                      <a href="{{ url('/projects/'.$project->id.'/edit') }}" class="btn btn-link btn-warning btn-just-icon edit" title="Editar"><i class="material-icons">dvr</i></a>
+                      <button type="submit" class="btn btn-link btn-danger btn-just-icon remove" title="Eliminar"><i class="material-icons">close</i></button>
+                    {!! Form::close() !!}
+                  </td>
                 @endif
                 
               </tr>

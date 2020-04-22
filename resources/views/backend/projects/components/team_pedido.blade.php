@@ -143,7 +143,6 @@
             </div>
         </div>
     </div>
-
     
     <input type="hidden" name="total_workdays_text" value="completar-texto">
     

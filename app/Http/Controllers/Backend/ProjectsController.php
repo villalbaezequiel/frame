@@ -288,7 +288,7 @@ class ProjectsController extends Controller
               $team = new ProjectProvider;
               $team->id_project = $project->id;
               $team->id_function_frame = $crewObj->id_function_frame;
-              $team->id_category_sat = $crewObj->id_category_sat;
+              $team->id_category_sat = ($isProducerOrder ? 0 : $crewObj->id_category_sat);
               $team->id_provider = $crewObj->id_provider;
               $team->id_contract = $crewObj->id_contract;
               $team->id_workday = $crewObj->id_workday;
@@ -421,6 +421,15 @@ class ProjectsController extends Controller
           $list_crew            = $request->get('list_crew');
           $list_crew_secundario = $request->get('list_crew_secundario');
 
+          // verificar si es un User rol Pedidos/Productor
+          $listPermissions = User::getListPermissionsFromUser(Auth::user());
+          $isProducerOrder = false;
+
+          if(in_array("16", $listPermissions))
+          {
+            $isProducerOrder = true;
+          }
+          
           $project                      = Project::find($id);
           $project->name                = ($request->get('name') ? $request->get('name') : CenterCost::getName($request->get('cost_center')));
           $project->description         = $request->get('description');
@@ -515,7 +524,7 @@ class ProjectsController extends Controller
                 $team = ProjectProvider::find($crewObj->id_project_provider);
                 $team->id_project = $project->id;
                 $team->id_function_frame = $crewObj->id_function_frame;
-                $team->id_category_sat = $crewObj->id_category_sat;
+                $team->id_category_sat = ($isProducerOrder ? $team->id_category_sat : $crewObj->id_category_sat);
                 $team->id_provider = $crewObj->id_provider;
                 $team->id_contract = $crewObj->id_contract;
                 $team->id_workday = $crewObj->id_workday;
@@ -544,7 +553,7 @@ class ProjectsController extends Controller
                 $team = new ProjectProvider;
                 $team->id_project = $project->id;
                 $team->id_function_frame = $crewObj->id_function_frame;
-                $team->id_category_sat = $crewObj->id_category_sat;
+                $team->id_category_sat = ($isProducerOrder ? 0 : $crewObj->id_category_sat);
                 $team->id_provider = $crewObj->id_provider;
                 $team->id_contract = $crewObj->id_contract;
                 $team->id_workday = $crewObj->id_workday;
@@ -647,7 +656,7 @@ class ProjectsController extends Controller
                 $team = ProjectProvider::find($crewObj->id_project_provider);
                 $team->id_project = $project->id;
                 $team->id_function_frame = $crewObj->id_function_frame;
-                $team->id_category_sat = $crewObj->id_category_sat;
+                $team->id_category_sat = ($isProducerOrder ? $team->id_category_sat : $crewObj->id_category_sat);
                 $team->id_provider = $crewObj->id_provider;
                 $team->id_contract = $crewObj->id_contract;
                 $team->id_workday = $crewObj->id_workday;
@@ -676,7 +685,7 @@ class ProjectsController extends Controller
                 $team = new ProjectProvider;
                 $team->id_project = $project->id;
                 $team->id_function_frame = $crewObj->id_function_frame;
-                $team->id_category_sat = $crewObj->id_category_sat;
+                $team->id_category_sat = ($isProducerOrder ? 0 : $crewObj->id_category_sat);
                 $team->id_provider = $crewObj->id_provider;
                 $team->id_contract = $crewObj->id_contract;
                 $team->id_workday = $crewObj->id_workday;

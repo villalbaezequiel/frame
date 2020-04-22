@@ -160,7 +160,6 @@
                   @include('backend.projects.components.team_pedido')
                 @endif
 
-
                 <h5 class="info-text" id="ancla_list_crew_view"> Lista de Team </h5>
                 <div class="row justify-content-center list_crew_view" style="margin-top: -22px;"></div>
 
