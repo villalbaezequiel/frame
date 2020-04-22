@@ -253,6 +253,7 @@ function getTemplateAbsences(){
                             <th>Fecha</th>
                             <th>Asunto</th>
                             <th>Nota</th>
+                            <th>Franco Compensatorio</th>
                             <th>Acción</th>
                         </tr>
                     </thead>
@@ -1321,13 +1322,15 @@ $(document).ready(function(){
               let dataExport = [];
 
               $.each(data.results, function(i,v){
-                let _tokenForm = $("#logic_project input[name=_token]").val();
-                let note = (v.note ? v.note : '-')
+                let _tokenForm            = $("#logic_project input[name=_token]").val();
+                let note                  = (v.note ? v.note : '-')
+                let franco_compensatorio  = (v.franco_compensatorio && v.franco_compensatorio == "1" || v.franco_compensatorio == 1 ? 'Si' : 'No')
 
                 $("#content-absences").append(`<tr>
                                   <td>${getDatePickerFormat(v.date)}</td>
                                   <td>${v.subject}</td>
                                   <td>${note}</td>
+                                  <td>${franco_compensatorio}</td>
                                   <td>
                                     <button type="submit" form="${i}" class="btn btn-primary">Eliminar</button>
                                     <form id="${i}" action="/sistema/json/remove_absence" style="display:none;" method="POST">
@@ -1341,7 +1344,8 @@ $(document).ready(function(){
                 dataExport.push({
                   fecha: getDatePickerFormat(v.date, true),
                   asunto: v.subject,
-                  nota: note
+                  nota: note,
+                  franco_compensatorio: franco_compensatorio
                 });
 
               });
