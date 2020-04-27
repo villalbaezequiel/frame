@@ -91,6 +91,19 @@
               </div>
             </div>
             <div class="row">
+              <label class="col-md-2 col-form-label">Tipo de Proyecto <span class="required-red">*</span></label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="id_project_types[]" multiple required>
+                    <option value="">Seleccionar</option>
+                    @foreach(\App\ProyectCategory::getAllProyectCategories('1') as $type_proyect)
+                    <option value="{{ $type_proyect->id }}">{{ $type_proyect->name }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <label class="col-md-2 col-form-label label-checkbox">Activo</label>
               <div class="col-md-10 checkbox-radios">
                 <div class="form-check form-check-inline">

@@ -87,6 +87,7 @@ class WorkersCategoriesController extends Controller
            $workersCategory->sueldo_neto = $salaryNetoFinish;
            $workersCategory->presentismo = $request->get('presentismo');
            $workersCategory->categoria_afip = $request->get('categoria_afip');
+           $workersCategory->id_project_types = json_encode($request->get('id_project_types')); // tipo de proyecto
            $workersCategory->active = $request->get('active');
            $workersCategory->save();
 
@@ -160,6 +161,7 @@ class WorkersCategoriesController extends Controller
            $workersCategory->sueldo_neto = $salaryNetoFinish;
            $workersCategory->presentismo = $request->get('presentismo');
            $workersCategory->categoria_afip = $request->get('categoria_afip');
+           $workersCategory->id_project_types = json_encode($request->get('id_project_types')); // tipo de proyecto
            $workersCategory->active = $request->get('active');
            $workersCategory->save();
 
