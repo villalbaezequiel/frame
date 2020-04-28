@@ -903,9 +903,11 @@ $(document).ready(function(){
 
     if(!isCategorySat)
     {
+      let id_proyect_category = $('select[name=id_proyect_category]').val();
+
       $.ajax({
         type: 'GET',
-        url: '/sistema/json/'+idFunctionFrame+'/categories_sat',
+        url: `/sistema/json/${idFunctionFrame}/${id_proyect_category}/categories_sat`,
         dataType: 'json',
         success: function(data){
           // append result for select -> option

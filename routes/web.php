@@ -99,7 +99,7 @@ Route::group(['middleware' => ['auth']], function () {
   Route::get('/json/workers_categories/{id_frame_function}', 'Backend\JsonController@getWorkersCategories');
   Route::get('/json/sat_functions/{id_frame_function}/{id_workers_category}', 'Backend\JsonController@getSatFunctions');
   Route::get('/json/{type_project}/functions_frame', 'Backend\JsonController@getFunctionsFrameByTypeProject');
-  Route::get('/json/{id_function_frame}/categories_sat', 'Backend\JsonController@getCategoriesSatByFunctionFrame');
+  Route::get('/json/{id_function_frame}/{id_type_project}/categories_sat', 'Backend\JsonController@getCategoriesSatByFunctionFrame');
   Route::get('/json/{id_frame_function}/crew', 'Backend\JsonController@getTeamByFunctionFrame');
   Route::get('/json/check_crew_project/{id_provider}/{start_date_contract}', 'Backend\JsonController@checkAvailableTeamProject');
   Route::get('/json/category_sat_salary/{id_category_sat}', 'Backend\JsonController@getSalaryCategorySat');

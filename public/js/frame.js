@@ -252,11 +252,12 @@ $(document).ready(function(){
 
   $("select.ajax_categories_sat_by_function_frame").change(function(){
 
-      var id_frame_function = $("select.get_value_frame_functions").val();
+      let id_frame_function = $("select.get_value_frame_functions").val();
+      let id_proyect_category = $('select[name=id_proyect_category]').val();
 
       $.ajax({
         type: 'GET',
-        url: '/sistema/json/'+id_frame_function+'/categories_sat',
+        url: `/sistema/json/${id_frame_function}/${id_proyect_category}/categories_sat`,
         dataType: 'json',
         success: function(data){
           // append result for select -> option

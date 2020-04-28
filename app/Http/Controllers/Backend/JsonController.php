@@ -100,7 +100,7 @@ class JsonController extends Controller
   * return list WorkersCategory
   * Logica: a base de 'id_frame_function' busca todas las Categorias SAT where active = 1.
   */
-  public function getCategoriesSatByFunctionFrame($id_frame_function)
+  public function getCategoriesSatByFunctionFrame($id_frame_function, $id_type_project = 1)
   {
     $message;
     try {
@@ -112,8 +112,12 @@ class JsonController extends Controller
       foreach(json_decode($frameFunction->id_workers_category) as $id_sat) {
         $categorySAT = WorkersCategory::where('id', $id_sat)
                               ->where('active', '1')
+                              ->where('id_project_types', 'like', "%$id_type_project%")
                               ->first();
-        array_push($listCategoriesSat, $categorySAT);
+        if($categorySAT)
+        {
+          array_push($listCategoriesSat, $categorySAT);
+        }
       }
 
       return \Response::json(array('data' => $listCategoriesSat));
