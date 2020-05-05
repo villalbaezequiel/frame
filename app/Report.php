@@ -28,9 +28,10 @@ class Report extends Model
     {
       $list = [
         'information_project' => 'Información de Proyecto',
-        'extra_hours' => 'Horas Extras y Ausencias',
-        'contract_secure' => 'Contratos Seguros',
-        'contracts' => 'Contratos Plazo Fijo, Eventual y Tiempo indeterminado'
+        'extra_hours'         => 'Horas Extras y Ausencias',
+        'contract_secure'     => 'Contratos Seguros',
+        'contracts'           => 'Contratos Plazo Fijo, Eventual y Tiempo indeterminado',
+        'news'                => 'Novedades'
       ];
 
       return $list;
@@ -748,7 +749,7 @@ class Report extends Model
                 )
               ));
 
-              $sheet->setBorder('B6:N50', 'thin');
+              $sheet->setBorder('B4:N50', 'thin');
 
               $sheet->setWidth(array(
                 'A'     =>  15,
@@ -801,15 +802,15 @@ class Report extends Model
                 $cell->setBorder('thin','thin', 'thin', 'thin');
               });
 
-              $sheet->cells('B6:B50', function ($cells) {
+              $sheet->cells('B4:B50', function ($cells) {
                 $cells->setFontWeight('bold');
               });
 
-              $sheet->cells('B6:N6', function ($cells) {
+              $sheet->cells('B4:N6', function ($cells) {
                 $cells->setFontWeight('bold');
               });
 
-              $sheet->cells('B6:N50', function ($cells) {
+              $sheet->cells('B4:N50', function ($cells) {
                 $cells->setBorder('thin','thin', 'thin', 'thin');
               });
 
@@ -832,11 +833,11 @@ class Report extends Model
                 $cells->setFontSize(9);
               });
 
-              $sheet->cells('B6:B50', function($cells) {
+              $sheet->cells('B4:B50', function($cells) {
                 $cells->setAlignment('center');
               });
 
-              $sheet->fromArray($results, null, 'B6', true, true);
+              $sheet->fromArray($results, null, 'B4', true, true);
 
 
               if($nameProject->clausula_no_repe){
@@ -898,7 +899,7 @@ class Report extends Model
                   )
                 ));
 
-                $sheet->setBorder('B6:N50', 'thin');
+                $sheet->setBorder('B4:N50', 'thin');
 
                 $sheet->setWidth(array(
                   'A'     =>  15,
@@ -951,15 +952,15 @@ class Report extends Model
                   $cell->setBorder('thin','thin', 'thin', 'thin');
                 });
 
-                $sheet->cells('B6:B50', function ($cells) {
+                $sheet->cells('B4:B50', function ($cells) {
                   $cells->setFontWeight('bold');
                 });
 
-                $sheet->cells('B6:N6', function ($cells) {
+                $sheet->cells('B4:N6', function ($cells) {
                   $cells->setFontWeight('bold');
                 });
 
-                $sheet->cells('B6:N50', function ($cells) {
+                $sheet->cells('B4:N50', function ($cells) {
                   $cells->setBorder('thin','thin', 'thin', 'thin');
                 });
 
@@ -982,11 +983,11 @@ class Report extends Model
                   $cells->setFontSize(9);
                 });
 
-                $sheet->cells('B6:B50', function($cells) {
+                $sheet->cells('B4:B50', function($cells) {
                   $cells->setAlignment('center');
                 });
 
-                $sheet->fromArray(json_decode(json_encode($v), true), null, 'B6', true, true);
+                $sheet->fromArray(json_decode(json_encode($v), true), null, 'B4', true, true);
 
 
                 if($nameProject->clausula_no_repe){
@@ -1626,6 +1627,229 @@ class Report extends Model
           }
 
         })->download();
+
+      } catch(\Exception $e) {
+        Helpers::getCapturError($e);
+      }
+    }
+
+    static function exportNews($id_project, $from, $to, $date_by)
+    {
+      try {
+        $filterDate = 'created_at';
+
+        if($date_by == 'init_contract'){
+          $filterDate = 'start_date_contract';
+        } elseif($date_by == 'end_contract') {
+          $filterDate = 'finish_date_contract';
+        } elseif($date_by == 'init_team_project') {
+          $filterDate = 'created_at';
+        }
+
+        $project            = Project::find($id_project);
+        $projectName        = $project->name;
+        $projectCenterCost  = CenterCost::getNumber($project->cost_center);
+        $timestamp          = date('Ymdhis');
+
+        $results = ProjectProvider::select(
+                                      'users.active as N°', // no se usa el field active, sino que tengo que hacer mencion a un campo para manipuilarlo como count
+                                      'users.id as Nombre_Apellido',
+                                      'project_providers.id_project as Proyecto',
+                                      'users.cuit as Cuit',
+                                      'project_providers.start_date_contract as Fecha_Alta',
+                                      'project_providers.finish_date_contract as Fecha_Baja',
+                                      'project_providers.id_category_sat as GRUPO',
+                                      'project_providers.id_category_sat as Tarea',
+                                      'project_providers.absence',
+                                      'project_providers.extra_hours',
+                                      'project_providers.id_category_sat',
+                                      'project_providers.id_workday'                          
+                                    )
+                                    ->join('providers', 'project_providers.id_provider', '=', 'providers.id')
+                                    ->join('users', 'providers.id_user', '=', 'users.id')
+                                    ->where('project_providers.id_project', $id_project)
+                                    ->where('project_providers.'.$filterDate, '>=', $from)
+                                    ->where('project_providers.'.$filterDate, '<=', $to)
+                                    ->where('project_providers.active', '1')
+                                    ->orderBy('project_providers.'.$filterDate, 'ASC')
+                                    ->get();
+
+        if(count($results)){
+          $count = 1;
+          foreach ($results as &$team)
+          {
+            $team->N°               = $count;
+            $team->Nombre_Apellido  = User::getFullName($team->Nombre_Apellido);
+            $team->Proyecto         = $projectCenterCost." - ".$projectName;
+            $team->Fecha_Alta       = Helpers::getDateParseFormat($team->Fecha_Alta, '/');
+            $team->Fecha_Baja       = Helpers::getDateParseFormat($team->Fecha_Baja, '/');
+            $team->GRUPO            = WorkersCategory::getNumber($team->GRUPO);
+            $team->Tarea            = WorkersCategory::getName($team->Tarea, false);
+            $team->Cantidad_DIAS_Trabajados     = "";
+            $team->Insistencias_Justificadas    = 0;
+            $team->Inasistencias_Injustificadas = 0;
+            $team->Inasistencias_Vacaciones     = 0;
+
+            $absences = $team->absence;
+
+            if($absences && !empty($absences))
+            {
+              foreach($absences as $absence)
+              {
+                $date = substr($absence['date'], 0, strpos($absence['date'], '('));
+                $dateParse = new DateTime($date);
+
+                if($from && $to)
+                {
+                  $fromParse = new DateTime($from);
+                  $toParse = new DateTime($to);
+
+                  if($dateParse >= $fromParse && $dateParse <= $toParse)
+                  {
+                    if($absence['subject'] == "razones_personales" || $absence['subject'] == "enfermedad") {
+                      $team->Insistencias_Justificadas    ++;
+                    } elseif($absence['subject'] == "vacaciones") {
+                      $team->Inasistencias_Vacaciones     ++;
+                    } elseif($absence['subject'] == "sin_aviso") {
+                      $team->Inasistencias_Injustificadas ++;
+                    }
+                  }
+                }
+              }
+            }
+
+            $team->Cantidad_Hs_Ex_50  = 0;
+            $team->Cantidad_Hs_Ex_100 = 0;
+
+            $horasExtras = $team->extra_hours;
+
+            if($horasExtras && !empty($horasExtras))
+            {
+              foreach ($horasExtras as $hs_extra)
+              {
+                $hs_extra_initial       = substr($hs_extra['start'], 0, strpos($hs_extra['start'], '('));
+                $hs_extra_initial_date  = new DateTime($hs_extra_initial);
+
+                $hs_extra_finish      = substr($hs_extra['finish'], 0, strpos($hs_extra['finish'], '('));
+                $hs_extra_finish_date = new DateTime($hs_extra_finish);
+
+                $agreed_hours     = (float) $hs_extra['agreed_hours'];
+                $horasTrabajadas  = (float) ProjectProvider::getHoursExtrasExport($hs_extra_initial_date, $hs_extra_finish_date);
+
+                if($agreed_hours == 0){
+                  $horasExtras = $horasTrabajadas;
+                } else {
+                  $horasExtras = ($horasTrabajadas - $agreed_hours);
+                }
+
+                $salaryBrutoCategorySat = (float) str_replace(array('$', '.', ','), array('', '', '.'), WorkersCategory::getSueldoBruto($team->id_category_sat));
+                $workday                = Workday::isJornada($team->id_workday);
+                $isHundred              = ExtraHours::isHundred($hs_extra_initial_date, $salaryBrutoCategorySat, $workday);
+
+                if($from && $to)
+                {
+                  $fromParse = new DateTime($from);
+                  $toParse = new DateTime($to);
+
+                  if($hs_extra_initial_date >= $fromParse && $hs_extra_finish_date <= $toParse)
+                  {
+                    if($isHundred) {
+                      $team->Cantidad_Hs_Ex_100 += (float) $isHundred;
+                    } elseif(!$isHundred) {
+                      $team->Cantidad_Hs_Ex_50  += (float) $isHundred;
+                    }
+                  }
+                }
+                
+              }
+            }
+
+            $team->Feriado_Trabajado = "";
+            $team->Feriado_Compensado = "";
+            $team->Adelanto_de_Sueldos = "";
+            $team->Neto_Acordado_con_el_empleado = "";
+
+            $team->Aclaraciones = "";
+            $team->Cuarentena = "";
+
+            unset($team->absence);
+            unset($team->extra_hours);
+            unset($team->id_category_sat);
+            unset($team->id_workday);
+
+            $count++;
+          }
+
+          Excel::create(Helpers::setLimitString($projectCenterCost."_news_".$timestamp, 27), function($excel) use ($projectName, $projectCenterCost, $results, $date_by)
+          {
+            $excel->sheet(Helpers::setLimitString($projectCenterCost, 27), function($sheet) use ($results)
+            {
+              $sheet->setStyle([
+                'font' => [
+                    'name' => 'Arial',
+                    'size' => 10,
+                    'bold' => false
+                ]
+              ]);
+
+              $sheet->setBorder('B4:U222', 'thin');
+
+              $sheet->setWidth(array(
+                'A'     =>  15,
+                'B'     =>  35,
+                'C'     =>  25,
+                'D'     =>  25,
+                'E'     =>  25,
+                'F'     =>  25,
+                'G'     =>  25,
+                'H'     =>  25,
+                'I'     =>  25,
+                'J'     =>  25,
+                'K'     =>  25,
+                'L'     =>  25,
+                'M'     =>  25,
+                'N'     =>  25
+              ));
+              
+              $sheet->cells('B4:B222', function ($cells) {
+                $cells->setFontWeight('bold');
+                $cells->setAlignment('center');
+              });
+
+              $sheet->cells('B4:V4', function ($cells) {
+                $cells->setFontWeight('bold');
+              });
+
+              $sheet->cells('T4:V4', function ($cells) {
+                $cells->setAlignment('center');
+              });
+
+              $sheet->cells('J4:U4', function ($cells) {
+                $cells->setBackground('#eaeaea');
+              });
+
+              $sheet->cells('B4:U222', function ($cells) {
+                $cells->setBorder('thin','thin', 'thin', 'thin');
+              });
+              
+              $sheet->cells('C5:E222', function ($cells) {
+                $cells->setBackground('#00ff99');
+                $cells->setFontSize(9);
+              });
+
+              $sheet->cells('H5:J222', function ($cells) {
+                $cells->setBackground('#00ff99');
+                $cells->setFontSize(9);
+              });
+
+              $sheet->fromArray($results, null, 'B4', true, true);
+
+            });
+
+          })->download();
+        } else {
+          return false;
+        }
 
       } catch(\Exception $e) {
         Helpers::getCapturError($e);

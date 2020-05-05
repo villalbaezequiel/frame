@@ -1536,6 +1536,9 @@ class ExportController extends Controller
             // exclude contracts type services. ID = 4
             $reportDownload = Report::exportProject($report->id_project, $report->from, $report->to, $report->date_by, '4');
             break;
+          case 'news':
+            $reportDownload = Report::exportNews($report->id_project, $report->from, $report->to, $report->date_by);
+            break;
           default:
             $reportDownload = Report::exportProject($report->id_project, $report->from, $report->to, $report->date_by);
             break;
