@@ -1673,11 +1673,29 @@ class Report extends Model
                                     ->where('project_providers.active', '1')
                                     ->orderBy('project_providers.'.$filterDate, 'ASC')
                                     ->get();
-
+                                    
         if(count($results)){
           $count = 1;
           foreach ($results as &$team)
           {
+            $fromParse          = new DateTime($from);
+            $toParse            = new DateTime($to);
+
+            $fromContractParse  = new DateTime($team->Fecha_Alta);
+            $toContractParse    = new DateTime($team->Fecha_Baja);
+            
+            if($fromContractParse <= $fromParse) {
+              $dateContractStart    = Carbon::parse($from);
+            } else {
+              $dateContractStart    = Carbon::parse($team->Fecha_Alta);
+            }
+
+            if($toContractParse >= $toParse) {
+              $dateContractEnd      = Carbon::parse($to);
+            } else {
+              $dateContractEnd      = Carbon::parse($team->Fecha_Baja);
+            }
+
             $team->N°               = $count;
             $team->Nombre_Apellido  = User::getFullName($team->Nombre_Apellido);
             $team->Proyecto         = $projectCenterCost." - ".$projectName;
@@ -1685,10 +1703,18 @@ class Report extends Model
             $team->Fecha_Baja       = Helpers::getDateParseFormat($team->Fecha_Baja, '/');
             $team->GRUPO            = WorkersCategory::getNumber($team->GRUPO);
             $team->Tarea            = WorkersCategory::getName($team->Tarea, false);
-            $team->Cantidad_DIAS_Trabajados     = "";
-            $team->Insistencias_Justificadas    = 0;
-            $team->Inasistencias_Injustificadas = 0;
-            $team->Inasistencias_Vacaciones     = 0;
+            $team->Cantidad_DIAS_Trabajados       = $dateContractEnd->diffInDays($dateContractStart);
+            $team->Insistencias_Justificadas      = 0;
+            $team->Inasistencias_Injustificadas   = 0;
+            $team->Inasistencias_Vacaciones       = 0;
+            $team->Cantidad_Hs_Ex_50              = 0;
+            $team->Cantidad_Hs_Ex_100             = 0;
+            $team->Feriado_Trabajado              = 0;
+            $team->Feriado_Compensado             = 0;
+            $team->Adelanto_de_Sueldos            = "";
+            $team->Neto_Acordado_con_el_empleado  = "";
+            $team->Aclaraciones                   = "";
+            $team->Cuarentena                     = "";
 
             $absences = $team->absence;
 
@@ -1696,13 +1722,13 @@ class Report extends Model
             {
               foreach($absences as $absence)
               {
-                $date = substr($absence['date'], 0, strpos($absence['date'], '('));
-                $dateParse = new DateTime($date);
+                $date       = substr($absence['date'], 0, strpos($absence['date'], '('));
+                $dateParse  = new DateTime($date);
 
                 if($from && $to)
                 {
-                  $fromParse = new DateTime($from);
-                  $toParse = new DateTime($to);
+                  $fromParse  = new DateTime($from);
+                  $toParse    = new DateTime($to);
 
                   if($dateParse >= $fromParse && $dateParse <= $toParse)
                   {
@@ -1713,13 +1739,15 @@ class Report extends Model
                     } elseif($absence['subject'] == "sin_aviso") {
                       $team->Inasistencias_Injustificadas ++;
                     }
+
+                    $team->Cantidad_DIAS_Trabajados --;
+                    if(isset($absence['franco_compensatorio']) && (int)$absence['franco_compensatorio'] == 1){
+                      $team->Feriado_Compensado ++;
+                    }
                   }
                 }
               }
             }
-
-            $team->Cantidad_Hs_Ex_50  = 0;
-            $team->Cantidad_Hs_Ex_100 = 0;
 
             $horasExtras = $team->extra_hours;
 
@@ -1748,12 +1776,13 @@ class Report extends Model
 
                 if($from && $to)
                 {
-                  $fromParse = new DateTime($from);
-                  $toParse = new DateTime($to);
+                  $fromParse  = new DateTime($from);
+                  $toParse    = new DateTime($to);
 
                   if($hs_extra_initial_date >= $fromParse && $hs_extra_finish_date <= $toParse)
                   {
                     if($isHundred) {
+                      $team->Feriado_Trabajado ++; // suma Feriados y Dias Trabajados Fuerda de su Contrato
                       $team->Cantidad_Hs_Ex_100 += $horasExtras;
                     } elseif(!$isHundred) {
                       $team->Cantidad_Hs_Ex_50  += $horasExtras;
@@ -1763,14 +1792,6 @@ class Report extends Model
                 
               }
             }
-
-            $team->Feriado_Trabajado = "";
-            $team->Feriado_Compensado = "";
-            $team->Adelanto_de_Sueldos = "";
-            $team->Neto_Acordado_con_el_empleado = "";
-
-            $team->Aclaraciones = "";
-            $team->Cuarentena = "";
 
             unset($team->absence);
             unset($team->extra_hours);
