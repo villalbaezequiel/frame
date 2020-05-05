@@ -1754,9 +1754,9 @@ class Report extends Model
                   if($hs_extra_initial_date >= $fromParse && $hs_extra_finish_date <= $toParse)
                   {
                     if($isHundred) {
-                      $team->Cantidad_Hs_Ex_100 += (float) $isHundred;
+                      $team->Cantidad_Hs_Ex_100 += (float) $horasExtras;
                     } elseif(!$isHundred) {
-                      $team->Cantidad_Hs_Ex_50  += (float) $isHundred;
+                      $team->Cantidad_Hs_Ex_50  += (float) $horasExtras;
                     }
                   }
                 }
