@@ -15,6 +15,8 @@ class UsersController extends Controller
     protected $_permission;
     protected $permissionApproved = ['1', '6'];
 
+    protected $helpers;
+    
     /**
      * Instantiate a new controller instance.
      *
@@ -48,6 +50,8 @@ class UsersController extends Controller
         }
 
       });
+
+      $this->helpers = new Helpers;
     }
 
     /**
@@ -91,9 +95,6 @@ class UsersController extends Controller
 
         if($email == 0 && $dni == 0 && $cuit == 0):
 
-          // add format birthdate
-          $birthdate = explode('/', $request->get('birthdate'));
-
           $user = new User;
           $user->name = $request->get('name');
           $user->last_name = $request->get('last_name');
@@ -103,7 +104,7 @@ class UsersController extends Controller
           $user->cuit = $request->get('cuit');
           $user->gender = $request->get('gender');
           $user->civil_status = $request->get('civil_status');
-          $user->birthdate = (isset($birthdate[2]) ? $birthdate[2].'-'.$birthdate[1].'-'.$birthdate[0] : $request->get('birthdate'));
+          $user->birthdate = $this->helpers->setDateFormat($request->get('birthdate'));
           $user->id_country = $request->get('id_country');
           $user->password = Hash::make('frame_'.$request->get('cuit'));
           $user->permissions = ($request->get('permissions') ? json_encode($request->get('permissions')) : null);
@@ -185,9 +186,6 @@ class UsersController extends Controller
 
         if($email == 0 && $dni == 0 && $cuit == 0):
 
-          // add format birthdate
-          $birthdate = explode('/', $request->get('birthdate'));
-
           $user = User::find($id);
           $user->name = $request->get('name');
           $user->last_name = $request->get('last_name');
@@ -197,7 +195,7 @@ class UsersController extends Controller
           $user->cuit = $request->get('cuit');
           $user->gender = $request->get('gender');
           $user->civil_status = $request->get('civil_status');
-          $user->birthdate = (isset($birthdate[2]) ? $birthdate[2].'-'.$birthdate[1].'-'.$birthdate[0] : $request->get('birthdate'));
+          $user->birthdate = $this->helpers->setDateFormat($request->get('birthdate'));
           $user->id_country = $request->get('id_country');
           if($request->get('password')){
             $user->password = Hash::make($request->get('password'));

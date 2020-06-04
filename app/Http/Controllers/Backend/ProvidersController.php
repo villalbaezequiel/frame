@@ -19,6 +19,8 @@ class ProvidersController extends Controller
     protected $_permission;
     protected $permissionApproved = ['1', '3'];
 
+    protected $helpers;
+
     /**
      * Instantiate a new controller instance.
      *
@@ -47,6 +49,8 @@ class ProvidersController extends Controller
         }
 
       });
+
+      $this->helpers = new Helpers;
     }
 
     /**
@@ -88,9 +92,6 @@ class ProvidersController extends Controller
 
          if($email == 0 && $dni == 0 && $cuit == 0):
 
-           // add format birthdate
-           $birthdate = explode('/', $request->get('birthdate'));
-
            // New User
            $user = new User;
            $user->name = $request->get('name');
@@ -101,7 +102,7 @@ class ProvidersController extends Controller
            $user->cuit = $request->get('cuit');
            $user->gender = $request->get('gender');
            $user->civil_status = $request->get('civil_status');
-           $user->birthdate = (isset($birthdate[2]) ? $birthdate[2].'-'.$birthdate[1].'-'.$birthdate[0] : $request->get('birthdate'));
+           $user->birthdate = $this->helpers->setDateFormat($request->get('birthdate'));
            $user->id_country = $request->get('id_country');
            $user->password = Hash::make('frame_'.$request->get('cuit'));
            $user->is_crew = '1';
@@ -284,9 +285,6 @@ class ProvidersController extends Controller
 
          if($email == 0 && $dni == 0 && $cuit == 0):
 
-           // add format birthdate
-           $birthdate = explode('/', $request->get('birthdate'));
-
            // Update User
            $user = User::find($request->get('id_user'));
            $user->name = $request->get('name');
@@ -297,11 +295,12 @@ class ProvidersController extends Controller
            $user->cuit = $request->get('cuit');
            $user->gender = $request->get('gender');
            $user->civil_status = $request->get('civil_status');
-           $user->birthdate = (isset($birthdate[2]) ? $birthdate[2].'-'.$birthdate[1].'-'.$birthdate[0] : $request->get('birthdate'));
+           $user->birthdate = $this->helpers->setDateFormat($request->get('birthdate'));
            $user->id_country = $request->get('id_country');
            $user->active = $request->get('active');
            $user->is_crew = '1';
            $user->save();
+
            // Update Provider
            $provider = Provider::find($id);
            $provider->address = $request->get('address');

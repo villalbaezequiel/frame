@@ -673,4 +673,17 @@ class Helpers extends Model
       return ($day == 0 || $day == 6);
    }
 
+   function setDateFormat($date, $explodeString = '/')
+    {
+      $substrDate = substr($date, 0, 10);
+      $separartor = '-';
+      $format = explode($explodeString, $substrDate);
+
+      if($format[2]){
+        return $format[2].$separartor.$format[1].$separartor.$format[0];
+      } else {
+        return "1990".$separartor."01".$separartor."01";
+      }
+  }
+
 }
