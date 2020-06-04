@@ -116,9 +116,9 @@ $(document).ready(function(){
 
   if($(".datepicker").hasClass('validate-year'))
   {
-    todayDatepicker = `${todayDatepicker.getDate()}/${todayDatepicker.getMonth()}/${todayDatepicker.getFullYear()-70}`;
+    todayDatepicker = `${todayDatepicker.getDate()}/${todayDatepicker.getMonth()+1}/${todayDatepicker.getFullYear()-70}`;
   } else {
-    todayDatepicker = `${todayDatepicker.getDate()}/${todayDatepicker.getMonth()}/${todayDatepicker.getFullYear()}`;
+    todayDatepicker = `${todayDatepicker.getDate()}/${todayDatepicker.getMonth()+1}/${todayDatepicker.getFullYear()}`;
   }
 
   // jQuery UI -> Datepicker
