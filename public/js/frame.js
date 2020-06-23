@@ -279,7 +279,7 @@ $(document).ready(function(){
   $("select.ajax_categories_sat_by_function_frame").change(function(){
 
       let id_frame_function = $("select.get_value_frame_functions").val();
-      let id_proyect_category = $('select[name=id_proyect_category]').val();
+      let id_proyect_category = $("select.ajax_functions_frame_by_type_project").find(':selected').data('idtypeproject');
 
       $.ajax({
         type: 'GET',
