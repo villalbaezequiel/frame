@@ -103,6 +103,27 @@ $(document).ready(function(){
     aaSorting: []
   });
 
+  $.fn.dataTableExt.ofnSearch['string'] = function ( data ) {
+    return ! data ?
+      '' :
+      typeof data === 'string' ?
+          data
+              .replace( /\n/g, ' ' )
+              .replace( /á/g, 'a' )
+              .replace( /é/g, 'e' )
+              .replace( /í/g, 'i' )
+              .replace( /ó/g, 'o' )
+              .replace( /ú/g, 'u' )
+              .replace( /ê/g, 'e' )
+              .replace( /î/g, 'i' )
+              .replace( /ô/g, 'o' )
+              .replace( /è/g, 'e' )
+              .replace( /ï/g, 'i' )
+              .replace( /ü/g, 'u' )
+              .replace( /ç/g, 'c' ) :
+          data;
+  };
+
   // Nav Check url active menu
   var url = window.location.href;
   $(".nav-check-url").each(function(i,v){
@@ -186,7 +207,7 @@ $(document).ready(function(){
   // DIGITAL PREMIUM = 1
     $.ajax({
       type: 'GET',
-      url: '/sistema/json/1/functions_frame',
+      url: '/json/1/functions_frame',
       dataType: 'json',
       success: function(data){
         // append result for select -> option
@@ -220,7 +241,7 @@ $(document).ready(function(){
 
       $.ajax({
         type: 'GET',
-        url: '/sistema/json/'+$(this).val()+'/functions_frame',
+        url: '/json/'+$(this).val()+'/functions_frame',
         dataType: 'json',
         success: function(data){
           // append result for select -> option
@@ -257,7 +278,7 @@ $(document).ready(function(){
 
       $.ajax({
         type: 'GET',
-        url: `/sistema/json/${id_frame_function}/${id_proyect_category}/categories_sat`,
+        url: `/json/${id_frame_function}/${id_proyect_category}/categories_sat`,
         dataType: 'json',
         success: function(data){
           // append result for select -> option
@@ -291,7 +312,7 @@ $(document).ready(function(){
 
       $.ajax({
         type: 'GET',
-        url: '/sistema/json/'+id_frame_function+'/crew',
+        url: '/json/'+id_frame_function+'/crew',
         dataType: 'json',
         success: function(data){
           // append result for select -> option
@@ -349,7 +370,7 @@ $(document).ready(function(){
 
       $.ajax({
         type: 'GET',
-        url: '/sistema/json/category_sat_salary/'+$(this).data('id'),
+        url: '/json/category_sat_salary/'+$(this).data('id'),
         dataType: 'json',
         success: function(data){
           var results = data.data;
