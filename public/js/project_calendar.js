@@ -190,7 +190,7 @@ function popUpCreateAbsence(dateStart)
 
         $.ajax({
           type: 'POST',
-          url: '/sistema/json/project_providers/absence',
+          url: '/json/project_providers/absence',
           data: dateAbsence,
           success: function(data){
 
@@ -292,23 +292,25 @@ function popUpCreateHsEs(dateStart, dateFinish)
 
           $.ajax({
             type: 'POST',
-            url: '/sistema/json/project_providers/extra_hours',
+            url: '/json/project_providers/extra_hours',
             data: extraHours,
-            success: function(data){
+            success: function(data) {
 
-              if(data.status){
-
+              if(data.status)
+              {
                 // crear Evento en el calendario
-                // $.each(data.name, function(ind, name){
-                //   let hourExtra = {
-                //     title: `Horas Extras - ${name}`,
-                //     start: dateStart,
-                //     end: dateFinish,
-                //     color: '#9c27b0'
-                //   };
-                //   $calendar.fullCalendar("renderEvent",hourExtra,!0);
-                //   $calendar.fullCalendar("unselect");
-                // });
+
+
+                $.each(data.name, function(ind, name){
+                  let hourExtra = {
+                    title: `Horas Extras - ${name}`,
+                    start: dateStart,
+                    end: dateFinish,
+                    color: '#9c27b0'
+                  };
+                  $calendar.fullCalendar("renderEvent",hourExtra,!0);
+                  $calendar.fullCalendar("unselect");
+                });
 
                 // swal ALERT que las horas extras se cargo con exito
                 getAlertInfo("Horas Extras ingresadas con Exito!");
@@ -338,15 +340,17 @@ $(function() {
 
     const color = v.function_frame_color;
 
-    if(v.calendar){
-      $.each(v.calendar, function(c,d){
-
+    if(v.calendar)
+    {
+      $.each(v.calendar, function(c,d)
+      {
         let start               = new Date(d.start);
         let dateValidateHoliday = start.getDate()+'-'+start.getMonth()+'-'+start.getFullYear();
         /* classNames = este parameter se usa para validar el date IGUAL al feriado. Dado que -
                       no se puede poner otro name-parameter al object de listEvents -> fullcalendar */
 
         listEvents.push({
+          class: 'team_calendar',
           id: `${c}_${v.id}`,
           title: `${v.name_user} (${v.function_frame_name})`,
           start: start,
@@ -358,21 +362,27 @@ $(function() {
         });
       });
     }
+    
+    if(v.extra_hours)
+    {
+      $.each(v.extra_hours, function(a,b)
+      {  
+        let start               = new Date(b.start);
+        let dateValidateHoliday = start.getDate()+'-'+start.getMonth()+'-'+start.getFullYear();
 
-    // if(v.extra_hours){
-    //   $.each(v.extra_hours, function(a,b){
-    //     listEvents.push({
-    //       title: `Horas Extras - ${v.name_user}`,
-    //       start: new Date(b.start),
-    //       end: new Date(b.finish),
-    //       backgroundColor: '#9c27b0',
-    //       color: '#9c27b0'
-    //     });
-    //   });
-    // }
+        listEvents.push({
+          class: 'team_hs',
+          title: `Horas Extras - ${v.name_user}`,
+          start: start,
+          end: new Date(b.finish),
+          backgroundColor: '#9c27b0',
+          color: '#9c27b0',
+          classNames: dateValidateHoliday
+        });
+      });
+    }
 
   });
-
 
   $.each(holidays, function(i, v) {
     if(v.date){

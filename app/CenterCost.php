@@ -85,4 +85,23 @@ class CenterCost extends Model
       }
       return ($center_costs ? true : false);
     }
+
+    public function getNameThis()
+    {
+      return $this->name;
+    }
+
+    public function getIDTypeProjectThis()
+    {
+      return $this->id_type_project;
+    }
+
+    static public function getIDTypeProject($id)
+    {
+      $center_cost = CenterCost::find($id);
+
+      if($center_cost){
+        return $center_cost->id_type_project;
+      }
+    }
 }

@@ -92,13 +92,10 @@
                         <span class="input-group-text">
                           Centro de Costo
                         </span>
-                        <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="cost_center" required>
-                          @if(!in_array("16", $listPermissions))
+                        <select class="selectpicker ajax_functions_frame_by_type_project" data-live-search="true" data-style="select-with-transition" name="cost_center" required>
                             <option value="">Seleccionar</option>
-                          @endif
-
                           @foreach(\App\CenterCost::getAllNoAssigne() as $center_cost)
-                            <option value="{{ $center_cost->id }}"><?php echo $center_cost->number; ?></option>
+                            <option value="{{ $center_cost->id }}" data-idtypeproject="{{ $center_cost->id_type_project }}"><?php echo $center_cost->number; ?></option>
                           @endforeach
                         </select>
                       </div>
@@ -129,25 +126,6 @@
                     </div>
                   </div>
                   
-                  @if(!in_array("16", $listPermissions))
-                    <div class="col-md-10">
-                      <div class="form-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">
-                            Tipo de Proyecto<span class="required-red">*</span>
-                          </span>
-                          <select class="selectpicker ajax_functions_frame_by_type_project" data-live-search="true" data-style="select-with-transition" name="id_proyect_category" required>
-                            @foreach(\App\ProyectCategory::getAllProyectCategories() as $type_project)
-                            <option value="{{ $type_project->id }}">{{ $type_project->name }}</option>
-                            @endforeach
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  @else
-                    <input type="hidden" name="id_proyect_category" value="1" />
-                  @endif
-
                 </div>
               </div>
 

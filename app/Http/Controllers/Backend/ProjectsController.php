@@ -109,15 +109,16 @@ class ProjectsController extends Controller
           }
 
           // verificar si es un User rol Pedidos/Productor
-          $listPermissions = User::getListPermissionsFromUser(Auth::user());
-          $isProducerOrder = false;
+          $listPermissions  = User::getListPermissionsFromUser(Auth::user());
+          $isProducerOrder  = false;
+          $center_cost      = CenterCost::find($request->get('cost_center'));
 
           $project              = new Project;
-          $project->name        = ($request->get('name') ? $request->get('name') : CenterCost::getName($request->get('cost_center')));
+          $project->name        = ($request->get('name') ? $request->get('name') : $center_cost->getNameThis() );
           $project->description = $request->get('description');
           $project->observations= $request->get('observations');
-          $project->cost_center = $request->get('cost_center');
-          $project->id_proyect_category   = $request->get('id_proyect_category');
+          $project->cost_center = $center_cost->id;
+          $project->id_proyect_category   = $center_cost->getIDTypeProjectThis();
           $project->start_date            = Project::getDateParseFormat($request->get('start_date'));
           $project->finish_date           = Project::getDateParseFormat($request->get('finish_date'));
           $project->clausula_no_repe      = ($request->get('clausula_no_repe') ? $request->get('clausula_no_repe') : "0");
@@ -137,7 +138,6 @@ class ProjectsController extends Controller
           $project->save();
 
           // update module CenterCost
-          $center_cost = CenterCost::find($request->get('cost_center'));
           $center_cost->assigne = '1';
           $center_cost->save();
 
@@ -424,6 +424,7 @@ class ProjectsController extends Controller
           // verificar si es un User rol Pedidos/Productor
           $listPermissions = User::getListPermissionsFromUser(Auth::user());
           $isProducerOrder = false;
+          $projectCenterCost = CenterCost::find($request->get('cost_center'));
 
           if(in_array("16", $listPermissions))
           {
@@ -431,9 +432,9 @@ class ProjectsController extends Controller
           }
           
           $project                      = Project::find($id);
-          $project->name                = ($request->get('name') ? $request->get('name') : CenterCost::getName($request->get('cost_center')));
+          $project->name                = ($request->get('name') ? $request->get('name') :  $projectCenterCost->getNameThis() );
           $project->description         = $request->get('description');
-          $project->id_proyect_category = $request->get('id_proyect_category');
+          $project->id_proyect_category = $projectCenterCost->getIDTypeProjectThis();
           $project->start_date          = Project::getDateParseFormat($request->get('start_date'));
           $project->finish_date         = Project::getDateParseFormat($request->get('finish_date'));
 
@@ -454,7 +455,7 @@ class ProjectsController extends Controller
             $center_cost->save();
           }
 
-          $project->cost_center           = $request->get('cost_center');
+          $project->cost_center           = $projectCenterCost->id;
           $project->observations          = $request->get('observations');
           $project->clausula_no_repe      = $request->get('clausula_no_repe');
           $project->certificado_cobertura = $request->get('certificado_cobertura');

@@ -205,9 +205,14 @@ $(document).ready(function(){
 
   // consultar TODAS las FUNCIONES FRAME del "Tipo de Proyecto" por default
   // DIGITAL PREMIUM = 1
+    let editTypeProject     = $("select.ajax_functions_frame_by_type_project").find(':selected').data('idtypeproject');
+    let validateTypeProject = (editTypeProject ? editTypeProject : "1"); 
+
+    console.log(validateTypeProject);
+
     $.ajax({
       type: 'GET',
-      url: '/json/1/functions_frame',
+      url: `/sistema/json/${validateTypeProject}/functions_frame`,
       dataType: 'json',
       success: function(data){
         // append result for select -> option
@@ -241,7 +246,7 @@ $(document).ready(function(){
 
       $.ajax({
         type: 'GET',
-        url: '/json/'+$(this).val()+'/functions_frame',
+        url: '/sistema/json/'+$(this).find(':selected').data('idtypeproject')+'/functions_frame',
         dataType: 'json',
         success: function(data){
           // append result for select -> option
@@ -278,7 +283,7 @@ $(document).ready(function(){
 
       $.ajax({
         type: 'GET',
-        url: `/json/${id_frame_function}/${id_proyect_category}/categories_sat`,
+        url: `/sistema/json/${id_frame_function}/${id_proyect_category}/categories_sat`,
         dataType: 'json',
         success: function(data){
           // append result for select -> option
@@ -312,7 +317,7 @@ $(document).ready(function(){
 
       $.ajax({
         type: 'GET',
-        url: '/json/'+id_frame_function+'/crew',
+        url: '/sistema/json/'+id_frame_function+'/crew',
         dataType: 'json',
         success: function(data){
           // append result for select -> option
@@ -370,7 +375,7 @@ $(document).ready(function(){
 
       $.ajax({
         type: 'GET',
-        url: '/json/category_sat_salary/'+$(this).data('id'),
+        url: '/sistema/json/category_sat_salary/'+$(this).data('id'),
         dataType: 'json',
         success: function(data){
           var results = data.data;

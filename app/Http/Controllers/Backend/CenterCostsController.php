@@ -103,6 +103,7 @@ class CenterCostsController extends Controller
         $center_cost->number = $request->get('number');
         $center_cost->name = $request->get('name');
         $center_cost->client = $request->get('client');
+        $center_cost->id_type_project = $request->get('id_type_project');
         $center_cost->referente = ($request->get('referente') ? json_encode($request->get('referente')) : null);
         $center_cost->push_rol_producer_orders = $request->get('push_rol_producer_orders');
         $center_cost->active = $request->get('active');
@@ -193,6 +194,7 @@ class CenterCostsController extends Controller
         $center_cost->number = $request->get('number');
         $center_cost->name = $request->get('name');
         $center_cost->client = $request->get('client');
+        $center_cost->id_type_project = $request->get('id_type_project');
         $center_cost->referente = ($request->get('referente') ? json_encode($request->get('referente')) : null);
         $center_cost->push_rol_producer_orders = $request->get('push_rol_producer_orders');
         $center_cost->active = $request->get('active');

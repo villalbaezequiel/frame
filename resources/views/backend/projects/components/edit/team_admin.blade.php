@@ -6,7 +6,7 @@
         <span class="input-group-text">
             Función Frame<span class="required-red">*</span>
         </span>
-        <select class="selectpicker get_value_frame_functions ajax_categories_sat_by_function_frame ajax_crew_by_function_frame" data-live-search="true" data-style="select-with-transition" name="id_function_frame">
+        <select class="selectpicker project-edit get_value_frame_functions ajax_categories_sat_by_function_frame ajax_crew_by_function_frame" data-live-search="true" data-style="select-with-transition" name="id_function_frame">
             <option value="">Seleccionar</option>
             @foreach(\App\FrameFunction::getAllFrameFunctionByTypeProject($project->id_proyect_category) as $f_frame)
             <option value="{{ $f_frame->id }}">{{ $f_frame->name }}</option>

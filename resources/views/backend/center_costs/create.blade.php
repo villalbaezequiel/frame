@@ -45,6 +45,19 @@
             </div>
 
             <div class="row">
+              <label class="col-md-2 col-form-label">Tipo de Proyecto</label>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <select class="selectpicker" data-live-search="true" data-style="select-with-transition" name="id_type_project" required>
+                    @foreach(\App\ProyectCategory::getAllProyectCategories() as $type_project)
+                    <option value="{{ $type_project->id }}">{{ $type_project->name }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
               <label class="col-md-2 col-form-label">Cliente</label>
               <div class="col-md-7">
                 <div class="form-group">
