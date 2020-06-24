@@ -29,7 +29,7 @@ class ImportController extends Controller
         if($data->count()) {
           foreach ($data as $key => $value) {
 
-            if( $value->numero_categoria && $value->nombre && $value->sueldo_basico
+            if( $value->numero_categoria && $value->sueldo_basico
               && $value->sueldo_adicional && $value->sueldo_bruto )
             {
                 $sueldo_buto = str_replace(array("$"), array(""), $value->sueldo_bruto);
@@ -38,25 +38,22 @@ class ImportController extends Controller
                 $decimales_neto = (isset($salary_netoCheck[1]) ? $salary_netoCheck[1] : '00');
                 $salaryNetoFinish = substr($salary_netoCheck[0], 0, -3).".".substr($salary_netoCheck[0], -3).",".$decimales_neto;
 
-                if(WorkersCategory::getIdByName($value->nombre)) 
+                $workersCategories = WorkersCategory::where('number_category', $value->numero_categoria)->get();
+
+                if(count($workersCategories)) 
                 {  
-                  $workersCategory = WorkersCategory::find(WorkersCategory::getIdByName($value->nombre));
-                } else {
-                  $workersCategory = new WorkersCategory;
-                }
 
-                $workersCategory->number_category = $value->numero_categoria;
-                $workersCategory->name = $value->nombre;
-                $workersCategory->sueldo_basico = Helpers::getFormatSalary($value->sueldo_basico);
-                $workersCategory->sueldo_adicional = Helpers::getFormatSalary($value->sueldo_adicional);
-                $workersCategory->sueldo_bruto = Helpers::getFormatSalary($value->sueldo_bruto);
-                $workersCategory->sueldo_bruto_texto = $value->sueldo_bruto_texto;
-                $workersCategory->sueldo_neto = $salaryNetoFinish;
-                $workersCategory->presentismo = Helpers::getFormatSalary($value->presentismo);
-                $workersCategory->categoria_afip = $value->categoria_afip;
-                $workersCategory->active = '1';
-                $workersCategory->save();
-
+                  foreach ($workersCategories as $category)
+                  {
+                    $category->sueldo_basico      = Helpers::getFormatSalary($value->sueldo_basico);
+                    $category->sueldo_adicional   = Helpers::getFormatSalary($value->sueldo_adicional);
+                    $category->presentismo        = Helpers::getFormatSalary($value->presentismo);
+                    $category->sueldo_bruto       = Helpers::getFormatSalary($value->sueldo_bruto);
+                    $category->sueldo_bruto_texto = $value->sueldo_bruto_texto;
+                    $category->sueldo_neto        = $salaryNetoFinish;
+                    $category->save();   
+                  }
+                } 
             }
           }
 

@@ -212,22 +212,16 @@ class ExportController extends Controller
       try {
 
         $results = WorkersCategory::select( 'number_category as numero_categoria',
-                                    'name as nombre',
                                     'sueldo_basico',
                                     'sueldo_adicional',
                                     'presentismo',
                                     'sueldo_bruto',
-                                    'sueldo_bruto_texto',
-                                    'categoria_afip',
-                                    'active as activo'
-                                    )->get();
+                                    'sueldo_bruto_texto')
+                                    ->groupBy('numero_categoria')
+                                    ->get();
 
-        if(count($results)) {
-
-          foreach ($results as &$result) {
-            $result->activo = Helpers::getActive($result->activo);
-          }
-
+        if(count($results))
+        {
           $timestamp = date('Ymdhis');
 
           Excel::create(Helpers::setLimitString("categorias_sat_{$timestamp}", 27), function($excel) use ($results){
