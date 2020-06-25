@@ -48,6 +48,7 @@ class Report extends Model
       $list = [
         'init_contract' => 'Inicio de Contrato',
         'end_contract' => 'Fin de Contrato',
+        'current_contract' => 'Contrato Vigente',
         'init_team_project' => 'Creacion del Team en el Proyecto'
       ];
 
@@ -72,15 +73,25 @@ class Report extends Model
     static function exportProject($id_project, $from, $to, $date_by, $exclude = null)
     {
       try {
+        $filterDate       = 'created_at';
+        $dateReportStart  = new DateTime();
+        $dateReportStart->modify("-1 day");
 
-        $filterDate = 'created_at';
-
-        if($date_by == 'init_contract'){
+        if($date_by == 'init_contract')
+        {
           $filterDate = 'start_date_contract';
-        } elseif($date_by == 'end_contract') {
+        } elseif($date_by == 'end_contract')
+        {
           $filterDate = 'finish_date_contract';
-        } elseif($date_by == 'init_team_project') {
+        } elseif($date_by == 'init_team_project')
+        {
           $filterDate = 'created_at';
+        } elseif($date_by == 'current_contract')
+        {
+          $filterStartDate  = 'start_date_contract';
+          $filterFinishDate = 'finish_date_contract';
+          $from             = $dateReportStart->format("Y-m-d 00:00:00");
+          $to               = date('Y-m-d 23:59:00');
         }
 
         $results = Project::select(
@@ -173,11 +184,17 @@ class Report extends Model
           ->join('providers', 'project_providers.id_provider', '=', 'providers.id')
           ->join('users', 'providers.id_user', '=', 'users.id')
           ->where('project_providers.id_project', $id_project)
-          ->where('project_providers.'.$filterDate, '>=', $from)
-          ->where('project_providers.'.$filterDate, '<=', $to)
-          ->where('project_providers.id_contract', '!=', $exclude)
-          ->orderBy('project_providers.'.$filterDate, 'ASC')
-          ->get();
+          ->where('project_providers.id_contract', '!=', $exclude);
+          
+          if($date_by == 'current_contract')
+          {
+            $listTeams = $listTeams->where('project_providers.'.$filterStartDate, '<=', $from)
+                      ->where('project_providers.'.$filterFinishDate, '>=', $to);
+          } else {
+            $listTeams = $listTeams->where('project_providers.'.$filterDate, '<=', $from)
+                      ->where('project_providers.'.$filterDate, '>=', $to);
+          }
+          $listTeams = $listTeams->orderBy('project_providers.'.$filterDate, 'ASC')->get();
 
         } else {
 
@@ -239,11 +256,17 @@ class Report extends Model
           )
           ->join('providers', 'project_providers.id_provider', '=', 'providers.id')
           ->join('users', 'providers.id_user', '=', 'users.id')
-          ->where('project_providers.id_project', $id_project)
-          ->where('project_providers.'.$filterDate, '>=', $from)
-          ->where('project_providers.'.$filterDate, '<=', $to)
-          ->orderBy('project_providers.'.$filterDate, 'ASC')
-          ->get();
+          ->where('project_providers.id_project', $id_project);
+
+          if($date_by == 'current_contract')
+          {
+            $listTeams = $listTeams->where('project_providers.'.$filterStartDate, '<=', $from)
+                      ->where('project_providers.'.$filterFinishDate, '>=', $to);
+          } else {
+            $listTeams = $listTeams->where('project_providers.'.$filterDate, '<=', $from)
+                      ->where('project_providers.'.$filterDate, '>=', $to);
+          }
+          $listTeams = $listTeams->orderBy('project_providers.'.$filterDate, 'ASC')->get();
         }
 
         foreach($listTeams as &$team)
@@ -666,15 +689,25 @@ class Report extends Model
     {
       // listado de teams, que hayan aceptado,
       try {
+        $filterDate       = 'created_at';
+        $dateReportStart  = new DateTime();
+        $dateReportStart->modify("-1 day");
 
-        $filterDate = 'created_at';
-
-        if($date_by == 'init_contract'){
+        if($date_by == 'init_contract')
+        {
           $filterDate = 'start_date_contract';
-        } elseif($date_by == 'end_contract') {
+        } elseif($date_by == 'end_contract')
+        {
           $filterDate = 'finish_date_contract';
-        } elseif($date_by == 'init_team_project') {
+        } elseif($date_by == 'init_team_project')
+        {
           $filterDate = 'created_at';
+        } elseif($date_by == 'current_contract')
+        {
+          $filterStartDate  = 'start_date_contract';
+          $filterFinishDate = 'finish_date_contract';
+          $from             = $dateReportStart->format("Y-m-d 00:00:00");
+          $to               = date('Y-m-d 23:59:00');
         }
 
         $nameProject = Project::find($id_project);
@@ -698,12 +731,19 @@ class Report extends Model
                                     ->join('providers', 'project_providers.id_provider', '=', 'providers.id')
                                     ->join('users', 'providers.id_user', '=', 'users.id')
                                     ->where('project_providers.id_project', $id_project)
-                                    ->where('project_providers.'.$filterDate, '>=', $from)
-                                    ->where('project_providers.'.$filterDate, '<=', $to)
                                     ->where('project_providers.id_contract', '4') // 4 = Servicios
-                                    ->where('project_providers.active', '1')
-                                    ->orderBy('project_providers.'.$filterDate, 'ASC')
-                                    ->get();
+                                    ->where('project_providers.active', '1');
+
+        if($date_by == 'current_contract')
+        {
+          $results = $results->where('project_providers.'.$filterStartDate, '<=', $from)
+                    ->where('project_providers.'.$filterFinishDate, '>=', $to);
+        } else {
+          $results = $results->where('project_providers.'.$filterDate, '<=', $from)
+                    ->where('project_providers.'.$filterDate, '>=', $to);
+        }
+        $results = $results->orderBy('project_providers.'.$filterDate, 'ASC')->get();
+
 
         if(count($results)){
           $count = 1;
@@ -1636,14 +1676,25 @@ class Report extends Model
     static function exportNews($id_project, $from, $to, $date_by)
     {
       try {
-        $filterDate = 'created_at';
+        $filterDate       = 'created_at';
+        $dateReportStart  = new DateTime();
+        $dateReportStart->modify("-1 day");
 
-        if($date_by == 'init_contract'){
+        if($date_by == 'init_contract')
+        {
           $filterDate = 'start_date_contract';
-        } elseif($date_by == 'end_contract') {
+        } elseif($date_by == 'end_contract')
+        {
           $filterDate = 'finish_date_contract';
-        } elseif($date_by == 'init_team_project') {
+        } elseif($date_by == 'init_team_project')
+        {
           $filterDate = 'created_at';
+        } elseif($date_by == 'current_contract')
+        {
+          $filterStartDate  = 'start_date_contract';
+          $filterFinishDate = 'finish_date_contract';
+          $from             = $dateReportStart->format("Y-m-d 00:00:00");
+          $to               = date('Y-m-d 23:59:00');
         }
 
         $project            = Project::find($id_project);
@@ -1668,11 +1719,18 @@ class Report extends Model
                                     ->join('providers', 'project_providers.id_provider', '=', 'providers.id')
                                     ->join('users', 'providers.id_user', '=', 'users.id')
                                     ->where('project_providers.id_project', $id_project)
-                                    ->where('project_providers.'.$filterDate, '>=', $from)
-                                    ->where('project_providers.'.$filterDate, '<=', $to)
-                                    ->where('project_providers.active', '1')
-                                    ->orderBy('project_providers.'.$filterDate, 'ASC')
-                                    ->get();
+                                    ->where('project_providers.active', '1');
+
+        if($date_by == 'current_contract')
+        {
+          $results = $results->where('project_providers.'.$filterStartDate, '<=', $from)
+                    ->where('project_providers.'.$filterFinishDate, '>=', $to);
+        } else {
+          $results = $results->where('project_providers.'.$filterDate, '<=', $from)
+                    ->where('project_providers.'.$filterDate, '>=', $to);
+        }
+        $results = $results->orderBy('project_providers.'.$filterDate, 'ASC')->get();   
+                                         
                                     
         if(count($results)){
           $count = 1;

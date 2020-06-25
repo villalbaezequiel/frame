@@ -663,7 +663,13 @@ class Helpers extends Model
    static function setTransformDateTimestamp($date, $separartor = '/', $hour = '00:00:00')
    {
       $setDate = explode($separartor, $date);
-      $dateTransform = $setDate[2].'-'.$setDate[1].'-'.$setDate[0].' '.$hour;
+      
+      if(isset($setDate[2]))
+      {
+        $dateTransform = $setDate[2].'-'.$setDate[1].'-'.$setDate[0].' '.$hour;
+      } else {
+        $dateTransform = "1990-01-01 {$hour}";
+      }
 
       return $dateTransform;
    }

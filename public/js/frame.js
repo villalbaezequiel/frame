@@ -686,6 +686,31 @@ let frameJs = {
 
     setDisabled: (row) => {
       $(row).prop('disabled', true);
+    },
+
+    toggleType: (type, classToggle, classToggleDates) => {
+      if($(type).val() == "extra_hours")
+      {
+        $(`.${classToggle}`).hide(); 
+        $(`.${classToggle} select`).prop('required', false);
+        $(`.${classToggleDates}`).show(); 
+
+      } else {
+        $(`.${classToggle}`).show(); 
+        $(`.${classToggle} select`).prop('required', true);
+      }
+    },
+
+    toggleTypeRangeDate: (type, classToggle) => {
+      if($(type).val() == "current_contract")
+      {
+        $(`.${classToggle}`).hide(); 
+
+        $(`.${classToggle} input`).prop('required', false);
+      } else {
+        $(`.${classToggle}`).show(); 
+        $(`.${classToggle} input`).prop('required', true);
+      }
     }
 
 }

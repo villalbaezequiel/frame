@@ -43,7 +43,7 @@
               <label class="col-md-2 col-form-label">Tipo de Reporte <span class="required-red">*</span></label>
               <div class="col-md-7" style="margin-top: 10px;">
                 <div class="form-file-upload">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="type" required>
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="type" onchange="frameJs.toggleType(this, 'toggle-type-report', 'toggle-type-date-report');" required>
                     @foreach(\App\Report::getTypes() as $key => $report)
                       <option value="{{ $key }}">{{ $report }}</option>
                     @endforeach
@@ -52,11 +52,11 @@
               </div>
             </div>
 
-            <div class="row">
+            <div class="row toggle-type-report">
               <label class="col-md-2 col-form-label">Rango de Fechas por <span class="required-red">*</span></label>
               <div class="col-md-7" style="margin-top: 10px;">
                 <div class="form-file-upload">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="date_by" required>
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="date_by" onchange="frameJs.toggleTypeRangeDate(this, 'toggle-type-date-report');" required>
                     @foreach(\App\Report::getDatesBy() as $key => $report)
                       <option value="{{ $key }}">{{ $report }}</option>
                     @endforeach
@@ -65,7 +65,7 @@
               </div>
             </div>
 
-            <div class="row">
+            <div class="row toggle-type-date-report">
               <label class="col-md-2 col-form-label">Desde <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
@@ -74,7 +74,7 @@
               </div>
             </div>
 
-            <div class="row">
+            <div class="row toggle-type-date-report">
               <label class="col-md-2 col-form-label">Hasta <span class="required-red">*</span></label>
               <div class="col-md-7">
                 <div class="form-group">
