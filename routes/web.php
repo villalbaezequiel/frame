@@ -75,7 +75,8 @@ Route::group(['middleware' => ['auth']], function () {
   Route::get('/export/project/{id_project}/hs_ex_absences_teams', 'Backend\ExportController@horasExtrasAusenciasTeams');
   Route::get('/export/project/{id_project}/horas_extras_teams', 'Backend\ExportController@horasExtrasTeams');
   Route::get('/export/project/{id_project}/absences_teams', 'Backend\ExportController@absencesTeams');
-  Route::get('/export/report/all_projects', 'Backend\ExportController@reportAllProjects');
+  Route::get('/export/report/custom_cost_center', 'Backend\ExportController@indexCustomCostCenter');
+  Route::post('/export/report/custom_cost_center_process', 'Backend\ExportController@storeCustomCostCenter')->name('export.custom_cost_center');
 
   Route::get('/export/users', 'Backend\ExportController@getUsers');
   Route::get('/export/center_costs', 'Backend\ExportController@getCenterCosts');

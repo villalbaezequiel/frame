@@ -1647,19 +1647,23 @@ class ExportController extends Controller
       }
     }
 
-    public function reportAllProjects()
+    public function indexCustomCostCenter()
+    {
+      return view('backend.reports.option');
+    }
+
+    public function storeCustomCostCenter(Request $request)
     {
       try {
-        $generateExportAllProjects = Report::exportAllProjects();
+        $generateExportAllProjects = Report::exportMultiCenterCost($request->get('cost_centers'));
 
         if($generateExportAllProjects) {
           return $generateExportAllProjects;
         } else {
-          return back()->with("message", "No se encontro Informacion para Reporte General de Proyectos.");
+          return back()->with("message", "No se encontro Informacion para los Centros de Costos seleccionados.");
         }
       } catch(\Exception $e) {
         Helpers::getCapturError($e);
       }
     }
-
 }

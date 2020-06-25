@@ -1443,7 +1443,7 @@ class Report extends Model
       }
     }
 
-    static function exportAllProjects()
+    static function exportMultiCenterCost($centersCost)
     {
       try {
         $results = Project::select(
@@ -1458,9 +1458,13 @@ class Report extends Model
                               'finish_date as fecha_finalizacion',
                               'is_closed as estado',
                               'active as activo'
-                            )
-                            ->get()
-                            ->toArray();
+        );
+
+        if($centersCost) {
+          $results = $results->whereIn('cost_center', $centersCost)->get()->toArray();
+        } else {
+          $results = $results->get()->toArray();
+        }
 
         foreach ($results as &$result)
         {
@@ -1530,8 +1534,13 @@ class Report extends Model
         )
         ->join('providers', 'project_providers.id_provider', '=', 'providers.id')
         ->join('users', 'providers.id_user', '=', 'users.id')
-        ->orderBy('project_providers.id_project', 'ASC')
-        ->get();
+        ->join('projects', 'projects.id', '=', 'project_providers.id_project');
+
+        if($centersCost) {
+          $listTeams = $listTeams->whereIn('projects.cost_center', $centersCost)->orderBy('project_providers.id_project', 'ASC')->get();
+        } else {
+          $listTeams = $listTeams->orderBy('project_providers.id_project', 'ASC')->get();
+        }
 
         $listDataTeams  = self::generateDataTeams($listTeams);
 

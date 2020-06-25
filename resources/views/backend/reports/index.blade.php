@@ -6,7 +6,7 @@
 <div class="container-fluid">
 
   <a href="{{ url('/reports/create') }}" class="btn btn-primary">Nuevo Reporte</a>
-  <a href="{{ url('/export/report/all_projects') }}" class="btn btn-primary">Descargar Informacion Completa</a>
+  <a href="{{ url('/export/report/custom_cost_center') }}" class="btn btn-primary">Generar Informacion Completa</a>
 
   <div class="row">
     <div class="col-md-12">
