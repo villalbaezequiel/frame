@@ -246,16 +246,7 @@ function popUpCreateHsEs(dateStart, dateFinish)
           let setBackground = false;
 
           if(v.calendar){
-            $.each(v.calendar, function(c,d){
-              let dateStartFull       = dateStart.getDate()+'-'+dateStart.getMonth()+'-'+dateStart.getFullYear();
-              let eventTeamToday      = new Date(d.start);
-              let eventTeamTodayFull  = eventTeamToday.getDate()+'-'+eventTeamToday.getMonth()+'-'+eventTeamToday.getFullYear();
-
-              if(dateStartFull == eventTeamTodayFull){
-                setBackground = true;
-              }
-            });
-
+            
             let calendarTeam      = v.calendar;
             let firstCalendarTeam = calendarTeam[Object.keys(calendarTeam)[0]];
             let lastKey           = (last = Object.keys(calendarTeam))[last.length-1];
@@ -274,9 +265,10 @@ function popUpCreateHsEs(dateStart, dateFinish)
 
           if(setBackground){
             $("#crew_hs_extra").append(`<option style="background: #5cb85c; color: #fff;" value="${v.id}">${v.name_user}</option>`);
-          } else {
-            $("#crew_hs_extra").append(`<option value="${v.id}">${v.name_user}</option>`);
           }
+          // else {
+          //   $("#crew_hs_extra").append(`<option value="${v.id}">${v.name_user}</option>`);
+          // }
 
         });
 
