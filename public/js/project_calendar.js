@@ -274,10 +274,9 @@ function popUpCreateHsEs(dateStart, dateFinish)
 
           if(setBackground){
             $("#crew_hs_extra").append(`<option style="background: #5cb85c; color: #fff;" value="${v.id}">${v.name_user}</option>`);
+          } else {
+            $("#crew_hs_extra").append(`<option value="${v.id}">${v.name_user}</option>`);
           }
-          // else {
-          //   $("#crew_hs_extra").append(`<option value="${v.id}">${v.name_user}</option>`);
-          // }
 
         });
 
