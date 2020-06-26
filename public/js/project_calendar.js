@@ -255,8 +255,8 @@ function popUpCreateHsEs(dateStart, dateFinish)
             {
               let startContractTeam = new Date(firstCalendarTeam.start); 
               let endContractTeam   = new Date(calendarTeam[lastKey].finish);
-              
-              if(+startContractTeam <= +dateStart && +endContractTeam >= +dateStart){
+            
+              if(startContractTeam.getTime() <= dateStart.getTime() && endContractTeam.getTime() >= dateStart.getTime()){
                 setBackground = true;
               }
             }
