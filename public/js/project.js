@@ -746,7 +746,7 @@ $(document).ready(function(){
 
           if(mode_workday == 'working-day')
           {
-            salary_daily = parseFloat((salary_contract_category_functionFinishBruto / 22) * 1.5);
+            salary_daily = parseFloat((salary_contract_category_functionFinishNeto / 22) * 1.5);
           } else {
             salary_daily = parseFloat(salary_contract_category_functionFinishNeto / 30);
           }
