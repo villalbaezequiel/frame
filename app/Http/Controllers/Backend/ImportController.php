@@ -33,7 +33,7 @@ class ImportController extends Controller
               && $value->sueldo_adicional && $value->sueldo_bruto )
             {
                 $sueldo_buto = str_replace(array("$"), array(""), $value->sueldo_bruto);
-                $salary_neto = (floatval($sueldo_buto) - (floatval($sueldo_buto)*1.19));
+                $salary_neto = (floatval($sueldo_buto) / 1.19);
                 $salary_netoCheck = explode(".", "$salary_neto");
                 $decimales_neto = (isset($salary_netoCheck[1]) ? $salary_netoCheck[1] : '00');
                 $salaryNetoFinish = substr($salary_netoCheck[0], 0, -3).".".substr($salary_netoCheck[0], -3).",".$decimales_neto;
