@@ -72,7 +72,7 @@ class WorkersCategoriesController extends Controller
        try {
 
            $sueldo_buto = str_replace(array("$", ".", ","), array("", "", "."), $request->get('sueldo_bruto'));
-           $salary_neto = (floatval($sueldo_buto) - (floatval($sueldo_buto)*0.19));
+           $salary_neto = (floatval($sueldo_buto) - (floatval($sueldo_buto)*1.19));
            $salary_netoCheck = explode(".", "$salary_neto");
            $salaryNetoFinish = substr($salary_netoCheck[0], 0, -3).".".substr($salary_netoCheck[0], -3).",".$salary_netoCheck[1];
 
@@ -146,7 +146,7 @@ class WorkersCategoriesController extends Controller
        $message;
        try {
            $sueldo_buto = str_replace(array("$", ".", ","), array("", "", "."), $request->get('sueldo_bruto'));
-           $salary_neto = (floatval($sueldo_buto) - (floatval($sueldo_buto)*0.19));
+           $salary_neto = (floatval($sueldo_buto) - (floatval($sueldo_buto)*1.19));
            $salary_netoCheck = explode(".", "$salary_neto");
            $salaryNetoFinish = substr($salary_netoCheck[0], 0, -3).".".substr($salary_netoCheck[0], -3).",".$salary_netoCheck[1];
 
