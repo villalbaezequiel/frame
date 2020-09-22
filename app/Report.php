@@ -19,6 +19,7 @@ use App\ProyectCategory;
 use App\Study;
 use App\CenterCost;
 use App\ExtraHours;
+use App\Holiday;
 use DateTime;
 
 class Report extends Model
@@ -90,8 +91,6 @@ class Report extends Model
         {
           $filterStartDate  = 'start_date_contract';
           $filterFinishDate = 'finish_date_contract';
-          $from             = $dateReportStart->format("Y-m-d 00:00:00");
-          $to               = date('Y-m-d 23:59:00');
         }
 
         $results = Project::select(
@@ -185,7 +184,7 @@ class Report extends Model
           ->join('users', 'providers.id_user', '=', 'users.id')
           ->where('project_providers.id_project', $id_project)
           ->where('project_providers.id_contract', '!=', $exclude);
-          
+
           if($date_by == 'current_contract')
           {
             $listTeams = $listTeams->where('project_providers.'.$filterStartDate, '<=', $from)
@@ -671,7 +670,7 @@ class Report extends Model
                     $sheet->fromArray($arrayAbsences);
                   });
                 }
-                
+
               }
             }
 
@@ -706,8 +705,6 @@ class Report extends Model
         {
           $filterStartDate  = 'start_date_contract';
           $filterFinishDate = 'finish_date_contract';
-          $from             = $dateReportStart->format("Y-m-d 00:00:00");
-          $to               = date('Y-m-d 23:59:00');
         }
 
         $nameProject = Project::find($id_project);
@@ -1230,9 +1227,9 @@ class Report extends Model
 
                   if(!empty($arrayAbsences))
                   {
-                    $collectionTeamsAbsences[$name.' Ausencias'] = $arrayAbsences; 
+                    $collectionTeamsAbsences[$name.' Ausencias'] = $arrayAbsences;
                   }
-                  
+
                 }
               }
 
@@ -1332,7 +1329,7 @@ class Report extends Model
               }
 
             } else if(isset($collectionTeamsAbsences) && !isset($collectionTeamsExHs)) {
-              
+
               ksort($collectionTeamsAbsences);
 
               foreach ($collectionTeamsAbsences as $name => $value)
@@ -1369,7 +1366,7 @@ class Report extends Model
     {
       try {
         $listTeams = $list;
-        
+
         if(count($listTeams))
         {
           foreach($listTeams as &$team)
@@ -1547,7 +1544,7 @@ class Report extends Model
         $timestamp = date('Ymdhis');
 
         Excel::create(Helpers::setLimitString("allprojects_info_".$timestamp, 27), function($excel) use ($results, $listDataTeams){
-          
+
           $excel->sheet(Helpers::setLimitString('Proyectos', 27), function($sheet) use ($results){
             $sheet->fromArray($results);
           });
@@ -1557,7 +1554,7 @@ class Report extends Model
           });
 
           foreach($results as $project)
-          { 
+          {
             $listTeams = ProjectProvider::select(
               'users.last_name as apellido',
               'users.name as nombre',
@@ -1616,7 +1613,7 @@ class Report extends Model
             ->where('project_providers.id_project', $project['id'])
             ->orderBy('project_providers.created_at', 'ASC')
             ->get();
-    
+
             foreach($listTeams as &$team)
             {
               $team->genero = Helpers::getGenderEs($team->genero);
@@ -1627,9 +1624,9 @@ class Report extends Model
               $team->obrasocial_prepaga = Helpers::getActive($team->obrasocial_prepaga);
               $team->es_referente = Helpers::getActive($team->es_referente);
               $team->banco = Helpers::getBank($team->banco);
-    
+
               $team->horas_pactadas = ProjectProvider::getHoursExtras($team->hora_inicio,$team->hora_final);
-    
+
               $team->funcion_frame = FrameFunction::getName($team->funcion_frame);
               $team->categoria_sat = WorkersCategory::getName($team->categoria_sat);
               $team->tipo_contrato = Contract::getName($team->tipo_contrato);
@@ -1642,27 +1639,27 @@ class Report extends Model
               $team->puesto = ProjectProvider::getStringPuesto($team->puesto);
               $team->reemplazo_del_team = ($team->reemplazo_del_team ? Provider::getNameOrderLastName($team->reemplazo_del_team) : '-');
               $team->activo = Helpers::getActive($team->activo);
-    
+
               $countHsExtra = 0;
               if(!empty(json_decode($team->horas_extras))){
                 foreach (json_decode($team->horas_extras) as $e) {
                   $hs_extra_initial = substr($e->start, 0, strpos($e->start, '('));
                   $hs_extra_initial_date = new DateTime($hs_extra_initial);
-    
+
                   $hs_extra_finish = substr($e->finish, 0, strpos($e->finish, '('));
                   $hs_extra_finish_date = new DateTime($hs_extra_finish);
-    
+
                   $horasTrabajadas = ProjectProvider::getHoursExtrasExport($hs_extra_initial_date, $hs_extra_finish_date);
-    
+
                   if($e->agreed_hours == 0){
                     $countHsExtra += $horasTrabajadas;
                   } else {
                     $countHsExtra += ($horasTrabajadas - $team->horas_pactadas);
                   }
-    
+
                 }
               }
-    
+
               $team->horas_extras = $countHsExtra;
             }
 
@@ -1702,8 +1699,6 @@ class Report extends Model
         {
           $filterStartDate  = 'start_date_contract';
           $filterFinishDate = 'finish_date_contract';
-          $from             = $dateReportStart->format("Y-m-d 00:00:00");
-          $to               = date('Y-m-d 23:59:00');
         }
 
         $project            = Project::find($id_project);
@@ -1723,7 +1718,7 @@ class Report extends Model
                                       'project_providers.absence',
                                       'project_providers.extra_hours',
                                       'project_providers.id_category_sat',
-                                      'project_providers.id_workday'                          
+                                      'project_providers.id_workday'
                                     )
                                     ->join('providers', 'project_providers.id_provider', '=', 'providers.id')
                                     ->join('users', 'providers.id_user', '=', 'users.id')
@@ -1738,9 +1733,9 @@ class Report extends Model
           $results = $results->where('project_providers.'.$filterDate, '<=', $from)
                     ->where('project_providers.'.$filterDate, '>=', $to);
         }
-        $results = $results->orderBy('project_providers.'.$filterDate, 'ASC')->get();   
-                                         
-                                    
+        $results = $results->orderBy('project_providers.'.$filterDate, 'ASC')->get();
+
+
         if(count($results)){
           $count = 1;
           foreach ($results as &$team)
@@ -1750,7 +1745,7 @@ class Report extends Model
 
             $fromContractParse  = new DateTime($team->Fecha_Alta);
             $toContractParse    = new DateTime($team->Fecha_Baja);
-            
+
             if($fromContractParse <= $fromParse) {
               $dateContractStart    = Carbon::parse($from);
             } else {
@@ -1763,6 +1758,14 @@ class Report extends Model
               $dateContractEnd      = Carbon::parse($team->Fecha_Baja);
             }
 
+            $workdayWeek5 = false;
+            $teamWorkdayMode = Workday::find($team->id_workday);
+
+            if($teamWorkdayMode && $teamWorkdayMode->mode == "month-5")
+            {
+              $workdayWeek5 = true;
+            }
+
             $team->N°               = $count;
             $team->Nombre_Apellido  = User::getFullName($team->Nombre_Apellido);
             $team->Proyecto         = $projectCenterCost." - ".$projectName;
@@ -1770,7 +1773,7 @@ class Report extends Model
             $team->Fecha_Baja       = Helpers::getDateParseFormat($team->Fecha_Baja, '/');
             $team->GRUPO            = WorkersCategory::getNumber($team->GRUPO);
             $team->Tarea            = WorkersCategory::getName($team->Tarea, false);
-            $team->Cantidad_DIAS_Trabajados       = $dateContractEnd->diffInDays($dateContractStart);
+            $team->Cantidad_DIAS_Trabajados       = ($workdayWeek5 ? $dateContractEnd->diffInWeekdays($dateContractStart) : $dateContractEnd->diffInDays($dateContractStart)) ;
             $team->Insistencias_Justificadas      = 0;
             $team->Inasistencias_Injustificadas   = 0;
             $team->Inasistencias_Vacaciones       = 0;
@@ -1782,6 +1785,10 @@ class Report extends Model
             $team->Neto_Acordado_con_el_empleado  = "";
             $team->Aclaraciones                   = "";
             $team->Cuarentena                     = "";
+
+            // count holidays
+            $dayHolidays = Holiday::countHolidayRange($from, $to);
+            $team->Cantidad_DIAS_Trabajados = $team->Cantidad_DIAS_Trabajados - $dayHolidays;
 
             $absences = $team->absence;
 
@@ -1856,7 +1863,7 @@ class Report extends Model
                     }
                   }
                 }
-                
+
               }
             }
 
@@ -1898,7 +1905,7 @@ class Report extends Model
                 'M'     =>  25,
                 'N'     =>  25
               ));
-              
+
               $sheet->cells('B4:B222', function ($cells) {
                 $cells->setFontWeight('bold');
                 $cells->setAlignment('center');
@@ -1919,7 +1926,7 @@ class Report extends Model
               $sheet->cells('B4:U222', function ($cells) {
                 $cells->setBorder('thin','thin', 'thin', 'thin');
               });
-              
+
               $sheet->cells('C5:E222', function ($cells) {
                 $cells->setBackground('#00ff99');
                 $cells->setFontSize(9);
