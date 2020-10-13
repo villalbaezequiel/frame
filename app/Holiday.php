@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use DateTime;
 class Holiday extends Model
 {
   static public function getAllDate($active = '1')
@@ -28,5 +28,26 @@ class Holiday extends Model
                   ->first();
 
     return $holidays;
+  }
+
+
+  static public function countHolidayRange($from, $to)
+  {
+    $from     = new DateTime($from);
+    $to       = new DateTime($to);
+    $count    = 0;
+    $holidays = Holiday::select('date')->where('active', '1')->get();
+
+    if(!$holidays) return $count;
+
+    foreach($holidays as $holiday)
+    {
+      $holidayFrom  = new DateTime($holiday->date);
+      $holidayTo    = new DateTime($holiday->date);
+
+      if($holidayFrom >= $from && $holidayTo <= $to) $count++;
+    }
+
+    return $count;
   }
 }

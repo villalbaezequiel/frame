@@ -56,7 +56,7 @@
               <label class="col-md-2 col-form-label">Rango de Fechas por <span class="required-red">*</span></label>
               <div class="col-md-7" style="margin-top: 10px;">
                 <div class="form-file-upload">
-                  <select class="form-control selectpicker" data-style="btn btn-link" name="date_by" onchange="frameJs.toggleTypeRangeDate(this, 'toggle-type-date-report');" required>
+                  <select class="form-control selectpicker" data-style="btn btn-link" name="date_by" required>
                     @foreach(\App\Report::getDatesBy() as $key => $report)
                       <option value="{{ $key }}">{{ $report }}</option>
                     @endforeach
