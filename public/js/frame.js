@@ -161,7 +161,7 @@ $(document).ready(function(){
     showMonthAfterYear: false,
     yearSuffix: '',
     changeYear: true,
-    yearRange: "-100:+0",
+    yearRange: "-100:+2",
   };
   $.datepicker.setDefaults($.datepicker.regional['es']);
 
