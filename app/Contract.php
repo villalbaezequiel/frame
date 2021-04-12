@@ -164,46 +164,47 @@ class Contract extends Model
       return $message;
     }
 
-    static public function getContractTiempoIndeterminado($crew_name_full, $crew_addres_full, $crew_location, $crew_cp, $crew_dni, $crew_cuit, $crew_function_sat, $crew_salary_text, $crew_salary, $crew_email)
+    static public function getContractTiempoIndeterminado($crew_name_full, $crew_addres_full, $crew_location, $crew_cp, $crew_dni, $crew_cuit, $crew_function_sat, $crew_salary_text, $crew_salary, $crew_email, $crew_start_contract, $crew_finish_contract, $crew_name_project)
     {
       $today = date('d/m/Y');
 
       $message = "<h1 style='font-size: 20px;'><strong>CONTRATO TIEMPO INDETERMINADO</strong></h1>
 
-      <p>Entre FZERO S.R.L., representada por el Sr. Hernán Pellegrini, DNI nº 26.116.576, en sucarácter de Socio Gerente, con domicilio legal en Tronador 671, CABA (1427), enadelante LA EMPLEADORA; y el Sr/a. $crew_name_full,  DNI Nº $crew_dni, CUIL $crew_cuit, con domicilio en $crew_addres_full, $crew_location($crew_cp), por la otra parte, en adelante “El Empleado”  se celebra el presente contrato de trabajo por tiempo indeterminado, sujeto a la legislación vigente (cf. ley 20744 to; CCT N° 634/11 SATSAID – CAPIT), y conforme a los siguientes términos que convienen las partes:</p>
+      <p>Entre 2030 S.R.L., CUIT: 30-71706837-4 representada por el Sr. Hernán Pellegrini, DNI Nº 26.116.576, en su carácter de Socio Gerente, con domicilio legal en RUIZ HUIDOBRO Nº 4365, CABA (1430), en adelante 'La Empleadora'; y el Sr/Sra. $crew_name_full con domicilio real en $crew_addres_full, $crew_location($crew_cp). DNI Nº $crew_dni, por la otra parte, en adelante 'El Empleado' se celebra el presente contrato de trabajo de carácter a plazo fijo, sujeto a la legislación vigente (cf. arts. 8 y ccs.  CCT N° 634/11 SATSAID – CAPIT; 90, 93 y ss. y ccs. R.C.T.), y que se encuentra regulado por las siguientes cláusulas:</p>
 
-      <p><strong>PRIMERA:</strong> La Empleadora contrata al Sr. <strong>$crew_name_full</strong> y éste acepta desempeñarse como $crew_function_sat .</p>
+      <p><strong>PRIMERA:</strong> La Empleadora contrata al Sr/a <strong>$crew_name_full</strong> y éste acepta desempeñarse como $crew_function_sat en el proyecto $crew_name_project</p>
 
-      <p><strong>SEGUNDA:</strong></p>
-      <p><strong>2.1</strong> El Empleado se compromete a cumplir con las obligaciones y tareas inherentes a sus funciones, prestando servicios durante los siguientes días y horarios: lunes a viernes durante 7 horas 15 minutos, los cuales podrán estar sujetos a modificaciones puntuales y/o circunstancias observadas por La Empleadora. Su lugar de trabajo será en Tronador CABA, pudiendo modificarse por indicación de La Empleadora.</p>
-      <p>Las Partes acuerdan que dichos horarios podrán estar sujetos a modificaciones y/o circunstancias observadas por La Empleadora, prestando desde ya expresa conformidad con las mismas.</p>
+      <p><strong>SEGUNDA:</strong> El Empleado se compromete a cumplir con las obligaciones y tareas inherentes a sus funciones, prestando servicios durante los siguientes días y horarios: 6 días de la semana por 6 hs diarias, a combinar citación en forma semanal, los cuales podrán estar sujetos a modificaciones puntuales y/o circunstancias observadas por La Empleadora. Su lugar de trabajo será en RUIZ HUIDOBRO Nº 4365, CABA (1430), pudiendo modificarse por indicación de La Empleadora</p>
 
-      <p><strong>2.2</strong> El lugar de trabajo de El Empleado será en Tronador 671, CABA y/o los lugares que La Empleadora indique.</p>
-      <p>El Empleado queda obligado a presentarse puntualmente en los lugares y horarios de prestación de sus tareas que le sean indicados por La Empleadora.</p>
+      <p><strong>TERCERA:</strong> La contratación de El Empleado por el plazo del presente acuerdo obedece a la necesidad de realizar tareas de $crew_function_sat.</p>
 
-      <p><strong>TERCERA:</strong> La contratación de El Empleado se realiza por tiempo indeterminado, para su incorporación como personal de planta permanente de La Empleadora, en los términos de la ley 20.744 (to)/LCT; CCT Nº 634/11 SATSAID – CAPIT, y normativa de aplicación, y sujeto a lo convenido en el siguiente párrafo.</p>
-      <p>Se acuerda la celebración del presente contrato a prueba durante sus primeros tres (3) meses de vigencia, en los términos y condiciones del art. 92 bis y ccs. LCT.</p>
+      <p>El Empleado se notifica y consiente expresamente que su contratación es de naturaleza especial en razón de necesidades operacionales extraordinarias de La Empleadora en dicho Proyecto. Dada su magnitud y cantidad de personal técnico especializado requeridos, no es viable para la Empleadora afrontarlo con su personal de planta permanente. Se trata de un requerimiento extraordinario de personal necesario para el Proyecto por el estricto plazo de vigencia detallado en el presente (conforme régimen de los arts. 93, 95 y ccs. Ley de Contrato de Trabajo y art. 8 CCT Nº 634/11 SATSAID – CAPIT).</p>
+      <p>Una vez finalizados los motivos que dieron lugar a su celebración, el contrato de trabajo se considerará extinguido de pleno derecho en los términos del artículo 73 y 74 de la Ley 24.013.</p>
+      <p>El Empleado cumplirá las tareas propias de su oficio bajo las instrucciones emanadas del personal directivo de La Empleadora o de quienes ésta indique, debiendo respetarlas y cumplirlas con idoneidad, eficacia y diligencia.</p>
+      <p>El Empleado se desempeñará con dedicación exclusiva y 'full-time', en los términos y condiciones generales acordados en el presente, y los que se pudieran oportunamente convenir entre las Partes en particular para proyectos y trabajos específicos.</p>
 
       <p><strong>CUARTA:</strong> Se acuerda que el Sr/a. <strong>$crew_name_full</strong> percibirá una remuneración bruta de Pesos $crew_salary_text ($crew_salary), que se abonará en forma mensual, por período vencido del 1 al 5 de cada mes.</p>
       <p>Régimen de horas extras y francos a convenir en función de las exigencias de los servicios y conforme la normativa citada; presentismo a liquidarse según pautas del cit. CCT Nº 634/11.</p>
 
-      <p><strong>QUINTA:</strong> El Empleado cumplirá las tareas propias de su oficio bajo las instrucciones emanadas del personal directivo de La Empleadora o de quienes ésta indique, debiendo respetarlas y cumplirlas con idoneidad, eficacia y diligencia.</p>
-      <p>El Empleado se desempeñará con dedicación exclusiva y “full-time”, en los términos y condiciones generales acordados en el presente, y los que se pudieran oportunamente convenir entre las Partes en particular para proyectos y trabajos específicos.</p>
+      <p><strong>QUINTA:</strong>El plazo de vigencia del presente contrato será a partir del día $crew_start_contract, y hasta el día $crew_finish_contract</p>
 
-      <p><strong>SEXTA:</strong> Notificaciones:Comunicaciones vía email.</p>
-      <p>Las comunicaciones relacionadas con la ejecución operativa de este contrato de trabajo a tiempo indeterminado se cursarán vía email (con constancia de entrega y constancia de recepción), a las siguientes direcciones:</p>
+      <p><strong>SEXTA:</strong> El Empleado cumplirá las tareas propias de su oficio bajo las directivas emanadas del personal directivo de La Empleadora o de quienes ésta indique, debiendo respetarlas y cumplirlas con idoneidad y diligencia.</p>
+      <p>Una vez concluido el plazo señalado cesará la relación laboral. El Empleado a la finalización del contrato percibirá los salarios que se hubieran devengado, los importes proporcionales por eventuales vacaciones no gozadas y sueldo anual complementario.</p>
+
+      <p><strong>SÉPTIMA:</strong> Para todos los efectos emergentes del presente contrato, las partes constituyen domicilios en los indicados en el encabezamiento, donde se tendrán por válidas y realizadas todas las comunicaciones que se cursarán hasta tanto no notifiquen en forma fehaciente la constitución de un nuevo domicilio a los mismos efectos.</p>
+
+      <p><strong>OCTAVA:</strong> Notificaciones: Comunicaciones vía email. </p>
+      <p>Las comunicaciones relacionadas con la ejecución operativa de este contrato de trabajo a plazo fijo se cursarán vía email (con constancia de entrega y constancia de recepción), a las siguientes direcciones:</p>
       <p>Comunicaciones a domicilios:</p>
       <p>Se dirigirán a los siguientes domicilios:</p>
-      <p>A la Empleadora: Hernan Pellegrini (hernan.pellegrini@frame.com.ar)</p>
-      <p>A El Empleado: <strong>$crew_name_full ($crew_email)</strong></p>
+      <p>A la Empleadora: Hernán Pellegrini (hernan.pellegrini@frame.com.ar)</p>
+      <p>A El Empleado: $crew_name_full (<strong>$crew_email</strong>)</p>
 
-      <p><strong>SÉPTIMA:</strong> El Empleado acepta y reconoce que La Empleadora y sus subsidiarias, sucesores, cesionarios y licenciatarios tendrán el derecho y la propiedad exclusiva de todos los resultados y los productos de sus Servicios en cualquier etapa de desarrollo y que los derechos exclusivos de La Empleadora  incluyen, sin limitación, el derecho de autor y derechos conexos, el derecho de reproducción, el derecho de adaptación, el derecho de traducción, el derecho de doblaje y subtitulado, el derecho de exhibición, el derecho de promoción, el derecho de comunicación pública, el derecho de distribución, el derecho de crear obras derivadas y el derecho de alquilar y/o licenciar el Trabajo, libre de todo gravamen, reclamo y/o cargo. Sin que ello signifique limitar lo antedicho, acepto y reconozco que en el futuro pueden surgir o reconocerse nuevos derechos sobre el Trabajo conforme a las leyes aplicables y/o bajo cualquier sistema jurídico (en adelante, los “Nuevos Derechos de Explotación”) y tengo la voluntad y por el presente le otorgo y cedo a La Empleadora todos y cada uno de tales Nuevos Derechos de Explotación en y sobre el Trabajo.</p>
+      <p><strong>NOVENA:</strong> El Empleado acepta y reconoce que La Empleadora y sus subsidiarias, sucesores, cesionarios y licenciatarios tendrán el derecho y la propiedad exclusiva de todos los resultados y los productos de sus Servicios en cualquier etapa de desarrollo y que los derechos exclusivos de La Empleadora  incluyen, sin limitación, el derecho de autor y derechos conexos, el derecho de reproducción, el derecho de adaptación, el derecho de traducción, el derecho de doblaje y subtitulado, el derecho de exhibición, el derecho de promoción, el derecho de comunicación pública, el derecho de distribución, el derecho de crear obras derivadas y el derecho de alquilar y/o licenciar el Trabajo, libre de todo gravamen, reclamo y/o cargo. Sin que ello signifique limitar lo antedicho, acepto y reconozco que en el futuro pueden surgir o reconocer nuevos derechos sobre el Trabajo conforme a las leyes aplicables y/o bajo cualquier sistema jurídico (en adelante, los 'Nuevos Derechos de Explotación') y tengo la voluntad y por el presente le otorgó y cedo a La Empleadora todos y cada uno de tales Nuevos Derechos de Explotación en y sobre el Trabajo.</p>
 
-      <p><strong>OCTAVA:</strong> El Empleado entiende que, durante la prestación de sus Servicios, podrá tener acceso a cierta información o material de propiedad de o relacionada con La Empleadora que no sea accesible o conocida por el público en general (“Información Confidencial”). Con respecto a ello, El Empleado conviene que: (a) no utilizará, directa ni indirectamente, la Información Confidencial para ningún fin ajeno al cual fue contratado, y que (b) no divulgará, directa ni indirectamente, dicha Información Confidencial a ninguna persona, empresa, sociedad, asociación u otra entidad por ninguna razón o propósito. A su vez  entiende que cualquier violación o intento de violación a las condiciones precedentes podría causar a La Empleadora un daño irreparable y en consecuencia, La Empleadora tendrá derecho a solicitar las medidas precautorias que estime pertinentes.</p>
+      <p><strong>DÉCIMA:</strong>  El Empleado entiende que durante la prestación de sus Servicios, podrá tener acceso a cierta información o material de propiedad de o relacionada con La Empleadora que no sea accesible o conocida por el público en general ('Información Confidencial'). Con respecto a ello, El Empleado conviene que: (a) no utilizará, directa ni indirectamente, la Información Confidencial para ningún fin ajeno al cual fue contratado, y que (b) no divulgará, directa ni indirectamente, dicha Información Confidencial a ninguna persona, empresa, sociedad, asociación u otra entidad por ninguna razón o propósito. A su vez entiende que cualquier violación o intento de violación a las condiciones precedentes podría causar a La Empleadora un daño irreparable y en consecuencia, La Empleadora tendrá derecho a solicitar las medidas precautorias que estime pertinentes.</p>
 
-      <p><strong>NOVENA:</strong> Para todos los efectos emergentes del presente contrato, las partes constituyen domicilios en los indicados en el encabezamiento, donde se tendrán por válidas y realizadas todas las comunicaciones que se cursaren hasta tanto no notifiquen en forma fehaciente la constitución de un nuevo domicilio a los mismos efectos.</p>
-
-      <p>En prueba de conformidad, se firman dos ejemplares de un mismo tenor y a un solo efecto, en la Ciudad de Buenos Aires, en el día $today</p>
+      <p>PREVIA LECTURA Y RATIFICACIÓN, se firman 2 (dos) ejemplares de un mismo tenor y a un solo efecto, en la Ciudad de Buenos Aires, en el día $today</p>
 
       <ul>
         <li>Firma:</li>
