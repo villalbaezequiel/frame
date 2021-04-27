@@ -60,7 +60,7 @@ class ExportController extends Controller
             \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractServicio( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), Helpers::getDateParseFormat($projectProvider->finish_date_contract, '/'), WorkersCategory::getName($projectProvider->id_category_sat, false), $projectProvider->total_workdays_text, "$".$projectProvider->total_workdays, Project::getName($projectProvider->id_project), $user->email ));
             break;
 
-          case "Tiempo Indeterminado":
+          case "LA NACIÓN PLAZO FIJO 6X6":
             \PhpOffice\PhpWord\Shared\Html::addHtml($section, Contract::getContractTiempoIndeterminado( Provider::getNameOrderLastName($projectProvider->id_provider), Provider::getAddressFull($projectProvider->id_provider), $provider->location, $provider->cp, $user->dni, $user->cuit, WorkersCategory::getName($projectProvider->id_category_sat, false), WorkersCategory::getSueldoBrutoTexto($projectProvider->id_category_sat), WorkersCategory::getSueldoBruto($projectProvider->id_category_sat), $user->email, Helpers::getDateParseFormat($projectProvider->start_date_contract, '/'), Helpers::getDateParseFormat($projectProvider->finish_date_contract, '/'), Project::getName($projectProvider->id_project) ));
             break;
 
