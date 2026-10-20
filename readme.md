@@ -1,88 +1,74 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# Frame Sistema
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+Sistema de gestión de proyectos, teams (crew), clientes, centros de costo, jornadas, reportes y contratos de Frame.
 
-## About Laravel
+Stack: Laravel 13, PHP 8.3, MySQL 8. Entorno Docker con [Laravel Sail](https://laravel.com/docs/sail).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+## Requisitos
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- PHP >= 8.3 (extensiones: `pdo_mysql`, `mbstring`, `gd`, `zip`, `xml`, `bcmath`)
+- Composer 2
+- MySQL 8
+- Node + Yarn/NPM (solo para compilar assets con laravel-mix)
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+## Instalación local
 
-## Learning Laravel
+```bash
+cp .env.example .env        # completar DB_* y MAIL_*
+composer install
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+Nota: el login exige que `users.permissions` tenga un JSON con ids de rol (ej. `["1"]` = Super Administrador). Los seeders no lo setean; asignarlo a mano en el usuario inicial.
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+Si las migraciones fallan con `Row size too large`, usar `DB_CHARSET=utf8` y `DB_COLLATION=utf8_unicode_ci` en `.env`.
 
-## Laravel Sponsors
+## Docker (Laravel Sail)
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+```bash
+cp .env.example .env        # DB_USERNAME=root, DB_PASSWORD=secret, DB_DATABASE=frame_sistema
+composer install            # o: docker run --rm -v $(pwd):/app composer install --ignore-platform-reqs
+./vendor/bin/sail up -d
+./vendor/bin/sail artisan key:generate
+./vendor/bin/sail artisan migrate --seed
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
+App en http://localhost (cambiar con `APP_PORT`). El compose define `DB_HOST=mysql` y charset utf8. Comandos útiles:
 
-## Contributing
+```bash
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'   # opcional, en ~/.zshrc
+sail up -d / sail down          # levantar / bajar
+sail artisan migrate            # artisan
+sail composer require x/y       # composer
+sail test                       # tests
+sail mysql                      # consola MySQL
+sail shell                      # shell dentro del contenedor
+sail logs -f                    # logs
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+MySQL queda expuesto en `localhost:3306` (cambiar con `FORWARD_DB_PORT`).
 
-## Security Vulnerabilities
+El `Dockerfile` de la raíz es una imagen de producción (php-apache), independiente de Sail.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Assets
 
-## License
+```bash
+yarn install
+yarn dev        # o: yarn prod
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Tests
 
-## Credenciales
+```bash
+php artisan test
+```
 
-**HOSTING**
-- url: https://mipanel.ferozo.com/login
-- user: c0920350
-- password: pafoDEto78
+## Notas técnicas
 
-**SSH**
-- host: 66.97.38.23
-- port: 5328
-- user: root
-- pass: yJAbQ7wx2N4x
-- path: /home/c0920350/
-
-**DB**
-- DB_name: frame_sistema
-- DB_user: u_frame_sistema
-- DB_password: j42jUWjnavMxVHaW
+- **Excel:** `app/Support/Excel` reimplementa la API de `maatwebsite/excel` 2.x (`Excel::create`, `sheet`, `fromArray`, `cell(s)`, `download`, `load`) sobre PhpSpreadsheet.
+- **Roles y permisos:** el acceso real se controla con `users.permissions` (JSON) y `App\RoleUser`. Los modelos `App\Role` y `App\Permission` extienden `spatie/laravel-permission`.
+- **Word:** los contratos se generan con `phpoffice/phpword`.
+- **Rutas:** `routes/web.php` usa el estilo `'Backend\XController@method'`; el namespace se aplica en `AppServiceProvider`.
+- **Variables de entorno renombradas en Laravel 13:** `MAIL_MAILER`, `CACHE_STORE`, `BROADCAST_CONNECTION`.
