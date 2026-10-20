@@ -21,7 +21,7 @@ php artisan migrate --seed
 php artisan serve
 ```
 
-Nota: el login exige que `users.permissions` tenga un JSON con ids de rol (ej. `["1"]` = Super Administrador). Los seeders no lo setean; asignarlo a mano en el usuario inicial.
+Nota: el login exige que `users.permissions` tenga un JSON con ids de rol (ej. `["1"]` = Super Administrador). `UsersTableSeeder` ya lo setea en los usuarios iniciales; para otros usuarios asignarlo a mano.
 
 Si las migraciones fallan con `Row size too large`, usar `DB_CHARSET=utf8` y `DB_COLLATION=utf8_unicode_ci` en `.env`.
 

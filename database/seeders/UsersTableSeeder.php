@@ -29,6 +29,7 @@ class UsersTableSeeder extends Seeder
       $user->password = \Illuminate\Support\Facades\Hash::make('EVI12345!!');
       $user->is_crew = '0';
       $user->active = '1';
+      $user->permissions = json_encode(['1']);
       $user->save();
 
       if($user){
@@ -52,6 +53,7 @@ class UsersTableSeeder extends Seeder
       $userTwo->password = \Illuminate\Support\Facades\Hash::make('ECI12345!!');
       $userTwo->is_crew = '0';
       $userTwo->active = '1';
+      $userTwo->permissions = json_encode(['1']);
       $userTwo->save();
 
       if($userTwo){
