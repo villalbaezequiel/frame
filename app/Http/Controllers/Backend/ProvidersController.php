@@ -163,17 +163,22 @@ class ProvidersController extends Controller
                                     ->first();
             }
 
+            $userAdmin = null;
+
             if(isset($chekUserAdmin) && $chekUserAdmin != null){
               $userAdmin = User::find($chekUserAdmin->id);
             } elseif(isset($chekUserAdminSecundario) && $chekUserAdminSecundario != null) {
               $userAdmin = User::find($chekUserAdminSecundario->id);
             }
 
-            $data = array(
-              'user' => $userAdmin,
-              'crew' => $provider
-            );
-            $userAdmin->notify(new NewTeam($data));
+            if($userAdmin)
+            {
+              $data = array(
+                'user' => $userAdmin,
+                'crew' => $provider
+              );
+              $userAdmin->notify(new NewTeam($data));
+            }
 
             return redirect('/register')->with('message', '1');
 

@@ -25,41 +25,47 @@ class Contract extends Model
     {
       $today = date('d/m/Y');
 
-      $message = "<h1 style='font-size: 20px;'><strong>CONTRATO DE TRABAJO EVENTUAL</strong></h1>
+      $message = "<h1 style='font-size: 20px;'><strong>CONTRATO TIEMPO INDETERMINADO</strong></h1>
 
-      <p>Entre 2030 S.R.L., con CUIT: 30-71706837-4, representada por el Sr. Hernán Pellegrini, DNI nº 26.116.576, en su carácter de Socio Gerente, con domicilio legal en RUIZ HUIDOBRO Nº 4365, CABA (1430), en adelante “La Empleadora” y el Sr/Sra. $crew_name_full, con domicilio en $crew_addres_full, $crew_location($crew_cp). DNI Nº $crew_dni, por la otra parte, en adelante “El Empleado” se celebra el presente contrato de trabajo de carácter eventual sujeto a la legislación vigente (cf. arts. 8 y ccs. CCT N° 634/11 SATSAID – CAPIT; 90, 93 y ss. y ccs. R.C.T.), y que se encuentra regulado por las siguientes cláusulas:</p>
+      <p>Entre 2030 S.R.L., con CUIT: 30-71706837-4, representada por el Sr. Hernán Pellegrini, DNI nº 26.116.576, en su carácter de Socio Gerente, con domicilio legal en RUIZ HUIDOBRO Nº 4365, CABA (1430), en adelante “La Empleadora” y el Sr/Sra. $crew_name_full, con domicilio en $crew_addres_full, $crew_location($crew_cp). DNI Nº $crew_dni, por la otra parte, en adelante “El Empleado” se celebra el presente contrato por tiempo indeterminado, sujeto a la legislación vigente (cf. Ley 20744(to); CCT N° 634/11 SATSAID – CAPIT), y conforme a los siguientes términos que convienen las partes:</p>
 
-      <p><strong>PRIMERA:</strong> La Empleadora contrata al Sr/a. <strong>$crew_name_full</strong>, y éste acepta desempeñarse como <strong>$crew_function_sat</strong>.</p>
-
+      <p><strong>PRIMERA:</strong> La Empleadora contrata al Sr/a <strong>$crew_name_full</strong> y éste acepta desempeñarse como $crew_function_sat.</p>
+    
       <p><strong>SEGUNDA:</strong> El Empleado se compromete a cumplir con las obligaciones y tareas inherentes a sus funciones, prestando servicios durante los siguientes días y horarios: lunes a viernes durante 7 horas 15 minutos, los cuales podrán estar sujetos a modificaciones puntuales y/o circunstancias observadas por La Empleadora. Su lugar de trabajo será en RUIZ HUIDOBRO Nº 4365, CABA (1430), pudiendo modificarse por indicación de La Empleadora.</p>
 
-      <p><strong>TERCERA:</strong> La eventualidad del presente contrato de trabajo surge de la necesidad de cubrir en forma extraordinaria y transitoria el puesto indicado, originado por la producción única y exclusiva del proyecto <strong>“{$crew_name_project}”.</strong></p>
-      <p>Una vez finalizados los motivos que dieron lugar a su celebración, el contrato de trabajo se considerará extinguido de pleno derecho en los términos del artículo 73 y 74 de la Ley 24.013.</p>
-      <p>El Empleado se notifica y consiente expresamente que su contratación es de naturaleza especial en razón de necesidades operacionales extraordinarias de La Empleadora en dicho Proyecto. Dada su magnitud y cantidad de personal técnico especializado requeridos, no es viable para la Empleadora afrontarlo con su personal de planta permanente. Se trata de un requerimiento extraordinario de personal necesario para el Proyecto por el estricto plazo de vigencia detallado en el presente (conforme régimen de los arts. 93, 95 y ccs. Ley de Contrato de Trabajo y art. 8 CCT Nº 634/11 SATSAID – CAPIT).</p>
-      <p>El Empleado cumplirá las tareas propias de su oficio bajo las instrucciones emanadas del personal directivo de La Empleadora o de quienes ésta indique, debiendo respetarlas y cumplirlas con idoneidad, eficacia y diligencia.</p>
-      <p>El Empleado se desempeñará con dedicación exclusiva y “full-time”, en los términos  y condiciones generales acordados en el presente, y los que se pudieran oportunamente convenir entre las Partes en particular para proyectos y trabajos específicos.</p>
+      <p><strong>TERCERA:</strong> La contratación de El Empleado se realiza por tiempo indeterminado, para su incorporación como personal de alta permanente de La Empleadora, en los términos de la Ley 20.744 (to)/LCT: CCT N°634/11 SATSAID – CAPIT, y normativa de aplicación, y sujeto a lo convenido en el siguiente párrafo.</p>
 
-      <p><strong>CUARTA:</strong> Se acuerda que el Sr/a. <strong>$crew_name_full</strong> percibirá una remuneración bruta de Pesos $crew_salary_text. ($crew_salary), que se abonará en forma mensual, por período vencido del 1 al 5 de cada mes.</p>
+      <p>Se acuerda la celebración del presente contrato a prueba durante sus primeros tres (3) meses de vigencia, en los términos y condiciones del art. 92 bis y ccs. LCT.</p>
 
-      <p><strong>QUINTA:</strong> El plazo de vigencia del presente contrato será a partir del día $crew_start_contract</p>
+      <p>El plazo de vigencia del presente contrato será a partir del día $crew_start_contract.</p>
 
-      <p><strong>SEXTA:</strong> El Empleado cumplirá las tareas propias de su oficio bajo las directivas emanadas del personal directivo de La Empleadora o de quienes ésta indique, debiendo respetarlas y cumplirlas con idoneidad y diligencia.</p>
-      <p>Una vez concluido el plazo señalado cesará la relación laboral. El Empleado a la finalización del contrato percibirá los salarios que se hubieran devengado, los importes proporcionales por eventuales vacaciones no gozadas y sueldo anual complementario.</p>
+      <p><strong>CUARTA:</strong> Se acuerda que el Sr/a. <strong>$crew_name_full</strong> percibirá una remuneración bruta de Pesos $crew_salary_text ($crew_salary), que se abonará en forma mensual, por período vencido del 1 al 5 de cada mes.</p>
 
-      <p><strong>SEPTIMA:</strong> Para todos los efectos emergentes del presente contrato, las partes constituyen domicilios en los indicados en el encabezamiento, donde se tendrán por válidas  y realizadas todas las comunicaciones que se cursaren hasta tanto no notifiquen en forma fehaciente la constitución de un nuevo domicilio a los mismos efectos.</p>
+      <p>Régimen de horas extras y francos a convenir en función de las exigencias de los servicios y conforme a la normativa citada; presentismo a liquidarse según pautas del cit. CCT N°634/11.</p>
 
-      <p><strong>OCTAVA:</strong> Notificaciones:Comunicaciones vía email</p>
-      <p>Las comunicaciones relacionadas con la ejecución operativa de este contrato de trabajo eventual se cursarán vía email (con constancia de entrega y constancia de recepción), a las siguientes direcciones:</p>
+      <p><strong>QUINTA:</strong>El Empleado cumplirá las tareas propias de su oficio bajo las directivas emanadas del personal directivo de La Empleadora o de quienes ésta indique, debiendo respetarlas y cumplirlas con idoneidad y diligencia.</p>
+
+      <p>El Empleado se desempeñará con dedicación exclusiva y “full-time”, en los términos y condiciones generales acordados en el presente, y los que se pudieran oportunamente convenir entre las Partes en particular para proyectos y trabajos específicos.</p>
+
+      <p><strong>SEXTA:</strong> Notificaciones: Comunicaciones vía email</p>
+      
+      <p>Las comunicaciones relacionadas con la ejecución operativa de este contrato de tiempo indeterminado se cursarán vía email (con constancia de entrega y constancia de recepción), a las siguientes direcciones:</p>
+
       <p>Comunicaciones a domicilios:</p>
+
       <p>Se dirigirán a los siguientes domicilios:</p>
+
       <p>A La Empleadora: Hernan Pellegrini (hernan.pellegrini@frame.com.ar)</p>
-      <p>A El Empleado: <strong>$crew_name_full ($crew_email)</strong></p>
 
-      <p><strong>NOVENA:</strong> El Empleado acepta y reconoce que La Empleadora y sus subsidiarias, sucesores, cesionarios y licenciatarios tendrán el derecho y la propiedad exclusiva de todos los resultados y los productos de sus Servicios en cualquier etapa de desarrollo y que los derechos exclusivos de La Empleadora  incluyen, sin limitación, el derecho de autor y derechos conexos, el derecho de reproducción, el derecho de adaptación, el derecho de traducción, el derecho de doblaje y subtitulado, el derecho de exhibición, el derecho de promoción, el derecho de comunicación pública, el derecho de distribución, el derecho de crear obras derivadas y el derecho de alquilar y/o licenciar el Trabajo, libre de todo gravamen, reclamo y/o cargo. Sin que ello signifique limitar lo antedicho, acepto y reconozco que en el futuro pueden surgir o reconocerse nuevos derechos sobre el Trabajo conforme a las leyes aplicables y/o bajo cualquier sistema jurídico (en adelante, los “Nuevos Derechos de Explotación”) y tengo la voluntad y por el presente le otorgo y cedo a La Empleadora  todos y cada uno de tales Nuevos Derechos de Explotación en y sobre el Trabajo.</p>
+      <p>A El Empleado: $crew_email</p>
 
-      <p><strong>DECIMA:</strong> El Empleado entiende que durante la prestación de sus Servicios, podrá tener acceso a cierta información o material de propiedad de o relacionada con La Empleadora que no sea accesible o conocida por el público en general (“Información Confidencial”). Con respecto a ello, El Empleado conviene que: (a) no utilizará, directa ni indirectamente, la Información Confidencial para ningún fin ajeno al cual fue contratado, y que (b) no divulgará, directa ni indirectamente, dicha Información Confidencial a ninguna persona, empresa, sociedad, asociación u otra entidad por ninguna razón o propósito. A su vez  entiende que cualquier violación o intento de violación a las condiciones precedentes podría causar a La Empleadora un daño irreparable y en consecuencia, La Empleadora tendrá derecho a solicitar las medidas precautorias que estime pertinentes.</p>
+      <p><strong>SÉPTIMA:</strong> El Empleado acepta y reconoce que La Empleadora y sus subsidiarias, sucesores, cesionarios y licenciatarios tendrán el derecho y la propiedad exclusiva de todos los resultados y los productos de sus Servicios en cualquier etapa de desarrollo y que los derechos exclusivos de La Empleadora incluyen, sin limitación, el derecho de autor y derechos conexos, el derecho de reproducción, el derecho de adaptación, el derecho de traducción, el derecho de doblaje y subtitulado, el derecho de exhibición, el derecho de promoción, el derecho de comunicación pública, el derecho de distribución, el derecho de crear obras derivadas y el derecho de alquilar y/o licenciar el Trabajo, libre de todo gravamen, reclamo y/o cargo. Sin que ello signifique limitar lo antedicho, acepto y reconozco que en el futuro pueden surgir o reconocerse nuevos derechos sobre el Trabajo conforme a las leyes aplicables y/o bajo cualquier sistema jurídico (en adelante, los “Nuevos Derechos de Explotación”) y tengo la voluntad y por el presente le otorgo y cedo a La Empleadora todos y cada uno de tales Nuevos Derechos de Explotación en y sobre el Trabajo.</p>
+      
+      <p><strong>OCTAVA:</strong> El Empleado entiende que durante la prestación de sus Servicios, podrá tener acceso a cierta información o material de propiedad de o relacionada con La Empleadora que no sea accesible o conocida por el público en general (“Información Confidencial”). Con respecto a ello, El Empleado conviene que: (a) no utilizará, directa ni indirectamente, la Información Confidencial para ningún fin ajeno al cual fue contratado, y que (b) no divulgará, directa ni indirectamente, dicha Información Confidencial a ninguna persona, empresa, sociedad, asociación u otra entidad por ninguna razón o propósito. A su vez entiende que cualquier violación o intento de violación a las condiciones precedentes podría causar a La Empleadora un daño irreparable y en consecuencia, La Empleadora tendrá derecho a solicitar las medidas precautorias que estime pertinentes.</p>
 
-      <p>PREVIA LECTURA Y RATIFICACION, se firman 2 (dos) ejemplares de un mismo tenor y a un solo efecto, en la Ciudad de Buenos Aires, en el día $today</p>
+      <p><strong>NOVENA:</strong> Para todos los efectos emergentes del presente contrato, las partes constituyen domicilios en los indicados en el encabezamiento, donde se tendrán por válidas y realizadas todas las comunicaciones que se cursaren hasta tanto no notifiquen en forma fehaciente la constitución de un nuevo domicilio a los mismos efectos.</p>
+
+      <p>En prueba de conformidad, se firman dos ejemplares de un mismo tenor y a un solo efecto, en la Ciudad de Buenos Aires, en el día $today</p>
 
       <ul>
         <li>Firma:</li>
@@ -126,7 +132,7 @@ class Contract extends Model
 
       $message = "<h1 style='font-size: 20px;'><strong>CONTRATO DE SERVICIOS</strong></h1>
 
-      <p>Entre el/la Sra. $crew_name_full,  DNI Nº $crew_dni, con domicilio en $crew_addres_full, $crew_location($crew_cp), en adelante El Locador; y 2030 S.R.L., con CUIT: 30-71706837-4, representada por el Sr. Hernán Pellegrini, DNI Nº 26.116.576, en su carácter de Socio Gerente, con domicilio legal en RUIZ HUIDOBRO Nº 4365, CABA (1430), en adelante La Locataria, convienen en celebrar el presente contrato de locación de servicios, que se regirá por las cláusulas que a continuación se expresan y por lo establecido en los arts. arts. 1251 y ss. y ccs. del Código Civil y Comercial.</p>
+      <p>Entre el/la Sra. $crew_name_full,  DNI Nº $crew_dni, con domicilio en $crew_addres_full, $crew_location($crew_cp), en adelante El Locador; y FZERO S.R.L., representada por el Sr. Hernán Pellegrini, DNI Nº 26.116.576, en su carácter de Socio Gerente, con domicilio en Tronador Nº 671, CABA (1427), en adelante La Locataria, convienen en celebrar el presente contrato de locación de servicios, que se regirá por las cláusulas que a continuación se expresan y por lo establecido en los arts. arts. 1251 y ss. y ccs. del Código Civil y Comercial.</p>
 
       <p><strong>PRIMERA: El Locador</strong> se compromete a la prestación específica del siguiente servicios, sin que esta mención importe la negación de otras conducentes a los fines contratados a favor de La Locataria: $crew_function_sat para el proyecto: “{$crew_name_project}”.</p>
 
@@ -154,8 +160,6 @@ class Contract extends Model
 
       <p><strong>DECIMA:</strong> Para todos los efectos del presente contrato, las partes se someten a la competencia y jurisdicción de la Justicia Nacional en lo Civil con asiento en la Ciudad de Buenos Aires, renunciando expresamente a todo otro fuero o jurisdicción, constituyendo domicilios en los indicados en el encabezamiento, donde se tendrán por válidas y realizadas todas las notificaciones que se cursen hasta tanto no notifiquen en forma fehaciente la constitución de un nuevo domicilio a los mismos efectos.</p>
       <p>En prueba de conformidad, se firman dos ejemplares de un mismo tenor y a un solo efecto, en la Ciudad de Buenos Aires, el dia $today</p>
-
-      <p>PREVIA LECTURA Y RATIFICACION, se firman 2 (dos) ejemplares de un mismo tenor y a un solo efecto, en la Ciudad de Buenos Aires, en el día $today</p>
 
       <ul>
         <li>Firma:</li>
