@@ -12,7 +12,8 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function testBasicTest()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function basic_test(): void
     {
         $this->assertTrue(true);
     }

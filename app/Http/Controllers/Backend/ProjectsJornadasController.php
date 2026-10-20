@@ -41,6 +41,7 @@ class ProjectsJornadasController extends Controller
           }
         }
 
+        abort(404);
       });
     }
 

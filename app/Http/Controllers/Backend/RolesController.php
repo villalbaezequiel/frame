@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Caffeinated\Shinobi\Models\Role;
-use Caffeinated\Shinobi\Models\Permission;
+use App\Role;
+use App\Permission;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers;
 
@@ -36,6 +36,7 @@ class RolesController extends Controller
           }
         }
 
+        abort(404);
       });
     }
 

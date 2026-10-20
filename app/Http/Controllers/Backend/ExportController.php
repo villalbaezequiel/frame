@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Support\Excel\Excel;
 use Carbon\Carbon;
 use Storage;
 use App\Helpers;

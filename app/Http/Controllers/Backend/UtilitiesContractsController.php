@@ -35,6 +35,7 @@ class UtilitiesContractsController extends Controller
           }
         }
 
+        abort(404);
       });
     }
 

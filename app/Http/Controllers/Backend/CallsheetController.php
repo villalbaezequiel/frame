@@ -40,6 +40,7 @@ class CallsheetController extends Controller
           }
         }
 
+        abort(404);
       });
     }
 

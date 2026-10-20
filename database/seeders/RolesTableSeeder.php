@@ -1,7 +1,9 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
-use Caffeinated\Shinobi\Models\Role;
+use App\Role;
 
 class RolesTableSeeder extends Seeder
 {

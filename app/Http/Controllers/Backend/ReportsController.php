@@ -40,6 +40,7 @@ class ReportsController extends Controller
           }
         }
 
+        abort(404);
       });
     }
 

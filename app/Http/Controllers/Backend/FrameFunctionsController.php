@@ -35,6 +35,7 @@ class FrameFunctionsController extends Controller
           }
         }
 
+        abort(404);
       });
     }
 

@@ -49,6 +49,7 @@ class ProjectsController extends Controller
           }
         }
 
+        abort(404);
       });
     }
 
