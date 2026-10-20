@@ -1,7 +1,9 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
-use Caffeinated\Shinobi\Models\Permission;
+use App\Permission;
 
 class PermissionsTableSeeder extends Seeder
 {

@@ -14,8 +14,6 @@ class UpdateBirthdateUsers extends Migration
      */
     public function up()
     {
-        DB::connection()->getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
-
         Schema::table('users', function (Blueprint $table) {
             $table->date('birthdate')->change();
         });

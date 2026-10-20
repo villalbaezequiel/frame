@@ -49,6 +49,7 @@ class UsersController extends Controller
           }
         }
 
+        abort(404);
       });
 
       $this->helpers = new Helpers;

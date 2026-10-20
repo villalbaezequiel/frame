@@ -14,8 +14,6 @@ class UpdateFrameFunctionV3 extends Migration
      */
     public function up()
     {
-        DB::connection()->getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
-
         Schema::table('frame_functions', function (Blueprint $table) {
             $table->string('id_proyect_category')->change();
         });

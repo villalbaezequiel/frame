@@ -35,6 +35,7 @@ class UtilitiesCountriesController extends Controller
           }
         }
 
+        abort(404);
       });
     }
 

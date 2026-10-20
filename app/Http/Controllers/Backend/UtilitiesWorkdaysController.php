@@ -35,6 +35,7 @@ class UtilitiesWorkdaysController extends Controller
           }
         }
 
+        abort(404);
       });
     }
 

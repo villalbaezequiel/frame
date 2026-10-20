@@ -35,6 +35,7 @@ class HolidaysController extends Controller
         }
       }
 
+        abort(404);
     });
   }
 

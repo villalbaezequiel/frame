@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Support\Excel\Excel;
 use Carbon\Carbon;
 use App\Helpers;
 use App\Project;

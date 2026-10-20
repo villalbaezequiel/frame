@@ -38,6 +38,7 @@ class CenterCostsController extends Controller
         }
       }
 
+        abort(404);
     });
   }
 

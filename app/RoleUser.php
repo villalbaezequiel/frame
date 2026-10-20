@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Caffeinated\Shinobi\Models\Role;
+use App\Role;
 
 class RoleUser extends Model
 {
@@ -36,7 +36,7 @@ class RoleUser extends Model
 
   static public function role()
   {
-    //return $this->hasMany('Caffeinated\Shinobi\Models\Role');
+    //return $this->hasMany(Role::class);
   }
 
   static public function getRoles()

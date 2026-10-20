@@ -41,7 +41,7 @@ class Workday extends Model
     {
       $list = self::getTypeWorkMode();
 
-      return $list[$key];
+      return $list[$key] ?? "";
     }
 
     static public function getCalendarWeekends($startDate, $endDate, $hour = '00:00', $excludeLastDay = false)

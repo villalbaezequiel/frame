@@ -2,29 +2,32 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap any application services.
-     *
-     * @return void
+     * Register any application services.
      */
-    public function boot()
+    public function register(): void
     {
-        // default length 125 strings
-        Schema::defaultStringLength(125);
+        //
     }
 
     /**
-     * Register any application services.
-     *
-     * @return void
+     * Bootstrap any application services.
      */
-    public function register()
+    public function boot(): void
     {
-        //
+        // Routes use the legacy 'Backend\FooController@method' string syntax.
+        $namespace = 'App\Http\Controllers';
+
+        URL::setRootControllerNamespace($namespace);
+
+        Route::middleware('web')
+            ->namespace($namespace)
+            ->group(base_path('routes/web.php'));
     }
 }

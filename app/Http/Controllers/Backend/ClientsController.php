@@ -37,6 +37,7 @@ class ClientsController extends Controller
           }
         }
 
+        abort(404);
       });
     }
 

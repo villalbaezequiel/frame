@@ -36,6 +36,7 @@ class UtilitiesProyectCategoriesController extends Controller
           }
         }
 
+        abort(404);
       });
     }
 

@@ -35,6 +35,7 @@ class UtilitiesStudiesController extends Controller
           }
         }
 
+        abort(404);
       });
     }
 

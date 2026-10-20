@@ -35,6 +35,7 @@ class WorkersCategoriesController extends Controller
           }
         }
 
+        abort(404);
       });
     }
 
